@@ -1,21 +1,21 @@
-"D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Application\Source\connectivity_test_rx.c"
+"D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\Application\Source\connectivity_test_rx.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
 -I
-D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Application\Source
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\Application\Source
 -I
-D:\Users\Brus\Documents\my_conn_test\Connectivity Test\SMAC\Drivers\Interface
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\SMAC\Drivers\Interface
 -I
-D:\Users\Brus\Documents\my_conn_test\Connectivity Test\PLM\Interface
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\PLM\Interface
 -I
 C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\arm\inc
 -I
 C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\arm\inc\c
 -I
-D:\Users\Brus\Documents\my_conn_test\Connectivity Test\SMAC\Drivers\Interface
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\SMAC\Drivers\Interface
 -I
-D:\Users\Brus\Documents\my_conn_test\Connectivity Test\PLM\Interface
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\PLM\Interface
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0

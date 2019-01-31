@@ -708,6 +708,7 @@ static void process_incoming_msg(void)
         LCD_WriteStringValue("Min LQI:",(minLQI),3,gLCD_DecFormat_c);
           maxLQI=0;
           minLQI=255;
+          DelayMs(1500);
           
         LCD_WriteString_NormalFont(7," SW4 Start Listening ");
   #endif         

@@ -2,13 +2,13 @@
 
 "C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\arm\bin\armjlink2.dll" 
 
-"D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\Exe\Connectivity Test.out" 
+"D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\Release\Exe\Connectivity Test.out" 
 
 --plugin="C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\arm\bin\armbat.dll" 
 
---macro="D:\Users\Brus\Documents\my_conn_test\Connectivity Test\PLM\FlashLoader\FlashMC1322x.mac" 
+--macro="D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\PLM\FlashLoader\FlashMC1322x.mac" 
 
---flash_loader="D:\Users\Brus\Documents\my_conn_test\Connectivity Test\IAR.board" 
+--flash_loader="D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\IAR.board" 
 
 
 
