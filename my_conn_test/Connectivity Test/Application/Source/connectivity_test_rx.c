@@ -209,7 +209,7 @@ typedef enum prbs9_tx_states_tag{
 
 
 #define set_initial_option_values() \
-    u8CurrentMode = SMAC_TEST_MODE_IDLE; \
+    u8CurrentMode = SMAC_TEST_MODE_PER_RX; \
     u8TestModeChannel = CHANNEL_NUMBER; \
     u8TestModePower = gDefaultPowerLevel_c; \
     u8BulkCapState = (0x10 & DEFAULT_COARSE_TRIM) >> 4; \
@@ -545,6 +545,7 @@ LoadPRBS9();
   DisplayFreescaleLogo(0x15,0x10);
   DelayMs(1000);
   ClearDisplay();
+  CurrentOption=gRxTestMode_c;
   DisplayTestMode(CurrentOption);
 #endif
   
@@ -659,8 +660,29 @@ static void process_incoming_msg(void)
           Uart_PrintHex((uint8_t *)&((RX_msg.pu8Buffer)->u8Data[i]), 1, 0);
           ((RX_msg.pu8Buffer)->u8Data[i]) = 0;
         }
+        
    #endif 
        
+      #if INTERFACE_TYPE == MANUAL
+        
+        (void)MLMELinkQuality(&u8Lqi);
+        u8Lqi = (u8Lqi / 3);
+        if(100 >= u8Lqi)
+        {  
+          u8Lqi = 100 - u8Lqi;
+        }
+        else
+        {
+          u8Lqi = u8Lqi - 100;
+        }
+        
+        if(u8Lqi<minLQI) minLQI=u8Lqi;
+       if(u8Lqi>maxLQI) maxLQI=u8Lqi;
+        
+#endif
+        
+               
+        
         
 //  #if INTERFACE_TYPE == MANUAL        
         LED_ToggleLed(LED1);
@@ -704,11 +726,12 @@ static void process_incoming_msg(void)
         {
           LCD_WriteStringValue("    Good:",(u16MsgCounter),4,gLCD_DecFormat_c);
         }  
-        LCD_WriteStringValue("Max LQI:",(maxLQI),3,gLCD_DecFormat_c);
-        LCD_WriteStringValue("Min LQI:",(minLQI),3,gLCD_DecFormat_c);
+        LCD_WriteStringValue("Max LQI:",(maxLQI),5,gLCD_DecFormat_c);
+        LCD_WriteStringValue("Min LQI:",(minLQI),6,gLCD_DecFormat_c);
+         DelayMs(1500);
           maxLQI=0;
           minLQI=255;
-          DelayMs(1500);
+         
           
         LCD_WriteString_NormalFont(7," SW4 Start Listening ");
   #endif         
@@ -886,8 +909,7 @@ if(SMAC_TEST_MODE_RANGE_TX == u8CurrentMode)
   #if (INTERFACE_TYPE == MANUAL && gLEDSupported_d)
        Led1Toggle(); 
        LEDs_LQI_indication((link_quality_value_t)u8Lqi); 
-       if(minLQI>u8Lqi) minLQI=u8Lqi;
-       if(maxLQI<u8Lqi) maxLQI=u8Lqi;
+
   #endif      
         gu8ValidAckPacket = TRUE;
       }
@@ -1662,7 +1684,7 @@ char bulk_cap_menu(void)
 
 void channel_adjust(void){
   char option, hexOption;
-  CurrentOption = gChannel_c;
+  CurrentOption = gRxTestMode_c;
   do{
     option = channel_menu();
     hexOption = AsciitoHex(option);

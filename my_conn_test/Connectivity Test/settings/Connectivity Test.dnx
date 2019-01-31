@@ -50,12 +50,13 @@
         <mode>0</mode>
     </DisassembleMode>
     <Breakpoints2>
-        <Bp0>_ 0 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.1979.1" 0 0 1 "" 0 "" 0</Bp0>
-        <Bp1>_ 1 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.2216.1" 0 0 1 "" 0 "" 0</Bp1>
-        <Bp2>_ 1 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.882.1" 0 0 1 "" 0 "" 0</Bp2>
+        <Bp0>_ 0 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.2002.1" 0 0 1 "" 0 "" 0</Bp0>
+        <Bp1>_ 1 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.2239.1" 0 0 1 "" 0 "" 0</Bp1>
+        <Bp2>_ 1 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.906.1" 0 0 1 "" 0 "" 0</Bp2>
         <Bp3>_ 1 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.441.1" 0 0 1 "" 0 "" 0</Bp3>
-        <Bp4>_ 1 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.707.1" 0 0 1 "" 0 "" 0</Bp4>
-        <Count>5</Count>
+        <Bp4>_ 1 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.729.1" 0 0 1 "" 0 "" 0</Bp4>
+        <Bp5>_ 1 "EMUL_CODE" "{$PROJ_DIR$\Application\Source\connectivity_test_rx.c}.3061.1" 0 0 1 "" 0 "" 0</Bp5>
+        <Count>6</Count>
     </Breakpoints2>
     <Aliases>
         <Count>0</Count>

@@ -852,11 +852,11 @@ static void print_freescale_logo(void)
   Uart_Print("\r      ***  #\n");
   Uart_Print("\r    #  *  ###\n");
   Uart_Print("\r   ###   ###\n");
-  Uart_Print("\r  ###  *  #         F R E E S C A L E\n");
+  Uart_Print("\r  ###  *  #         CODICE FATTO\n");
   Uart_Print("\r   #  ***\n");
-  Uart_Print("\r     ***            S E M I C O N D U C T O R\n");
+  Uart_Print("\r     ***            M   A       L       E >:(((\n");
   Uart_Print("\r   #  *\n");
-  Uart_Print("\r  ###               2 0 0 8\n");
+  Uart_Print("\r  ###               2 0 1 9\n");
   Uart_Print("\r ###\n");
   Uart_Print("\r  #           Press any key to continue...\n\n");
 }

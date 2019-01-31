@@ -1,21 +1,21 @@
-"D:\Users\Brus\Documents\repeater_test\Repeater\Application\Source\repeater.c"
+"D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\Application\Source\repeater.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
 -I
-D:\Users\Brus\Documents\repeater_test\Repeater\Application\Source
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\Application\Source
 -I
-D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Drivers\Interface
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\SMAC\Drivers\Interface
 -I
-D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Interface
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\PLM\Interface
 -I
 C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\arm\inc
 -I
 C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\arm\inc\c
 -I
-D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Drivers\Interface
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\SMAC\Drivers\Interface
 -I
-D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Interface
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\PLM\Interface
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0

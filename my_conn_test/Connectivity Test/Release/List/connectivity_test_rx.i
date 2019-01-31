@@ -7115,7 +7115,7 @@ void Main(void)
 ************************************************************************************/
 void connectivity_app_init(void)
 {
-  u8CurrentMode = SMAC_TEST_MODE_IDLE; u8TestModeChannel = gChannel11_c; u8TestModePower = 0x0f; u8BulkCapState = (0x10 & 0x08) >> 4; u8CurrentFineTune = 0x0F; u8CurrentCoarseTune = (0x0F & 0x08); gbDataIndicationFlag = 0; gu8TestModeEvents = 0x00; gu8ValidRangePacket = 0; gu8ValidAckPacket = 0; gu8TestAlreadyStarted = 0;
+  u8CurrentMode = SMAC_TEST_MODE_PER_TX_RX; u8TestModeChannel = gChannel11_c; u8TestModePower = 0x0f; u8BulkCapState = (0x10 & 0x08) >> 4; u8CurrentFineTune = 0x0F; u8CurrentCoarseTune = (0x0F & 0x08); gbDataIndicationFlag = 0; gu8TestModeEvents = 0x00; gu8ValidRangePacket = 0; gu8ValidAckPacket = 0; gu8TestAlreadyStarted = 0;
  
   ITC_Init();
   IntAssignHandler(gMacaInt_c, (IntHandlerFunc_t)MACA_Interrupt);
@@ -7165,6 +7165,7 @@ LoadPRBS9();
   DisplayFreescaleLogo(0x15,0x10);
   DelayMs(1000);
   ClearDisplay();
+  CurrentOption=gRxTestMode_c;
   DisplayTestMode(CurrentOption);
   
  (void)MLMEPAOutputAdjust(u8TestModePower);
@@ -7235,6 +7236,24 @@ static void process_incoming_msg(void)
         
        
         
+        (void)MLMELinkQuality(&u8Lqi);
+        u8Lqi = (u8Lqi / 3);
+        if(100 >= u8Lqi)
+        {  
+          u8Lqi = 100 - u8Lqi;
+        }
+        else
+        {
+          u8Lqi = u8Lqi - 100;
+        }
+        
+        if(u8Lqi<minLQI) minLQI=u8Lqi;
+       if(u8Lqi>maxLQI) maxLQI=u8Lqi;
+        
+        
+               
+        
+        
 //  #if INTERFACE_TYPE == MANUAL        
         LED_ToggleLed(0x01);
 //  #endif      
@@ -7265,10 +7284,12 @@ static void process_incoming_msg(void)
         {
           LCD_WriteStringValue("    Good:",(u16MsgCounter),4,gLCD_DecFormat_c);
         }  
-        LCD_WriteStringValue("Max LQI:",(maxLQI),3,gLCD_DecFormat_c);
-        LCD_WriteStringValue("Min LQI:",(minLQI),3,gLCD_DecFormat_c);
+        LCD_WriteStringValue("Max LQI:",(maxLQI),5,gLCD_DecFormat_c);
+        LCD_WriteStringValue("Min LQI:",(minLQI),6,gLCD_DecFormat_c);
+         DelayMs(1500);
           maxLQI=0;
           minLQI=255;
+         
           
         LCD_WriteString_NormalFont(7," SW4 Start Listening ");
 
@@ -7373,8 +7394,7 @@ if(SMAC_TEST_MODE_RANGE_TX_RX == u8CurrentMode)
         
        (void)Gpio_TogglePin (gGpioPin23_c); 
        LEDs_LQI_indication((link_quality_value_t)u8Lqi); 
-       if(minLQI>u8Lqi) minLQI=u8Lqi;
-       if(maxLQI<u8Lqi) maxLQI=u8Lqi;
+
         gu8ValidAckPacket = 1;
       }
     }     
@@ -8096,7 +8116,7 @@ char bulk_cap_menu(void)
 
 void channel_adjust(void){
   char option, hexOption;
-  CurrentOption = gChannel_c;
+  CurrentOption = gRxTestMode_c;
   do{
     option = channel_menu();
     hexOption = AsciitoHex(option);
