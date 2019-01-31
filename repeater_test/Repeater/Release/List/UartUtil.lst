@@ -1,0 +1,1156 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM         31/Jan/2019  14:41:04
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Application\Utilities\UartUtil.c
+#    Command line =  
+#        -f C:\Users\Brus\AppData\Local\Temp\EWFD36.tmp
+#        (D:\Users\Brus\Documents\repeater_test\Repeater\Application\Utilities\UartUtil.c
+#        -D NDEBUG -D F24MHZ -D SECURITY_ENABLED -D MC13226Included_d=0
+#        --preprocess=cs
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lC
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lB
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List
+#        --diag_suppress Pe940,Pe951,Pe911 -o
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj
+#        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
+#        "C:\HDDPrograms\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Normal.h" -I
+#        D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Drivers\Interface\
+#        -I D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Interface\
+#        --cpu_mode thumb -Ohz --use_c++_inline)
+#    Locale       =  C
+#    List file    =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List\UartUtil.lst
+#    Object file  =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\UartUtil.o
+#
+###############################################################################
+
+D:\Users\Brus\Documents\repeater_test\Repeater\Application\Utilities\UartUtil.c
+      1          /************************************************************************************
+      2          * Includes the UART Utils.
+      3          *
+      4          * (c) Copyright 2008, Freescale Semiconductor, Inc. All rights reserved.
+      5          *
+      6          * No part of this document must be reproduced in any form - including copied,
+      7          * transcribed, printed or by any electronic means - without specific written
+      8          * permission from Freescale.
+      9          *
+     10          * Last Inspected:
+     11          * Last Tested:
+     12          *
+     13          ************************************************************************************/
+     14          #include "../../PLM/Interface/EmbeddedTypes.h"
+     15          #include "../../PLM/LibInterface/Interrupt.h"
+     16          #include "../../SMAC/Interface/GlobalDefs.h"
+     17          #include "UartUtil.h"
+     18          
+     19          /******************************************************************************/
+     20          /******************************************************************************/
+     21          
+     22          /************************************************************************************
+     23          *************************************************************************************
+     24          * Private macros
+     25          *************************************************************************************
+     26          ************************************************************************************/
+     27          
+     28          /************************************************************************************
+     29          *************************************************************************************
+     30          * Private prototypes
+     31          *************************************************************************************/
+     32          static uint8_t HexToAscii(uint8_t u8Hex);
+     33          
+     34          void UartEventRead1(UartReadCallbackArgs_t* args);
+     35          void UartEventWrite2(UartWriteCallbackArgs_t* args);
+     36          void UartEventRead2(UartReadCallbackArgs_t* args);
+     37          void UartEventWrite1(UartWriteCallbackArgs_t* args);
+     38          void GpioUart1Init(void);
+     39          void GpioUart2Init(void);
+     40          
+     41          /************************************************************************************
+     42          *************************************************************************************
+     43          * Private type definitions
+     44          *************************************************************************************
+     45          ************************************************************************************/
+     46          
+     47          /************************************************************************************
+     48          *************************************************************************************
+     49          * Public memory declarations
+     50          *************************************************************************************
+     51          ************************************************************************************/
+     52           
+     53          /************************************************************************************
+     54          *************************************************************************************
+     55          * Private memory declarations
+     56          *************************************************************************************
+     57          ************************************************************************************/
+     58          
+
+   \                                 In section .bss, align 2
+     59          UartReadStatus_t gu8SCIStatus = gUartReadStatusComplete_c;
+   \                     gu8SCIStatus:
+   \        0x0                      DS8 1
+     60          volatile uint8_t gu8SCIDataFlag = FALSE;
+   \                     gu8SCIDataFlag:
+   \        0x1                      DS8 1
+     61          uint16_t gu16SCINumOfBytes = 0;
+   \                     gu16SCINumOfBytes:
+   \        0x2                      DS8 2
+     62          
+     63          /************************************************************************************
+     64          *************************************************************************************
+     65          * Public functions
+     66          *************************************************************************************
+     67          ************************************************************************************/
+     68          
+     69          /************************************************************************************  
+     70          * Uart_Init
+     71          *
+     72          * Initializate the Uart module.
+     73          *************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+     74          void Uart_Init(uint8_t *mUARTRxBuffer, uint16_t mUARTBufferSize) 
+     75          {
+   \                     Uart_Init: (+1)
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
+   \        0x2   0xB084             SUB      SP,SP,#+16
+   \        0x4   0x0005             MOVS     R5,R0
+   \        0x6   0x000C             MOVS     R4,R1
+     76            UartConfig_t pConfig;
+     77            UartCallbackFunctions_t pCallback;
+     78            
+     79          #if gUart_PortDefault_d == UART_1
+     80          
+     81            //initialize GPIOs for UART1 and UART2 
+     82            GpioUart1Init();  
+   \        0x8   0x....'....        BL       GpioUart1Init
+     83          
+     84            //configure the uart parameters 
+     85            pConfig.UartParity = gUartParityNone_c;
+   \        0xC   0x2100             MOVS     R1,#+0
+   \        0xE   0xA802             ADD      R0,SP,#+8
+   \       0x10   0x8081             STRH     R1,[R0, #+4]
+     86            pConfig.UartStopBits = gUartStopBits1_c;
+     87            pConfig.UartBaudrate = gUartDefaultBaud_c;
+   \       0x12   0x2296             MOVS     R2,#+150
+   \       0x14   0x0212             LSLS     R2,R2,#+8        ;; #+38400
+   \       0x16   0x9202             STR      R2,[SP, #+8]
+     88            pConfig.UartFlowControlEnabled = gUart1_EnableHWFlowControl_d;
+   \       0x18   0x80C1             STRH     R1,[R0, #+6]
+     89            pConfig.UartRTSActiveHigh = FALSE;
+     90          
+     91            
+     92            //mount the interrupts corresponding to UART driver
+     93            IntAssignHandler(gUart1Int_c, (IntHandlerFunc_t)UartIsr1);
+   \       0x1A   0x....             LDR      R1,??DataTable8
+   \       0x1C   0x2001             MOVS     R0,#+1
+   \       0x1E   0x....'....        BL       IntAssignHandler
+     94            ITC_SetPriority(gUart1Int_c, gItcNormalPriority_c);
+   \       0x22   0x2100             MOVS     R1,#+0
+   \       0x24   0x2001             MOVS     R0,#+1
+   \       0x26   0x....'....        BL       ITC_SetPriority
+     95            //enable the interrupts corresponding to UART driver
+     96            ITC_EnableInterrupt(gUart1Int_c);
+   \       0x2A   0x2001             MOVS     R0,#+1
+   \       0x2C   0x....'....        BL       ITC_EnableInterrupt
+     97          
+     98            //initialize the uart
+     99            UartOpen(UART_1,gPlatformClock_c);  
+   \       0x30   0x....             LDR      R1,??DataTable8_1  ;; 0x5dc0
+   \       0x32   0x2000             MOVS     R0,#+0
+   \       0x34   0x....'....        BL       UartOpen
+    100            UartSetConfig(UART_1, &pConfig);  
+   \       0x38   0xA902             ADD      R1,SP,#+8
+   \       0x3A   0x2000             MOVS     R0,#+0
+   \       0x3C   0x....'....        BL       UartSetConfig
+    101          
+    102          #if gUart1_EnableHWFlowControl_d == TRUE
+    103            UartSetCTSThreshold(UART_1, gUart_RxFlowControlSkew_d);
+    104          #endif
+    105          
+    106            //configure the Uart Rx and Tx Threshold
+    107            UartSetTransmitterThreshold(UART_1, 5);
+   \       0x40   0x2105             MOVS     R1,#+5
+   \       0x42   0x2000             MOVS     R0,#+0
+   \       0x44   0x....'....        BL       UartSetTransmitterThreshold
+    108            UartSetReceiverThreshold(UART_1, 5);
+   \       0x48   0x2105             MOVS     R1,#+5
+   \       0x4A   0x2000             MOVS     R0,#+0
+   \       0x4C   0x....'....        BL       UartSetReceiverThreshold
+    109          
+    110            //set pCallback functions
+    111            pCallback.pfUartWriteCallback = UartEventWrite1;
+   \       0x50   0x....             LDR      R0,??DataTable8_2
+   \       0x52   0x9001             STR      R0,[SP, #+4]
+    112            pCallback.pfUartReadCallback = UartEventRead1;
+   \       0x54   0x....             LDR      R0,??DataTable8_3
+   \       0x56   0x9000             STR      R0,[SP, #+0]
+    113            UartSetCallbackFunctions(UART_1, &pCallback);
+   \       0x58   0x4669             MOV      R1,SP
+   \       0x5A   0x2000             MOVS     R0,#+0
+   \       0x5C   0x....'....        BL       UartSetCallbackFunctions
+    114          #endif
+    115          
+    116          #if gUart_PortDefault_d == UART_2
+    117          
+    118            //initialize GPIOs for UART1 and UART2
+    119            GpioUart2Init();  
+    120          
+    121            //configure the uart parameters
+    122            pConfig.UartParity = gUartParityNone_c;
+    123            pConfig.UartStopBits = gUartStopBits1_c;
+    124            pConfig.UartBaudrate = gUartDefaultBaud_c;
+    125            pConfig.UartFlowControlEnabled = gUart2_EnableHWFlowControl_d;
+    126          
+    127                  //mount the interrupts corresponding to UART driver
+    128            IntAssignHandler(gUart2Int_c, (IntHandlerFunc_t)UartIsr2);
+    129            ITC_SetPriority(gUart2Int_c, gItcNormalPriority_c);
+    130            //enable the interrupts corresponding to UART driver
+    131            ITC_EnableInterrupt(gUart2Int_c);
+    132            
+    133            //initialize the uart
+    134            UartOpen(UART_2,gPlatformClock_c);
+    135            UartSetConfig(UART_2,&pConfig);
+    136          
+    137          #if gUart2_EnableHWFlowControl_d == TRUE
+    138            UartSetCTSThreshold(UART_2, gUart_RxFlowControlSkew_d);
+    139          #endif
+    140          
+    141            //configure the Uart Rx and Tx Threshold
+    142            UartSetTransmitterThreshold(UART_2,5);
+    143            UartSetReceiverThreshold(UART_2,5);
+    144          
+    145            //set pCallback functions
+    146            pCallback.pfUartWriteCallback = UartEventWrite2;
+    147            pCallback.pfUartReadCallback = UartEventRead2;
+    148            UartSetCallbackFunctions(UART_2,&pCallback);
+    149          
+    150          #endif /* gUart2_Enabled_d */
+    151            // global enable interrupts in AITC driver
+    152            IntEnableIRQ();
+   \       0x60   0x2000             MOVS     R0,#+0
+   \       0x62   0x....'....        BL       IntRestoreIRQ
+    153            
+    154            UartReadData(gUart_PortDefault_d,mUARTRxBuffer,mUARTBufferSize,TRUE);
+   \       0x66   0x2301             MOVS     R3,#+1
+   \       0x68   0x0022             MOVS     R2,R4
+   \       0x6A   0x0029             MOVS     R1,R5
+   \       0x6C   0x2000             MOVS     R0,#+0
+   \       0x6E   0x....'....        BL       UartReadData
+    155          
+    156          }                                       
+   \       0x72   0xB005             ADD      SP,SP,#+20
+   \       0x74   0xBC30             POP      {R4,R5}
+   \       0x76   0xBC08             POP      {R3}
+   \       0x78   0x4718             BX       R3               ;; return
+    157          
+    158          /************************************************************************************  
+    159          * GpioUart1Init
+    160          *
+    161          * This function initializate the gpio´s for the Uart1 module
+    162          *************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    163          void GpioUart1Init(void)
+    164          {
+    165            register uint32_t tmpReg;
+    166          
+    167            GPIO.PuSelLo |= (GPIO_UART1_RTS_bit | GPIO_UART1_RX_bit);  // Pull-up select: UP type
+   \                     GpioUart1Init: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable8_4  ;; 0x80000010
+   \        0x2   0x21A0             MOVS     R1,#+160
+   \        0x4   0x0289             LSLS     R1,R1,#+10       ;; #+163840
+   \        0x6   0x6A02             LDR      R2,[R0, #+32]
+   \        0x8   0x430A             ORRS     R2,R2,R1
+   \        0xA   0x6202             STR      R2,[R0, #+32]
+    168            GPIO.PuEnLo  |= (GPIO_UART1_RTS_bit | GPIO_UART1_RX_bit);  // Pull-up enable
+   \        0xC   0x6802             LDR      R2,[R0, #+0]
+   \        0xE   0x430A             ORRS     R2,R2,R1
+   \       0x10   0x6002             STR      R2,[R0, #+0]
+    169            GPIO.InputDataSelLo &= ~(GPIO_UART1_RTS_bit | GPIO_UART1_RX_bit); // read from pads
+   \       0x12   0x6982             LDR      R2,[R0, #+24]
+   \       0x14   0x....             LDR      R3,??DataTable8_5  ;; 0xfffd7fff
+   \       0x16   0x4013             ANDS     R3,R3,R2
+   \       0x18   0x6183             STR      R3,[R0, #+24]
+    170            GPIO.DirResetLo = (GPIO_UART1_RTS_bit | GPIO_UART1_RX_bit); // inputs
+   \       0x1A   0x6501             STR      R1,[R0, #+80]
+    171            GPIO.DirSetLo = (GPIO_UART1_CTS_bit | GPIO_UART1_TX_bit);  // outputs
+   \       0x1C   0x0849             LSRS     R1,R1,#+1
+   \       0x1E   0x6481             STR      R1,[R0, #+72]
+    172                  
+    173            tmpReg = GPIO.FuncSel0 & ~((FN_MASK << GPIO_UART1_RX_fnpos) | (FN_MASK << GPIO_UART1_TX_fnpos));
+   \       0x20   0x6881             LDR      R1,[R0, #+8]
+    174            GPIO.FuncSel0 = tmpReg | ((FN_ALT << GPIO_UART1_RX_fnpos) | (FN_ALT << GPIO_UART1_TX_fnpos));
+   \       0x22   0x0109             LSLS     R1,R1,#+4
+   \       0x24   0x0909             LSRS     R1,R1,#+4
+   \       0x26   0x22A0             MOVS     R2,#+160
+   \       0x28   0x05D2             LSLS     R2,R2,#+23       ;; #+1342177280
+   \       0x2A   0x430A             ORRS     R2,R2,R1
+   \       0x2C   0x6082             STR      R2,[R0, #+8]
+    175            tmpReg = GPIO.FuncSel1 & ~((FN_MASK << GPIO_UART1_CTS_fnpos) | (FN_MASK << GPIO_UART1_RTS_fnpos));
+   \       0x2E   0x68C1             LDR      R1,[R0, #+12]
+    176            GPIO.FuncSel1 = tmpReg | ((FN_ALT << GPIO_UART1_CTS_fnpos) | (FN_ALT << GPIO_UART1_RTS_fnpos));
+   \       0x30   0x220F             MOVS     R2,#+15
+   \       0x32   0x4391             BICS     R1,R1,R2
+   \       0x34   0x2205             MOVS     R2,#+5
+   \       0x36   0x430A             ORRS     R2,R2,R1
+   \       0x38   0x60C2             STR      R2,[R0, #+12]
+    177          }
+   \       0x3A   0x4770             BX       LR               ;; return
+    178          
+    179          /************************************************************************************  
+    180          * GpioUart2Init
+    181          *
+    182          * This function initializate the gpio´s for the Uart2 module
+    183          *************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    184          void GpioUart2Init(void)
+    185          {
+    186            register uint32_t tmpReg;
+    187          
+    188            GPIO.PuSelLo |= (GPIO_UART2_RTS_bit | GPIO_UART2_RX_bit);  // Pull-up select: UP type
+   \                     GpioUart2Init: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable8_4  ;; 0x80000010
+   \        0x2   0x21A0             MOVS     R1,#+160
+   \        0x4   0x0389             LSLS     R1,R1,#+14       ;; #+2621440
+   \        0x6   0x6A02             LDR      R2,[R0, #+32]
+   \        0x8   0x430A             ORRS     R2,R2,R1
+   \        0xA   0x6202             STR      R2,[R0, #+32]
+    189            GPIO.PuEnLo  |= (GPIO_UART2_RTS_bit | GPIO_UART2_RX_bit);  // Pull-up enable
+   \        0xC   0x6802             LDR      R2,[R0, #+0]
+   \        0xE   0x430A             ORRS     R2,R2,R1
+   \       0x10   0x6002             STR      R2,[R0, #+0]
+    190            GPIO.InputDataSelLo &= ~(GPIO_UART2_RTS_bit | GPIO_UART2_RX_bit); // read from pads
+   \       0x12   0x6982             LDR      R2,[R0, #+24]
+   \       0x14   0x....             LDR      R3,??DataTable8_6  ;; 0xffd7ffff
+   \       0x16   0x4013             ANDS     R3,R3,R2
+   \       0x18   0x6183             STR      R3,[R0, #+24]
+    191            GPIO.DirResetLo = (GPIO_UART2_RTS_bit | GPIO_UART2_RX_bit); // inputs
+   \       0x1A   0x6501             STR      R1,[R0, #+80]
+    192            GPIO.DirSetLo = (GPIO_UART2_CTS_bit | GPIO_UART2_TX_bit);  // outputs
+   \       0x1C   0x0849             LSRS     R1,R1,#+1
+   \       0x1E   0x6481             STR      R1,[R0, #+72]
+    193          
+    194            tmpReg = GPIO.FuncSel1 & ~((FN_MASK << GPIO_UART2_CTS_fnpos) | (FN_MASK << GPIO_UART2_RTS_fnpos)\
+    195            | (FN_MASK << GPIO_UART2_RX_fnpos) | (FN_MASK << GPIO_UART2_TX_fnpos));
+   \       0x20   0x68C1             LDR      R1,[R0, #+12]
+    196            GPIO.FuncSel1 = tmpReg | ((FN_ALT << GPIO_UART2_CTS_fnpos) | (FN_ALT << GPIO_UART2_RTS_fnpos)\
+    197            | (FN_ALT << GPIO_UART2_RX_fnpos) | (FN_ALT << GPIO_UART2_TX_fnpos));
+   \       0x22   0x....             LDR      R2,??DataTable8_7  ;; 0xfffff00f
+   \       0x24   0x400A             ANDS     R2,R2,R1
+   \       0x26   0x21AA             MOVS     R1,#+170
+   \       0x28   0x00C9             LSLS     R1,R1,#+3        ;; #+1360
+   \       0x2A   0x4311             ORRS     R1,R1,R2
+   \       0x2C   0x60C1             STR      R1,[R0, #+12]
+    198          }
+   \       0x2E   0x4770             BX       LR               ;; return
+    199          
+    200          /*******************************************************************************  
+    201          * UartEventRead1 
+    202          *
+    203          * Callabck function for the reception process in the Uart1
+    204          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    205          void UartEventRead1(UartReadCallbackArgs_t* args)
+    206          {
+    207            gu8SCIDataFlag = TRUE;
+   \                     UartEventRead1: (+1)
+   \        0x0   0x....             B.N      ?Subroutine0
+    208            gu16SCINumOfBytes = args->UartNumberBytesReceived;
+    209            gu8SCIStatus = args->UartStatus;
+    210          }
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine0: (+1)
+   \        0x0   0x....             LDR      R1,??DataTable8_8
+   \        0x2   0x2201             MOVS     R2,#+1
+   \        0x4   0x704A             STRB     R2,[R1, #+1]
+   \        0x6   0x8842             LDRH     R2,[R0, #+2]
+   \        0x8   0x804A             STRH     R2,[R1, #+2]
+   \        0xA   0x7800             LDRB     R0,[R0, #+0]
+   \        0xC   0x7008             STRB     R0,[R1, #+0]
+   \        0xE   0x4770             BX       LR               ;; return
+    211          
+    212          /*******************************************************************************  
+    213          * UartEventWrite1
+    214          *
+    215          * Callback function for the transmission interruption in the Uart1.
+    216          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    217          void UartEventWrite1(UartWriteCallbackArgs_t* args)
+    218          {
+    219          }
+   \                     UartEventWrite1: (+1)
+   \        0x0   0x4770             BX       LR               ;; return
+    220          
+    221          /*******************************************************************************  
+    222          * UartEventRead12
+    223          *
+    224          * Callabck function for the reception process in the Uart2
+    225          *******************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    226          void UartEventRead2(UartReadCallbackArgs_t* args)
+    227          {
+    228            gu8SCIDataFlag = TRUE; 
+   \                     UartEventRead2: (+1)
+   \        0x0   0x46C0             Nop      
+   \        0x2                      REQUIRE ?Subroutine0
+   \        0x2                      ;; // Fall through to label ?Subroutine0
+    229            gu16SCINumOfBytes = args->UartNumberBytesReceived;
+    230            gu8SCIStatus = args->UartStatus;
+    231          }
+    232          
+    233          /*******************************************************************************  
+    234          * UartEventWrite2
+    235          *
+    236          * Callback function for the transmission interruption in the Uart1.
+    237          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    238          void UartEventWrite2(UartWriteCallbackArgs_t* args)
+    239          {
+    240          }
+   \                     UartEventWrite2: (+1)
+   \        0x0   0x4770             BX       LR               ;; return
+    241          
+    242          /*******************************************************************************  
+    243          * HexToAscii
+    244          *
+    245          * This function converts an hexadecimal value in ascii code.
+    246          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    247          static uint8_t HexToAscii(uint8_t u8Hex)
+    248          {
+    249            u8Hex &= 0x0F;
+   \                     HexToAscii: (+1)
+   \        0x0   0x0700             LSLS     R0,R0,#+28
+   \        0x2   0x0F00             LSRS     R0,R0,#+28
+    250            return u8Hex + ((u8Hex <= 9) ? '0' : ('A'-10));
+   \        0x4   0x280A             CMP      R0,#+10
+   \        0x6   0xDA01             BGE      ??HexToAscii_0
+   \        0x8   0x2130             MOVS     R1,#+48
+   \        0xA   0xE000             B        ??HexToAscii_1
+   \                     ??HexToAscii_0: (+1)
+   \        0xC   0x2137             MOVS     R1,#+55
+   \                     ??HexToAscii_1: (+1)
+   \        0xE   0x1840             ADDS     R0,R0,R1
+   \       0x10   0x0600             LSLS     R0,R0,#+24
+   \       0x12   0x0E00             LSRS     R0,R0,#+24
+   \       0x14   0x4770             BX       LR               ;; return
+    251          }
+    252          
+    253          /*******************************************************************************  
+    254          * Uart_putchar
+    255          *
+    256          * This function print a byte in the serial interface
+    257          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    258          void Uart_putchar(uint8_t u8Char)
+    259          {
+   \                     Uart_putchar: (+1)
+   \        0x0   0xB501             PUSH     {R0,LR}
+    260            UartWriteData(gUart_PortDefault_d,&u8Char,1);
+   \        0x2   0x2201             MOVS     R2,#+1
+   \        0x4   0x4669             MOV      R1,SP
+   \        0x6   0x2000             MOVS     R0,#+0
+   \        0x8   0x....'....        BL       UartWriteData
+    261          }
+   \        0xC   0xBC09             POP      {R0,R3}
+   \        0xE   0x4718             BX       R3               ;; return
+    262          
+    263          
+    264          /*******************************************************************************  
+    265          * Uart_Print
+    266          *
+    267          * This function transmit a string to the initializated Uart. 
+    268          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    269          void Uart_Print(uint8_t* pString)
+    270          {
+   \                     Uart_Print: (+1)
+   \        0x0   0xB57C             PUSH     {R2-R6,LR}
+   \        0x2   0x0006             MOVS     R6,R0
+    271            uint8_t WriteBuffer[1];
+    272            uint8_t length = 0;
+   \        0x4   0x2500             MOVS     R5,#+0
+    273            uint16_t u8Timeout;
+    274            while(pString[length] != '\0'){
+   \                     ??Uart_Print_0: (+1)
+   \        0x6   0x0628             LSLS     R0,R5,#+24
+   \        0x8   0x0E00             LSRS     R0,R0,#+24
+   \        0xA   0x5C30             LDRB     R0,[R6, R0]
+   \        0xC   0x2800             CMP      R0,#+0
+   \        0xE   0xD00F             BEQ      ??Uart_Print_1
+    275              WriteBuffer[0] = pString[length];
+   \       0x10   0x4669             MOV      R1,SP
+   \       0x12   0x7008             STRB     R0,[R1, #+0]
+    276              length++;
+   \       0x14   0x1C6D             ADDS     R5,R5,#+1
+    277              u8Timeout = 0;
+   \       0x16   0x24FA             MOVS     R4,#+250
+   \       0x18   0x0124             LSLS     R4,R4,#+4        ;; #+4000
+    278              while((UartWriteData(gUart_PortDefault_d,WriteBuffer,1) != gUartErrNoError_c) && (u8Timeout < gUartTimeout_d))
+   \                     ??Uart_Print_2: (+1)
+   \       0x1A   0x2201             MOVS     R2,#+1
+   \       0x1C   0x4669             MOV      R1,SP
+   \       0x1E   0x2000             MOVS     R0,#+0
+   \       0x20   0x....'....        BL       UartWriteData
+   \       0x24   0x2800             CMP      R0,#+0
+   \       0x26   0xD0EE             BEQ      ??Uart_Print_0
+   \       0x28   0x2C00             CMP      R4,#+0
+   \       0x2A   0xD0EC             BEQ      ??Uart_Print_0
+    279              {
+    280                u8Timeout ++;
+   \       0x2C   0x1E64             SUBS     R4,R4,#+1
+   \       0x2E   0xE7F4             B        ??Uart_Print_2
+    281              }
+    282            }
+    283          }
+   \                     ??Uart_Print_1: (+1)
+   \       0x30   0xBC73             POP      {R0,R1,R4-R6}
+   \       0x32   0xBC08             POP      {R3}
+   \       0x34   0x4718             BX       R3               ;; return
+    284          
+    285          /*******************************************************************************  
+    286          * Uart_getchar
+    287          *
+    288          * Waits until a character is received in the Uart. 
+    289          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    290          char Uart_getchar(uint8_t *u8Char)
+    291          {
+   \                     Uart_getchar: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+   \        0x4   0x....             LDR      R0,??DataTable8_8
+    292            while(TRUE != gu8SCIDataFlag){}
+   \                     ??Uart_getchar_0: (+1)
+   \        0x6   0x7841             LDRB     R1,[R0, #+1]
+   \        0x8   0x2901             CMP      R1,#+1
+   \        0xA   0xD1FC             BNE      ??Uart_getchar_0
+    293            gu8SCIDataFlag = FALSE;
+   \        0xC   0x2100             MOVS     R1,#+0
+   \        0xE   0x7041             STRB     R1,[R0, #+1]
+    294            UartGetByteFromRxBuffer(gUart_PortDefault_d, u8Char);
+   \       0x10   0x0021             MOVS     R1,R4
+   \       0x12   0x2000             MOVS     R0,#+0
+   \       0x14   0x....'....        BL       UartGetByteFromRxBuffer
+    295            
+    296            return *u8Char;
+   \       0x18   0x7820             LDRB     R0,[R4, #+0]
+   \       0x1A   0xBC10             POP      {R4}
+   \       0x1C   0xBC08             POP      {R3}
+   \       0x1E   0x4718             BX       R3               ;; return
+    297          }
+    298          
+    299          /*******************************************************************************  
+    300          * Uart_Tx
+    301          *
+    302          * Transmits a buffer to the UART. 
+    303          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    304          void Uart_Tx(const uint8_t * msg, uint8_t length)
+    305          {
+   \                     Uart_Tx: (+1)
+   \        0x0   0xB5F3             PUSH     {R0,R1,R4-R7,LR}
+   \        0x2   0xB081             SUB      SP,SP,#+4
+   \        0x4   0x0006             MOVS     R6,R0
+    306            uint8_t WriteBuffer[1];
+    307            uint32_t i;
+    308            uint16_t u8Timeout;
+    309          
+    310            for(i=0;i<length;i++)
+   \        0x6   0x2700             MOVS     R7,#+0
+   \        0x8   0xE008             B        ??Uart_Tx_0
+    311            {
+    312              if(*msg == '\n' ){
+    313                WriteBuffer[0] = '\r';
+    314                u8Timeout = 0;
+    315                while((UartWriteData(gUart_PortDefault_d,WriteBuffer,1) != gUartErrNoError_c) && (u8Timeout < gUartTimeout_d))
+   \                     ??Uart_Tx_1: (+1)
+   \        0xA   0x2C00             CMP      R4,#+0
+   \        0xC   0xD01A             BEQ      ??Uart_Tx_2
+    316                {
+    317                  u8Timeout ++;
+   \        0xE   0x1E64             SUBS     R4,R4,#+1
+   \       0x10   0xE011             B        ??Uart_Tx_3
+    318                }
+    319              }
+    320              WriteBuffer[0] = *msg;
+    321              
+    322              u8Timeout = 0;
+    323              while((UartWriteData(gUart_PortDefault_d,WriteBuffer,1) != gUartErrNoError_c) && u8Timeout < gUartTimeout_d )
+    324              {
+    325                u8Timeout ++;
+    326              }
+    327             
+    328              msg++;
+    329            }
+    330          }
+   \                     ??Uart_Tx_4: (+1)
+   \       0x12   0xBCF7             POP      {R0-R2,R4-R7}
+   \       0x14   0xBC08             POP      {R3}
+   \       0x16   0x4718             BX       R3               ;; return
+   \                     ??Uart_Tx_5: (+1)
+   \       0x18   0x1C76             ADDS     R6,R6,#+1
+   \       0x1A   0x1C7F             ADDS     R7,R7,#+1
+   \                     ??Uart_Tx_0: (+1)
+   \       0x1C   0x4668             MOV      R0,SP
+   \       0x1E   0x7A00             LDRB     R0,[R0, #+8]
+   \       0x20   0x4287             CMP      R7,R0
+   \       0x22   0xD2F6             BCS      ??Uart_Tx_4
+   \       0x24   0x20FA             MOVS     R0,#+250
+   \       0x26   0x0105             LSLS     R5,R0,#+4
+   \       0x28   0x7830             LDRB     R0,[R6, #+0]
+   \       0x2A   0x280A             CMP      R0,#+10
+   \       0x2C   0xD10A             BNE      ??Uart_Tx_2
+   \       0x2E   0x200D             MOVS     R0,#+13
+   \       0x30   0x4669             MOV      R1,SP
+   \       0x32   0x7008             STRB     R0,[R1, #+0]
+   \       0x34   0x002C             MOVS     R4,R5
+   \                     ??Uart_Tx_3: (+1)
+   \       0x36   0x2201             MOVS     R2,#+1
+   \       0x38   0x4669             MOV      R1,SP
+   \       0x3A   0x2000             MOVS     R0,#+0
+   \       0x3C   0x....'....        BL       UartWriteData
+   \       0x40   0x2800             CMP      R0,#+0
+   \       0x42   0xD1E2             BNE      ??Uart_Tx_1
+   \                     ??Uart_Tx_2: (+1)
+   \       0x44   0x7830             LDRB     R0,[R6, #+0]
+   \       0x46   0x4669             MOV      R1,SP
+   \       0x48   0x7008             STRB     R0,[R1, #+0]
+   \       0x4A   0x002C             MOVS     R4,R5
+   \                     ??Uart_Tx_6: (+1)
+   \       0x4C   0x2201             MOVS     R2,#+1
+   \       0x4E   0x4669             MOV      R1,SP
+   \       0x50   0x2000             MOVS     R0,#+0
+   \       0x52   0x....'....        BL       UartWriteData
+   \       0x56   0x2800             CMP      R0,#+0
+   \       0x58   0xD0DE             BEQ      ??Uart_Tx_5
+   \       0x5A   0x2C00             CMP      R4,#+0
+   \       0x5C   0xD0DC             BEQ      ??Uart_Tx_5
+   \       0x5E   0x1E64             SUBS     R4,R4,#+1
+   \       0x60   0xE7F4             B        ??Uart_Tx_6
+    331          
+
+   \                                 In section .text, align 2, keep-with-next
+    332          void Uart_Poll(uint8_t *pRxBuffer)
+    333          {
+   \                     Uart_Poll: (+1)
+   \        0x0   0x0001             MOVS     R1,R0
+   \        0x2   0x....             LDR      R0,??DataTable8_8
+   \        0x4   0x7842             LDRB     R2,[R0, #+1]
+   \        0x6   0x2A00             CMP      R2,#+0
+   \        0x8   0xD100             BNE      ??Uart_Poll_0
+   \        0xA   0x4770             BX       LR
+   \                     ??Uart_Poll_0: (+1)
+   \        0xC   0xB580             PUSH     {R7,LR}
+    334            if (gu8SCIDataFlag) {
+    335              gu8SCIDataFlag = FALSE;
+   \        0xE   0x2200             MOVS     R2,#+0
+   \       0x10   0x7042             STRB     R2,[R0, #+1]
+    336              UartGetByteFromRxBuffer(gUart_PortDefault_d, pRxBuffer);
+   \       0x12   0x2000             MOVS     R0,#+0
+   \       0x14   0x....'....        BL       UartGetByteFromRxBuffer
+    337            } 
+    338          }
+   \       0x18   0xBC09             POP      {R0,R3}
+   \       0x1A   0x4718             BX       R3               ;; return
+    339          
+    340          /*******************************************************************************  
+    341          * AsciitoHex
+    342          *
+    343          * This function converts an ascii code in a hexadecimal value.
+    344          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    345          uint8_t AsciitoHex(uint8_t u8Ascii)
+    346          {
+    347            if ((u8Ascii > 47) && (u8Ascii <= 57)){
+   \                     AsciitoHex: (+1)
+   \        0x0   0x0001             MOVS     R1,R0
+   \        0x2   0x000A             MOVS     R2,R1
+   \        0x4   0x3A30             SUBS     R2,R2,#+48
+   \        0x6   0x2A0A             CMP      R2,#+10
+   \        0x8   0xD201             BCS      ??AsciitoHex_0
+    348              return u8Ascii - '0';
+   \        0xA   0x3830             SUBS     R0,R0,#+48
+   \        0xC   0xE009             B        ??AsciitoHex_1
+    349            }
+    350            else{ 
+    351              if((u8Ascii > 64) && (u8Ascii <= 70))
+   \                     ??AsciitoHex_0: (+1)
+   \        0xE   0x000A             MOVS     R2,R1
+   \       0x10   0x3A41             SUBS     R2,R2,#+65
+   \       0x12   0x2A06             CMP      R2,#+6
+   \       0x14   0xD201             BCS      ??AsciitoHex_2
+    352              { 
+    353                return (u8Ascii - 'A' + 10);
+   \       0x16   0x3837             SUBS     R0,R0,#+55
+   \       0x18   0xE003             B        ??AsciitoHex_1
+    354              }
+    355              else if((u8Ascii > 96) && (u8Ascii <= 102))
+   \                     ??AsciitoHex_2: (+1)
+   \       0x1A   0x3961             SUBS     R1,R1,#+97
+   \       0x1C   0x2906             CMP      R1,#+6
+   \       0x1E   0xD202             BCS      ??AsciitoHex_3
+    356              {
+    357                return (u8Ascii - 'a' + 10);
+   \       0x20   0x3857             SUBS     R0,R0,#+87
+   \                     ??AsciitoHex_1: (+1)
+   \       0x22   0x0600             LSLS     R0,R0,#+24
+   \       0x24   0x0E00             LSRS     R0,R0,#+24
+    358              } 
+    359            }
+    360          }
+   \                     ??AsciitoHex_3: (+1)
+   \       0x26   0x4770             BX       LR               ;; return
+    361          
+    362          /*******************************************************************************  
+    363          * Uart_PrintHex
+    364          *
+    365          * This function transmit a hexadecimal value to the initializated Uart. 
+    366          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    367          void Uart_PrintHex(uint8_t *pu8Hex, uint8_t u8len, uint8_t u8flags)
+    368          {
+   \                     Uart_PrintHex: (+1)
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
+    369            uint8_t hexString[3];
+    370            if(! (u8flags & gPrtHexBigEndian_c))
+   \        0x2   0x07D3             LSLS     R3,R2,#+31
+   \        0x4   0xD401             BMI      ??Uart_PrintHex_0
+    371              pu8Hex = pu8Hex + (u8len-1);
+   \        0x6   0x1840             ADDS     R0,R0,R1
+   \        0x8   0x1E40             SUBS     R0,R0,#+1
+   \                     ??Uart_PrintHex_0: (+1)
+   \        0xA   0x0004             MOVS     R4,R0
+   \        0xC   0x000D             MOVS     R5,R1
+   \        0xE   0x0017             MOVS     R7,R2
+   \       0x10   0x466E             MOV      R6,SP
+    372            
+    373            while(u8len)
+   \                     ??Uart_PrintHex_1: (+1)
+   \       0x12   0x0628             LSLS     R0,R5,#+24
+   \       0x14   0xD01B             BEQ      ??Uart_PrintHex_2
+    374            {
+    375              hexString[2] = '\0';
+   \       0x16   0x2000             MOVS     R0,#+0
+   \       0x18   0x70B0             STRB     R0,[R6, #+2]
+    376              hexString[1] = HexToAscii( *pu8Hex );
+   \       0x1A   0x7820             LDRB     R0,[R4, #+0]
+   \       0x1C   0x....'....        BL       HexToAscii
+   \       0x20   0x7070             STRB     R0,[R6, #+1]
+    377              hexString[0] = HexToAscii((*pu8Hex)>>4);
+   \       0x22   0x7820             LDRB     R0,[R4, #+0]
+   \       0x24   0x0900             LSRS     R0,R0,#+4
+   \       0x26   0x....'....        BL       HexToAscii
+   \       0x2A   0x7030             STRB     R0,[R6, #+0]
+    378              
+    379              Uart_Print((uint8_t*) hexString);
+   \       0x2C   0x4668             MOV      R0,SP
+   \       0x2E   0x....'....        BL       Uart_Print
+    380              
+    381              if(u8flags & gPrtHexCommas_c)
+   \       0x32   0x0778             LSLS     R0,R7,#+29
+   \       0x34   0xD502             BPL      ??Uart_PrintHex_3
+    382                Uart_Print((uint8_t*)",");
+   \       0x36   0x....             ADR      R0,??DataTable8_9  ;; ","
+   \       0x38   0x....'....        BL       Uart_Print
+    383              pu8Hex = pu8Hex + (u8flags & gPrtHexBigEndian_c ? 1 : -1);
+   \                     ??Uart_PrintHex_3: (+1)
+   \       0x3C   0x07F8             LSLS     R0,R7,#+31
+   \       0x3E   0xD402             BMI      ??Uart_PrintHex_4
+   \       0x40   0x2000             MOVS     R0,#+0
+   \       0x42   0x43C0             MVNS     R0,R0            ;; #-1
+   \       0x44   0xE000             B        ??Uart_PrintHex_5
+   \                     ??Uart_PrintHex_4: (+1)
+   \       0x46   0x2001             MOVS     R0,#+1
+   \                     ??Uart_PrintHex_5: (+1)
+   \       0x48   0x1824             ADDS     R4,R4,R0
+    384              u8len--;
+   \       0x4A   0x1E6D             SUBS     R5,R5,#+1
+   \       0x4C   0xE7E1             B        ??Uart_PrintHex_1
+    385            }
+    386            if(u8flags & gPrtHexNewLine_c)
+   \                     ??Uart_PrintHex_2: (+1)
+   \       0x4E   0x07B8             LSLS     R0,R7,#+30
+   \       0x50   0xD502             BPL      ??Uart_PrintHex_6
+    387              Uart_Print((uint8_t*)"\n");
+   \       0x52   0x....             ADR      R0,??DataTable8_10  ;; "\n"
+   \       0x54   0x....'....        BL       Uart_Print
+    388          }
+   \                     ??Uart_PrintHex_6: (+1)
+   \       0x58   0xBCF1             POP      {R0,R4-R7}
+   \       0x5A   0xBC08             POP      {R3}
+   \       0x5C   0x4718             BX       R3               ;; return
+    389          
+    390          /*******************************************************************************  
+    391          * Uart_PrintByteDec
+    392          *
+    393          * This function transmit a decimal value to the initializated Uart
+    394          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    395          void Uart_PrintByteDec(uint8_t u8Dec)
+    396          {
+   \                     Uart_PrintByteDec: (+1)
+   \        0x0   0xB5BC             PUSH     {R2-R5,R7,LR}
+   \        0x2   0x0005             MOVS     R5,R0
+    397            uint8_t decString[3];
+    398            uint8_t  tem;
+    399            tem = u8Dec & 0x0F;
+   \        0x4   0x072F             LSLS     R7,R5,#+28
+   \        0x6   0x0F3F             LSRS     R7,R7,#+28
+    400            decString[2] = '\0';
+   \        0x8   0x466C             MOV      R4,SP
+   \        0xA   0x2000             MOVS     R0,#+0
+   \        0xC   0x70A0             STRB     R0,[R4, #+2]
+    401            decString[0]= tem/10;
+   \        0xE   0x0038             MOVS     R0,R7
+   \       0x10   0x210A             MOVS     R1,#+10
+   \       0x12   0x....'....        BL       __aeabi_idiv
+   \       0x16   0x7020             STRB     R0,[R4, #+0]
+    402            decString[1] = tem%10;
+   \       0x18   0x0038             MOVS     R0,R7
+   \       0x1A   0x210A             MOVS     R1,#+10
+   \       0x1C   0x....'....        BL       __aeabi_idivmod
+   \       0x20   0x7061             STRB     R1,[R4, #+1]
+    403          
+    404            tem = ((u8Dec>>4) & 0x0F);
+    405            tem = tem * 16;
+   \       0x22   0x27F0             MOVS     R7,#+240
+   \       0x24   0x402F             ANDS     R7,R7,R5
+    406            
+    407            if(decString[1] + (tem%10) >= 10){
+   \       0x26   0x0038             MOVS     R0,R7
+   \       0x28   0x210A             MOVS     R1,#+10
+   \       0x2A   0x....'....        BL       __aeabi_idiv
+   \       0x2E   0x0005             MOVS     R5,R0
+   \       0x30   0x0038             MOVS     R0,R7
+   \       0x32   0x210A             MOVS     R1,#+10
+   \       0x34   0x....'....        BL       __aeabi_idivmod
+   \       0x38   0x7860             LDRB     R0,[R4, #+1]
+   \       0x3A   0x1842             ADDS     R2,R0,R1
+   \       0x3C   0x2A0A             CMP      R2,#+10
+   \       0x3E   0x7822             LDRB     R2,[R4, #+0]
+   \       0x40   0xDB04             BLT      ??Uart_PrintByteDec_0
+    408              decString[0] = ( decString[0] + (tem/10) + 1 + '0');
+   \       0x42   0x3531             ADDS     R5,R5,#+49
+   \       0x44   0x1952             ADDS     R2,R2,R5
+   \       0x46   0x7022             STRB     R2,[R4, #+0]
+    409              decString[1] = ( decString[1] + (tem%10) - 10 +'0');
+   \       0x48   0x3126             ADDS     R1,R1,#+38
+   \       0x4A   0xE003             B        ??Uart_PrintByteDec_1
+    410            }
+    411            else{
+    412              decString[0] = ( decString[0] + (tem/10) + '0');
+   \                     ??Uart_PrintByteDec_0: (+1)
+   \       0x4C   0x3530             ADDS     R5,R5,#+48
+   \       0x4E   0x1952             ADDS     R2,R2,R5
+   \       0x50   0x7022             STRB     R2,[R4, #+0]
+    413              decString[1] = ( decString[1] + (tem%10) + '0');
+   \       0x52   0x3130             ADDS     R1,R1,#+48
+   \                     ??Uart_PrintByteDec_1: (+1)
+   \       0x54   0x1840             ADDS     R0,R0,R1
+   \       0x56   0x7060             STRB     R0,[R4, #+1]
+    414            }
+    415            Uart_Print((uint8_t*) decString);
+   \       0x58   0x4668             MOV      R0,SP
+   \       0x5A   0x....'....        BL       Uart_Print
+    416          }
+   \       0x5E   0xBCB3             POP      {R0,R1,R4,R5,R7}
+   \       0x60   0xBC08             POP      {R3}
+   \       0x62   0x4718             BX       R3               ;; return
+    417          
+    418          /*******************************************************************************  
+    419          * Uart_PrintShortDec
+    420          *
+    421          * This function transmit a decimal value to the initializated Uart
+    422          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    423          void Uart_PrintShortDec(uint16_t u16Dec)
+    424          {
+   \                     Uart_PrintShortDec: (+1)
+   \        0x0   0xB55E             PUSH     {R1-R4,R6,LR}
+   \        0x2   0x0006             MOVS     R6,R0
+    425            uint8_t decString[6];
+    426            uint16_t  temp;
+    427          
+    428            decString[5] = '\0';
+   \        0x4   0x466C             MOV      R4,SP
+   \        0x6   0x2000             MOVS     R0,#+0
+   \        0x8   0x7160             STRB     R0,[R4, #+5]
+    429            temp = u16Dec;
+    430          
+    431            decString[4] = (temp%10) + '0';
+   \        0xA   0x0030             MOVS     R0,R6
+   \        0xC   0x210A             MOVS     R1,#+10
+   \        0xE   0x....'....        BL       __aeabi_idivmod
+   \       0x12   0x3130             ADDS     R1,R1,#+48
+   \       0x14   0x7121             STRB     R1,[R4, #+4]
+    432            temp = temp/10;
+   \       0x16   0x0030             MOVS     R0,R6
+   \       0x18   0x210A             MOVS     R1,#+10
+   \       0x1A   0x....'....        BL       __aeabi_idiv
+   \       0x1E   0x0406             LSLS     R6,R0,#+16
+   \       0x20   0x0C36             LSRS     R6,R6,#+16
+    433            decString[3] = (temp%10) + '0';
+   \       0x22   0x0030             MOVS     R0,R6
+   \       0x24   0x210A             MOVS     R1,#+10
+   \       0x26   0x....'....        BL       __aeabi_idivmod
+   \       0x2A   0x3130             ADDS     R1,R1,#+48
+   \       0x2C   0x70E1             STRB     R1,[R4, #+3]
+    434            temp = temp/10;
+   \       0x2E   0x0030             MOVS     R0,R6
+   \       0x30   0x210A             MOVS     R1,#+10
+   \       0x32   0x....'....        BL       __aeabi_idiv
+   \       0x36   0x0406             LSLS     R6,R0,#+16
+   \       0x38   0x0C36             LSRS     R6,R6,#+16
+    435            decString[2] = (temp%10) + '0';
+   \       0x3A   0x0030             MOVS     R0,R6
+   \       0x3C   0x210A             MOVS     R1,#+10
+   \       0x3E   0x....'....        BL       __aeabi_idivmod
+   \       0x42   0x3130             ADDS     R1,R1,#+48
+   \       0x44   0x70A1             STRB     R1,[R4, #+2]
+    436            temp = temp/10;
+   \       0x46   0x0030             MOVS     R0,R6
+   \       0x48   0x210A             MOVS     R1,#+10
+   \       0x4A   0x....'....        BL       __aeabi_idiv
+   \       0x4E   0x0406             LSLS     R6,R0,#+16
+   \       0x50   0x0C36             LSRS     R6,R6,#+16
+    437            decString[1] = (temp%10) + '0';
+   \       0x52   0x0030             MOVS     R0,R6
+   \       0x54   0x210A             MOVS     R1,#+10
+   \       0x56   0x....'....        BL       __aeabi_idivmod
+   \       0x5A   0x3130             ADDS     R1,R1,#+48
+   \       0x5C   0x7061             STRB     R1,[R4, #+1]
+    438            temp = temp/10;
+    439          
+    440            decString[0] = temp + '0';
+   \       0x5E   0x0030             MOVS     R0,R6
+   \       0x60   0x210A             MOVS     R1,#+10
+   \       0x62   0x....'....        BL       __aeabi_idiv
+   \       0x66   0x3030             ADDS     R0,R0,#+48
+   \       0x68   0x7020             STRB     R0,[R4, #+0]
+    441          
+    442            Uart_Print((uint8_t*) decString);
+   \       0x6A   0x4668             MOV      R0,SP
+   \       0x6C   0x....'....        BL       Uart_Print
+    443          }
+   \       0x70   0xBC57             POP      {R0-R2,R4,R6}
+   \       0x72   0xBC08             POP      {R3}
+   \       0x74   0x4718             BX       R3               ;; return
+    444          
+    445          /*******************************************************************************  
+    446          * mem_cmp 
+    447          *
+    448          * This function compare two strings, return FALSE when these are diferents or 
+    449          * TRUE when are equals.
+    450          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    451          bool_t mem_cmp(uint8_t * str1, uint8_t * str2, uint8_t sz)
+    452          {
+   \                     mem_cmp: (+1)
+   \        0x0   0xB430             PUSH     {R4,R5}
+    453            uint8_t i;
+    454            for(i=0; i<sz; i++)
+   \        0x2   0x2300             MOVS     R3,#+0
+   \        0x4   0xE000             B        ??mem_cmp_0
+   \                     ??mem_cmp_1: (+1)
+   \        0x6   0x1C5B             ADDS     R3,R3,#+1
+   \                     ??mem_cmp_0: (+1)
+   \        0x8   0x4293             CMP      R3,R2
+   \        0xA   0xDA05             BGE      ??mem_cmp_2
+    455            {
+    456              if( (str1[i]) != (str2[i]))
+   \        0xC   0x5CC4             LDRB     R4,[R0, R3]
+   \        0xE   0x5CCD             LDRB     R5,[R1, R3]
+   \       0x10   0x42AC             CMP      R4,R5
+   \       0x12   0xD0F8             BEQ      ??mem_cmp_1
+    457              {
+    458                return FALSE;
+   \       0x14   0x2000             MOVS     R0,#+0
+   \       0x16   0xE000             B        ??mem_cmp_3
+    459              }
+    460            }
+    461            return TRUE;
+   \                     ??mem_cmp_2: (+1)
+   \       0x18   0x2001             MOVS     R0,#+1
+   \                     ??mem_cmp_3: (+1)
+   \       0x1A   0xBC30             POP      {R4,R5}
+   \       0x1C   0x4770             BX       LR               ;; return
+    462          }
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8:
+   \        0x0   0x....'....        DC32     UartIsr1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_1:
+   \        0x0   0x0000'5DC0        DC32     0x5dc0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_2:
+   \        0x0   0x....'....        DC32     UartEventWrite1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_3:
+   \        0x0   0x....'....        DC32     UartEventRead1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_4:
+   \        0x0   0x8000'0010        DC32     0x80000010
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_5:
+   \        0x0   0xFFFD'7FFF        DC32     0xfffd7fff
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_6:
+   \        0x0   0xFFD7'FFFF        DC32     0xffd7ffff
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_7:
+   \        0x0   0xFFFF'F00F        DC32     0xfffff00f
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_8:
+   \        0x0   0x....'....        DC32     gu8SCIStatus
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_9:
+   \        0x0   0x2C 0x00          DC8      ",",0x0,0x0
+   \              0x00 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_10:
+   \        0x0   0x0A 0x00          DC8      "\n",0x0,0x0
+   \              0x00 0x00    
+
+   \                                 In section .rodata, align 2, keep-with-next
+   \                     ?_0:
+   \        0x0   0x2C 0x00          DC8 ","
+
+   \                                 In section .rodata, align 2, keep-with-next
+   \                     ?_1:
+   \        0x0   0x0A 0x00          DC8 "\012"
+    463          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   AsciitoHex
+       0   GpioUart1Init
+       0   GpioUart2Init
+       0   HexToAscii
+       0   UartEventRead1
+       0   UartEventRead2
+       0   UartEventWrite1
+       0   UartEventWrite2
+      32   Uart_Init
+        32   -> GpioUart1Init
+        32   -> ITC_EnableInterrupt
+        32   -> ITC_SetPriority
+        32   -> IntAssignHandler
+        32   -> IntRestoreIRQ
+        32   -> UartOpen
+        32   -> UartReadData
+        32   -> UartSetCallbackFunctions
+        32   -> UartSetConfig
+        32   -> UartSetReceiverThreshold
+        32   -> UartSetTransmitterThreshold
+       8   Uart_Poll
+         8   -> UartGetByteFromRxBuffer
+      24   Uart_Print
+        24   -> UartWriteData
+      24   Uart_PrintByteDec
+        24   -> Uart_Print
+        24 __aeabi_idiv
+        24 __aeabi_idivmod
+      24   Uart_PrintHex
+        24   -> HexToAscii
+        24   -> Uart_Print
+      24   Uart_PrintShortDec
+        24   -> Uart_Print
+        24 __aeabi_idiv
+        24 __aeabi_idivmod
+      32   Uart_Tx
+        32   -> UartWriteData
+       8   Uart_getchar
+         8   -> UartGetByteFromRxBuffer
+       8   Uart_putchar
+         8   -> UartWriteData
+       8   mem_cmp
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable8
+       4  ??DataTable8_1
+       4  ??DataTable8_10
+       4  ??DataTable8_2
+       4  ??DataTable8_3
+       4  ??DataTable8_4
+       4  ??DataTable8_5
+       4  ??DataTable8_6
+       4  ??DataTable8_7
+       4  ??DataTable8_8
+       4  ??DataTable8_9
+      16  ?Subroutine0
+       2  ?_0
+       2  ?_1
+      40  AsciitoHex
+      60  GpioUart1Init
+      48  GpioUart2Init
+      22  HexToAscii
+       2  UartEventRead1
+       2  UartEventRead2
+       2  UartEventWrite1
+       2  UartEventWrite2
+     122  Uart_Init
+      28  Uart_Poll
+      54  Uart_Print
+     100  Uart_PrintByteDec
+      94  Uart_PrintHex
+     118  Uart_PrintShortDec
+      98  Uart_Tx
+      32  Uart_getchar
+      16  Uart_putchar
+       4  gu8SCIStatus
+          gu8SCIDataFlag
+          gu16SCINumOfBytes
+      30  mem_cmp
+
+ 
+   4 bytes in section .bss
+   4 bytes in section .rodata
+ 930 bytes in section .text
+ 
+ 930 bytes of CODE  memory
+   4 bytes of CONST memory
+   4 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,187 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM         31/Jan/2019  15:13:42
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Application\Utilities\Keyboard.c
+#    Command line =  
+#        -f C:\Users\Brus\AppData\Local\Temp\EWDDCA.tmp
+#        ("D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Application\Utilities\Keyboard.c" -D NDEBUG -D F24MHZ -D
+#        SECURITY_ENABLED -D MC13226Included_d=0 --preprocess=cs
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List"
+#        -lC "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\List" -lB
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List"
+#        --diag_suppress Pe940,Pe951,Pe911 -o
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\Obj"
+#        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
+#        "C:\HDDPrograms\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Normal.h" -I
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\SMAC\Drivers\Interface\" -I
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\PLM\Interface\" --cpu_mode thumb -Ohz --use_c++_inline)
+#    Locale       =  C
+#    List file    =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\List\Keyboard.lst
+#    Object file  =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\Obj\Keyboard.o
+#
+###############################################################################
+
+D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Application\Utilities\Keyboard.c
+      1          /************************************************************************************
+      2          * Keyboard.c
+      3          *
+      4          * This file contains the keyboard initialization function.
+      5          *
+      6          * Author(s): 
+      7          *
+      8          * Copyright (c) 2008, Freescale, Inc.  All rights reserved.
+      9          *
+     10          *
+     11          * No part of this document must be reproduced in any form - including copied,
+     12          * transcribed, printed or by any electronic means - without specific written
+     13          * permission from Freescale.
+     14          *
+     15          Revision history:
+     16             Date                     Author                                    Comments
+     17             ----------               ----------------------                    -------
+     18          ************************************************************************************/
+     19          #include "Keyboard.h"
+     20          
+     21          #if (gKeyboardModule_d)
+     22          
+     23          /******************************************************************************
+     24          *******************************************************************************
+     25          * Public Macros
+     26          *******************************************************************************
+     27          ******************************************************************************/
+     28          
+     29          /*None*/
+     30          
+     31          /******************************************************************************
+     32          *******************************************************************************
+     33          * Private prototypes
+     34          *******************************************************************************
+     35          ******************************************************************************/
+     36          
+     37          /******************************************************************************
+     38          *******************************************************************************
+     39          * Private type definitions
+     40          *******************************************************************************
+     41          ******************************************************************************/
+     42          
+     43          /******************************************************************************
+     44          *******************************************************************************
+     45          * Private Memory Declarations
+     46          *******************************************************************************
+     47          ******************************************************************************/
+     48          
+     49          /******************************************************************************
+     50          *******************************************************************************
+     51          * Public functions
+     52          *******************************************************************************
+     53          ******************************************************************************/
+     54          
+     55          /******************************************************************************
+     56          * LED_Init
+     57          *
+     58          * Initialize the LED system.
+     59          *******************************************************************************/
+     60          
+
+   \                                 In section .text, align 2, keep-with-next
+     61          void KbGpioInit(void)
+     62          {
+   \                     KbGpioInit: (+1)
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
+     63            /* Set as input*/
+     64            (void)Gpio_SetPortDir(gKbGpioPort_c, gKbGpioAllZeros_c, gKbGpioMask_c);
+   \        0x2   0x24F1             MOVS     R4,#+241
+   \        0x4   0x05A4             LSLS     R4,R4,#+22       ;; #+1010827264
+   \        0x6   0x0022             MOVS     R2,R4
+   \        0x8   0x2100             MOVS     R1,#+0
+   \        0xA   0x2000             MOVS     R0,#+0
+   \        0xC   0x....'....        BL       Gpio_SetPortDir
+     65            /* Pullup enable and select pullup*/
+     66            (void)Gpio_WrPortSetting(gKbGpioPort_c, gGpioPullUpEnAttr_c, gKbGpioAllOnes_c, gKbGpioMask_c);
+   \       0x10   0x2500             MOVS     R5,#+0
+   \       0x12   0x43ED             MVNS     R5,R5            ;; #-1
+   \       0x14   0x0023             MOVS     R3,R4
+   \       0x16   0x002A             MOVS     R2,R5
+   \       0x18   0x2103             MOVS     R1,#+3
+   \       0x1A   0x2000             MOVS     R0,#+0
+   \       0x1C   0x....'....        BL       Gpio_WrPortSetting
+     67            (void)Gpio_WrPortSetting(gKbGpioPort_c, gGpioPullUpSelAttr_c, gKbGpioAllOnes_c, gKbGpioMask_c);
+   \       0x20   0x0023             MOVS     R3,R4
+   \       0x22   0x002A             MOVS     R2,R5
+   \       0x24   0x2104             MOVS     R1,#+4
+   \       0x26   0x2000             MOVS     R0,#+0
+   \       0x28   0x....'....        BL       Gpio_WrPortSetting
+     68            /*Read from pads*/
+     69            (void)Gpio_WrPortSetting(gKbGpioPort_c, gGpioInputDataSelAttr_c, gKbGpioAllZeros_c, gKbGpioMask_c);
+   \       0x2C   0x0023             MOVS     R3,R4
+   \       0x2E   0x2200             MOVS     R2,#+0
+   \       0x30   0x2102             MOVS     R1,#+2
+   \       0x32   0x2000             MOVS     R0,#+0
+   \       0x34   0x....'....        BL       Gpio_WrPortSetting
+     70            /* Gpio normal mode function */
+     71            Gpio_SetPortFunction(gKbGpioPort_c, gGpioNormalMode_c, gKbGpioMask_c);
+   \       0x38   0x0022             MOVS     R2,R4
+   \       0x3A   0x2100             MOVS     R1,#+0
+   \       0x3C   0x2000             MOVS     R0,#+0
+   \       0x3E   0x....'....        BL       Gpio_SetPortFunction
+     72            
+     73          }
+   \       0x42   0xBC31             POP      {R0,R4,R5}
+   \       0x44   0xBC08             POP      {R3}
+   \       0x46   0x4718             BX       R3               ;; return
+     74          
+     75          /******************************************************************************
+     76          *******************************************************************************
+     77          * Private functions
+     78          *******************************************************************************
+     79          ******************************************************************************/
+     80          
+     81          /******************************************************************************
+     82          *******************************************************************************
+     83          * Unit Testing
+     84          *******************************************************************************
+     85          ******************************************************************************/
+     86          
+     87          /* None */
+     88          
+     89          #endif /* gLEDSupported_d */
+     90          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      16   KbGpioInit
+        16   -> Gpio_SetPortDir
+        16   -> Gpio_SetPortFunction
+        16   -> Gpio_WrPortSetting
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      72  KbGpioInit
+
+ 
+ 72 bytes in section .text
+ 
+ 72 bytes of CODE memory
+
+Errors: none
+Warnings: none

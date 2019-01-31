@@ -1,0 +1,15 @@
+"--endian=little" 
+
+"--cpu=ARM7TDMI-S" 
+
+"--fpu=None" 
+
+"--semihosting=none" 
+
+"--drv_communication=USB0" 
+
+"--drv_interface_speed=2000" 
+
+
+
+

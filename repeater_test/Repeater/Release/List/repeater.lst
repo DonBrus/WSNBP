@@ -1,0 +1,2902 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM         31/Jan/2019  14:41:04
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Application\Source\repeater.c
+#    Command line =  
+#        -f C:\Users\Brus\AppData\Local\Temp\EWFB5C.tmp
+#        (D:\Users\Brus\Documents\repeater_test\Repeater\Application\Source\repeater.c
+#        -D NDEBUG -D F24MHZ -D SECURITY_ENABLED -D MC13226Included_d=0
+#        --preprocess=cs
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lC
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lB
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List
+#        --diag_suppress Pe940,Pe951,Pe911 -o
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj
+#        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
+#        "C:\HDDPrograms\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Normal.h" -I
+#        D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Drivers\Interface\
+#        -I D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Interface\
+#        --cpu_mode thumb -Ohz --use_c++_inline)
+#    Locale       =  C
+#    List file    =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List\repeater.lst
+#    Object file  =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\repeater.o
+#
+###############################################################################
+
+D:\Users\Brus\Documents\repeater_test\Repeater\Application\Source\repeater.c
+      1          /************************************************************************************
+      2          * Repeater main 
+      3          *
+      4          * (c) Copyright 2006, Freescale, Inc.  All rights reserved.
+      5          *
+      6          * No part of this document must be reproduced in any form - including copied,
+      7          * transcribed, printed or by any electronic means - without specific written
+      8          * permission from Freescale.
+      9          *
+     10          * Last Inspected:
+     11          * Last Tested:
+     12          ************************************************************************************/
+     13          
+     14          
+     15          
+     16          #include "../../PLM/LibInterface/Crm.h"
+     17          #include "../../PLM/LibInterface/Timer.h"
+     18          #include "../../PLM/LibInterface/Interrupt.h"
+     19          #include "../../PLM/Interface/RF_Config.h"
+     20          #include "../../PLM/Interface/PlatformInit.h"
+     21          #include "../../SMAC/Interface/GlobalDefs.h"
+     22          #include "../../SMAC/Interface/TransceiverConfigMngmnt.h"
+     23          #include "../../SMAC/Interface/TransceiverPowerMngmnt.h"
+     24          #include "../../SMAC/Interface/WirelessLinkMngmt.h"
+     25          #include "../../SMAC/Interface/SecurityMngmnt.h"
+     26          #include "../../SMAC/Interface/TransceiverPowerMngmnt.h"
+     27          #include "../../SMAC/Configure/options_config.h"
+     28          #include "../../SMAC/Configure/security_config.h"
+     29          #include "../../SMAC/Drivers/Configure/board_config.h"
+     30          #include "../../SMAC/Drivers/Interface/Delay.h"
+     31          #include "../../SMAC/Drivers/Interface/ghdr/maca.h"
+     32          #include "../../SMAC/Drivers/Interface/MacaInterrupt.h"
+     33          #include "../Utilities/Leds.h"
+     34          #include "../Utilities/UartUtil.h"
+     35          #include "../Utilities/Keyboard.h"
+     36          #include "../Configure/app_config.h"
+     37          
+     38          #if OTAP_ENABLED == TRUE
+     39           #include "../Otap/Otap.h"
+     40          #endif
+     41          
+     42          /************************************************************************************
+     43          *************************************************************************************
+     44          * Private macros
+     45          *************************************************************************************
+     46          ************************************************************************************/
+     47          #define REPEATER_CHANN CHANNEL_NUMBER
+     48          
+     49          #define SIZE_OF_MODE_TEXT      (6)
+     50          
+     51          #define TEXT_DIGITS_PER_CHANN  (2)
+     52          
+     53          #define MAX_SMAC_PACK_SZ (125)
+     54          
+     55          /* MACA clocks run at 250 KHz, then each count represents 4 usec */
+     56          #define USECS_BY_MACA_CLK_TIC  (4)
+     57          #define MACA_CLK_COUNTS_FOR_ONE_MILLISEC (250)
+     58          
+     59          /* Used at process_change_delay */
+     60          #define DLY_MILLISEC (0)
+     61          #define DLY_MICROSEC (1)
+     62          #define MAX_MILLI_DIGITS (5)
+     63          #define MAX_MICRO_DIGITS (3)
+     64          #define MAX_MILLI_VALUE (0xFFFF)
+     65          #define MIN_MILLI_VALUE (1)
+     66          
+     67          /* Used at process_ready_prompt */
+     68          #define RDY_INIT (0)
+     69          #define RDY_READ (1)
+     70          
+     71          #define PRINT_PROMPT() (Uart_Print((uint8_t *)(&u8RepRdyPrompt)))
+     72          #define PRINT_CHAR_ERROR() (Uart_Print((uint8_t *)(&u8WrongChar)))
+     73          
+     74          
+     75          typedef union bytes_2_short_tag {
+     76            uint16_t u16Short;
+     77            struct{
+     78              uint8_t Byte0;
+     79              uint8_t Byte1;
+     80            }bytes;
+     81          }bytes_2_short_t;
+     82          
+     83          /************************************************************************************
+     84          *************************************************************************************
+     85          * Private prototypes
+     86          *************************************************************************************
+     87          ************************************************************************************/
+     88          static void display_config(void);
+     89          static void display_menu(void);
+     90          static void display_statistics(void);
+     91          static void print_freescale_logo(void);
+     92          static void print_n_blank_spaces(uint8_t n);
+     93          static void process_uart_data(void);
+     94          
+     95          static void process_change_delay (void);
+     96          static void process_repeater_run (void);
+     97          static void process_ready_prompt (void);
+     98          
+     99          static void repeater_app(void);
+    100          static void repeater_app_init(void);
+    101          static void repeater_run_sm (void);
+    102          
+    103          /************************************************************************************
+    104          *************************************************************************************
+    105          * Private type definitions
+    106          *************************************************************************************
+    107          ************************************************************************************/
+    108          #define RTCTimeout 0x000FFFFFF
+    109          
+    110          typedef enum {
+    111              gRepOpModeNormal_c = 0,
+    112              gRepOpModeDummy_c,
+    113              gRepOpModeSniff_c,
+    114              gRepOpModeMax_c
+    115          } RepOpMode_t;
+    116          
+    117          typedef enum RepAppState_tat{
+    118              gRepAppStReady_c = 0,
+    119              gRepAppStRun_c,
+    120              gRepAppStChgDly_c,
+    121              gRepAppStMax_c
+    122          } RepAppState_t;
+    123          
+    124          typedef enum u8RepeaterRunState_tag{
+    125              gRepeaterRunStIdle_c = 0,
+    126              gRepeaterRunStRcv_c,
+    127              gRepeaterRunStWaiting_c,
+    128              gRepeaterRunStTx_c
+    129          }u8RepeaterRunState_t;
+    130          
+    131          typedef struct RepDelay_tag {
+    132            uint16_t millisecondsDly;
+    133            uint16_t microsecondsDly;
+    134          } RepDelay_t;
+    135          
+    136          typedef struct RepStat_tag {
+    137            uint16_t u16ReccivedPkts;
+    138            uint16_t u16RetransmitedPkts;
+    139            uint16_t u16BadPkts;
+    140            uint16_t u16DroppedPkts;
+    141          }RepStat_t;
+    142          
+    143          /************************************************************************************
+    144          *************************************************************************************
+    145          * Private memory declarations
+    146          *************************************************************************************
+    147          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    148          const uint8_t u8RepOpModeText[gRepOpModeMax_c][SIZE_OF_MODE_TEXT] = \
+   \                     u8RepOpModeText:
+   \        0x0   0x4E 0x4F          DC8 4EH, 4FH, 52H, 4DH, 41H, 4CH
+   \              0x52 0x4D    
+   \              0x41 0x4C    
+   \        0x6   0x44 0x55          DC8 44H, 55H, 4DH, 4DH, 59H, 20H
+   \              0x4D 0x4D    
+   \              0x59 0x20    
+   \        0xC   0x53 0x4E          DC8 "SNIFF"
+   \              0x49 0x46    
+   \              0x46 0x00    
+   \       0x12   0x00 0x00          DC8 0, 0
+    149                            {{"NORMAL"},{"DUMMY "},{"SNIFF"}};
+    150          
+
+   \                                 In section .text, align 4, keep-with-next
+    151          const uint8_t u8RepRdyPrompt[] = {"\n\rReady> \0"};
+   \                     u8RepRdyPrompt:
+   \        0x0   0x0A 0x0D          DC8 0AH, 0DH, 52H, 65H, 61H, 64H, 79H, 3EH
+   \              0x52 0x65    
+   \              0x61 0x64    
+   \              0x79 0x3E    
+   \        0x8   0x20 0x00          DC8 20H, 0, 0
+   \              0x00         
+   \        0xB   0x00               DC8 0
+    152          
+
+   \                                 In section .rodata, align 4
+   \                     ?_4:
+   \        0x0   0x0A 0x0D          DC8 0AH, 0DH, 20H, 20H, 2DH, 2DH, 2DH, 2DH
+   \              0x20 0x20    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \        0x8   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x10   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 20H, 20H
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x20 0x20    
+   \       0x18   0x53 0x74          DC8 53H, 74H, 61H, 74H, 69H, 73H, 74H, 69H
+   \              0x61 0x74    
+   \              0x69 0x73    
+   \              0x74 0x69    
+   \       0x20   0x63 0x73          DC8 63H, 73H, 20H, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x20 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x28   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x30   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 0AH, 0DH, 0
+   \              0x2D 0x2D    
+   \              0x2D 0x0A    
+   \              0x0D 0x00    
+   \       0x38   0x20 0x20          DC8 20H, 20H, 52H, 65H, 63H, 65H, 69H, 76H
+   \              0x52 0x65    
+   \              0x63 0x65    
+   \              0x69 0x76    
+   \       0x40   0x65 0x64          DC8 65H, 64H, 20H, 20H, 20H, 20H, 20H, 52H
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x52    
+   \       0x48   0x65 0x74          DC8 65H, 74H, 72H, 61H, 73H, 6DH, 69H, 74H
+   \              0x72 0x61    
+   \              0x73 0x6D    
+   \              0x69 0x74    
+   \       0x50   0x74 0x65          DC8 74H, 65H, 64H, 20H, 20H, 20H, 20H, 20H
+   \              0x64 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \       0x58   0x42 0x61          DC8 42H, 61H, 64H, 20H, 20H, 20H, 20H, 20H
+   \              0x64 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \       0x60   0x20 0x20          DC8 20H, 20H, 20H, 20H, 44H, 72H, 6FH, 70H
+   \              0x20 0x20    
+   \              0x44 0x72    
+   \              0x6F 0x70    
+   \       0x68   0x70 0x65          DC8 70H, 65H, 64H, 0AH, 0DH, 0
+   \              0x64 0x0A    
+   \              0x0D 0x00    
+   \       0x6E   0x00 0x00          DC8 0, 0
+   \       0x70   0x20 0x20          DC8 20H, 20H, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x78   0x2D 0x2D          DC8 2DH, 2DH, 20H, 20H, 20H, 20H, 20H, 2DH
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x2D    
+   \       0x80   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x88   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 20H, 20H, 20H, 20H, 20H
+   \              0x2D 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \       0x90   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 20H
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x20    
+   \       0x98   0x20 0x20          DC8 20H, 20H, 20H, 20H, 2DH, 2DH, 2DH, 2DH
+   \              0x20 0x20    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0xA0   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 0AH, 0DH, 0
+   \              0x2D 0x0A    
+   \              0x0D 0x00    
+   \       0xA6   0x00 0x00          DC8 0, 0
+   \       0xA8   0x0A 0x0D          DC8 0AH, 0DH, 20H, 20H, 45H, 6EH, 74H, 65H
+   \              0x20 0x20    
+   \              0x45 0x6E    
+   \              0x74 0x65    
+   \       0xB0   0x72 0x20          DC8 72H, 20H, 64H, 65H, 6CH, 61H, 79H, 2CH
+   \              0x64 0x65    
+   \              0x6C 0x61    
+   \              0x79 0x2C    
+   \       0xB8   0x20 0x66          DC8 20H, 66H, 69H, 72H, 73H, 74H, 20H, 65H
+   \              0x69 0x72    
+   \              0x73 0x74    
+   \              0x20 0x65    
+   \       0xC0   0x6E 0x74          DC8 6EH, 74H, 65H, 72H, 20H, 74H, 68H, 65H
+   \              0x65 0x72    
+   \              0x20 0x74    
+   \              0x68 0x65    
+   \       0xC8   0x20 0x6D          DC8 20H, 6DH, 69H, 6CH, 69H, 73H, 65H, 63H
+   \              0x69 0x6C    
+   \              0x69 0x73    
+   \              0x65 0x63    
+   \       0xD0   0x6F 0x6E          DC8 6FH, 6EH, 64H, 73H, 20H, 61H, 6EH, 64H
+   \              0x64 0x73    
+   \              0x20 0x61    
+   \              0x6E 0x64    
+   \       0xD8   0x20 0x74          DC8 20H, 74H, 68H, 65H, 6EH, 20H, 74H, 68H
+   \              0x68 0x65    
+   \              0x6E 0x20    
+   \              0x74 0x68    
+   \       0xE0   0x65 0x20          DC8 65H, 20H, 6DH, 69H, 63H, 72H, 6FH, 73H
+   \              0x6D 0x69    
+   \              0x63 0x72    
+   \              0x6F 0x73    
+   \       0xE8   0x65 0x63          DC8 65H, 63H, 6FH, 6EH, 64H, 73H, 2EH, 0AH
+   \              0x6F 0x6E    
+   \              0x64 0x73    
+   \              0x2E 0x0A    
+   \       0xF0   0x0D 0x00          DC8 0DH, 0
+   \       0xF2   0x00 0x00          DC8 0, 0
+   \       0xF4   0x20 0x68          DC8 20H, 68H, 6FH, 77H, 20H, 6DH, 61H, 6EH
+   \              0x6F 0x77    
+   \              0x20 0x6D    
+   \              0x61 0x6E    
+   \       0xFC   0x79 0x20          DC8 79H, 20H, 6DH, 73H, 65H, 63H, 73H, 20H
+   \              0x6D 0x73    
+   \              0x65 0x63    
+   \              0x73 0x20    
+   \      0x104   0x75 0x73          DC8 75H, 73H, 65H, 63H, 73H, 20H, 28H, 77H
+   \              0x65 0x63    
+   \              0x73 0x20    
+   \              0x28 0x77    
+   \      0x10C   0x68 0x65          DC8 68H, 65H, 72H, 65H, 20H, 30H, 30H, 30H
+   \              0x72 0x65    
+   \              0x20 0x30    
+   \              0x30 0x30    
+   \      0x114   0x30 0x31          DC8 30H, 31H, 3CH, 76H, 61H, 6CH, 75H, 65H
+   \              0x3C 0x76    
+   \              0x61 0x6C    
+   \              0x75 0x65    
+   \      0x11C   0x3C 0x36          DC8 3CH, 36H, 35H, 35H, 33H, 35H, 29H, 20H
+   \              0x35 0x35    
+   \              0x33 0x35    
+   \              0x29 0x20    
+   \      0x124   0x70 0x6C          DC8 70H, 6CH, 65H, 61H, 73H, 65H, 20H, 77H
+   \              0x65 0x61    
+   \              0x73 0x65    
+   \              0x20 0x77    
+   \      0x12C   0x72 0x69          DC8 72H, 69H, 74H, 65H, 20H, 61H, 6CH, 6CH
+   \              0x74 0x65    
+   \              0x20 0x61    
+   \              0x6C 0x6C    
+   \      0x134   0x20 0x64          DC8 20H, 64H, 69H, 67H, 69H, 74H, 73H, 3EH
+   \              0x69 0x67    
+   \              0x69 0x74    
+   \              0x73 0x3E    
+   \      0x13C   0x20 0x00          DC8 20H, 0
+   \      0x13E   0x00 0x00          DC8 0, 0
+   \      0x140   0x0A 0x0D          DC8 "\012\015  Press any key to go back to the main menu"
+   \              0x20 0x20    
+   \              0x50 0x72    
+   \              0x65 0x73    
+   \              0x73 0x20    
+   \              0x61 0x6E    
+   \              0x79 0x20    
+   \              0x6B 0x65    
+   \              0x79 0x20    
+   \              0x74 0x6F    
+   \              0x20 0x67    
+   \              0x6F 0x20    
+   \              0x62 0x61    
+   \              0x63 0x6B    
+   \              0x20 0x74    
+   \              0x6F 0x20    
+   \              0x74 0x68    
+   \              0x65 0x20    
+   \              0x6D 0x61    
+   \              0x69 0x6E    
+   \              0x20 0x6D    
+   \              0x65 0x6E    
+   \              0x75 0x00    
+   \      0x16E   0x00 0x00          DC8 0, 0
+   \      0x170   0x20 0x20          DC8 20H, 20H, 48H, 6FH, 77H, 20H, 6DH, 61H
+   \              0x48 0x6F    
+   \              0x77 0x20    
+   \              0x6D 0x61    
+   \      0x178   0x6E 0x79          DC8 6EH, 79H, 20H, 75H, 73H, 65H, 63H, 73H
+   \              0x20 0x75    
+   \              0x73 0x65    
+   \              0x63 0x73    
+   \      0x180   0x20 0x28          DC8 20H, 28H, 77H, 68H, 65H, 72H, 65H, 20H
+   \              0x77 0x68    
+   \              0x65 0x72    
+   \              0x65 0x20    
+   \      0x188   0x30 0x30          DC8 30H, 30H, 30H, 3CH, 76H, 61H, 6CH, 75H
+   \              0x30 0x3C    
+   \              0x76 0x61    
+   \              0x6C 0x75    
+   \      0x190   0x65 0x3C          DC8 65H, 3CH, 39H, 39H, 39H, 29H, 2CH, 20H
+   \              0x39 0x39    
+   \              0x39 0x29    
+   \              0x2C 0x20    
+   \      0x198   0x70 0x6C          DC8 70H, 6CH, 65H, 61H, 73H, 65H, 20H, 77H
+   \              0x65 0x61    
+   \              0x73 0x65    
+   \              0x20 0x77    
+   \      0x1A0   0x72 0x69          DC8 72H, 69H, 74H, 65H, 20H, 61H, 6CH, 6CH
+   \              0x74 0x65    
+   \              0x20 0x61    
+   \              0x6C 0x6C    
+   \      0x1A8   0x20 0x74          DC8 20H, 74H, 68H, 72H, 65H, 65H, 20H, 64H
+   \              0x68 0x72    
+   \              0x65 0x65    
+   \              0x20 0x64    
+   \      0x1B0   0x69 0x67          DC8 69H, 67H, 69H, 74H, 73H, 20H, 28H, 69H
+   \              0x69 0x74    
+   \              0x73 0x20    
+   \              0x28 0x69    
+   \      0x1B8   0x66 0x20          DC8 66H, 20H, 79H, 6FH, 75H, 20H, 64H, 6FH
+   \              0x79 0x6F    
+   \              0x75 0x20    
+   \              0x64 0x6F    
+   \      0x1C0   0x6E 0x20          DC8 6EH, 20H, 27H, 74H, 20H, 77H, 61H, 6EH
+   \              0x27 0x74    
+   \              0x20 0x77    
+   \              0x61 0x6E    
+   \      0x1C8   0x74 0x20          DC8 74H, 20H, 74H, 6FH, 20H, 75H, 73H, 65H
+   \              0x74 0x6F    
+   \              0x20 0x75    
+   \              0x73 0x65    
+   \      0x1D0   0x20 0x69          DC8 20H, 69H, 74H, 20H, 6AH, 75H, 73H, 74H
+   \              0x74 0x20    
+   \              0x6A 0x75    
+   \              0x73 0x74    
+   \      0x1D8   0x20 0x77          DC8 20H, 77H, 72H, 69H, 74H, 65H, 20H, 30H
+   \              0x72 0x69    
+   \              0x74 0x65    
+   \              0x20 0x30    
+   \      0x1E0   0x30 0x30          DC8 30H, 30H, 29H, 3EH, 20H, 0
+   \              0x29 0x3E    
+   \              0x20 0x00    
+   \      0x1E6   0x00 0x00          DC8 0, 0
+    153          const uint8_t u8WrongChar[] = {"\n\rThere has been an error in your command.  Please try it again"};
+   \                     u8WrongChar:
+   \      0x1E8   0x0A 0x0D          DC8 0AH, 0DH, 54H, 68H, 65H, 72H, 65H, 20H
+   \              0x54 0x68    
+   \              0x65 0x72    
+   \              0x65 0x20    
+   \      0x1F0   0x68 0x61          DC8 68H, 61H, 73H, 20H, 62H, 65H, 65H, 6EH
+   \              0x73 0x20    
+   \              0x62 0x65    
+   \              0x65 0x6E    
+   \      0x1F8   0x20 0x61          DC8 20H, 61H, 6EH, 20H, 65H, 72H, 72H, 6FH
+   \              0x6E 0x20    
+   \              0x65 0x72    
+   \              0x72 0x6F    
+   \      0x200   0x72 0x20          DC8 72H, 20H, 69H, 6EH, 20H, 79H, 6FH, 75H
+   \              0x69 0x6E    
+   \              0x20 0x79    
+   \              0x6F 0x75    
+   \      0x208   0x72 0x20          DC8 72H, 20H, 63H, 6FH, 6DH, 6DH, 61H, 6EH
+   \              0x63 0x6F    
+   \              0x6D 0x6D    
+   \              0x61 0x6E    
+   \      0x210   0x64 0x2E          DC8 64H, 2EH, 20H, 20H, 50H, 6CH, 65H, 61H
+   \              0x20 0x20    
+   \              0x50 0x6C    
+   \              0x65 0x61    
+   \      0x218   0x73 0x65          DC8 73H, 65H, 20H, 74H, 72H, 79H, 20H, 69H
+   \              0x20 0x74    
+   \              0x72 0x79    
+   \              0x20 0x69    
+   \      0x220   0x74 0x20          DC8 74H, 20H, 61H, 67H, 61H, 69H, 6EH, 0
+   \              0x61 0x67    
+   \              0x61 0x69    
+   \              0x6E 0x00    
+    154          
+
+   \                                 In section .text, align 4, keep-with-next
+    155          static const callback_t cbRepeaterStFn_c[gRepAppStMax_c] = {
+   \                     cbRepeaterStFn_c:
+   \        0x0   0x....'....        DC32 process_ready_prompt, process_repeater_run, process_change_delay
+   \              0x....'....  
+   \              0x....'....  
+    156                    (callback_t)(process_ready_prompt),
+    157                    (callback_t)(process_repeater_run),
+    158                    (callback_t)(process_change_delay)};
+    159          
+    160          
+    161          /************************************************************************************
+    162          *************************************************************************************
+    163          * Public functions
+    164          *************************************************************************************
+    165          ************************************************************************************/
+    166          extern FuncReturn_t CrmInit(void);
+    167          extern FuncReturn_t TsmInit(void);
+    168          extern void ResetMaca(void);
+    169          
+    170          void repeater_rx_cb (void);
+    171          void data_indication_execute(void);
+    172          
+    173          /* Variables declaration */
+
+   \                                 In section .bss, align 4
+    174          bool_t gbDataIndicationFlag;
+    175          bool_t gbRdyToProcessEvnt;
+    176          
+    177          bool_t isUartDataRdy;
+    178          
+    179          uint8_t u8RepOpMode;
+    180          uint8_t u8RepeaterPower;
+    181          uint8_t u8UartDataSz;
+    182          uint8_t u8UartBuffer[8];
+    183          uint8_t u8UartData[8];
+    184          
+    185          uint8_t dataTX[smac_pdu_size(MAX_SMAC_PACK_SZ+1)];
+    186          #if OTAP_ENABLED == TRUE
+    187            uint8_t dataRX[smac_pdu_size(MAX_SMAC_PACK_SZ)];
+    188          #else
+    189            uint8_t dataRX[smac_pdu_size(MAX_SMAC_PACK_SZ)];
+    190          #endif
+    191          
+    192          message_t TX_msg;
+    193          message_t RX_msg;
+   \                     RX_msg:
+   \        0x0                      DS8 16
+   \                     gbDataIndicationFlag:
+   \       0x10                      DS8 1
+   \                     gbRdyToProcessEvnt:
+   \       0x11                      DS8 1
+   \                     isUartDataRdy:
+   \       0x12                      DS8 1
+   \                     u8RepOpMode:
+   \       0x13                      DS8 1
+   \                     u8RepeaterPower:
+   \       0x14                      DS8 1
+    194          
+    195          channel_num_t u8RepeaterChann;
+   \                     u8RepeaterChann:
+   \       0x15                      DS8 1
+    196          RepDelay_t sRepeaterDelay;
+    197          RepStat_t sRepeaterStat;
+    198          RepAppState_t u8RepeaterState;
+   \                     u8RepeaterState:
+   \       0x16                      DS8 1
+    199          u8RepeaterRunState_t u8RepeaterRunSt;
+   \                     u8RepeaterRunSt:
+   \       0x17                      DS8 1
+   \                     u8UartBuffer:
+   \       0x18                      DS8 8
+   \                     u8UartData:
+   \       0x20                      DS8 8
+   \                     sRepeaterStat:
+   \       0x28                      DS8 8
+   \                     sRepeaterDelay:
+   \       0x30                      DS8 4
+    200          
+    201          uint32_t u32RepeatRxTimeOut;
+   \                     u32RepeatRxTimeOut:
+   \       0x34                      DS8 4
+   \                     dataTX:
+   \       0x38                      DS8 128
+   \                     dataRX:
+   \       0xB8                      DS8 128
+
+   \                                 In section .bss, align 4
+   \                     TX_msg:
+   \        0x0                      DS8 16
+   \                     u8UartDataSz:
+   \       0x10                      DS8 1
+    202          
+    203          /************************************************************************************
+    204          * main function
+    205          *
+    206          * Executes the main function.
+    207          *
+    208          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    209          void Main(void)
+    210          {
+   \                     Main: (+1)
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
+    211            MSG_INIT(TX_msg, &dataTX, NULL);
+   \        0x2   0x....             LDR      R6,??DataTable40
+   \        0x4   0x....             LDR      R4,??DataTable40_1
+   \        0x6   0x0020             MOVS     R0,R4
+   \        0x8   0x3038             ADDS     R0,R0,#+56
+   \        0xA   0x6070             STR      R0,[R6, #+4]
+   \        0xC   0x2500             MOVS     R5,#+0
+   \        0xE   0x60F5             STR      R5,[R6, #+12]
+    212            MSG_INIT(RX_msg, &dataRX, (callback_t)(repeater_rx_cb));
+   \       0x10   0x0020             MOVS     R0,R4
+   \       0x12   0x30B8             ADDS     R0,R0,#+184
+   \       0x14   0x6060             STR      R0,[R4, #+4]
+   \       0x16   0x....             LDR      R0,??DataTable40_2
+   \       0x18   0x60E0             STR      R0,[R4, #+12]
+    213            RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
+   \       0x1A   0x207D             MOVS     R0,#+125
+   \       0x1C   0x7220             STRB     R0,[R4, #+8]
+    214            
+    215            repeater_app_init();
+   \       0x1E   0x....'....        BL       repeater_app_init
+   \       0x22   0x....             LDR      R7,??DataTable40_3
+    216          
+    217            for(;;)
+    218            {
+    219              (void)process_radio_msg();
+   \                     ??Main_0: (+1)
+   \       0x24   0x....'....        BL       process_radio_msg
+    220              data_indication_execute();
+   \       0x28   0x....'....        BL       data_indication_execute
+    221          
+    222          #if OTAP_ENABLED == TRUE
+    223              if(gbOtapExecute) 
+    224              {           
+    225                  OTAP_execute();              
+    226              }
+    227              else
+    228          #endif  
+    229          
+    230              {
+    231                process_uart_data();
+   \       0x2C   0x74A5             STRB     R5,[R4, #+18]
+   \       0x2E   0x....             LDR      R0,??DataTable40_4
+   \       0x30   0x7800             LDRB     R0,[R0, #+0]
+   \       0x32   0x2800             CMP      R0,#+0
+   \       0x34   0xD115             BNE      ??Main_1
+   \       0x36   0x8838             LDRH     R0,[R7, #+0]
+   \       0x38   0x2800             CMP      R0,#+0
+   \       0x3A   0xD012             BEQ      ??Main_1
+   \       0x3C   0x0021             MOVS     R1,R4
+   \       0x3E   0x3118             ADDS     R1,R1,#+24
+   \       0x40   0x2000             MOVS     R0,#+0
+   \       0x42   0x....'....        BL       UartGetByteFromRxBuffer
+   \       0x46   0x8838             LDRH     R0,[R7, #+0]
+   \       0x48   0x7430             STRB     R0,[R6, #+16]
+   \       0x4A   0x7C32             LDRB     R2,[R6, #+16]
+   \       0x4C   0x0010             MOVS     R0,R2
+   \       0x4E   0xD005             BEQ      ??Main_2
+   \       0x50   0x0021             MOVS     R1,R4
+   \       0x52   0x3118             ADDS     R1,R1,#+24
+   \       0x54   0x0020             MOVS     R0,R4
+   \       0x56   0x3020             ADDS     R0,R0,#+32
+   \       0x58   0x....'....        BL       __aeabi_memcpy4
+   \                     ??Main_2: (+1)
+   \       0x5C   0x803D             STRH     R5,[R7, #+0]
+   \       0x5E   0x2001             MOVS     R0,#+1
+   \       0x60   0x74A0             STRB     R0,[R4, #+18]
+    232                repeater_app();
+   \                     ??Main_1: (+1)
+   \       0x62   0x46C0             Nop      
+   \       0x64   0x....             ADR.N    R0,cbRepeaterStFn_c
+   \       0x66   0x7DA1             LDRB     R1,[R4, #+22]
+   \       0x68   0x0089             LSLS     R1,R1,#+2
+   \       0x6A   0x5840             LDR      R0,[R0, R1]
+   \       0x6C   0x....'....        BL       ??__iar_via_R0_0
+    233              }
+    234            }
+   \       0x70   0xE7D8             B        ??Main_0
+    235          
+    236          }
+    237          
+    238          
+    239          /************************************************************************************
+    240          * repeater_rx_cb function
+    241          *
+    242          * This function is called when a MACA's event occurs.
+    243          *
+    244          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    245          void repeater_rx_cb (void)
+    246          {
+    247            if(TRUE == gRadioEvntFlags.Bits.data_indication_flag)
+   \                     repeater_rx_cb: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable40_5
+   \        0x2   0x6801             LDR      R1,[R0, #+0]
+   \        0x4   0x2201             MOVS     R2,#+1
+   \        0x6   0x090B             LSRS     R3,R1,#+4
+   \        0x8   0x4013             ANDS     R3,R3,R2
+   \        0xA   0xD004             BEQ      ??repeater_rx_cb_0
+    248            {
+    249              gRadioEvntFlags.Bits.data_indication_flag = FALSE;
+   \        0xC   0x2310             MOVS     R3,#+16
+   \        0xE   0x4399             BICS     R1,R1,R3
+   \       0x10   0x6001             STR      R1,[R0, #+0]
+    250              gbDataIndicationFlag = TRUE;
+   \       0x12   0x....             LDR      R0,??DataTable40_1
+   \       0x14   0x7402             STRB     R2,[R0, #+16]
+    251            }
+    252            else
+    253            {
+    254              /* Do nothing */
+    255            }
+    256          }
+   \                     ??repeater_rx_cb_0: (+1)
+   \       0x16   0x4770             BX       LR               ;; return
+    257          
+    258          /************************************************************************************
+    259          * data_indication_execute function
+    260          *
+    261          * This function process an incoming message.
+    262          *
+    263          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    264          void data_indication_execute(void)
+    265          {
+    266            if( ( (MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state)           ||
+    267                  (MSG_RX_ABORTED == RX_msg.u8Status.msg_state)                ||
+    268                  (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state)   ||
+    269                  (MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state)  ) &&
+    270                (TRUE == gbDataIndicationFlag) )
+   \                     data_indication_execute: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable40_1
+   \        0x2   0x7801             LDRB     R1,[R0, #+0]
+   \        0x4   0x08C9             LSRS     R1,R1,#+3
+   \        0x6   0x2904             CMP      R1,#+4
+   \        0x8   0xD005             BEQ      ??data_indication_execute_0
+   \        0xA   0x2908             CMP      R1,#+8
+   \        0xC   0xD003             BEQ      ??data_indication_execute_0
+   \        0xE   0x2906             CMP      R1,#+6
+   \       0x10   0xD001             BEQ      ??data_indication_execute_0
+   \       0x12   0x2905             CMP      R1,#+5
+   \       0x14   0xD106             BNE      ??data_indication_execute_1
+   \                     ??data_indication_execute_0: (+1)
+   \       0x16   0x7C01             LDRB     R1,[R0, #+16]
+   \       0x18   0x2901             CMP      R1,#+1
+   \       0x1A   0xD103             BNE      ??data_indication_execute_1
+    271            {
+    272              gbDataIndicationFlag = FALSE;
+   \       0x1C   0x2100             MOVS     R1,#+0
+   \       0x1E   0x7401             STRB     R1,[R0, #+16]
+    273          
+    274          #if OTAP_ENABLED == TRUE
+    275              OTAP_data_indication_execute();   
+    276              if(!gbOtapExecute)
+    277          #endif
+    278              {
+    279                gbRdyToProcessEvnt = TRUE;
+   \       0x20   0x2101             MOVS     R1,#+1
+   \       0x22   0x7441             STRB     R1,[R0, #+17]
+    280              }
+    281            }
+    282          }
+   \                     ??data_indication_execute_1: (+1)
+   \       0x24   0x4770             BX       LR               ;; return
+    283          
+    284          
+    285          /************************************************************************************
+    286          *************************************************************************************
+    287          * Private functions
+    288          *************************************************************************************
+    289          ************************************************************************************/
+    290          
+    291          /************************************************************************************
+    292          * display_menu function
+    293          *
+    294          * This function displays the repeater's menu.
+    295          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    296          static void display_menu(void)
+    297          {
+   \                     display_menu: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    298            Uart_Print("\n\r-----------------  Repeater Application  -----------------------\n\r");
+   \        0x2   0x....             LDR      R0,??DataTable41
+   \        0x4   0x....'....        BL       Uart_Print
+    299            Uart_Print("  <s> Show Statistics\n\r");
+   \        0x8   0x....             ADR.N    R0,?_14
+   \        0xA   0x....'....        BL       Uart_Print
+    300            Uart_Print("  <0> Reset Statistics\n\r");
+   \        0xE   0x46C0             Nop      
+   \       0x10   0x....             ADR.N    R0,?_15
+   \       0x12   0x....'....        BL       Uart_Print
+    301            Uart_Print("  <r> Repeat menu\n\r");
+   \       0x16   0x46C0             Nop      
+   \       0x18   0x....             ADR.N    R0,?_16
+   \       0x1A   0x....'....        BL       Uart_Print
+    302            Uart_Print("  <m> Switch Repeater mode\n\r");
+   \       0x1E   0x46C0             Nop      
+   \       0x20   0x....             ADR.N    R0,?_17
+   \       0x22   0x....'....        BL       Uart_Print
+    303            Uart_Print("  <p> Change Power\n\r");
+   \       0x26   0x46C0             Nop      
+   \       0x28   0x....             ADR.N    R0,?_18
+   \       0x2A   0x....'....        BL       Uart_Print
+    304            Uart_Print("  <d> Change Delay lenght\n\r");
+   \       0x2E   0x46C0             Nop      
+   \       0x30   0x....             ADR.N    R0,?_19
+   \       0x32   0x....'....        BL       Uart_Print
+    305            Uart_Print("  <c> Switch Channel\n\r");
+   \       0x36   0x46C0             Nop      
+   \       0x38   0x....             ADR.N    R0,?_20
+   \       0x3A   0x....'....        BL       Uart_Print
+    306            Uart_Print("  <z> EXECUTE\n\r\n\r");
+   \       0x3E   0x46C0             Nop      
+   \       0x40   0x....             ADR.N    R0,?_21
+   \       0x42   0x....'....        BL       Uart_Print
+    307          }
+   \       0x46   0xBC09             POP      {R0,R3}
+   \       0x48   0x4718             BX       R3               ;; return
+    308          
+    309          
+    310          /************************************************************************************
+    311          * display_config function
+    312          *
+    313          * This function displays repeater's current configuration.
+    314          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    315          static void display_config(void)
+    316          {
+   \                     display_config: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+    317            Uart_Print("\n\r  Current Device's configuration is:\n\r");
+   \        0x2   0x....             LDR      R4,??DataTable43
+   \        0x4   0x0020             MOVS     R0,R4
+   \        0x6   0x....'....        BL       Uart_Print
+    318            Uart_Print("    App Mode     Channel     Power Level     Delay\n\r");
+   \        0xA   0x0020             MOVS     R0,R4
+   \        0xC   0x302C             ADDS     R0,R0,#+44
+   \        0xE   0x....'....        BL       Uart_Print
+    319            Uart_Print("    --------     -------     -----------     -------------------\n\r");
+   \       0x12   0x0020             MOVS     R0,R4
+   \       0x14   0x3064             ADDS     R0,R0,#+100
+   \       0x16   0x....'....        BL       Uart_Print
+    320            print_n_blank_spaces(4);
+   \       0x1A   0x2004             MOVS     R0,#+4
+   \       0x1C   0x....'....        BL       print_n_blank_spaces
+    321            Uart_Tx(&(u8RepOpModeText[u8RepOpMode][0]), SIZE_OF_MODE_TEXT);
+   \       0x20   0x....             LDR      R4,??DataTable43_1
+   \       0x22   0x2106             MOVS     R1,#+6
+   \       0x24   0x....             ADR.N    R0,u8RepOpModeText
+   \       0x26   0x7CE2             LDRB     R2,[R4, #+19]
+   \       0x28   0x2306             MOVS     R3,#+6
+   \       0x2A   0x435A             MULS     R2,R3,R2
+   \       0x2C   0x1880             ADDS     R0,R0,R2
+   \       0x2E   0x....'....        BL       Uart_Tx
+    322            print_n_blank_spaces(7);
+   \       0x32   0x2007             MOVS     R0,#+7
+   \       0x34   0x....'....        BL       print_n_blank_spaces
+    323            Uart_PrintByteDec(u8RepeaterChann+11);
+   \       0x38   0x7D60             LDRB     R0,[R4, #+21]
+   \       0x3A   0x300B             ADDS     R0,R0,#+11
+   \       0x3C   0x0600             LSLS     R0,R0,#+24
+   \       0x3E   0x0E00             LSRS     R0,R0,#+24
+   \       0x40   0x....'....        BL       Uart_PrintByteDec
+    324            print_n_blank_spaces(10);
+   \       0x44   0x200A             MOVS     R0,#+10
+   \       0x46   0x....'....        BL       print_n_blank_spaces
+    325            Uart_PrintByteDec(u8RepeaterPower);
+   \       0x4A   0x7D20             LDRB     R0,[R4, #+20]
+   \       0x4C   0x....'....        BL       Uart_PrintByteDec
+    326            print_n_blank_spaces(14);
+   \       0x50   0x200E             MOVS     R0,#+14
+   \       0x52   0x....'....        BL       print_n_blank_spaces
+    327            Uart_PrintShortDec(sRepeaterDelay.millisecondsDly);
+   \       0x56   0x8E20             LDRH     R0,[R4, #+48]
+   \       0x58   0x....'....        BL       Uart_PrintShortDec
+    328            Uart_Print(" ms   ");
+   \       0x5C   0x....             ADR.N    R0,?_22
+   \       0x5E   0x....'....        BL       Uart_Print
+    329            Uart_PrintShortDec(sRepeaterDelay.microsecondsDly);
+   \       0x62   0x8E60             LDRH     R0,[R4, #+50]
+   \       0x64   0x....'....        BL       Uart_PrintShortDec
+    330            Uart_Print(" us\n\r");
+   \       0x68   0x....             ADR.N    R0,?_23
+   \       0x6A   0x....'....        BL       Uart_Print
+    331          }
+   \       0x6E   0xBC10             POP      {R4}
+   \       0x70   0xBC08             POP      {R3}
+   \       0x72   0x4718             BX       R3               ;; return
+    332          
+    333          /************************************************************************************
+    334          * display_config function
+    335          *
+    336          * This function displays repeater's statistics.
+    337          ************************************************************************************/
+    338          static void display_statistics(void)
+    339          {
+    340            Uart_Print("\n\r  ------------------  Statistics ------------------\n\r");
+    341            Uart_Print("  Number of packets\n\r");
+    342            Uart_Print("  Received     Retrasmitted     Bad         Dropped\n\r");
+    343            Uart_Print("  --------     ------------     -------     -------\n\r");
+    344          
+    345            print_n_blank_spaces(5);
+    346            Uart_PrintShortDec(sRepeaterStat.u16ReccivedPkts);
+    347            print_n_blank_spaces(12);
+    348            Uart_PrintShortDec(sRepeaterStat.u16RetransmitedPkts);
+    349            print_n_blank_spaces(7);
+    350            Uart_PrintShortDec(sRepeaterStat.u16BadPkts);
+    351            print_n_blank_spaces(7);
+    352            Uart_PrintShortDec(sRepeaterStat.u16DroppedPkts);
+    353          
+    354            Uart_Print("\n\r");
+    355          }
+    356          
+    357          /************************************************************************************
+    358          * execute_command function
+    359          *
+    360          * This function performs the selected action from the repeater menu.
+    361          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    362          static void execute_command(uint8_t cmd)
+    363          {
+   \                     execute_command: (+1)
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
+    364            FuncReturn_t tmpChange;
+    365            uint8_t u8SafeTimeOut;
+    366            
+    367            u8SafeTimeOut = 0xff;
+    368          
+    369            switch(cmd){
+   \        0x2   0x2400             MOVS     R4,#+0
+   \        0x4   0x....             LDR      R7,??DataTable43_2
+   \        0x6   0x....             LDR      R5,??DataTable41_1
+   \        0x8   0x....             LDR      R6,??DataTable43_3
+   \        0xA   0x2830             CMP      R0,#+48
+   \        0xC   0xD037             BEQ      ??execute_command_0
+   \        0xE   0x2863             CMP      R0,#+99
+   \       0x10   0xD100             BNE      .+4
+   \       0x12   0xE07A             B        ??execute_command_1
+   \       0x14   0x2864             CMP      R0,#+100
+   \       0x16   0xD045             BEQ      ??execute_command_2
+   \       0x18   0x286D             CMP      R0,#+109
+   \       0x1A   0xD03A             BEQ      ??execute_command_3
+   \       0x1C   0x2870             CMP      R0,#+112
+   \       0x1E   0xD060             BEQ      ??execute_command_4
+   \       0x20   0x2872             CMP      R0,#+114
+   \       0x22   0xD031             BEQ      ??execute_command_5
+   \       0x24   0x2873             CMP      R0,#+115
+   \       0x26   0xD002             BEQ      ??execute_command_6
+   \       0x28   0x287A             CMP      R0,#+122
+   \       0x2A   0xD044             BEQ      ??execute_command_7
+   \       0x2C   0xE04E             B        ??execute_command_8
+    370              case('s'):
+    371                {
+    372                  display_statistics();
+   \                     ??execute_command_6: (+1)
+   \       0x2E   0x0030             MOVS     R0,R6
+   \       0x30   0x....'....        BL       Uart_Print
+   \       0x34   0x....             ADR.N    R0,?_24
+   \       0x36   0x....'....        BL       Uart_Print
+   \       0x3A   0x0030             MOVS     R0,R6
+   \       0x3C   0x3038             ADDS     R0,R0,#+56
+   \       0x3E   0x....'....        BL       Uart_Print
+   \       0x42   0x0030             MOVS     R0,R6
+   \       0x44   0x3070             ADDS     R0,R0,#+112
+   \       0x46   0x....'....        BL       Uart_Print
+   \       0x4A   0x2005             MOVS     R0,#+5
+   \       0x4C   0x....'....        BL       print_n_blank_spaces
+   \       0x50   0x8D28             LDRH     R0,[R5, #+40]
+   \       0x52   0x....'....        BL       Uart_PrintShortDec
+   \       0x56   0x200C             MOVS     R0,#+12
+   \       0x58   0x....'....        BL       print_n_blank_spaces
+   \       0x5C   0x8D68             LDRH     R0,[R5, #+42]
+   \       0x5E   0x....'....        BL       Uart_PrintShortDec
+   \       0x62   0x2007             MOVS     R0,#+7
+   \       0x64   0x....'....        BL       print_n_blank_spaces
+   \       0x68   0x8DA8             LDRH     R0,[R5, #+44]
+   \       0x6A   0x....'....        BL       Uart_PrintShortDec
+   \       0x6E   0x2007             MOVS     R0,#+7
+   \       0x70   0x....'....        BL       print_n_blank_spaces
+   \       0x74   0x8DE8             LDRH     R0,[R5, #+46]
+   \       0x76   0x....'....        BL       Uart_PrintShortDec
+   \       0x7A   0x....             ADR      R0,??DataTable44  ;; 0x0A, 0x0D, 0x00, 0x00
+   \       0x7C   0xE029             B        ??execute_command_9
+    373                  PRINT_PROMPT();
+    374                }
+    375                break;
+    376              case('0'):
+    377                {
+    378                  sRepeaterStat.u16ReccivedPkts = 0;
+   \                     ??execute_command_0: (+1)
+   \       0x7E   0x62AC             STR      R4,[R5, #+40]
+    379                  sRepeaterStat.u16RetransmitedPkts = 0;
+    380                  sRepeaterStat.u16BadPkts = 0;
+   \       0x80   0x62EC             STR      R4,[R5, #+44]
+    381                  sRepeaterStat.u16DroppedPkts = 0;
+    382                  Uart_Print("\n\r  Statistics reset");
+   \       0x82   0x46C0             Nop      
+   \       0x84   0x....             ADR.N    R0,?_26
+   \       0x86   0xE024             B        ??execute_command_9
+    383                  PRINT_PROMPT();
+    384                }
+    385                break;
+    386              case('r'):
+    387                {
+    388                  display_menu();
+   \                     ??execute_command_5: (+1)
+   \       0x88   0x....'....        BL       display_menu
+    389                  display_config();
+    390                  PRINT_PROMPT();
+    391                }
+    392                break;
+    393              case('m'):
+    394                {
+    395                  u8RepOpMode++;
+    396                  if(gRepOpModeMax_c <= u8RepOpMode)
+    397                  {
+    398                    u8RepOpMode = 0;
+    399                  }
+    400                  display_config();
+    401                  PRINT_PROMPT();
+    402                }
+    403                break;
+    404              case('p'):
+    405                {
+    406                  do{
+    407                    u8RepeaterPower++;
+    408                    if((MAX_POWER+1) <= u8RepeaterPower)
+    409                    {
+    410                      u8RepeaterPower = 0;
+    411                    }
+    412                    u8SafeTimeOut++;
+    413                    tmpChange = MLMEPAOutputAdjust(u8RepeaterPower);
+    414                  }while((gSuccess_c != tmpChange) && (gNumPowerLvlNotOnPALock_c >= u8SafeTimeOut));
+    415                  display_config();
+    416                  PRINT_PROMPT();
+    417                }
+    418                break;
+    419              case('d'):
+    420                {
+    421                  u8RepeaterState = gRepAppStChgDly_c;
+    422                  Uart_Print("\n\r  Enter delay, first enter the miliseconds and then the microseconds.\n\r");
+    423                  Uart_Print(" how many msecs usecs (where 00001<value<65535) please write all digits> ");
+    424                }
+    425                break;
+    426              case('c'):
+    427                {
+    428                  do{
+    429                    u8RepeaterChann++;
+    430                    if(TOTAL_CHANN <= u8RepeaterChann)
+    431                    {
+    432                      u8RepeaterChann = CHANNEL11;
+    433                    }
+    434                    u8SafeTimeOut++;
+    435                    tmpChange = MLMESetChannelRequest(u8RepeaterChann);
+    436                  }while((gSuccess_c != tmpChange) && (gNumChannNotOnPALock_c >= u8SafeTimeOut));          
+    437                  display_config();
+   \                     ??execute_command_10: (+1)
+   \       0x8C   0x....'....        BL       display_config
+    438                  PRINT_PROMPT();
+   \       0x90   0xE021             B        ??execute_command_11
+   \                     ??execute_command_3: (+1)
+   \       0x92   0x7CE8             LDRB     R0,[R5, #+19]
+   \       0x94   0x1C40             ADDS     R0,R0,#+1
+   \       0x96   0x74E8             STRB     R0,[R5, #+19]
+   \       0x98   0x0600             LSLS     R0,R0,#+24
+   \       0x9A   0x0E00             LSRS     R0,R0,#+24
+   \       0x9C   0x2802             CMP      R0,#+2
+   \       0x9E   0xDDF5             BLE      ??execute_command_10
+   \       0xA0   0x74EC             STRB     R4,[R5, #+19]
+   \       0xA2   0xE7F3             B        ??execute_command_10
+   \                     ??execute_command_2: (+1)
+   \       0xA4   0x2002             MOVS     R0,#+2
+   \       0xA6   0x75A8             STRB     R0,[R5, #+22]
+   \       0xA8   0x0030             MOVS     R0,R6
+   \       0xAA   0x30A8             ADDS     R0,R0,#+168
+   \       0xAC   0x....'....        BL       Uart_Print
+   \       0xB0   0x0030             MOVS     R0,R6
+   \       0xB2   0x30F4             ADDS     R0,R0,#+244
+   \       0xB4   0xE010             B        ??execute_command_12
+    439                }
+    440                break;
+    441              case('z'):
+    442                {
+    443                  Uart_Print("\n\r  Press any key to go back to the main menu");
+   \                     ??execute_command_7: (+1)
+   \       0xB6   0x20A0             MOVS     R0,#+160
+   \       0xB8   0x0040             LSLS     R0,R0,#+1        ;; #+320
+   \       0xBA   0x1830             ADDS     R0,R6,R0
+   \       0xBC   0x....'....        BL       Uart_Print
+    444                  Uart_Print("\n\r  Executing...");
+   \       0xC0   0x....             ADR.N    R0,?_27
+   \       0xC2   0x....'....        BL       Uart_Print
+    445                  u8RepeaterState = gRepAppStRun_c;
+   \       0xC6   0x2001             MOVS     R0,#+1
+   \       0xC8   0x75A8             STRB     R0,[R5, #+22]
+    446                }
+    447                break;
+   \       0xCA   0xE007             B        ??execute_command_13
+    448          
+    449              default:
+    450                PRINT_CHAR_ERROR();
+   \                     ??execute_command_8: (+1)
+   \       0xCC   0x20F4             MOVS     R0,#+244
+   \       0xCE   0x0040             LSLS     R0,R0,#+1        ;; #+488
+   \       0xD0   0x1830             ADDS     R0,R6,R0
+   \                     ??execute_command_9: (+1)
+   \       0xD2   0x....'....        BL       Uart_Print
+    451                PRINT_PROMPT();
+   \                     ??execute_command_11: (+1)
+   \       0xD6   0x0038             MOVS     R0,R7
+   \                     ??execute_command_12: (+1)
+   \       0xD8   0x....'....        BL       Uart_Print
+    452                break;
+    453            }
+    454          }
+   \                     ??execute_command_13: (+1)
+   \       0xDC   0xBCF1             POP      {R0,R4-R7}
+   \       0xDE   0xBC08             POP      {R3}
+   \       0xE0   0x4718             BX       R3               ;; return
+   \                     ??execute_command_4: (+1)
+   \       0xE2   0x26FF             MOVS     R6,#+255
+   \                     ??execute_command_14: (+1)
+   \       0xE4   0x7D28             LDRB     R0,[R5, #+20]
+   \       0xE6   0x1C40             ADDS     R0,R0,#+1
+   \       0xE8   0x0601             LSLS     R1,R0,#+24
+   \       0xEA   0x0E09             LSRS     R1,R1,#+24
+   \       0xEC   0x2912             CMP      R1,#+18
+   \       0xEE   0xDB00             BLT      ??execute_command_15
+   \       0xF0   0x2000             MOVS     R0,#+0
+   \                     ??execute_command_15: (+1)
+   \       0xF2   0x7528             STRB     R0,[R5, #+20]
+   \       0xF4   0x1C76             ADDS     R6,R6,#+1
+   \       0xF6   0x7D28             LDRB     R0,[R5, #+20]
+   \       0xF8   0x....'....        BL       MLMEPAOutputAdjust
+   \       0xFC   0x2800             CMP      R0,#+0
+   \       0xFE   0xD0C5             BEQ      ??execute_command_10
+   \      0x100   0x0630             LSLS     R0,R6,#+24
+   \      0x102   0x0E00             LSRS     R0,R0,#+24
+   \      0x104   0x2808             CMP      R0,#+8
+   \      0x106   0xDBED             BLT      ??execute_command_14
+   \      0x108   0xE7C0             B        ??execute_command_10
+   \                     ??execute_command_1: (+1)
+   \      0x10A   0x26FF             MOVS     R6,#+255
+   \                     ??execute_command_16: (+1)
+   \      0x10C   0x7D68             LDRB     R0,[R5, #+21]
+   \      0x10E   0x1C40             ADDS     R0,R0,#+1
+   \      0x110   0x0601             LSLS     R1,R0,#+24
+   \      0x112   0x0E09             LSRS     R1,R1,#+24
+   \      0x114   0x2910             CMP      R1,#+16
+   \      0x116   0xDB00             BLT      ??execute_command_17
+   \      0x118   0x2000             MOVS     R0,#+0
+   \                     ??execute_command_17: (+1)
+   \      0x11A   0x7568             STRB     R0,[R5, #+21]
+   \      0x11C   0x1C76             ADDS     R6,R6,#+1
+   \      0x11E   0x7D68             LDRB     R0,[R5, #+21]
+   \      0x120   0x....'....        BL       MLMESetChannelRequest
+   \      0x124   0x2800             CMP      R0,#+0
+   \      0x126   0xD0B1             BEQ      ??execute_command_10
+   \      0x128   0x0630             LSLS     R0,R6,#+24
+   \      0x12A   0x0E00             LSRS     R0,R0,#+24
+   \      0x12C   0x2802             CMP      R0,#+2
+   \      0x12E   0xDBED             BLT      ??execute_command_16
+   \      0x130   0xE7AC             B        ??execute_command_10
+    455          
+    456          
+    457          /************************************************************************************
+    458          * process_uart_data function
+    459          *
+    460          * This function checks and reports if any data arrives to the UART.
+    461          ************************************************************************************/
+    462          static void process_uart_data(void)
+    463          {
+    464            isUartDataRdy = FALSE;
+    465            if(gUartReadStatusComplete_c == gu8SCIStatus)
+    466            {
+    467              if(0 != gu16SCINumOfBytes)
+    468              {
+    469                uint8_t i;
+    470                UartGetByteFromRxBuffer(gUart_PortDefault_d, u8UartBuffer);
+    471                u8UartDataSz = (uint8_t)(gu16SCINumOfBytes);
+    472                for(i=0; i<u8UartDataSz; i++)
+    473                {
+    474                  u8UartData[i] = u8UartBuffer[i];
+    475                }
+    476                gu16SCINumOfBytes = 0;
+    477                isUartDataRdy = TRUE; 
+    478              }
+    479            }
+    480          }
+    481          
+    482          /************************************************************************************
+    483          * process_ready_prompt function
+    484          *
+    485          * This function .
+    486          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    487          static void process_ready_prompt (void)
+    488          {
+   \                     process_ready_prompt: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable43_1
+   \        0x2   0x7C81             LDRB     R1,[R0, #+18]
+   \        0x4   0x2901             CMP      R1,#+1
+   \        0x6   0xD000             BEQ      ??process_ready_prompt_0
+   \        0x8   0x4770             BX       LR
+   \                     ??process_ready_prompt_0: (+1)
+   \        0xA   0xB510             PUSH     {R4,LR}
+    489            static uint8_t u8RdySt = RDY_INIT;
+    490          
+    491            if(TRUE == isUartDataRdy)
+    492            {
+    493              switch(u8RdySt)
+   \        0xC   0x....             LDR      R4,??DataTable45
+   \        0xE   0x7821             LDRB     R1,[R4, #+0]
+   \       0x10   0x2900             CMP      R1,#+0
+   \       0x12   0xD002             BEQ      ??process_ready_prompt_1
+   \       0x14   0x2901             CMP      R1,#+1
+   \       0x16   0xD00A             BEQ      ??process_ready_prompt_2
+   \       0x18   0xE00D             B        ??process_ready_prompt_3
+    494              {
+    495                case(RDY_INIT):
+    496                  {
+    497                    display_menu();
+   \                     ??process_ready_prompt_1: (+1)
+   \       0x1A   0x....'....        BL       display_menu
+    498                    display_config();
+   \       0x1E   0x....'....        BL       display_config
+    499                    PRINT_PROMPT();
+   \       0x22   0x....             LDR      R0,??DataTable43_2
+   \       0x24   0x....'....        BL       Uart_Print
+    500                    u8RdySt = RDY_READ;
+   \       0x28   0x2001             MOVS     R0,#+1
+   \       0x2A   0x7020             STRB     R0,[R4, #+0]
+    501                  }
+    502                  break;
+   \       0x2C   0xE003             B        ??process_ready_prompt_3
+    503          
+    504                case(RDY_READ):
+    505                  {
+    506                    execute_command(u8UartData[0]);
+   \                     ??process_ready_prompt_2: (+1)
+   \       0x2E   0x2120             MOVS     R1,#+32
+   \       0x30   0x5C40             LDRB     R0,[R0, R1]
+   \       0x32   0x....'....        BL       execute_command
+    507                  }
+    508                  break;
+    509          
+    510                default:
+    511                  break;
+    512              }
+    513            }
+    514          }
+   \                     ??process_ready_prompt_3: (+1)
+   \       0x36   0xBC10             POP      {R4}
+   \       0x38   0xBC08             POP      {R3}
+   \       0x3A   0x4718             BX       R3               ;; return
+
+   \                                 In section .bss, align 1
+   \                     `process_ready_prompt::u8RdySt`:
+   \        0x0                      DS8 1
+    515          
+    516          /************************************************************************************
+    517          * process_repeater_run function
+    518          *
+    519          * This function .
+    520          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    521          static void process_repeater_run (void)
+    522          {
+   \                     process_repeater_run: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+    523            if(TRUE == isUartDataRdy)
+   \        0x2   0x....             LDR      R4,??DataTable43_1
+   \        0x4   0x7CA0             LDRB     R0,[R4, #+18]
+   \        0x6   0x2801             CMP      R0,#+1
+   \        0x8   0xD10B             BNE      ??process_repeater_run_0
+    524            {
+    525              abort_message(&RX_msg);
+   \        0xA   0x0020             MOVS     R0,R4
+   \        0xC   0x....'....        BL       abort_message
+    526              abort_message(&TX_msg);
+   \       0x10   0x....             LDR      R0,??DataTable45_1
+   \       0x12   0x....'....        BL       abort_message
+    527              u8RepeaterRunSt = gRepeaterRunStIdle_c;
+   \       0x16   0x2000             MOVS     R0,#+0
+    528          
+    529              u8RepeaterState = gRepAppStReady_c;
+   \       0x18   0x82E0             STRH     R0,[R4, #+22]
+    530              PRINT_PROMPT();
+   \       0x1A   0x....             LDR      R0,??DataTable43_2
+   \       0x1C   0x....'....        BL       Uart_Print
+   \       0x20   0xE001             B        ??process_repeater_run_1
+    531            }
+    532            else
+    533            {
+    534              repeater_run_sm();
+   \                     ??process_repeater_run_0: (+1)
+   \       0x22   0x....'....        BL       repeater_run_sm
+    535            }
+    536          }
+   \                     ??process_repeater_run_1: (+1)
+   \       0x26   0xBC10             POP      {R4}
+   \       0x28   0xBC08             POP      {R3}
+   \       0x2A   0x4718             BX       R3               ;; return
+    537          
+    538          
+    539          /************************************************************************************
+    540          * repeater_run_sm function
+    541          *
+    542          * This function .
+    543          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    544          static void repeater_run_sm (void)
+    545          {
+   \                     repeater_run_sm: (+1)
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
+    546            switch(u8RepeaterRunSt)
+   \        0x2   0x....             LDR      R4,??DataTable45_2
+   \        0x4   0x7820             LDRB     R0,[R4, #+0]
+   \        0x6   0x08C2             LSRS     R2,R0,#+3
+   \        0x8   0x2500             MOVS     R5,#+0
+   \        0xA   0x217D             MOVS     R1,#+125
+   \        0xC   0x....             LDR      R0,??DataTable45_1
+   \        0xE   0x7DE3             LDRB     R3,[R4, #+23]
+   \       0x10   0x2B00             CMP      R3,#+0
+   \       0x12   0xD005             BEQ      ??repeater_run_sm_0
+   \       0x14   0x2B02             CMP      R3,#+2
+   \       0x16   0xD054             BEQ      ??repeater_run_sm_1
+   \       0x18   0xD30C             BCC      ??repeater_run_sm_2
+   \       0x1A   0x2B03             CMP      R3,#+3
+   \       0x1C   0xD069             BEQ      ??repeater_run_sm_3
+   \       0x1E   0xE071             B        ??repeater_run_sm_4
+    547            {
+    548              case(gRepeaterRunStIdle_c):
+    549                {
+    550                  /* Use the TX buffer to receive then it will be ready to be repeated */
+    551                  RX_msg.pu8Buffer = (smac_pdu_t *)(&dataTX);
+   \                     ??repeater_run_sm_0: (+1)
+   \       0x20   0x0020             MOVS     R0,R4
+   \       0x22   0x3038             ADDS     R0,R0,#+56
+   \       0x24   0x6060             STR      R0,[R4, #+4]
+    552                  
+    553                  /* Receive without any timeout */
+    554                  RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
+   \       0x26   0x7221             STRB     R1,[R4, #+8]
+    555                  MLMERXEnableRequest(&RX_msg, 0x00000000);
+   \       0x28   0x2100             MOVS     R1,#+0
+   \       0x2A   0x0020             MOVS     R0,R4
+   \       0x2C   0x....'....        BL       MLMERXEnableRequest
+    556          
+    557                  u8RepeaterRunSt = gRepeaterRunStRcv_c;
+   \       0x30   0x2001             MOVS     R0,#+1
+   \       0x32   0xE054             B.N      ??repeater_run_sm_5
+    558                }
+    559                break;
+    560              case(gRepeaterRunStRcv_c):
+    561                {
+    562                  if(TRUE == gbRdyToProcessEvnt)
+   \                     ??repeater_run_sm_2: (+1)
+   \       0x34   0x7C63             LDRB     R3,[R4, #+17]
+   \       0x36   0x2B01             CMP      R3,#+1
+   \       0x38   0xD13A             BNE      ??repeater_run_sm_6
+    563                  {
+    564                    gbRdyToProcessEvnt = FALSE;
+   \       0x3A   0x7465             STRB     R5,[R4, #+17]
+    565                    
+    566                    if(MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state)
+   \       0x3C   0x2A05             CMP      R2,#+5
+   \       0x3E   0xD128             BNE      ??repeater_run_sm_7
+    567                    {
+    568                      (sRepeaterStat.u16ReccivedPkts)++;
+   \       0x40   0x8D22             LDRH     R2,[R4, #+40]
+   \       0x42   0x1C52             ADDS     R2,R2,#+1
+   \       0x44   0x8522             STRH     R2,[R4, #+40]
+    569                      TX_msg.u8BufSize = RX_msg.u8BufSize;
+   \       0x46   0x7A22             LDRB     R2,[R4, #+8]
+   \       0x48   0x7202             STRB     R2,[R0, #+8]
+    570                      TX_msg.pu8Buffer = (smac_pdu_t *)(&(dataTX[1]));
+   \       0x4A   0x0022             MOVS     R2,R4
+   \       0x4C   0x3239             ADDS     R2,R2,#+57
+   \       0x4E   0x6042             STR      R2,[R0, #+4]
+    571                      if(gRepOpModeNormal_c == u8RepOpMode)
+   \       0x50   0x7CE2             LDRB     R2,[R4, #+19]
+   \       0x52   0x2A00             CMP      R2,#+0
+   \       0x54   0xD109             BNE      ??repeater_run_sm_8
+    572                      {
+    573                        RX_msg.pu8Buffer = (smac_pdu_t *)(&dataRX);
+   \       0x56   0x0020             MOVS     R0,R4
+   \       0x58   0x30B8             ADDS     R0,R0,#+184
+   \       0x5A   0x6060             STR      R0,[R4, #+4]
+    574                        RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
+   \       0x5C   0x7221             STRB     R1,[R4, #+8]
+    575                        MLMERXEnableRequest(&RX_msg, u32RepeatRxTimeOut);
+   \       0x5E   0x6B61             LDR      R1,[R4, #+52]
+   \       0x60   0x0020             MOVS     R0,R4
+   \       0x62   0x....'....        BL       MLMERXEnableRequest
+    576                        u8RepeaterRunSt = gRepeaterRunStWaiting_c;
+   \       0x66   0x2002             MOVS     R0,#+2
+   \       0x68   0xE039             B.N      ??repeater_run_sm_5
+    577                      }
+    578                      else if(gRepOpModeDummy_c == u8RepOpMode)
+   \                     ??repeater_run_sm_8: (+1)
+   \       0x6A   0x2A01             CMP      R2,#+1
+   \       0x6C   0xD031             BEQ      ??repeater_run_sm_9
+    579                      {
+    580                        (sRepeaterStat.u16RetransmitedPkts)++;
+    581                        MCPSDataRequest(&TX_msg);
+    582                        u8RepeaterRunSt = gRepeaterRunStTx_c;
+    583                      }
+    584                      else if(gRepOpModeSniff_c == u8RepOpMode)
+   \       0x6E   0x2A02             CMP      R2,#+2
+   \       0x70   0xD148             BNE      ??repeater_run_sm_4
+    585                      {
+    586                        Uart_Print("New frame: ");
+   \       0x72   0x46C0             Nop      
+   \       0x74   0x....             ADR.N    R0,?_28
+   \       0x76   0x....'....        BL       Uart_Print
+    587                        Uart_PrintHex( (RX_msg.pu8Buffer->reserved), \
+    588                                       ((RX_msg.pu8Buffer->reserved[0])+1), \
+    589                                       (gPrtHexCommas_c|gPrtHexBigEndian_c));
+   \       0x7A   0x6860             LDR      R0,[R4, #+4]
+   \       0x7C   0x2205             MOVS     R2,#+5
+   \       0x7E   0x7801             LDRB     R1,[R0, #+0]
+   \       0x80   0x1C49             ADDS     R1,R1,#+1
+   \       0x82   0x0609             LSLS     R1,R1,#+24
+   \       0x84   0x0E09             LSRS     R1,R1,#+24
+   \       0x86   0x....'....        BL       Uart_PrintHex
+    590                        Uart_Print("\n\r");
+   \       0x8A   0x....             ADR      R0,??DataTable44  ;; 0x0A, 0x0D, 0x00, 0x00
+   \       0x8C   0x....'....        BL       Uart_Print
+    591                        u8RepeaterRunSt = gRepeaterRunStIdle_c;
+   \       0x90   0xE037             B        ??repeater_run_sm_10
+    592                      }
+    593                    }
+    594                    else
+    595                    {
+    596                      if( (MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state) ||
+    597                          (MSG_RX_ABORTED == RX_msg.u8Status.msg_state)      ||
+    598                          (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state) )
+   \                     ??repeater_run_sm_7: (+1)
+   \       0x92   0x2A04             CMP      R2,#+4
+   \       0x94   0xD003             BEQ      ??repeater_run_sm_11
+   \       0x96   0x2A08             CMP      R2,#+8
+   \       0x98   0xD001             BEQ      ??repeater_run_sm_11
+   \       0x9A   0x2A06             CMP      R2,#+6
+   \       0x9C   0xD132             BNE      ??repeater_run_sm_4
+    599                      {
+    600                        (sRepeaterStat.u16BadPkts)++;
+   \                     ??repeater_run_sm_11: (+1)
+   \       0x9E   0x8DA0             LDRH     R0,[R4, #+44]
+   \       0xA0   0x1C40             ADDS     R0,R0,#+1
+   \       0xA2   0x85A0             STRH     R0,[R4, #+44]
+    601                        /* Receive without any timeout */
+    602                        RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
+   \       0xA4   0x7221             STRB     R1,[R4, #+8]
+    603                        MLMERXEnableRequest(&RX_msg, 0x00000000);
+   \       0xA6   0x2100             MOVS     R1,#+0
+   \       0xA8   0x0020             MOVS     R0,R4
+   \       0xAA   0x....'....        BL       MLMERXEnableRequest
+   \       0xAE   0xE029             B        ??repeater_run_sm_4
+    604                      }
+    605                    }
+    606                  }
+    607                  else
+    608                  {
+    609                    if( (MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state) ||
+    610                        (MSG_RX_ABORTED == RX_msg.u8Status.msg_state)      ||
+    611                        (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state) ||
+    612                        (MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state) )
+   \                     ??repeater_run_sm_6: (+1)
+   \       0xB0   0x2A04             CMP      R2,#+4
+   \       0xB2   0xD026             BEQ      ??repeater_run_sm_10
+   \       0xB4   0x2A08             CMP      R2,#+8
+   \       0xB6   0xD024             BEQ      ??repeater_run_sm_10
+   \       0xB8   0x2A06             CMP      R2,#+6
+   \       0xBA   0xD022             BEQ      ??repeater_run_sm_10
+   \       0xBC   0x2A05             CMP      R2,#+5
+   \       0xBE   0xD121             BNE      ??repeater_run_sm_4
+    613                    {
+    614                      u8RepeaterRunSt = gRepeaterRunStIdle_c;
+   \       0xC0   0xE01F             B        ??repeater_run_sm_10
+    615                    }
+    616                  }
+    617                  
+    618                }
+    619                break;
+    620              case(gRepeaterRunStWaiting_c):
+    621                {
+    622                  if(MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state)
+   \                     ??repeater_run_sm_1: (+1)
+   \       0xC2   0x2A05             CMP      R2,#+5
+   \       0xC4   0xD103             BNE      ??repeater_run_sm_12
+    623                  {
+    624                    (sRepeaterStat.u16DroppedPkts)++;
+   \       0xC6   0x8DE0             LDRH     R0,[R4, #+46]
+   \       0xC8   0x1C40             ADDS     R0,R0,#+1
+   \       0xCA   0x85E0             STRH     R0,[R4, #+46]
+    625                    u8RepeaterRunSt = gRepeaterRunStIdle_c;
+   \       0xCC   0xE019             B        ??repeater_run_sm_10
+    626                  }
+    627                  else if(MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state)
+   \                     ??repeater_run_sm_12: (+1)
+   \       0xCE   0x2A04             CMP      R2,#+4
+   \       0xD0   0xD107             BNE      ??repeater_run_sm_13
+    628                  {
+    629                    (sRepeaterStat.u16RetransmitedPkts)++;
+   \                     ??repeater_run_sm_9: (+1)
+   \       0xD2   0x8D61             LDRH     R1,[R4, #+42]
+   \       0xD4   0x1C49             ADDS     R1,R1,#+1
+   \       0xD6   0x8561             STRH     R1,[R4, #+42]
+    630                    MCPSDataRequest(&TX_msg);
+   \       0xD8   0x....'....        BL       MCPSDataRequest
+    631                    u8RepeaterRunSt = gRepeaterRunStTx_c;
+   \       0xDC   0x2003             MOVS     R0,#+3
+   \                     ??repeater_run_sm_5: (+1)
+   \       0xDE   0x75E0             STRB     R0,[R4, #+23]
+   \       0xE0   0xE010             B        ??repeater_run_sm_4
+    632                  }
+    633                  else if( (MSG_RX_ABORTED == RX_msg.u8Status.msg_state) ||
+    634                           (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state))
+   \                     ??repeater_run_sm_13: (+1)
+   \       0xE2   0x2A08             CMP      R2,#+8
+   \       0xE4   0xD001             BEQ      ??repeater_run_sm_14
+   \       0xE6   0x2A06             CMP      R2,#+6
+   \       0xE8   0xD10C             BNE      ??repeater_run_sm_4
+    635                  {
+    636                    (sRepeaterStat.u16BadPkts)++;
+   \                     ??repeater_run_sm_14: (+1)
+   \       0xEA   0x8DA0             LDRH     R0,[R4, #+44]
+   \       0xEC   0x1C40             ADDS     R0,R0,#+1
+   \       0xEE   0x85A0             STRH     R0,[R4, #+44]
+    637                    u8RepeaterRunSt = gRepeaterRunStIdle_c;
+   \       0xF0   0xE007             B        ??repeater_run_sm_10
+    638                  }
+    639                }
+    640                break;
+    641              case(gRepeaterRunStTx_c):
+    642                {
+    643                  if( (MSG_TX_ACTION_COMPLETE_SUCCESS == TX_msg.u8Status.msg_state) ||
+    644                      (MSG_TX_ACTION_COMPLETE_FAIL == TX_msg.u8Status.msg_state)    ||
+    645                      (MSG_TX_ABORTED == TX_msg.u8Status.msg_state) )
+   \                     ??repeater_run_sm_3: (+1)
+   \       0xF2   0x7800             LDRB     R0,[R0, #+0]
+   \       0xF4   0x08C0             LSRS     R0,R0,#+3
+   \       0xF6   0x2804             CMP      R0,#+4
+   \       0xF8   0xD003             BEQ      ??repeater_run_sm_10
+   \       0xFA   0x2805             CMP      R0,#+5
+   \       0xFC   0xD001             BEQ      ??repeater_run_sm_10
+   \       0xFE   0x2807             CMP      R0,#+7
+   \      0x100   0xD100             BNE      ??repeater_run_sm_4
+    646                  {
+    647                      u8RepeaterRunSt = gRepeaterRunStIdle_c;
+   \                     ??repeater_run_sm_10: (+1)
+   \      0x102   0x75E5             STRB     R5,[R4, #+23]
+    648                  }
+    649                }
+    650                break;
+    651              default:
+    652                {
+    653                }
+    654                break;
+    655            }
+    656          }
+   \                     ??repeater_run_sm_4: (+1)
+   \      0x104   0xBC31             POP      {R0,R4,R5}
+   \      0x106   0xBC08             POP      {R3}
+   \      0x108   0x4718             BX       R3               ;; return
+    657          
+    658          /************************************************************************************
+    659          * process_change_delay function
+    660          *
+    661          * This function .
+    662          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    663          static void process_change_delay (void)
+    664          {
+   \                     process_change_delay: (+1)
+   \        0x0   0xB5FE             PUSH     {R1-R7,LR}
+    665            static uint8_t u8ChgDlySt = DLY_MILLISEC;
+    666            static uint8_t u8DigitCount = 0;
+    667            static uint32_t u32MilliSecsTmp = 0;
+    668            static uint16_t u16MicroSecsTmp = 0;
+    669            uint8_t u8Digit;
+    670          
+    671            if(TRUE == isUartDataRdy)
+   \        0x2   0x....             LDR      R4,??DataTable45_2
+   \        0x4   0x7CA0             LDRB     R0,[R4, #+18]
+   \        0x6   0x2801             CMP      R0,#+1
+   \        0x8   0xD160             BNE      ??process_change_delay_0
+    672            {
+    673              u8DigitCount++;
+   \        0xA   0x....             LDR      R5,??DataTable47
+   \        0xC   0x786A             LDRB     R2,[R5, #+1]
+   \        0xE   0x1C52             ADDS     R2,R2,#+1
+   \       0x10   0x706A             STRB     R2,[R5, #+1]
+    674              if( ('0' <= (u8UartData[0]) ) &&
+    675                  ('9' >= (u8UartData[0]) )    )
+   \       0x12   0x2020             MOVS     R0,#+32
+   \       0x14   0x5C20             LDRB     R0,[R4, R0]
+   \       0x16   0x....             LDR      R7,??DataTable47_1
+   \       0x18   0x21F4             MOVS     R1,#+244
+   \       0x1A   0x0049             LSLS     R1,R1,#+1        ;; #+488
+   \       0x1C   0x1879             ADDS     R1,R7,R1
+   \       0x1E   0x9101             STR      R1,[SP, #+4]
+   \       0x20   0x2600             MOVS     R6,#+0
+   \       0x22   0x0001             MOVS     R1,R0
+   \       0x24   0x3930             SUBS     R1,R1,#+48
+   \       0x26   0x290A             CMP      R1,#+10
+   \       0x28   0xD244             BCS      ??process_change_delay_1
+    676              {
+    677                u8Digit = (u8UartData[0]) - '0';
+   \       0x2A   0x3830             SUBS     R0,R0,#+48
+   \       0x2C   0x0600             LSLS     R0,R0,#+24
+   \       0x2E   0x0E00             LSRS     R0,R0,#+24
+   \       0x30   0x9000             STR      R0,[SP, #+0]
+    678                switch(u8ChgDlySt)
+   \       0x32   0x6869             LDR      R1,[R5, #+4]
+   \       0x34   0x....             ADR.N    R0,?_29
+   \       0x36   0x782B             LDRB     R3,[R5, #+0]
+   \       0x38   0x2B00             CMP      R3,#+0
+   \       0x3A   0xD002             BEQ      ??process_change_delay_2
+   \       0x3C   0x2B01             CMP      R3,#+1
+   \       0x3E   0xD01A             BEQ      ??process_change_delay_3
+   \       0x40   0xE044             B        ??process_change_delay_0
+    679                {
+    680                  case(DLY_MILLISEC):
+    681                    {
+    682                      u32MilliSecsTmp = u32MilliSecsTmp*10;
+    683                      u32MilliSecsTmp = u32MilliSecsTmp + u8Digit;
+   \                     ??process_change_delay_2: (+1)
+   \       0x42   0x230A             MOVS     R3,#+10
+   \       0x44   0x4359             MULS     R1,R3,R1
+   \       0x46   0x9B00             LDR      R3,[SP, #+0]
+   \       0x48   0x18C9             ADDS     R1,R1,R3
+   \       0x4A   0x6069             STR      R1,[R5, #+4]
+    684                      if(MAX_MILLI_DIGITS == u8DigitCount)
+   \       0x4C   0x0612             LSLS     R2,R2,#+24
+   \       0x4E   0x0E12             LSRS     R2,R2,#+24
+   \       0x50   0x2A05             CMP      R2,#+5
+   \       0x52   0xD13B             BNE      ??process_change_delay_0
+    685                      {
+    686          
+    687                        u8DigitCount = 0;
+   \       0x54   0x706E             STRB     R6,[R5, #+1]
+    688                        if( (MIN_MILLI_VALUE <= u32MilliSecsTmp) &&
+    689                            (MAX_MILLI_VALUE >= u32MilliSecsTmp)    )
+   \       0x56   0x2900             CMP      R1,#+0
+   \       0x58   0xD02E             BEQ      ??process_change_delay_4
+   \       0x5A   0x2280             MOVS     R2,#+128
+   \       0x5C   0x0252             LSLS     R2,R2,#+9        ;; #+65536
+   \       0x5E   0x4291             CMP      R1,R2
+   \       0x60   0xD22A             BCS      ??process_change_delay_4
+    690                        {
+    691                          u8ChgDlySt = DLY_MICROSEC;
+   \       0x62   0x2101             MOVS     R1,#+1
+   \       0x64   0x7029             STRB     R1,[R5, #+0]
+    692                          Uart_Print("\n\r  Thank you\n\r");
+   \       0x66   0x....'....        BL       Uart_Print
+    693                          Uart_Print("  How many usecs (where 000<value<999), please write all three digits (if you don 't want to use it just write 000)> ");
+   \       0x6A   0x20B8             MOVS     R0,#+184
+   \       0x6C   0x0040             LSLS     R0,R0,#+1        ;; #+368
+   \       0x6E   0x1838             ADDS     R0,R7,R0
+   \       0x70   0x....'....        BL       Uart_Print
+   \       0x74   0xE02A             B        ??process_change_delay_0
+    694                        }
+    695                        else
+    696                        {
+    697                          u8ChgDlySt = DLY_MILLISEC;
+    698                          u32MilliSecsTmp = 0;
+    699                          u16MicroSecsTmp = 0;
+    700                          PRINT_CHAR_ERROR();
+    701                          PRINT_PROMPT();
+    702                          u8RepeaterState = gRepAppStReady_c;
+    703                        }
+    704          
+    705                      }
+    706          
+    707                    }
+    708                    break;
+    709            
+    710                  case(DLY_MICROSEC):
+    711                    {
+    712                      u16MicroSecsTmp = u16MicroSecsTmp * 10;
+    713                      u16MicroSecsTmp = u16MicroSecsTmp + u8Digit;
+   \                     ??process_change_delay_3: (+1)
+   \       0x76   0x886B             LDRH     R3,[R5, #+2]
+   \       0x78   0x270A             MOVS     R7,#+10
+   \       0x7A   0x437B             MULS     R3,R7,R3
+   \       0x7C   0x9F00             LDR      R7,[SP, #+0]
+   \       0x7E   0x19DB             ADDS     R3,R3,R7
+   \       0x80   0x806B             STRH     R3,[R5, #+2]
+    714                      if(MAX_MICRO_DIGITS == u8DigitCount)
+   \       0x82   0x0612             LSLS     R2,R2,#+24
+   \       0x84   0x0E12             LSRS     R2,R2,#+24
+   \       0x86   0x2A03             CMP      R2,#+3
+   \       0x88   0xD120             BNE      ??process_change_delay_0
+    715                      {
+    716                        sRepeaterDelay.millisecondsDly = (uint16_t)(u32MilliSecsTmp);
+   \       0x8A   0x8621             STRH     R1,[R4, #+48]
+    717                        sRepeaterDelay.microsecondsDly = u16MicroSecsTmp;
+   \       0x8C   0x8663             STRH     R3,[R4, #+50]
+    718          
+    719                         u32RepeatRxTimeOut = (sRepeaterDelay.millisecondsDly * MACA_CLK_COUNTS_FOR_ONE_MILLISEC) \
+    720                                             + ((sRepeaterDelay.microsecondsDly)>>2);
+   \       0x8E   0x8E21             LDRH     R1,[R4, #+48]
+   \       0x90   0x22FA             MOVS     R2,#+250
+   \       0x92   0x434A             MULS     R2,R1,R2
+   \       0x94   0x0419             LSLS     R1,R3,#+16
+   \       0x96   0x0C89             LSRS     R1,R1,#+18
+   \       0x98   0x1851             ADDS     R1,R2,R1
+   \       0x9A   0x6361             STR      R1,[R4, #+52]
+    721          
+    722                        Uart_Print("\n\r  Thank you\n\r");
+   \       0x9C   0x....'....        BL       Uart_Print
+    723                        display_config();
+   \       0xA0   0x....'....        BL       display_config
+    724                        PRINT_PROMPT();
+   \       0xA4   0x....             ADR.N    R0,u8RepRdyPrompt
+   \       0xA6   0x....'....        BL       Uart_Print
+    725                        u8ChgDlySt = DLY_MILLISEC;
+   \       0xAA   0x702E             STRB     R6,[R5, #+0]
+    726                        u8DigitCount = 0;
+   \       0xAC   0x706E             STRB     R6,[R5, #+1]
+    727                        u32MilliSecsTmp = 0;
+   \       0xAE   0x606E             STR      R6,[R5, #+4]
+    728                        u16MicroSecsTmp = 0;
+   \       0xB0   0x806E             STRH     R6,[R5, #+2]
+    729                        u8RepeaterState = gRepAppStReady_c;
+   \       0xB2   0xE00A             B        ??process_change_delay_5
+    730                      }
+    731                    }
+    732                    break;
+    733            
+    734                  default:
+    735                    break;
+    736                }
+    737              }
+    738              else
+    739              {
+    740                u8ChgDlySt = DLY_MILLISEC;
+   \                     ??process_change_delay_1: (+1)
+   \       0xB4   0x702E             STRB     R6,[R5, #+0]
+    741                u8DigitCount = 0;
+   \       0xB6   0x706E             STRB     R6,[R5, #+1]
+    742                u32MilliSecsTmp = 0;
+   \                     ??process_change_delay_4: (+1)
+   \       0xB8   0x606E             STR      R6,[R5, #+4]
+    743                u16MicroSecsTmp = 0;
+   \       0xBA   0x806E             STRH     R6,[R5, #+2]
+    744                PRINT_CHAR_ERROR();
+   \       0xBC   0x9801             LDR      R0,[SP, #+4]
+   \       0xBE   0x....'....        BL       Uart_Print
+    745                PRINT_PROMPT();
+   \       0xC2   0x46C0             Nop      
+   \       0xC4   0x....             ADR.N    R0,u8RepRdyPrompt
+   \       0xC6   0x....'....        BL       Uart_Print
+    746                u8RepeaterState = gRepAppStReady_c;
+   \                     ??process_change_delay_5: (+1)
+   \       0xCA   0x75A6             STRB     R6,[R4, #+22]
+    747              }
+    748            }
+    749          }
+   \                     ??process_change_delay_0: (+1)
+   \       0xCC   0xBCF7             POP      {R0-R2,R4-R7}
+   \       0xCE   0xBC08             POP      {R3}
+   \       0xD0   0x4718             BX       R3               ;; return
+
+   \                                 In section .bss, align 4
+   \                     `process_change_delay::u8ChgDlySt`:
+   \        0x0                      DS8 1
+   \        0x1                      DS8 1
+   \        0x2                      DS8 2
+   \        0x4                      DS8 4
+    750          
+    751          /************************************************************************************
+    752          * repeater_app function
+    753          *
+    754          * This function .
+    755          ************************************************************************************/
+    756          static void repeater_app (void)
+    757          {
+    758            (cbRepeaterStFn_c[u8RepeaterState])();
+    759          }
+    760          
+    761          
+    762          /************************************************************************************
+    763          * repeater_app_init function
+    764          *
+    765          * This function .
+    766          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    767          static void repeater_app_init(void)
+    768          {
+   \                     repeater_app_init: (+1)
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
+    769            gbDataIndicationFlag = FALSE;
+   \        0x2   0x2000             MOVS     R0,#+0
+   \        0x4   0x....             LDR      R4,??DataTable47_2
+   \        0x6   0x8220             STRH     R0,[R4, #+16]
+    770            gbRdyToProcessEvnt = FALSE;
+    771          
+    772            u8RepOpMode = gRepOpModeNormal_c;
+   \        0x8   0x74E0             STRB     R0,[R4, #+19]
+    773            u8RepeaterChann = REPEATER_CHANN;
+   \        0xA   0x7560             STRB     R0,[R4, #+21]
+    774            u8RepeaterPower = gDefaultPowerLevel_c;
+   \        0xC   0x210F             MOVS     R1,#+15
+   \        0xE   0x7521             STRB     R1,[R4, #+20]
+    775            sRepeaterDelay.millisecondsDly = 1;
+   \       0x10   0x2101             MOVS     R1,#+1
+   \       0x12   0x8621             STRH     R1,[R4, #+48]
+    776            sRepeaterDelay.microsecondsDly = 0;
+   \       0x14   0x8660             STRH     R0,[R4, #+50]
+    777            sRepeaterStat.u16ReccivedPkts = 0;
+   \       0x16   0x62A0             STR      R0,[R4, #+40]
+    778            sRepeaterStat.u16RetransmitedPkts = 0;
+    779            sRepeaterStat.u16BadPkts = 0;
+   \       0x18   0x62E0             STR      R0,[R4, #+44]
+    780            sRepeaterStat.u16DroppedPkts = 0;
+    781            u8RepeaterState = gRepAppStReady_c;
+   \       0x1A   0x82E0             STRH     R0,[R4, #+22]
+    782            isUartDataRdy = FALSE;
+   \       0x1C   0x74A0             STRB     R0,[R4, #+18]
+    783          
+    784            u8RepeaterRunSt = gRepeaterRunStIdle_c;
+    785            
+    786            u32RepeatRxTimeOut = (sRepeaterDelay.millisecondsDly * MACA_CLK_COUNTS_FOR_ONE_MILLISEC) \
+    787                                 + ((sRepeaterDelay.microsecondsDly)>>2);
+   \       0x1E   0x20FA             MOVS     R0,#+250
+   \       0x20   0x6360             STR      R0,[R4, #+52]
+    788          
+    789            ITC_Init();
+   \       0x22   0x....'....        BL       ITC_Init
+    790            IntAssignHandler(gMacaInt_c, MACA_Interrupt);
+   \       0x26   0x....             LDR      R1,??DataTable47_3
+   \       0x28   0x2007             MOVS     R0,#+7
+   \       0x2A   0x....'....        BL       IntAssignHandler
+    791            ITC_SetPriority(gMacaInt_c, gItcFastPriority_c); // gItcNormalPriority_c
+   \       0x2E   0x2101             MOVS     R1,#+1
+   \       0x30   0x2007             MOVS     R0,#+7
+   \       0x32   0x....'....        BL       ITC_SetPriority
+    792            ITC_EnableInterrupt(gMacaInt_c);
+   \       0x36   0x2007             MOVS     R0,#+7
+   \       0x38   0x....'....        BL       ITC_EnableInterrupt
+    793            IntDisableAll();
+   \       0x3C   0x....'....        BL       IntDisableAll
+    794          
+    795            ResetMaca();
+   \       0x40   0x....'....        BL       ResetMaca
+    796            MLMERadioInit();
+   \       0x44   0x....'....        BL       MLMERadioInit
+    797            PlatformPortInit();
+   \       0x48   0x....'....        BL       PlatformPortInit
+    798            MLMESetChannelRequest(u8RepeaterChann);
+   \       0x4C   0x7D60             LDRB     R0,[R4, #+21]
+   \       0x4E   0x....'....        BL       MLMESetChannelRequest
+    799          
+    800            IntEnableAll();
+   \       0x52   0x2000             MOVS     R0,#+0
+   \       0x54   0x....'....        BL       IntRestoreAll
+    801            
+    802            Uart_Init(u8UartBuffer, 8);
+   \       0x58   0x2108             MOVS     R1,#+8
+   \       0x5A   0x0020             MOVS     R0,R4
+   \       0x5C   0x3018             ADDS     R0,R0,#+24
+   \       0x5E   0x....'....        BL       Uart_Init
+    803          
+    804            print_freescale_logo();
+   \       0x62   0x46C0             Nop      
+   \       0x64   0x....             ADR.N    R0,?_31
+   \       0x66   0x....'....        BL       Uart_Print
+   \       0x6A   0x46C0             Nop      
+   \       0x6C   0x....             ADR.N    R0,?_32
+   \       0x6E   0x....'....        BL       Uart_Print
+   \       0x72   0x46C0             Nop      
+   \       0x74   0x....             ADR.N    R0,?_33
+   \       0x76   0x....'....        BL       Uart_Print
+   \       0x7A   0x46C0             Nop      
+   \       0x7C   0x....             ADR.N    R0,?_34
+   \       0x7E   0x....'....        BL       Uart_Print
+   \       0x82   0x46C0             Nop      
+   \       0x84   0x....             ADR.N    R0,?_35
+   \       0x86   0x....'....        BL       Uart_Print
+   \       0x8A   0x46C0             Nop      
+   \       0x8C   0x....             ADR.N    R0,?_36
+   \       0x8E   0x....'....        BL       Uart_Print
+   \       0x92   0x46C0             Nop      
+   \       0x94   0x....             ADR.N    R0,?_37
+   \       0x96   0x....'....        BL       Uart_Print
+   \       0x9A   0x46C0             Nop      
+   \       0x9C   0x....             ADR.N    R0,?_38
+   \       0x9E   0x....'....        BL       Uart_Print
+   \       0xA2   0x46C0             Nop      
+   \       0xA4   0x....             ADR.N    R0,?_39
+   \       0xA6   0x....'....        BL       Uart_Print
+   \       0xAA   0x46C0             Nop      
+   \       0xAC   0x....             ADR.N    R0,?_40
+   \       0xAE   0x....'....        BL       Uart_Print
+   \       0xB2   0x46C0             Nop      
+   \       0xB4   0x....             ADR.N    R0,?_41
+   \       0xB6   0x....'....        BL       Uart_Print
+   \       0xBA   0x46C0             Nop      
+   \       0xBC   0x....             ADR.N    R0,?_42
+   \       0xBE   0x....'....        BL       Uart_Print
+   \       0xC2   0x....             LDR      R5,??DataTable47_4
+   \       0xC4   0x0028             MOVS     R0,R5
+   \       0xC6   0x....'....        BL       Uart_Print
+   \       0xCA   0x46C0             Nop      
+   \       0xCC   0x....             ADR.N    R0,?_43
+   \       0xCE   0x....'....        BL       Uart_Print
+   \       0xD2   0x0028             MOVS     R0,R5
+   \       0xD4   0x3028             ADDS     R0,R0,#+40
+   \       0xD6   0x....'....        BL       Uart_Print
+   \       0xDA   0x46C0             Nop      
+   \       0xDC   0x....             ADR.N    R0,?_44
+   \       0xDE   0x....'....        BL       Uart_Print
+   \       0xE2   0x46C0             Nop      
+   \       0xE4   0x....             ADR.N    R0,?_45
+   \       0xE6   0x....'....        BL       Uart_Print
+   \       0xEA   0x46C0             Nop      
+   \       0xEC   0x....             ADR.N    R0,?_46
+   \       0xEE   0x....'....        BL       Uart_Print
+   \       0xF2   0x0028             MOVS     R0,R5
+   \       0xF4   0x3058             ADDS     R0,R0,#+88
+   \       0xF6   0x....'....        BL       Uart_Print
+    805          
+    806            (void)MLMEPAOutputAdjust(u8RepeaterPower);
+   \       0xFA   0x7D20             LDRB     R0,[R4, #+20]
+   \       0xFC   0x....'....        BL       MLMEPAOutputAdjust
+    807          
+    808          
+    809            DelayMs(500);
+   \      0x100   0x20FA             MOVS     R0,#+250
+   \      0x102   0x0040             LSLS     R0,R0,#+1        ;; #+500
+   \      0x104   0x....'....        BL       DelayMs
+    810            MLMESetChannelRequest(u8RepeaterChann);
+   \      0x108   0x7D60             LDRB     R0,[R4, #+21]
+   \      0x10A   0x....'....        BL       MLMESetChannelRequest
+    811          
+    812          
+    813          
+    814          #if OTAP_ENABLED == TRUE
+    815            OTAP_Init(&RX_msg);
+    816            gbOtapExecute = OTAP_ENABLED;  
+    817          #endif 
+    818          
+    819          }
+   \      0x10E   0xBC31             POP      {R0,R4,R5}
+   \      0x110   0xBC08             POP      {R3}
+   \      0x112   0x4718             BX       R3               ;; return
+    820          
+    821          /************************************************************************************
+    822          * display_config function
+    823          *
+    824          * This function prints n blank spaces.
+    825          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    826          static void print_n_blank_spaces(uint8_t n)
+    827          {
+   \                     print_n_blank_spaces: (+1)
+   \        0x0   0xB570             PUSH     {R4-R6,LR}
+   \        0x2   0x0005             MOVS     R5,R0
+    828            uint8_t i;
+    829            for(i=0; i<n; i++)
+   \        0x4   0x2600             MOVS     R6,#+0
+   \        0x6   0x....             ADR      R4,??DataTable47_5  ;; " "
+   \        0x8   0xE003             B        ??print_n_blank_spaces_0
+    830            {
+    831              Uart_Print(" ");
+   \                     ??print_n_blank_spaces_1: (+1)
+   \        0xA   0x0020             MOVS     R0,R4
+   \        0xC   0x....'....        BL       Uart_Print
+    832            }
+   \       0x10   0x1C76             ADDS     R6,R6,#+1
+   \                     ??print_n_blank_spaces_0: (+1)
+   \       0x12   0x0630             LSLS     R0,R6,#+24
+   \       0x14   0x0E00             LSRS     R0,R0,#+24
+   \       0x16   0x42A8             CMP      R0,R5
+   \       0x18   0xD3F7             BCC      ??print_n_blank_spaces_1
+    833          }
+   \       0x1A   0xBC70             POP      {R4-R6}
+   \       0x1C   0xBC08             POP      {R3}
+   \       0x1E   0x4718             BX       R3               ;; return
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_14:
+   \        0x0   0x20 0x20          DC8 "  <s> Show Statistics\012\015"
+   \              0x3C 0x73    
+   \              0x3E 0x20    
+   \              0x53 0x68    
+   \              0x6F 0x77    
+   \              0x20 0x53    
+   \              0x74 0x61    
+   \              0x74 0x69    
+   \              0x73 0x74    
+   \              0x69 0x63    
+   \              0x73 0x0A    
+   \              0x0D 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_15:
+   \        0x0   0x20 0x20          DC8 "  <0> Reset Statistics\012\015"
+   \              0x3C 0x30    
+   \              0x3E 0x20    
+   \              0x52 0x65    
+   \              0x73 0x65    
+   \              0x74 0x20    
+   \              0x53 0x74    
+   \              0x61 0x74    
+   \              0x69 0x73    
+   \              0x74 0x69    
+   \              0x63 0x73    
+   \              0x0A 0x0D    
+   \              0x00         
+   \       0x19   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_16:
+   \        0x0   0x20 0x20          DC8 "  <r> Repeat menu\012\015"
+   \              0x3C 0x72    
+   \              0x3E 0x20    
+   \              0x52 0x65    
+   \              0x70 0x65    
+   \              0x61 0x74    
+   \              0x20 0x6D    
+   \              0x65 0x6E    
+   \              0x75 0x0A    
+   \              0x0D 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_17:
+   \        0x0   0x20 0x20          DC8 "  <m> Switch Repeater mode\012\015"
+   \              0x3C 0x6D    
+   \              0x3E 0x20    
+   \              0x53 0x77    
+   \              0x69 0x74    
+   \              0x63 0x68    
+   \              0x20 0x52    
+   \              0x65 0x70    
+   \              0x65 0x61    
+   \              0x74 0x65    
+   \              0x72 0x20    
+   \              0x6D 0x6F    
+   \              0x64 0x65    
+   \              0x0A 0x0D    
+   \              0x00         
+   \       0x1D   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_18:
+   \        0x0   0x20 0x20          DC8 "  <p> Change Power\012\015"
+   \              0x3C 0x70    
+   \              0x3E 0x20    
+   \              0x43 0x68    
+   \              0x61 0x6E    
+   \              0x67 0x65    
+   \              0x20 0x50    
+   \              0x6F 0x77    
+   \              0x65 0x72    
+   \              0x0A 0x0D    
+   \              0x00         
+   \       0x15   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_19:
+   \        0x0   0x20 0x20          DC8 "  <d> Change Delay lenght\012\015"
+   \              0x3C 0x64    
+   \              0x3E 0x20    
+   \              0x43 0x68    
+   \              0x61 0x6E    
+   \              0x67 0x65    
+   \              0x20 0x44    
+   \              0x65 0x6C    
+   \              0x61 0x79    
+   \              0x20 0x6C    
+   \              0x65 0x6E    
+   \              0x67 0x68    
+   \              0x74 0x0A    
+   \              0x0D 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_20:
+   \        0x0   0x20 0x20          DC8 "  <c> Switch Channel\012\015"
+   \              0x3C 0x63    
+   \              0x3E 0x20    
+   \              0x53 0x77    
+   \              0x69 0x74    
+   \              0x63 0x68    
+   \              0x20 0x43    
+   \              0x68 0x61    
+   \              0x6E 0x6E    
+   \              0x65 0x6C    
+   \              0x0A 0x0D    
+   \              0x00         
+   \       0x17   0x00               DC8 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_21:
+   \        0x0   0x20 0x20          DC8 "  <z> EXECUTE\012\015\012\015"
+   \              0x3C 0x7A    
+   \              0x3E 0x20    
+   \              0x45 0x58    
+   \              0x45 0x43    
+   \              0x55 0x54    
+   \              0x45 0x0A    
+   \              0x0D 0x0A    
+   \              0x0D 0x00    
+   \       0x12   0x00 0x00          DC8 0, 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable40:
+   \        0x0   0x....'....        DC32     TX_msg
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable40_1:
+   \        0x0   0x....'....        DC32     RX_msg
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable40_2:
+   \        0x0   0x....'....        DC32     repeater_rx_cb
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable40_3:
+   \        0x0   0x....'....        DC32     gu16SCINumOfBytes
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable40_4:
+   \        0x0   0x....'....        DC32     gu8SCIStatus
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable40_5:
+   \        0x0   0x....'....        DC32     gRadioEvntFlags
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_22:
+   \        0x0   0x20 0x6D          DC8 " ms   "
+   \              0x73 0x20    
+   \              0x20 0x20    
+   \              0x00         
+   \        0x7   0x00               DC8 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_23:
+   \        0x0   0x20 0x75          DC8 " us\012\015"
+   \              0x73 0x0A    
+   \              0x0D 0x00    
+   \        0x6   0x00 0x00          DC8 0, 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable41:
+   \        0x0   0x....'....        DC32     ?_0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable41_1:
+   \        0x0   0x....'....        DC32     RX_msg
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_24:
+   \        0x0   0x20 0x20          DC8 "  Number of packets\012\015"
+   \              0x4E 0x75    
+   \              0x6D 0x62    
+   \              0x65 0x72    
+   \              0x20 0x6F    
+   \              0x66 0x20    
+   \              0x70 0x61    
+   \              0x63 0x6B    
+   \              0x65 0x74    
+   \              0x73 0x0A    
+   \              0x0D 0x00    
+   \       0x16   0x00 0x00          DC8 0, 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_26:
+   \        0x0   0x0A 0x0D          DC8 "\012\015  Statistics reset"
+   \              0x20 0x20    
+   \              0x53 0x74    
+   \              0x61 0x74    
+   \              0x69 0x73    
+   \              0x74 0x69    
+   \              0x63 0x73    
+   \              0x20 0x72    
+   \              0x65 0x73    
+   \              0x65 0x74    
+   \              0x00         
+   \       0x15   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_27:
+   \        0x0   0x0A 0x0D          DC8 "\012\015  Executing..."
+   \              0x20 0x20    
+   \              0x45 0x78    
+   \              0x65 0x63    
+   \              0x75 0x74    
+   \              0x69 0x6E    
+   \              0x67 0x2E    
+   \              0x2E 0x2E    
+   \              0x00         
+   \       0x11   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable43:
+   \        0x0   0x....'....        DC32     ?_1
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable43_1:
+   \        0x0   0x....'....        DC32     RX_msg
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable43_2:
+   \        0x0   0x....'....        DC32     u8RepRdyPrompt
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable43_3:
+   \        0x0   0x....'....        DC32     ?_4
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable44:
+   \        0x0   0x0A 0x0D          DC8      0x0A, 0x0D, 0x00, 0x00
+   \              0x00 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_28:
+   \        0x0   0x4E 0x65          DC8 "New frame: "
+   \              0x77 0x20    
+   \              0x66 0x72    
+   \              0x61 0x6D    
+   \              0x65 0x3A    
+   \              0x20 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable45:
+   \        0x0   0x....'....        DC32     `process_ready_prompt::u8RdySt`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable45_1:
+   \        0x0   0x....'....        DC32     TX_msg
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable45_2:
+   \        0x0   0x....'....        DC32     RX_msg
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable47:
+   \        0x0   0x....'....        DC32     `process_change_delay::u8ChgDlySt`
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable47_1:
+   \        0x0   0x....'....        DC32     ?_4
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable47_2:
+   \        0x0   0x....'....        DC32     RX_msg
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable47_3:
+   \        0x0   0x....'....        DC32     MACA_Interrupt
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable47_4:
+   \        0x0   0x....'....        DC32     ?_11
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable47_5:
+   \        0x0   0x20 0x00          DC8      " ",0x0,0x0
+   \              0x00 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_29:
+   \        0x0   0x0A 0x0D          DC8 "\012\015  Thank you\012\015"
+   \              0x20 0x20    
+   \              0x54 0x68    
+   \              0x61 0x6E    
+   \              0x6B 0x20    
+   \              0x79 0x6F    
+   \              0x75 0x0A    
+   \              0x0D 0x00    
+
+   \                                 In section .rodata, align 4
+   \                     ?_0:
+   \        0x0   0x0A 0x0D          DC8 0AH, 0DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \        0x8   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x10   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 20H, 20H, 52H, 65H, 70H
+   \              0x2D 0x20    
+   \              0x20 0x52    
+   \              0x65 0x70    
+   \       0x18   0x65 0x61          DC8 65H, 61H, 74H, 65H, 72H, 20H, 41H, 70H
+   \              0x74 0x65    
+   \              0x72 0x20    
+   \              0x41 0x70    
+   \       0x20   0x70 0x6C          DC8 70H, 6CH, 69H, 63H, 61H, 74H, 69H, 6FH
+   \              0x69 0x63    
+   \              0x61 0x74    
+   \              0x69 0x6F    
+   \       0x28   0x6E 0x20          DC8 6EH, 20H, 20H, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x20 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x30   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x38   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x40   0x2D 0x2D          DC8 2DH, 2DH, 0AH, 0DH, 0
+   \              0x0A 0x0D    
+   \              0x00         
+   \       0x45   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .rodata, align 4
+   \                     ?_1:
+   \        0x0   0x0A 0x0D          DC8 "\012\015  Current Device's configuration is:\012\015"
+   \              0x20 0x20    
+   \              0x43 0x75    
+   \              0x72 0x72    
+   \              0x65 0x6E    
+   \              0x74 0x20    
+   \              0x44 0x65    
+   \              0x76 0x69    
+   \              0x63 0x65    
+   \              0x27 0x73    
+   \              0x20 0x63    
+   \              0x6F 0x6E    
+   \              0x66 0x69    
+   \              0x67 0x75    
+   \              0x72 0x61    
+   \              0x74 0x69    
+   \              0x6F 0x6E    
+   \              0x20 0x69    
+   \              0x73 0x3A    
+   \              0x0A 0x0D    
+   \              0x00         
+   \       0x29   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+   \       0x2C   0x20 0x20          DC8 20H, 20H, 20H, 20H, 41H, 70H, 70H, 20H
+   \              0x20 0x20    
+   \              0x41 0x70    
+   \              0x70 0x20    
+   \       0x34   0x4D 0x6F          DC8 4DH, 6FH, 64H, 65H, 20H, 20H, 20H, 20H
+   \              0x64 0x65    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \       0x3C   0x20 0x43          DC8 20H, 43H, 68H, 61H, 6EH, 6EH, 65H, 6CH
+   \              0x68 0x61    
+   \              0x6E 0x6E    
+   \              0x65 0x6C    
+   \       0x44   0x20 0x20          DC8 20H, 20H, 20H, 20H, 20H, 50H, 6FH, 77H
+   \              0x20 0x20    
+   \              0x20 0x50    
+   \              0x6F 0x77    
+   \       0x4C   0x65 0x72          DC8 65H, 72H, 20H, 4CH, 65H, 76H, 65H, 6CH
+   \              0x20 0x4C    
+   \              0x65 0x76    
+   \              0x65 0x6C    
+   \       0x54   0x20 0x20          DC8 20H, 20H, 20H, 20H, 20H, 44H, 65H, 6CH
+   \              0x20 0x20    
+   \              0x20 0x44    
+   \              0x65 0x6C    
+   \       0x5C   0x61 0x79          DC8 61H, 79H, 0AH, 0DH, 0
+   \              0x0A 0x0D    
+   \              0x00         
+   \       0x61   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+   \       0x64   0x20 0x20          DC8 20H, 20H, 20H, 20H, 2DH, 2DH, 2DH, 2DH
+   \              0x20 0x20    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x6C   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 20H, 20H, 20H, 20H
+   \              0x2D 0x2D    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \       0x74   0x20 0x2D          DC8 20H, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x7C   0x20 0x20          DC8 20H, 20H, 20H, 20H, 20H, 2DH, 2DH, 2DH
+   \              0x20 0x20    
+   \              0x20 0x2D    
+   \              0x2D 0x2D    
+   \       0x84   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x8C   0x20 0x20          DC8 20H, 20H, 20H, 20H, 20H, 2DH, 2DH, 2DH
+   \              0x20 0x20    
+   \              0x20 0x2D    
+   \              0x2D 0x2D    
+   \       0x94   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0x9C   0x2D 0x2D          DC8 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH, 2DH
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \              0x2D 0x2D    
+   \       0xA4   0x0A 0x0D          DC8 0AH, 0DH, 0
+   \              0x00         
+   \       0xA7   0x00               DC8 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_31:
+   \        0x0   0x0A 0x0D          DC8 "\012\015\012\015\012\015      #\012"
+   \              0x0A 0x0D    
+   \              0x0A 0x0D    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x23 0x0A    
+   \              0x00         
+   \        0xF   0x00               DC8 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_32:
+   \        0x0   0x0D 0x20          DC8 "\015     ###\012"
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x23 0x23    
+   \              0x23 0x0A    
+   \              0x00         
+   \        0xB   0x00               DC8 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_33:
+   \        0x0   0x0D 0x20          DC8 "\015    ###  *\012"
+   \              0x20 0x20    
+   \              0x20 0x23    
+   \              0x23 0x23    
+   \              0x20 0x20    
+   \              0x2A 0x0A    
+   \              0x00         
+   \        0xD   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_34:
+   \        0x0   0x0D 0x20          DC8 "\015     #  ***\012"
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x23 0x20    
+   \              0x20 0x2A    
+   \              0x2A 0x2A    
+   \              0x0A 0x00    
+   \        0xE   0x00 0x00          DC8 0, 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_35:
+   \        0x0   0x0D 0x20          DC8 "\015       ***  #\012"
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x2A 0x2A    
+   \              0x2A 0x20    
+   \              0x20 0x23    
+   \              0x0A 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_36:
+   \        0x0   0x0D 0x20          DC8 "\015        *  ###\012"
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x2A    
+   \              0x20 0x20    
+   \              0x23 0x23    
+   \              0x23 0x0A    
+   \              0x00         
+   \       0x11   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_37:
+   \        0x0   0x0D 0x20          DC8 "\015          ###\012"
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x23    
+   \              0x23 0x23    
+   \              0x0A 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_38:
+   \        0x0   0x0D 0x20          DC8 "\015        *  #\012"
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x2A    
+   \              0x20 0x20    
+   \              0x23 0x0A    
+   \              0x00         
+   \        0xF   0x00               DC8 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_39:
+   \        0x0   0x0D 0x20          DC8 "\015       ***\012"
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x2A 0x2A    
+   \              0x2A 0x0A    
+   \              0x00         
+   \        0xD   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_40:
+   \        0x0   0x0D 0x20          DC8 "\015      ***  #\012"
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x2A    
+   \              0x2A 0x2A    
+   \              0x20 0x20    
+   \              0x23 0x0A    
+   \              0x00         
+   \        0xF   0x00               DC8 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_41:
+   \        0x0   0x0D 0x20          DC8 "\015    #  *  ###\012"
+   \              0x20 0x20    
+   \              0x20 0x23    
+   \              0x20 0x20    
+   \              0x2A 0x20    
+   \              0x20 0x23    
+   \              0x23 0x23    
+   \              0x0A 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_42:
+   \        0x0   0x0D 0x20          DC8 "\015   ###   ###\012"
+   \              0x20 0x20    
+   \              0x23 0x23    
+   \              0x23 0x20    
+   \              0x20 0x20    
+   \              0x23 0x23    
+   \              0x23 0x0A    
+   \              0x00         
+   \        0xF   0x00               DC8 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_43:
+   \        0x0   0x0D 0x20          DC8 "\015   #  ***\012"
+   \              0x20 0x20    
+   \              0x23 0x20    
+   \              0x20 0x2A    
+   \              0x2A 0x2A    
+   \              0x0A 0x00    
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_44:
+   \        0x0   0x0D 0x20          DC8 "\015   #  *\012"
+   \              0x20 0x20    
+   \              0x23 0x20    
+   \              0x20 0x2A    
+   \              0x0A 0x00    
+   \        0xA   0x00 0x00          DC8 0, 0
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_45:
+   \        0x0   0x0D 0x20          DC8 "\015  ###               2 0 0 8\012"
+   \              0x20 0x23    
+   \              0x23 0x23    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x32    
+   \              0x20 0x30    
+   \              0x20 0x30    
+   \              0x20 0x38    
+   \              0x0A 0x00    
+   \       0x1E   0x00 0x00          DC8 0, 0
+
+   \                                 In section .rodata, align 4
+   \                     ?_11:
+   \        0x0   0x0D 0x20          DC8 "\015  ###  *  #         F R E E S C A L E\012"
+   \              0x20 0x23    
+   \              0x23 0x23    
+   \              0x20 0x20    
+   \              0x2A 0x20    
+   \              0x20 0x23    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x46    
+   \              0x20 0x52    
+   \              0x20 0x45    
+   \              0x20 0x45    
+   \              0x20 0x53    
+   \              0x20 0x43    
+   \              0x20 0x41    
+   \              0x20 0x4C    
+   \              0x20 0x45    
+   \              0x0A 0x00    
+   \       0x28   0x0D 0x20          DC8 "\015     ***            S E M I C O N D U C T O R\012"
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x2A 0x2A    
+   \              0x2A 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x53    
+   \              0x20 0x45    
+   \              0x20 0x4D    
+   \              0x20 0x49    
+   \              0x20 0x43    
+   \              0x20 0x4F    
+   \              0x20 0x4E    
+   \              0x20 0x44    
+   \              0x20 0x55    
+   \              0x20 0x43    
+   \              0x20 0x54    
+   \              0x20 0x4F    
+   \              0x20 0x52    
+   \              0x0A 0x00    
+   \       0x58   0x0D 0x20          DC8 "\015  #           Press any key to continue...\012\012"
+   \              0x20 0x23    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x20    
+   \              0x20 0x50    
+   \              0x72 0x65    
+   \              0x73 0x73    
+   \              0x20 0x61    
+   \              0x6E 0x79    
+   \              0x20 0x6B    
+   \              0x65 0x79    
+   \              0x20 0x74    
+   \              0x6F 0x20    
+   \              0x63 0x6F    
+   \              0x6E 0x74    
+   \              0x69 0x6E    
+   \              0x75 0x65    
+   \              0x2E 0x2E    
+   \              0x2E 0x0A    
+   \              0x0A 0x00    
+   \       0x86   0x00 0x00          DC8 0, 0
+
+   \                                 In section .rodata, align 4, keep-with-next
+   \                     ?_25:
+   \        0x0   0x0A 0x0D          DC8 "\012\015"
+   \              0x00         
+   \        0x3   0x00               DC8 0
+
+   \                                 In section .rodata, align 2, keep-with-next
+   \                     ?_30:
+   \        0x0   0x20 0x00          DC8 " "
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ?_46:
+   \        0x0   0x0D 0x20          DC8 "\015 ###\012"
+   \              0x23 0x23    
+   \              0x23 0x0A    
+   \              0x00         
+   \        0x7   0x00               DC8 0
+    834          
+    835          
+    836          /************************************************************************************
+    837          * display_config function
+    838          *
+    839          * This function prints an ASCII Freescale's logo.
+    840          ************************************************************************************/
+    841          static void print_freescale_logo(void)
+    842          {
+    843            Uart_Print("\n\r\n\r\n\r      #\n");
+    844            Uart_Print("\r     ###\n");
+    845            Uart_Print("\r    ###  *\n");
+    846            Uart_Print("\r     #  ***\n");
+    847            Uart_Print("\r       ***  #\n");
+    848            Uart_Print("\r        *  ###\n");
+    849            Uart_Print("\r          ###\n");
+    850            Uart_Print("\r        *  #\n");
+    851            Uart_Print("\r       ***\n");
+    852            Uart_Print("\r      ***  #\n");
+    853            Uart_Print("\r    #  *  ###\n");
+    854            Uart_Print("\r   ###   ###\n");
+    855            Uart_Print("\r  ###  *  #         F R E E S C A L E\n");
+    856            Uart_Print("\r   #  ***\n");
+    857            Uart_Print("\r     ***            S E M I C O N D U C T O R\n");
+    858            Uart_Print("\r   #  *\n");
+    859            Uart_Print("\r  ###               2 0 0 8\n");
+    860            Uart_Print("\r ###\n");
+    861            Uart_Print("\r  #           Press any key to continue...\n\n");
+    862          }
+    863          
+    864          
+    865          /************************************************************************************
+    866          *************************************************************************************
+    867          * Private Debug stuff
+    868          *************************************************************************************
+    869          ************************************************************************************/
+    870          
+    871          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      24   Main
+        24   -- Indirect call
+        24   -> UartGetByteFromRxBuffer
+        24   -> __aeabi_memcpy4
+        24   -> data_indication_execute
+        24   -> process_radio_msg
+        24   -> repeater_app_init
+       0   data_indication_execute
+       8   display_config
+         8   -> Uart_Print
+         8   -> Uart_PrintByteDec
+         8   -> Uart_PrintShortDec
+         8   -> Uart_Tx
+         8   -> print_n_blank_spaces
+       8   display_menu
+         8   -> Uart_Print
+      24   execute_command
+        24   -> MLMEPAOutputAdjust
+        24   -> MLMESetChannelRequest
+        24   -> Uart_Print
+        24   -> Uart_PrintShortDec
+        24   -> display_config
+        24   -> display_menu
+        24   -> print_n_blank_spaces
+      16   print_n_blank_spaces
+        16   -> Uart_Print
+      32   process_change_delay
+        32   -> Uart_Print
+        32   -> display_config
+       8   process_ready_prompt
+         8   -> Uart_Print
+         8   -> display_config
+         8   -> display_menu
+         8   -> execute_command
+       8   process_repeater_run
+         8   -> Uart_Print
+         8   -> abort_message
+         8   -> repeater_run_sm
+      16   repeater_app_init
+        16   -> DelayMs
+        16   -> ITC_EnableInterrupt
+        16   -> ITC_Init
+        16   -> ITC_SetPriority
+        16   -> IntAssignHandler
+        16   -> IntDisableAll
+        16   -> IntRestoreAll
+        16   -> MLMEPAOutputAdjust
+        16   -> MLMERadioInit
+        16   -> MLMESetChannelRequest
+        16   -> PlatformPortInit
+        16   -> ResetMaca
+        16   -> Uart_Init
+        16   -> Uart_Print
+      16   repeater_run_sm
+        16   -> MCPSDataRequest
+        16   -> MLMERXEnableRequest
+        16   -> Uart_Print
+        16   -> Uart_PrintHex
+       0   repeater_rx_cb
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable40
+       4  ??DataTable40_1
+       4  ??DataTable40_2
+       4  ??DataTable40_3
+       4  ??DataTable40_4
+       4  ??DataTable40_5
+       4  ??DataTable41
+       4  ??DataTable41_1
+       4  ??DataTable43
+       4  ??DataTable43_1
+       4  ??DataTable43_2
+       4  ??DataTable43_3
+       4  ??DataTable44
+       4  ??DataTable45
+       4  ??DataTable45_1
+       4  ??DataTable45_2
+       4  ??DataTable47
+       4  ??DataTable47_1
+       4  ??DataTable47_2
+       4  ??DataTable47_3
+       4  ??DataTable47_4
+       4  ??DataTable47_5
+      72  ?_0
+     168  ?_1
+     136  ?_11
+      24  ?_14
+      28  ?_15
+      20  ?_16
+      32  ?_17
+      24  ?_18
+      28  ?_19
+      24  ?_20
+      20  ?_21
+       8  ?_22
+       8  ?_23
+      24  ?_24
+       4  ?_25
+      24  ?_26
+      20  ?_27
+      12  ?_28
+      16  ?_29
+       2  ?_30
+      16  ?_31
+      12  ?_32
+      16  ?_33
+      16  ?_34
+      16  ?_35
+      20  ?_36
+      16  ?_37
+      16  ?_38
+      16  ?_39
+      16  ?_40
+      16  ?_41
+      16  ?_42
+      12  ?_43
+      12  ?_44
+      32  ?_45
+       8  ?_46
+     114  Main
+     312  RX_msg
+          gbDataIndicationFlag
+          gbRdyToProcessEvnt
+          isUartDataRdy
+          u8RepOpMode
+          u8RepeaterPower
+          u8RepeaterChann
+          u8RepeaterState
+          u8RepeaterRunSt
+          u8UartBuffer
+          u8UartData
+          sRepeaterStat
+          sRepeaterDelay
+          u32RepeatRxTimeOut
+          dataTX
+          dataRX
+      17  TX_msg
+          u8UartDataSz
+      12  cbRepeaterStFn_c
+      38  data_indication_execute
+     116  display_config
+      74  display_menu
+     306  execute_command
+      32  print_n_blank_spaces
+     210  process_change_delay
+      60  process_ready_prompt
+      44  process_repeater_run
+     276  repeater_app_init
+     266  repeater_run_sm
+      24  repeater_rx_cb
+       8  u8ChgDlySt
+          u8DigitCount
+          u16MicroSecsTmp
+          u32MilliSecsTmp
+       1  u8RdySt
+      20  u8RepOpModeText
+      12  u8RepRdyPrompt
+     552  u8WrongChar
+       2  -- Other
+
+ 
+   338 bytes in section .bss
+   934 bytes in section .rodata
+ 2 262 bytes in section .text
+ 
+ 2 260 bytes of CODE  memory (+ 2 bytes shared)
+   934 bytes of CONST memory
+   338 bytes of DATA  memory
+
+Errors: none
+Warnings: none

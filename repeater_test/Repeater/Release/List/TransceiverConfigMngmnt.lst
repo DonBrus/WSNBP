@@ -1,0 +1,981 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM         31/Jan/2019  14:41:04
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Source\TransceiverConfigMngmnt.c
+#    Command line =  
+#        -f C:\Users\Brus\AppData\Local\Temp\EWFC59.tmp
+#        (D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Source\TransceiverConfigMngmnt.c
+#        -D NDEBUG -D F24MHZ -D SECURITY_ENABLED -D MC13226Included_d=0
+#        --preprocess=cs
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lC
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lB
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List
+#        --diag_suppress Pe940,Pe951,Pe911 -o
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj
+#        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
+#        "C:\HDDPrograms\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Normal.h" -I
+#        D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Drivers\Interface\
+#        -I D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Interface\
+#        --cpu_mode thumb -Ohz --use_c++_inline)
+#    Locale       =  C
+#    List file    =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List\TransceiverConfigMngmnt.lst
+#    Object file  =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\TransceiverConfigMngmnt.o
+#
+###############################################################################
+
+D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Source\TransceiverConfigMngmnt.c
+      1          /************************************************************************************
+      2          * Transceiver Configuration Management implementation
+      3          *
+      4          * (c) Copyright 2006, Freescale, Inc.  All rights reserved.
+      5          *
+      6          * No part of this document must be reproduced in any form - including copied,
+      7          * transcribed, printed or by any electronic means - without specific written
+      8          * permission from Freescale.
+      9          *
+     10          * Last Inspected:
+     11          * Last Tested:
+     12          ************************************************************************************/
+     13          
+     14          #include "../../PLM/LibInterface/Platform.h"
+     15          #include "../../PLM/LibInterface/CRM_Regs.h"
+     16          #include "../../PLM/LibInterface/GPIO_Interface.h"
+     17          #include "../../PLM/Interface/RF_Config.h"
+     18          #include "../Configure/options_config.h"
+     19          #include "../Drivers/Configure/board_config.h"
+     20          #include "../Drivers/Interface/Delay.h"
+     21          #include "../Drivers/Interface/ghdr/maca.h"
+     22          #include "../Drivers/LibInterface/rif_inc.h"
+     23          #include "../Drivers/LibInterface/Synthesizer_inc.h"
+     24          #include "../Interface/TransceiverConfigMngmnt.h"
+     25          
+     26          /************************************************************************************
+     27          *************************************************************************************
+     28          * Private macros
+     29          *************************************************************************************
+     30          ************************************************************************************/
+     31          #define MACA_WRITE(reg, src) (reg = src)
+     32          
+     33          #define _802_15_4_PREAMBLE    0x00000000 
+     34          
+     35          #define MACA_CONTINUOUS_TX    0x00000223
+     36          #define MACA_CONTINUOUS_RX    0x00000224
+     37          
+     38          /************************************************************************************
+     39          *************************************************************************************
+     40          * Private prototypes
+     41          *************************************************************************************
+     42          ************************************************************************************/
+     43          
+     44          /************************************************************************************
+     45          *************************************************************************************
+     46          * Private type definitions
+     47          *************************************************************************************
+     48          ************************************************************************************/
+     49          
+     50          #define mMaca_freq_init_c       (SMAC_CHANN_11)
+     51          #define mMaca_tmren_init_c      (maca_start_clk | maca_cpl_clk | maca_soft_clk)
+     52          #define mMaca_clkoffset_init_c  (0x00000000)
+     53          
+     54          #define mMaca_maskirq_init_c ( maca_irq_strt   | \
+     55                                         maca_irq_sync   | \
+     56                                         maca_irq_cm     | \
+     57                                         maca_irq_sftclk | \
+     58                                         maca_irq_lvl    | \
+     59                                         maca_irq_di     | \
+     60                                         maca_irq_acpl )
+     61          
+     62          #define mMaca_clrirq_init_c   (0x0000FE1F)  /* Clear all interrupt sources at init*/
+     63          #define mMaca_fltrej_init_c   (0x00000000)
+     64          
+     65          
+     66          #define mMaca_preamble_init_c 
+     67          
+     68          
+     69          #define mSMAC_Header    (uint16_t)(0xFF7E)
+     70          #define mCodeBytesSize  (sizeof(mSMAC_Header))
+     71          #define mReset_c        (0x87651234)
+     72          #define gMaxTrimVal_c   (0x0f)
+     73          #define gMaxCoarseTrim_c (0x1f)
+     74          #define gBulkCapMask_c   (0x10)
+     75          #define gMaxFineTrim_c   (0x1f)
+     76          #define gXtalTrimMask_c (0xfff0ffff)
+     77          #define ZIGBEE_MODE     (0)
+     78          #define ISM_MODE        (1)
+     79          
+     80          typedef struct version_and_size_tag {
+     81            uint32_t * version_add;
+     82            uint8_t word_size;
+     83          }version_and_size_tag;
+     84          
+     85          
+     86          /************************************************************************************
+     87          *************************************************************************************
+     88          * Private memory declarations
+     89          *************************************************************************************
+     90          ************************************************************************************/
+     91          /*
+     92             4 bits - Major
+     93             5 bits - Middle
+     94             5 bits - Minor
+     95             5 bits - Year from 2000
+     96             4 bits - Month (valid 1-12)
+     97             5 bits - Day of the month (valid 1-31)
+     98             4 bits - Consecutive number
+     99          */
+    100          #define MAJOR_SMAC_V  (1)
+    101          #define MIDDLE_SMAC_V (1)
+    102          #define MINOR_SMAC_V  (3)
+    103          #define YEAR_SMAC_V   (2009-2000)
+    104          #define MONTH_SMAC_V  (8)
+    105          #define DAY_SMAC_V    (4)
+    106          #define CONS_SMAC_V   (1)
+    107          
+    108          #if (MAJOR_SMAC_V>15) || (MIDDLE_SMAC_V>31) || (MINOR_SMAC_V>31)
+    109           #error "Cobdebase version out of range"
+    110          #endif
+    111          
+    112          #if (YEAR_SMAC_V>31) || (MONTH_SMAC_V>12) || (MONTH_SMAC_V<1) || (DAY_SMAC_V>31) || (DAY_SMAC_V<1)
+    113           #error "Version date out of range"
+    114          #endif
+    115          
+    116          #if (CONS_SMAC_V>15)
+    117           #error "Consecutive number of SMAC version out of range"
+    118          #endif
+    119          
+
+   \                                 In section .rodata, align 4, keep-with-next
+    120          const uint32_t smac_version = ((MAJOR_SMAC_V << 28) | (MIDDLE_SMAC_V << 23 ) | \
+   \                     smac_version:
+   \        0x0   0x108D'3041        DC32 277688385
+    121                                         (MINOR_SMAC_V << 18) | (YEAR_SMAC_V << 13 ) | \
+    122                                         (MONTH_SMAC_V << 9) | (DAY_SMAC_V << 4 ) | CONS_SMAC_V);
+    123          
+    124          
+    125          static bool_t mIsPromiscousMode = FALSE;
+
+   \                                 In section .text, align 4, keep-with-next
+    126          static const version_and_size_tag version_registers[MAX_VERSIONED_ENTITY] = {
+   \                     version_registers:
+   \        0x0   0x8000'4018        DC32 80004018H
+   \        0x4   0x01 0x00          DC8 1, 0, 0, 0
+   \              0x00 0x00    
+   \        0x8   0x....'....        DC32 smac_version
+   \        0xC   0x01 0x00          DC8 1, 0, 0, 0
+   \              0x00 0x00    
+   \       0x10   0x0000'0020        DC32 20H
+   \       0x14   0x01 0x00          DC8 1, 0, 0, 0
+   \              0x00 0x00    
+    127            {(uint32_t *)(&maca_mc1322x_id), 1},     /* MACA_MC1322x_ID VERSION */
+    128            {(uint32_t *)(&smac_version), 1},        /* SMAC VERSION */
+    129            {(uint32_t *)(0x00000020),    1},        /* BOOTSTRAP VERSION */
+    130          };
+    131          
+    132          static void InitializePhy(void);
+    133          
+    134          
+    135          
+    136          /************************************************************************************
+    137          *************************************************************************************
+    138          * Public functions
+    139          *************************************************************************************
+    140          ************************************************************************************/
+    141          
+    142          /************************************************************************************
+    143          * MLMESoftReset
+    144          *
+    145          * This function is called to perform a complete reset of the system.
+    146          *
+    147          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    148          void MLMEPHYSoftReset(void)
+    149          {
+    150            MLMEPHYResetIndication();
+    151            CRM_REGS_P->SwRst = mReset_c;
+   \                     MLMEPHYSoftReset: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable8  ;; 0x87651234
+   \        0x2   0x....             LDR      R1,??DataTable8_1  ;; 0x80003050
+   \        0x4   0x6008             STR      R0,[R1, #+0]
+    152          }
+   \        0x6   0x4770             BX       LR               ;; return
+    153          
+    154          /************************************************************************************
+    155          * MLMEPHYResetIndication
+    156          *
+    157          * Callback called when a SoftReset has occurred.
+    158          *
+    159          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    160          void MLMEPHYResetIndication(void)
+    161          {
+    162            /* Place your application´s code here */
+    163          }
+   \                     MLMEPHYResetIndication: (+1)
+   \        0x0   0x4770             BX       LR               ;; return
+    164          
+    165          /************************************************************************************
+    166          * MLMEPHYXtalAdjust
+    167          *
+    168          * Adjust the transceiver reference clock by a trim value.
+    169          *
+    170          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    171          FuncReturn_t MLMEPHYXtalAdjust(uint8_t u8CoarseTrim, uint8_t u8FineTrim)
+    172          {
+   \                     MLMEPHYXtalAdjust: (+1)
+   \        0x0   0xB410             PUSH     {R4}
+    173            if( (gMaxCoarseTrim_c < u8CoarseTrim) || 
+    174                (gMaxFineTrim_c < u8FineTrim)){
+   \        0x2   0x2820             CMP      R0,#+32
+   \        0x4   0xDA01             BGE      ??MLMEPHYXtalAdjust_0
+   \        0x6   0x2920             CMP      R1,#+32
+   \        0x8   0xDB01             BLT      ??MLMEPHYXtalAdjust_1
+    175              return gFailOutOfRange_c;
+   \                     ??MLMEPHYXtalAdjust_0: (+1)
+   \        0xA   0x2001             MOVS     R0,#+1
+   \        0xC   0xE01D             B        ??MLMEPHYXtalAdjust_2
+    176            }
+    177            else {
+    178              /*Do nothing */
+    179            }
+    180          
+    181            if(gBulkCapMask_c & u8CoarseTrim)
+   \                     ??MLMEPHYXtalAdjust_1: (+1)
+   \        0xE   0x....             LDR      R2,??DataTable8_2  ;; 0x80003040
+   \       0x10   0x06C3             LSLS     R3,R0,#+27
+   \       0x12   0x6813             LDR      R3,[R2, #+0]
+   \       0x14   0xD503             BPL      ??MLMEPHYXtalAdjust_3
+    182            {
+    183              enable_bulk_cap();
+   \       0x16   0x2480             MOVS     R4,#+128
+   \       0x18   0x04A4             LSLS     R4,R4,#+18       ;; #+33554432
+   \       0x1A   0x431C             ORRS     R4,R4,R3
+   \       0x1C   0xE001             B        ??MLMEPHYXtalAdjust_4
+    184            }
+    185            else
+    186            {
+    187              disable_bulk_cap();
+   \                     ??MLMEPHYXtalAdjust_3: (+1)
+   \       0x1E   0x....             LDR      R4,??DataTable8_3  ;; 0xfdffffff
+   \       0x20   0x401C             ANDS     R4,R4,R3
+   \                     ??MLMEPHYXtalAdjust_4: (+1)
+   \       0x22   0x6014             STR      R4,[R2, #+0]
+    188            }
+    189          
+    190            set_xtal_coarse_tune((~gBulkCapMask_c) & u8CoarseTrim);
+   \       0x24   0x6813             LDR      R3,[R2, #+0]
+   \       0x26   0x....             LDR      R4,??DataTable8_4  ;; 0xfe1fffff
+   \       0x28   0x401C             ANDS     R4,R4,R3
+   \       0x2A   0x0540             LSLS     R0,R0,#+21
+   \       0x2C   0x23F0             MOVS     R3,#+240
+   \       0x2E   0x045B             LSLS     R3,R3,#+17       ;; #+31457280
+   \       0x30   0x4003             ANDS     R3,R3,R0
+   \       0x32   0x4323             ORRS     R3,R3,R4
+   \       0x34   0x6013             STR      R3,[R2, #+0]
+    191            set_xtal_fine_tune(u8FineTrim);
+   \       0x36   0x6810             LDR      R0,[R2, #+0]
+   \       0x38   0x....             LDR      R3,??DataTable8_5  ;; 0xffe0ffff
+   \       0x3A   0x4003             ANDS     R3,R3,R0
+   \       0x3C   0x0408             LSLS     R0,R1,#+16
+   \       0x3E   0x21F8             MOVS     R1,#+248
+   \       0x40   0x0349             LSLS     R1,R1,#+13       ;; #+2031616
+   \       0x42   0x4001             ANDS     R1,R1,R0
+   \       0x44   0x4319             ORRS     R1,R1,R3
+   \       0x46   0x6011             STR      R1,[R2, #+0]
+    192          
+    193            return gSuccess_c;
+   \       0x48   0x2000             MOVS     R0,#+0
+   \                     ??MLMEPHYXtalAdjust_2: (+1)
+   \       0x4A   0xBC10             POP      {R4}
+   \       0x4C   0x4770             BX       LR               ;; return
+    194            
+    195          }
+    196          
+    197          
+    198          /************************************************************************************
+    199          * MLMEGetRficVersion
+    200          *
+    201          * This function shall provide the calling function with version of the IC and the 
+    202          * version of the software.
+    203          *
+    204          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    205          FuncReturn_t MLMEGetRficVersion(Versioned_Entity_t Entity, uint32_t *Buffer)
+    206          {
+   \                     MLMEGetRficVersion: (+1)
+   \        0x0   0xB430             PUSH     {R4,R5}
+    207            uint8_t i;
+    208          
+    209            if(MAX_VERSIONED_ENTITY <= Entity){
+   \        0x2   0x2803             CMP      R0,#+3
+   \        0x4   0xDB01             BLT      ??MLMEGetRficVersion_0
+    210              return gFailOutOfRange_c;
+   \        0x6   0x2001             MOVS     R0,#+1
+   \        0x8   0xE011             B        ??MLMEGetRficVersion_1
+    211            }
+    212            else{
+    213              /* Do nothing */
+    214            }
+    215          
+    216            for(i=0; i<version_registers[Entity].word_size; i++)
+   \                     ??MLMEGetRficVersion_0: (+1)
+   \        0xA   0x2200             MOVS     R2,#+0
+   \        0xC   0xE005             B        ??MLMEGetRficVersion_2
+    217            {
+    218              *Buffer++ = *((version_registers[Entity].version_add)+i);
+   \                     ??MLMEGetRficVersion_3: (+1)
+   \        0xE   0x681B             LDR      R3,[R3, #+0]
+   \       0x10   0x00A4             LSLS     R4,R4,#+2
+   \       0x12   0x591B             LDR      R3,[R3, R4]
+   \       0x14   0x600B             STR      R3,[R1, #+0]
+   \       0x16   0x1D09             ADDS     R1,R1,#+4
+    219            }
+   \       0x18   0x1C52             ADDS     R2,R2,#+1
+   \                     ??MLMEGetRficVersion_2: (+1)
+   \       0x1A   0x46C0             Nop      
+   \       0x1C   0x....             ADR.N    R3,version_registers
+   \       0x1E   0x00C4             LSLS     R4,R0,#+3
+   \       0x20   0x191B             ADDS     R3,R3,R4
+   \       0x22   0x791D             LDRB     R5,[R3, #+4]
+   \       0x24   0x0614             LSLS     R4,R2,#+24
+   \       0x26   0x0E24             LSRS     R4,R4,#+24
+   \       0x28   0x42AC             CMP      R4,R5
+   \       0x2A   0xD3F0             BCC      ??MLMEGetRficVersion_3
+    220          
+    221            return gSuccess_c;
+   \       0x2C   0x2000             MOVS     R0,#+0
+   \                     ??MLMEGetRficVersion_1: (+1)
+   \       0x2E   0xBC30             POP      {R4,R5}
+   \       0x30   0x4770             BX       LR               ;; return
+    222          }
+    223          
+    224          /************************************************************************************
+    225          * MLMETestMode
+    226          *
+    227          * This SMAC primitive was added to place the device into MACA tests modes.
+    228          *
+    229          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    230          void MLMETestMode (Test_Mode_t u8Mode)
+    231          {
+   \                     MLMETestMode: (+1)
+   \        0x0   0xB538             PUSH     {R3-R5,LR}
+   \        0x2   0x0005             MOVS     R5,R0
+    232            disable_test_mode_continuos_tx_nomod();
+   \        0x4   0x....'....        BL       disable_test_mode_continuos_tx_nomod
+    233          
+    234            switch(u8Mode){
+   \        0x8   0x....             LDR      R4,??DataTable8_6  ;; 0x8000400c
+   \        0xA   0x....             LDR      R0,??DataTable8_7  ;; 0x1808
+   \        0xC   0x2D04             CMP      R5,#+4
+   \        0xE   0xD00A             BEQ      ??MLMETestMode_0
+   \       0x10   0xD315             BCC      ??MLMETestMode_1
+   \       0x12   0x2D06             CMP      R5,#+6
+   \       0x14   0xD00D             BEQ      ??MLMETestMode_2
+   \       0x16   0xD212             BCS      ??MLMETestMode_1
+    235              case(SMAC_TEST_MODE_IDLE):
+    236                {
+    237                  maca_control = SMAC_MACA_CNTL_INIT_STATE;
+    238                }
+    239                break;
+    240                    
+    241              case(SMAC_TEST_MODE_CONTINUOUS_TX_NOMOD):
+    242                {
+    243                  maca_control = SMAC_MACA_CNTL_INIT_STATE;
+   \       0x18   0x6020             STR      R0,[R4, #+0]
+    244                  DelayMs(2);
+   \       0x1A   0x2002             MOVS     R0,#+2
+   \       0x1C   0x....'....        BL       DelayMs
+    245                  set_test_mode_continuos_tx_nomod();
+   \       0x20   0x....'....        BL       set_test_mode_continuos_tx_nomod
+    246                }
+    247                break;
+   \       0x24   0xE00C             B        ??MLMETestMode_3
+    248                
+    249              case(SMAC_TEST_MODE_CONTINUOUS_TX_MOD):
+    250                {
+    251                  maca_control = SMAC_MACA_CNTL_INIT_STATE;
+   \                     ??MLMETestMode_0: (+1)
+   \       0x26   0x6020             STR      R0,[R4, #+0]
+    252                  DelayMs(2);
+   \       0x28   0x2002             MOVS     R0,#+2
+   \       0x2A   0x....'....        BL       DelayMs
+    253                  maca_control = MACA_CONTINUOUS_TX;
+   \       0x2E   0x....             LDR      R0,??DataTable8_8  ;; 0x223
+   \       0x30   0xE005             B        ??MLMETestMode_1
+    254                }
+    255                break;
+    256                
+    257              case(SMAC_TEST_MODE_CONTINUOUS_RX):
+    258                {
+    259                  maca_control = SMAC_MACA_CNTL_INIT_STATE;
+   \                     ??MLMETestMode_2: (+1)
+   \       0x32   0x6020             STR      R0,[R4, #+0]
+    260                  DelayMs(2);
+   \       0x34   0x2002             MOVS     R0,#+2
+   \       0x36   0x....'....        BL       DelayMs
+    261                  maca_control = MACA_CONTINUOUS_RX;
+   \       0x3A   0x2089             MOVS     R0,#+137
+   \       0x3C   0x0080             LSLS     R0,R0,#+2        ;; #+548
+    262                }
+    263                break;    
+    264              
+    265              default:
+    266                maca_control = SMAC_MACA_CNTL_INIT_STATE;
+   \                     ??MLMETestMode_1: (+1)
+   \       0x3E   0x6020             STR      R0,[R4, #+0]
+    267                break;
+    268            }
+    269          }
+   \                     ??MLMETestMode_3: (+1)
+   \       0x40   0xBC31             POP      {R0,R4,R5}
+   \       0x42   0xBC08             POP      {R3}
+   \       0x44   0x4718             BX       R3               ;; return
+    270          
+    271          
+    272          /************************************************************************************
+    273          * MLMESetPromiscuousMode
+    274          *
+    275          * This function sets the promiscous mode to on/off
+    276          *
+    277          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    278          FuncReturn_t MLMESetPromiscuousMode(bool_t isPromiscousMode)
+    279          {
+    280            mIsPromiscousMode = isPromiscousMode;
+   \                     MLMESetPromiscuousMode: (+1)
+   \        0x0   0x....             LDR      R1,??DataTable8_9
+   \        0x2   0x7008             STRB     R0,[R1, #+0]
+    281            return gSuccess_c;
+   \        0x4   0x2000             MOVS     R0,#+0
+   \        0x6   0x4770             BX       LR               ;; return
+    282          }
+    283          
+    284          /************************************************************************************
+    285          * MLMEGetPromiscuousMode
+    286          *
+    287          * This function gets the current promiscous mode to on/off.
+    288          *
+    289          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    290          bool_t MLMEGetPromiscuousMode(void)
+    291          {
+    292            return mIsPromiscousMode;
+   \                     MLMEGetPromiscuousMode: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable8_9
+   \        0x2   0x7800             LDRB     R0,[R0, #+0]
+   \        0x4   0x4770             BX       LR               ;; return
+    293          }
+    294          
+    295          /************************************************************************************
+    296          * MLMERadioInit
+    297          *
+    298          * This function configures the different parameters of the MAC accelerator and the 
+    299          * radio interface
+    300          *
+    301          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    302          FuncReturn_t MLMERadioInit(void)
+    303          {
+   \                     MLMERadioInit: (+1)
+   \        0x0   0xB57C             PUSH     {R2-R6,LR}
+    304            static uint8_t i=0;  
+    305            uint32_t u32LoopDiv;  
+    306          
+    307            u32LoopDiv = ((gDigitalClock_RN_c<<25) + gDigitalClock_RAFC_c);
+    308          
+    309            if (0==i){
+   \        0x2   0x2400             MOVS     R4,#+0
+   \        0x4   0x2501             MOVS     R5,#+1
+   \        0x6   0x....             LDR      R6,??DataTable8_9
+   \        0x8   0x7870             LDRB     R0,[R6, #+1]
+   \        0xA   0x2800             CMP      R0,#+0
+   \        0xC   0xD10D             BNE      ??MLMERadioInit_0
+    310              i = 1;
+   \        0xE   0x7075             STRB     R5,[R6, #+1]
+    311              RadioInit(PLATFORM_CLOCK, gDigitalClock_PN_c, u32LoopDiv);
+   \       0x10   0x22A8             MOVS     R2,#+168
+   \       0x12   0x0592             LSLS     R2,R2,#+22       ;; #+704643072
+   \       0x14   0x2118             MOVS     R1,#+24
+   \       0x16   0x....             LDR      R0,??DataTable8_10  ;; 0x16e3600
+   \       0x18   0x....'....        BL       RadioInit
+    312              MLMEPHYXtalAdjust(DEFAULT_COARSE_TRIM, DEFAULT_FINE_TRIM);
+   \       0x1C   0x210F             MOVS     R1,#+15
+   \       0x1E   0x2008             MOVS     R0,#+8
+   \       0x20   0x....'....        BL       MLMEPHYXtalAdjust
+    313              MLMESetPromiscuousMode(SMAC_PROMISCUOUS_MODE);
+   \       0x24   0x7034             STRB     R4,[R6, #+0]
+    314              radio_manager_init();
+   \       0x26   0x....'....        BL       radio_manager_init
+    315            }
+    316            
+    317            if(PLATFORM_CLOCK != 24000000)
+    318            {
+    319              InitIdleToRun();
+    320            }
+    321            
+    322            InitializePhy(); // Re-init MACA
+   \                     ??MLMERadioInit_0: (+1)
+   \       0x2A   0x....             LDR      R0,??DataTable8_11  ;; 0x80004004
+   \       0x2C   0x6005             STR      R5,[R0, #+0]
+   \       0x2E   0x466A             MOV      R2,SP
+   \       0x30   0x7014             STRB     R4,[R2, #+0]
+   \       0x32   0xE003             B        ??MLMERadioInit_1
+   \                     ??MLMERadioInit_2: (+1)
+   \       0x34   0x4669             MOV      R1,SP
+   \       0x36   0x7809             LDRB     R1,[R1, #+0]
+   \       0x38   0x1C49             ADDS     R1,R1,#+1
+   \       0x3A   0x7011             STRB     R1,[R2, #+0]
+   \                     ??MLMERadioInit_1: (+1)
+   \       0x3C   0x4669             MOV      R1,SP
+   \       0x3E   0x7809             LDRB     R1,[R1, #+0]
+   \       0x40   0x2964             CMP      R1,#+100
+   \       0x42   0xDBF7             BLT      ??MLMERadioInit_2
+   \       0x44   0x2102             MOVS     R1,#+2
+   \       0x46   0x6001             STR      R1,[R0, #+0]
+   \       0x48   0x6084             STR      R4,[R0, #+8]
+   \       0x4A   0x2105             MOVS     R1,#+5
+   \       0x4C   0x63C1             STR      R1,[R0, #+60]
+   \       0x4E   0x....             LDR      R1,??DataTable8_12  ;; 0x800040cc
+   \       0x50   0x225F             MOVS     R2,#+95
+   \       0x52   0x648A             STR      R2,[R1, #+72]
+   \       0x54   0x....             LDR      R2,??DataTable8_13  ;; 0x180012
+   \       0x56   0x64CA             STR      R2,[R1, #+76]
+   \       0x58   0x2204             MOVS     R2,#+4
+   \       0x5A   0x67CA             STR      R2,[R1, #+124]
+   \       0x5C   0x....             LDR      R2,??DataTable8_14  ;; 0x8000414c
+   \       0x5E   0x....             LDR      R3,??DataTable8_15  ;; 0x1a0022
+   \       0x60   0x6013             STR      R3,[R2, #+0]
+   \       0x62   0x2325             MOVS     R3,#+37
+   \       0x64   0x6093             STR      R3,[R2, #+8]
+   \       0x66   0x22A7             MOVS     R2,#+167
+   \       0x68   0x658A             STR      R2,[R1, #+88]
+   \       0x6A   0x2208             MOVS     R2,#+8
+   \       0x6C   0x6442             STR      R2,[R0, #+68]
+   \       0x6E   0x....             LDR      R2,??DataTable8_16  ;; 0x3815
+   \       0x70   0x600A             STR      R2,[R1, #+0]
+   \       0x72   0x21D4             MOVS     R1,#+212
+   \       0x74   0x0389             LSLS     R1,R1,#+14       ;; #+3473408
+   \       0x76   0x6601             STR      R1,[R0, #+96]
+    323            SetComplementaryPAState(gEnableComplementaryPAOutput_c);
+   \       0x78   0x2000             MOVS     R0,#+0
+   \       0x7A   0x....'....        BL       SetComplementaryPAState
+    324            SetPowerLevelLockMode(gPowerLevelLock_c);
+   \       0x7E   0x2000             MOVS     R0,#+0
+   \       0x80   0x....'....        BL       SetPowerLevelLockMode
+    325            SetEdCcaThreshold(gCcaThreshold_c);
+   \       0x84   0x2039             MOVS     R0,#+57
+   \       0x86   0x....'....        BL       SetEdCcaThreshold
+    326            
+    327            CRM_REGS_P->VregCntl = 0x00000F78; //Enables the radio voltage source
+   \       0x8A   0x....             LDR      R0,??DataTable8_17  ;; 0xf78
+   \       0x8C   0x....             LDR      R1,??DataTable8_18  ;; 0x80003048
+   \       0x8E   0x6008             STR      R0,[R1, #+0]
+    328            return gSuccess_c;
+   \       0x90   0x2000             MOVS     R0,#+0
+   \       0x92   0xBC76             POP      {R1,R2,R4-R6}
+   \       0x94   0xBC08             POP      {R3}
+   \       0x96   0x4718             BX       R3               ;; return
+    329          }
+
+   \                                 In section .bss, align 1
+   \                     mIsPromiscousMode:
+   \        0x0                      DS8 1
+   \        0x1                      DS8 1
+    330          
+    331          
+    332          /************************************************************************************
+    333          *************************************************************************************
+    334          * Private functions
+    335          *************************************************************************************
+    336          ************************************************************************************/
+    337          
+    338          /************************************************************************************
+    339          * InitializePhy
+    340          *
+    341          * This function configures the different parameters of the MAC accelerator and the 
+    342          * radio interface
+    343          *
+    344          ************************************************************************************/
+    345          static void InitializePhy(void)
+    346          {
+    347            volatile uint8_t cnt;
+    348            
+    349            MACA_WRITE(maca_reset, maca_reset_rst);
+    350           
+    351            for(cnt=0; cnt < 100; cnt++); 
+    352          
+    353            MACA_WRITE(maca_reset      , maca_reset_cln_on);                      // 0x80004004
+    354            MACA_WRITE(maca_control    , control_seq_nop);                        // 0x8000400c
+    355            MACA_WRITE(maca_tmren      , maca_start_clk | maca_soft_clk);          // 0x80004040
+    356            MACA_WRITE(maca_divider    , gMACA_Clock_DIV_c);                      // 0x80004114
+    357            MACA_WRITE(maca_warmup     , 0x00180012);                             // 0x80004118
+    358            MACA_WRITE(maca_eofdelay   , 0x00000004);                             // 0x80004148
+    359            MACA_WRITE(maca_ccadelay   , 0x001a0022);                             // 0x8000414c
+    360            MACA_WRITE(maca_txccadelay , 0x00000025);                             // 0x80008154
+    361            MACA_WRITE(maca_framesync  , 0x000000A7);                             // 0x80004124
+    362            MACA_WRITE(maca_clk        , 0x00000008);                             // 0x80004048
+    363            MACA_WRITE(maca_maskirq    , (maca_irq_cm   | maca_irq_acpl | 
+    364                                          maca_irq_rst  | maca_irq_di | maca_irq_crc | maca_irq_flt ));
+    365            MACA_WRITE(maca_slotoffset , 0x00350000);                             // 0x80004064
+    366            // MACA
+    367          
+    368          }
+    369          
+    370          
+    371          /************************************************************************************
+    372          * ConfigureRfCtlSignals()
+    373          *
+    374          * This function ...
+    375          *
+    376          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    377          void ConfigureRfCtlSignals(RfSignalType_t signalType, RfSignalFunction_t function, bool_t gpioOutput, bool_t gpioOutputHigh )
+    378          {
+   \                     ConfigureRfCtlSignals: (+1)
+   \        0x0   0xB570             PUSH     {R4-R6,LR}
+   \        0x2   0x001C             MOVS     R4,R3
+    379           /* Validate the input paramters */
+    380           if( (signalType >= gRfSignalMax_c) || (function >= gRfSignalFunctionMax_c) )
+   \        0x4   0x2803             CMP      R0,#+3
+   \        0x6   0xDC30             BGT      ??ConfigureRfCtlSignals_0
+   \        0x8   0x2902             CMP      R1,#+2
+   \        0xA   0xDC2E             BGT      ??ConfigureRfCtlSignals_0
+    381           {
+    382            /* SignalType or function out of range */ 
+    383            return;
+    384           }
+    385           
+    386           if( (signalType < gRfSignalTXON_c) && (function > gRfSignalFunction1_c) )
+   \        0xC   0x2802             CMP      R0,#+2
+   \        0xE   0xDA01             BGE      ??ConfigureRfCtlSignals_1
+   \       0x10   0x2902             CMP      R1,#+2
+   \       0x12   0xDA2A             BGE      ??ConfigureRfCtlSignals_0
+    387           {
+    388            /* Function2 requested for ANT_1 or ANT_2 */
+    389            return;
+    390           }
+    391           
+    392           if(function > 0)
+   \                     ??ConfigureRfCtlSignals_1: (+1)
+   \       0x14   0x302A             ADDS     R0,R0,#+42
+   \       0x16   0x0005             MOVS     R5,R0
+   \       0x18   0x0008             MOVS     R0,R1
+   \       0x1A   0xD004             BEQ      ??ConfigureRfCtlSignals_2
+    393           {
+    394            /* Function 1 or 2 was requested for the RF pin. Apply the change at the GPIO function level for the requested signal */
+    395            Gpio_SetPinFunction((GpioPin_t)((GpioPin_t)gGpioPin42_c+(GpioPin_t)signalType), (GpioFunctionMode_t)function); 
+   \       0x1C   0x0628             LSLS     R0,R5,#+24
+   \       0x1E   0x0E00             LSRS     R0,R0,#+24
+   \       0x20   0x....'....        BL       Gpio_SetPinFunction
+   \       0x24   0xE021             B        ??ConfigureRfCtlSignals_0
+    396           }
+   \                     ??ConfigureRfCtlSignals_2: (+1)
+   \       0x26   0x0016             MOVS     R6,R2
+    397           else
+    398           {
+    399            /* GPIO mode requested for the RF pin. Apply the function, direction and level for the requested signal */
+    400            Gpio_SetPinFunction((GpioPin_t)((GpioPin_t)gGpioPin42_c+(GpioPin_t)signalType), gGpioNormalMode_c); 
+   \       0x28   0x2100             MOVS     R1,#+0
+   \       0x2A   0x0628             LSLS     R0,R5,#+24
+   \       0x2C   0x0E00             LSRS     R0,R0,#+24
+   \       0x2E   0x....'....        BL       Gpio_SetPinFunction
+   \       0x32   0x2E01             CMP      R6,#+1
+   \       0x34   0xD10F             BNE      ??ConfigureRfCtlSignals_3
+    401            if(gpioOutput == TRUE)
+    402            {  
+    403             Gpio_SetPinDir((GpioPin_t)((GpioPin_t)gGpioPin42_c+(GpioPin_t)signalType), gGpioDirOut_c);
+   \       0x36   0x2101             MOVS     R1,#+1
+   \       0x38   0x0628             LSLS     R0,R5,#+24
+   \       0x3A   0x0E00             LSRS     R0,R0,#+24
+   \       0x3C   0x....'....        BL       Gpio_SetPinDir
+    404             Gpio_SetPinReadSource((GpioPin_t)((GpioPin_t)gGpioPin42_c+(GpioPin_t)signalType), gGpioPinReadReg_c);
+   \       0x40   0x2101             MOVS     R1,#+1
+   \       0x42   0x0628             LSLS     R0,R5,#+24
+   \       0x44   0x0E00             LSRS     R0,R0,#+24
+   \       0x46   0x....'....        BL       Gpio_SetPinReadSource
+    405             Gpio_SetPinData((GpioPin_t)((GpioPin_t)gGpioPin42_c+(GpioPin_t)signalType), (GpioPinState_t)gpioOutputHigh); 
+   \       0x4A   0x0021             MOVS     R1,R4
+   \       0x4C   0x0628             LSLS     R0,R5,#+24
+   \       0x4E   0x0E00             LSRS     R0,R0,#+24
+   \       0x50   0x....'....        BL       Gpio_SetPinData
+   \       0x54   0xE009             B        ??ConfigureRfCtlSignals_0
+    406            }
+    407            else
+    408            {
+    409             Gpio_SetPinDir((GpioPin_t)((GpioPin_t)gGpioPin42_c+(GpioPin_t)signalType), gGpioDirIn_c);
+   \                     ??ConfigureRfCtlSignals_3: (+1)
+   \       0x56   0x2100             MOVS     R1,#+0
+   \       0x58   0x0628             LSLS     R0,R5,#+24
+   \       0x5A   0x0E00             LSRS     R0,R0,#+24
+   \       0x5C   0x....'....        BL       Gpio_SetPinDir
+    410             Gpio_SetPinReadSource((GpioPin_t)((GpioPin_t)gGpioPin42_c+(GpioPin_t)signalType), gGpioPinReadPad_c);
+   \       0x60   0x2100             MOVS     R1,#+0
+   \       0x62   0x0628             LSLS     R0,R5,#+24
+   \       0x64   0x0E00             LSRS     R0,R0,#+24
+   \       0x66   0x....'....        BL       Gpio_SetPinReadSource
+    411            }  
+    412           }
+    413           
+    414          }
+   \                     ??ConfigureRfCtlSignals_0: (+1)
+   \       0x6A   0xBC70             POP      {R4-R6}
+   \       0x6C   0xBC08             POP      {R3}
+   \       0x6E   0x4718             BX       R3               ;; return
+    415          
+    416          
+    417          /************************************************************************************
+    418          * ConfigureBuckRegulator
+    419          *
+    420          * This function enables or bypass the buck regulator 
+    421          *
+    422          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    423          void ConfigureBuckRegulator(BuckTypes_t BuckRegState)
+    424          {
+    425           
+    426            if(BUCK_DISABLE == BuckRegState)
+   \                     ConfigureBuckRegulator: (+1)
+   \        0x0   0x2201             MOVS     R2,#+1
+   \        0x2   0x43D2             MVNS     R2,R2            ;; #-2
+   \        0x4   0x....             LDR      R1,??DataTable8_19  ;; 0x80003000
+   \        0x6   0x0003             MOVS     R3,R0
+   \        0x8   0xD104             BNE      ??ConfigureBuckRegulator_0
+    427            {
+    428              CRM_REGS_P->SysCntl &= 0xFFFFFFFE;
+   \        0xA   0x6808             LDR      R0,[R1, #+0]
+   \        0xC   0x4002             ANDS     R2,R2,R0
+   \        0xE   0x600A             STR      R2,[R1, #+0]
+    429              CRM_REGS_P->VregCntl = 0x00000F78;
+   \       0x10   0x....             LDR      R0,??DataTable8_17  ;; 0xf78
+   \       0x12   0xE00D             B        ??ConfigureBuckRegulator_1
+    430            }
+    431            if(BUCK_ENABLE == BuckRegState)
+   \                     ??ConfigureBuckRegulator_0: (+1)
+   \       0x14   0x2802             CMP      R0,#+2
+   \       0x16   0xD105             BNE      ??ConfigureBuckRegulator_2
+    432            {
+    433              CRM_REGS_P->SysCntl |= BIT0;  //Enables buck regutation as power supply
+   \       0x18   0x6808             LDR      R0,[R1, #+0]
+   \       0x1A   0x2201             MOVS     R2,#+1
+   \       0x1C   0x4302             ORRS     R2,R2,R0
+   \       0x1E   0x600A             STR      R2,[R1, #+0]
+    434              CRM_REGS_P->VregCntl = 0x00000F7B;
+   \       0x20   0x....             LDR      R0,??DataTable8_20  ;; 0xf7b
+   \       0x22   0xE005             B        ??ConfigureBuckRegulator_1
+    435            }
+    436            
+    437            if(BUCK_BYPASS == BuckRegState)
+   \                     ??ConfigureBuckRegulator_2: (+1)
+   \       0x24   0x2801             CMP      R0,#+1
+   \       0x26   0xD104             BNE      ??ConfigureBuckRegulator_3
+    438            {
+    439              CRM_REGS_P->SysCntl &= 0xFFFFFFFE;
+   \       0x28   0x6808             LDR      R0,[R1, #+0]
+   \       0x2A   0x4002             ANDS     R2,R2,R0
+   \       0x2C   0x600A             STR      R2,[R1, #+0]
+    440              CRM_REGS_P->VregCntl = 0x00000F7C;
+   \       0x2E   0x....             LDR      R0,??DataTable8_21  ;; 0xf7c
+   \                     ??ConfigureBuckRegulator_1: (+1)
+   \       0x30   0x6488             STR      R0,[R1, #+72]
+    441            }
+    442          }
+   \                     ??ConfigureBuckRegulator_3: (+1)
+   \       0x32   0x4770             BX       LR               ;; return
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8:
+   \        0x0   0x8765'1234        DC32     0x87651234
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_1:
+   \        0x0   0x8000'3050        DC32     0x80003050
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_2:
+   \        0x0   0x8000'3040        DC32     0x80003040
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_3:
+   \        0x0   0xFDFF'FFFF        DC32     0xfdffffff
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_4:
+   \        0x0   0xFE1F'FFFF        DC32     0xfe1fffff
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_5:
+   \        0x0   0xFFE0'FFFF        DC32     0xffe0ffff
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_6:
+   \        0x0   0x8000'400C        DC32     0x8000400c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_7:
+   \        0x0   0x0000'1808        DC32     0x1808
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_8:
+   \        0x0   0x0000'0223        DC32     0x223
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_9:
+   \        0x0   0x....'....        DC32     mIsPromiscousMode
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_10:
+   \        0x0   0x016E'3600        DC32     0x16e3600
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_11:
+   \        0x0   0x8000'4004        DC32     0x80004004
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_12:
+   \        0x0   0x8000'40CC        DC32     0x800040cc
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_13:
+   \        0x0   0x0018'0012        DC32     0x180012
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_14:
+   \        0x0   0x8000'414C        DC32     0x8000414c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_15:
+   \        0x0   0x001A'0022        DC32     0x1a0022
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_16:
+   \        0x0   0x0000'3815        DC32     0x3815
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_17:
+   \        0x0   0x0000'0F78        DC32     0xf78
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_18:
+   \        0x0   0x8000'3048        DC32     0x80003048
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_19:
+   \        0x0   0x8000'3000        DC32     0x80003000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_20:
+   \        0x0   0x0000'0F7B        DC32     0xf7b
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable8_21:
+   \        0x0   0x0000'0F7C        DC32     0xf7c
+    443          
+    444          
+    445          /************************************************************************************
+    446          *************************************************************************************
+    447          * Private Debug stuff
+    448          *************************************************************************************
+    449          ************************************************************************************/
+    450          
+    451          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   ConfigureBuckRegulator
+      16   ConfigureRfCtlSignals
+        16   -> Gpio_SetPinData
+        16   -> Gpio_SetPinDir
+        16   -> Gpio_SetPinFunction
+        16   -> Gpio_SetPinReadSource
+       0   MLMEGetPromiscuousMode
+       8   MLMEGetRficVersion
+       0   MLMEPHYResetIndication
+       0   MLMEPHYSoftReset
+       4   MLMEPHYXtalAdjust
+      24   MLMERadioInit
+        24   -> MLMEPHYXtalAdjust
+        24   -> RadioInit
+        24   -> SetComplementaryPAState
+        24   -> SetEdCcaThreshold
+        24   -> SetPowerLevelLockMode
+        24   -> radio_manager_init
+       0   MLMESetPromiscuousMode
+      16   MLMETestMode
+        16   -> DelayMs
+        16   -> disable_test_mode_continuos_tx_nomod
+        16   -> set_test_mode_continuos_tx_nomod
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable8
+       4  ??DataTable8_1
+       4  ??DataTable8_10
+       4  ??DataTable8_11
+       4  ??DataTable8_12
+       4  ??DataTable8_13
+       4  ??DataTable8_14
+       4  ??DataTable8_15
+       4  ??DataTable8_16
+       4  ??DataTable8_17
+       4  ??DataTable8_18
+       4  ??DataTable8_19
+       4  ??DataTable8_2
+       4  ??DataTable8_20
+       4  ??DataTable8_21
+       4  ??DataTable8_3
+       4  ??DataTable8_4
+       4  ??DataTable8_5
+       4  ??DataTable8_6
+       4  ??DataTable8_7
+       4  ??DataTable8_8
+       4  ??DataTable8_9
+      52  ConfigureBuckRegulator
+     112  ConfigureRfCtlSignals
+       6  MLMEGetPromiscuousMode
+      50  MLMEGetRficVersion
+       2  MLMEPHYResetIndication
+       8  MLMEPHYSoftReset
+      78  MLMEPHYXtalAdjust
+     152  MLMERadioInit
+       8  MLMESetPromiscuousMode
+      70  MLMETestMode
+       2  mIsPromiscousMode
+          i
+       4  smac_version
+      24  version_registers
+
+ 
+   2 bytes in section .bss
+   4 bytes in section .rodata
+ 650 bytes in section .text
+ 
+ 650 bytes of CODE  memory
+   4 bytes of CONST memory
+   2 bytes of DATA  memory
+
+Errors: none
+Warnings: none

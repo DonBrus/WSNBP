@@ -1,0 +1,2546 @@
+              definition:  __as_table_start
+              definition:  __as_entries_start
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Delay.o.
+              definition:  DelayMs
+              definition:  DelayUs
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Display.o.
+              reference :  DelayMs
+              reference :  DelayUs
+              reference :  Gpio_GetPortData
+              reference :  Gpio_SetPinData
+              reference :  Gpio_SetPinDir
+              reference :  Gpio_SetPinFunction
+              reference :  Gpio_SetPinReadSource
+              reference :  Gpio_SetPortData
+              reference :  Gpio_SetPortDir
+              reference :  Gpio_SetPortFunction
+              reference :  Gpio_WrPortSetting
+              reference :  LCD_WriteString
+              reference :  __aeabi_idiv
+              reference :  __aeabi_idivmod
+              reference :  __aeabi_memclr4
+              reference :  __aeabi_memcpy4
+              reference :  gLCDNormalFont
+              reference :  gLCDNormalIndex
+              reference :  gLCDVerdanaFont
+              reference :  gLCDVerdanaIndex
+              definition:  LCD_CheckError
+              definition:  LCD_ClearDisplay
+              definition:  LCD_ClearLine
+              definition:  LCD_ClearPage
+              definition:  LCD_DrawIcon
+              definition:  LCD_Init
+              definition:  LCD_SetBacklight
+              definition:  LCD_SetFont
+              definition:  LCD_WriteBytes
+              definition:  LCD_WriteCharacter
+              definition:  LCD_WriteCommand
+              definition:  LCD_WriteData
+              definition:  LCD_WritePixel
+              definition:  LCD_WriteStringDecValue
+              definition:  LCD_WriteStringValue
+              definition:  LCD_WriteString_NormalFont
+              definition:  aLCDFont
+              definition:  gaHexValue
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\HLDrv.o.
+              reference :  CRM_2kToXtal32Switch
+              reference :  CRM_RegisterISR
+              reference :  CRM_SetPowerSource
+              reference :  CRM_VRegCntl
+              reference :  CRM_VRegTrimm
+              definition:  DRVConfigureRTC
+              definition:  DRVConfigureVolageRegTrimm
+              definition:  DRVConfigureVoltageControl
+              definition:  DRVSetPowerSource
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Init-IAR.o.
+              reference :  Main
+              reference :  RP_Vector_Init
+              reference :  __iar_data_init2
+              reference :  __rom_data_init
+              reference :  Region_ROM_Table_ROM_Base
+              reference :  Region_ROM_Table_ROM_Limit
+              reference :  RP_Vector_Thumb_0
+              reference :  RP_Vector_Thumb_1
+              reference :  RP_Vector_Thumb_2
+              reference :  RP_Vector_Thumb_3
+              reference :  IrqHandler
+              reference :  FiqHandler
+              reference :  mExceptionHandlerPrefetchAbort
+              reference :  mExceptionHandlerDataAbort
+              reference :  mExceptionHandlerUndefined
+              reference :  mExceptionHandlerSupervisor
+              definition:  _start_vector_
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Keyboard.o.
+              reference :  Gpio_SetPortDir
+              reference :  Gpio_SetPortFunction
+              reference :  Gpio_WrPortSetting
+              definition:  KbGpioInit
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Leds.o.
+              reference :  Gpio_GetPinData
+              reference :  Gpio_SetPinData
+              reference :  Gpio_SetPinDir
+              reference :  Gpio_SetPinFunction
+              reference :  Gpio_SetPinReadSource
+              reference :  Gpio_TogglePin
+              definition:  LED_GetLed
+              definition:  LED_Init
+              definition:  LED_SetHex
+              definition:  LED_ToggleLed
+              definition:  LED_TurnOffAllLeds
+              definition:  LED_TurnOffLed
+              definition:  LED_TurnOnAllLeds
+              definition:  LED_TurnOnLed
+              definition:  Set_Pins
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\maca.o.
+              definition:  ResetMaca
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\MacaInterrupt.o.
+              reference :  ITC_DisableInterrupt
+              reference :  ITC_EnableInterrupt
+              reference :  MLMEGetPromiscuousMode
+              reference :  execute_current_message_callback
+              reference :  gRadioEvntFlags
+              definition:  MACA_Interrupt
+              definition:  ResumeMACASync
+              definition:  flag
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\PlatformInit.o.
+              definition:  PlatformPortInit
+              definition:  StartNvmReg
+              definition:  StopNvmReg
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\RadioManagement.o.
+              reference :  GetCurrentChannel
+              reference :  MLMEEnergyDetect
+              reference :  SetChannel
+              definition:  Scan_msg
+              definition:  abort_message
+              definition:  ackBox
+              definition:  bScanReqFlag
+              definition:  change_current_message_state
+              definition:  command_xcvr_ed
+              definition:  dataScan
+              definition:  execute_current_message_callback
+              definition:  gRadioEvntFlags
+              definition:  gaRFSynVCODivF_c
+              definition:  gaRFSynVCODivI_c
+              definition:  get_current_message
+              definition:  get_next_chann_to_scan
+              definition:  handle_new_message
+              definition:  process_radio_msg
+              definition:  process_scan_req
+              definition:  radio_manager_init
+              definition:  release_current_message
+              definition:  u16ChannToScan
+              definition:  u8ScanValPerChann
+              definition:  vScanReqCallBack
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\repeater.o.
+              reference :  DelayMs
+              reference :  ITC_EnableInterrupt
+              reference :  ITC_Init
+              reference :  ITC_SetPriority
+              reference :  IntAssignHandler
+              reference :  IntDisableAll
+              reference :  IntRestoreAll
+              reference :  MACA_Interrupt
+              reference :  MCPSDataRequest
+              reference :  MLMEPAOutputAdjust
+              reference :  MLMERXEnableRequest
+              reference :  MLMERadioInit
+              reference :  MLMESetChannelRequest
+              reference :  PlatformPortInit
+              reference :  ResetMaca
+              reference :  UartGetByteFromRxBuffer
+              reference :  Uart_Init
+              reference :  Uart_Print
+              reference :  Uart_PrintByteDec
+              reference :  Uart_PrintHex
+              reference :  Uart_PrintShortDec
+              reference :  Uart_Tx
+              reference :  __aeabi_memcpy4
+              reference :  abort_message
+              reference :  gRadioEvntFlags
+              reference :  gu16SCINumOfBytes
+              reference :  gu8SCIStatus
+              reference :  process_radio_msg
+              definition:  Main
+              definition:  RX_msg
+              definition:  TX_msg
+              definition:  dataRX
+              definition:  dataTX
+              definition:  data_indication_execute
+              definition:  gbDataIndicationFlag
+              definition:  gbRdyToProcessEvnt
+              definition:  isUartDataRdy
+              definition:  repeater_rx_cb
+              definition:  sRepeaterDelay
+              definition:  sRepeaterStat
+              definition:  u32RepeatRxTimeOut
+              definition:  u8RepOpMode
+              definition:  u8RepOpModeText
+              definition:  u8RepRdyPrompt
+              definition:  u8RepeaterChann
+              definition:  u8RepeaterPower
+              definition:  u8RepeaterRunSt
+              definition:  u8RepeaterState
+              definition:  u8UartBuffer
+              definition:  u8UartData
+              definition:  u8UartDataSz
+              definition:  u8WrongChar
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\SecurityMngmnt.o.
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Sound.o.
+              reference :  Gpio_SetPinFunction
+              reference :  I2c_Enable
+              reference :  I2c_Init
+              reference :  I2c_SendData
+              reference :  I2c_SetConfig
+              reference :  TmrEnable
+              reference :  TmrSetCallbackFunction
+              reference :  TmrSetCompStatusControl
+              reference :  TmrSetConfig
+              reference :  TmrSetMode
+              reference :  TmrSetStatusControl
+              definition:  BuzzerBeep
+              definition:  BuzzerInit
+              definition:  mBeepDuration
+              definition:  mMsCounter
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\TransceiverConfigMngmnt.o.
+              reference :  DelayMs
+              reference :  Gpio_SetPinData
+              reference :  Gpio_SetPinDir
+              reference :  Gpio_SetPinFunction
+              reference :  Gpio_SetPinReadSource
+              reference :  RadioInit
+              reference :  SetComplementaryPAState
+              reference :  SetEdCcaThreshold
+              reference :  SetPowerLevelLockMode
+              reference :  disable_test_mode_continuos_tx_nomod
+              reference :  radio_manager_init
+              reference :  set_test_mode_continuos_tx_nomod
+              definition:  ConfigureBuckRegulator
+              definition:  ConfigureRfCtlSignals
+              definition:  MLMEGetPromiscuousMode
+              definition:  MLMEGetRficVersion
+              definition:  MLMEPHYResetIndication
+              definition:  MLMEPHYSoftReset
+              definition:  MLMEPHYXtalAdjust
+              definition:  MLMERadioInit
+              definition:  MLMESetPromiscuousMode
+              definition:  MLMETestMode
+              definition:  smac_version
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\TransceiverPowerMngmnt.o.
+              reference :  CRM_WuCntl
+              definition:  GetConfiguredWakeupSource
+              definition:  MLMESetWakeupSource
+              definition:  SetWakeupTimerTimeout
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\UartUtil.o.
+              reference :  ITC_EnableInterrupt
+              reference :  ITC_SetPriority
+              reference :  IntAssignHandler
+              reference :  IntRestoreIRQ
+              reference :  UartGetByteFromRxBuffer
+              reference :  UartIsr1
+              reference :  UartOpen
+              reference :  UartReadData
+              reference :  UartSetCallbackFunctions
+              reference :  UartSetConfig
+              reference :  UartSetReceiverThreshold
+              reference :  UartSetTransmitterThreshold
+              reference :  UartWriteData
+              reference :  __aeabi_idiv
+              reference :  __aeabi_idivmod
+              definition:  AsciitoHex
+              definition:  GpioUart1Init
+              definition:  GpioUart2Init
+              definition:  UartEventRead1
+              definition:  UartEventRead2
+              definition:  UartEventWrite1
+              definition:  UartEventWrite2
+              definition:  Uart_Init
+              definition:  Uart_Poll
+              definition:  Uart_Print
+              definition:  Uart_PrintByteDec
+              definition:  Uart_PrintHex
+              definition:  Uart_PrintShortDec
+              definition:  Uart_Tx
+              definition:  Uart_getchar
+              definition:  Uart_putchar
+              definition:  gu16SCINumOfBytes
+              definition:  gu8SCIDataFlag
+              definition:  gu8SCIStatus
+              definition:  mem_cmp
+Loading object D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\WirelessLinkMngmt.o.
+              reference :  GetCurrentChannel
+              reference :  PhyPlmeGetLQI
+              reference :  SetChannel
+              reference :  SetPower
+              reference :  abort_message
+              reference :  bScanReqFlag
+              reference :  gaRFSynVCODivF_c
+              reference :  gaRFSynVCODivI_c
+              reference :  handle_new_message
+              reference :  u16ChannToScan
+              reference :  vScanReqCallBack
+              definition:  MCPSDataRequest
+              definition:  MLMEEnergyDetect
+              definition:  MLMEGetChannelRequest
+              definition:  MLMELinkQuality
+              definition:  MLMEPAOutputAdjust
+              definition:  MLMERXDisableRequest
+              definition:  MLMERXEnableRequest
+              definition:  MLMEScanRequest
+              definition:  MLMESetChannelRequest
+Selecting member rom-symbols-LLC.o(LLC.a) to define Gpio_GetPortData.
+              definition:  UartReadComplete
+              definition:  mUartModule
+              definition:  reset_vector
+              definition:  UartOpen
+              definition:  UartSetConfig
+              definition:  UartSetReceiverThreshold
+              definition:  UartSetCTSThreshold
+              definition:  UartSetTransmitterThreshold
+              definition:  UartSetCallbackFunctions
+              definition:  UartReadData
+              definition:  UartWriteData
+              definition:  UartCancelWriteData
+              definition:  UartGetStatus
+              definition:  UartGetConfig
+              definition:  UartClose
+              definition:  UartIsr1
+              definition:  UartIsr2
+              definition:  UartGetByteFromRxBuffer
+              definition:  UartGetUnreadBytesNumber
+              definition:  UartOpenCloseTransceiver
+              definition:  UartClearErrors
+              definition:  UartSetHalfFlowControl
+              definition:  CRM_GoToSleep
+              definition:  CRM_WuCntl
+              definition:  CRM_ModuleEnStatus
+              definition:  CRM_CopCntl
+              definition:  CRM_ForceCopTimeout
+              definition:  CRM_BusStealingCntl
+              definition:  CRM_Wait4Irq
+              definition:  CRM_RefXtalControl
+              definition:  CRM_Xtal32EnCallback
+              definition:  CRM_2kToXtal32Switch
+              definition:  CRM_RingOscCal
+              definition:  CRM_RingOscAbortCal
+              definition:  CRM_SetPowerSource
+              definition:  CRM_VRegCntl
+              definition:  CRM_VRegTrimm
+              definition:  CRM_SetDigOutDriveStrength
+              definition:  CRM_SetSPIFDriveStrength
+              definition:  CRM_RegisterISR
+              definition:  CRM_Isr
+              definition:  SSI_Init
+              definition:  SSI_Enable
+              definition:  SSI_SetConfig
+              definition:  SSI_SetClockConfig
+              definition:  SSI_SetTxRxConfig
+              definition:  SSI_SetTxCallback
+              definition:  SSI_SetRxCallback
+              definition:  SSI_SetContinuousRxCallback
+              definition:  SSI_TxData
+              definition:  SSI_RxData
+              definition:  SSI_StartContinuousRx
+              definition:  SSI_Abort
+              definition:  SSI_ISR
+              definition:  I2c_Init
+              definition:  I2c_Enable
+              definition:  I2c_Disable
+              definition:  I2c_RecoverBus
+              definition:  I2c_SetCallbackFunction
+              definition:  I2c_SetConfig
+              definition:  I2c_GetStatus
+              definition:  I2c_CancelTransfer
+              definition:  I2c_SendData
+              definition:  I2c_ReceiveData
+              definition:  I2c_Isr
+              definition:  NVM_Detect
+              definition:  NVM_Read
+              definition:  NVM_Erase
+              definition:  NVM_Write
+              definition:  NVM_Verify
+              definition:  NVM_BlankCheck
+              definition:  NVM_SetSVar
+              definition:  Gpio_InitPort
+              definition:  Gpio_WrPortSetting
+              definition:  Gpio_RdPortSetting
+              definition:  Gpio_GetPortDir
+              definition:  Gpio_SetPortDir
+              definition:  Gpio_SetPinDir
+              definition:  Gpio_GetPinDir
+              definition:  Gpio_SetPortData
+              definition:  Gpio_GetPortData
+              definition:  Gpio_SetPinData
+              definition:  Gpio_GetPinData
+              definition:  Gpio_TogglePin
+              definition:  Gpio_SetPinReadSource
+              definition:  Gpio_GetPinReadSource
+              definition:  Gpio_EnPinPullup
+              definition:  Gpio_IsPinPullupEn
+              definition:  Gpio_SelectPinPullup
+              definition:  Gpio_GetPinPullupSel
+              definition:  Gpio_EnPinPuKeeper
+              definition:  Gpio_IsPinPuKeeperEn
+              definition:  Gpio_EnPinHyst
+              definition:  Gpio_IsPinHystEn
+              definition:  Gpio_SetPortFunction
+              definition:  Gpio_SetPinFunction
+              definition:  Gpio_GetPinFunction
+              definition:  TmrInit
+              definition:  TmrEnable
+              definition:  TmrDisable
+              definition:  TmrSetMode
+              definition:  TmrSetConfig
+              definition:  TmrSetStatusControl
+              definition:  TmrSetCompStatusControl
+              definition:  TmrSetCallbackFunction
+              definition:  TmrWriteValue
+              definition:  TmrGetMode
+              definition:  TmrGetConfig
+              definition:  TmrGetStatusControl
+              definition:  TmrGetCompStatusControl
+              definition:  TmrReadValue
+              definition:  TmrIsr
+              definition:  Adc_Init
+              definition:  Adc_Reset
+              definition:  Adc_SetConfig
+              definition:  Adc_SetConvCtrl
+              definition:  Adc_SetCompCtrl
+              definition:  Adc_SetFifoCtrl
+              definition:  Adc_ReadFifoData
+              definition:  Adc_GetFifoStatus
+              definition:  Adc_StartManualConv
+              definition:  Adc_ManualRead
+              definition:  Adc_SetCallback
+              definition:  Adc_Isr
+              definition:  SPI_Open
+              definition:  SPI_Close
+              definition:  SPI_SetConfig
+              definition:  SPI_GetConfig
+              definition:  SPI_WriteSync
+              definition:  SPI_ReadSync
+              definition:  SPI_StartAsync
+              definition:  SPI_GetRxAsync
+              definition:  SPI_SetTxAsync
+              definition:  SPI_Abort
+              definition:  SPI_SetCallback
+              definition:  SPI_GetStatus
+              definition:  SPI_ISR
+              definition:  FlashLib_Init
+              definition:  FlashLib_Read
+              definition:  FlashLib_Erase
+              definition:  Flash_ReadStatus
+              definition:  Flash_EnableStatusWrite
+              definition:  Flash_SetStatus
+              definition:  Flash_ClrStatus
+              definition:  Flash_WriteEnable
+              definition:  Flash_WriteDisable
+              definition:  Flash_UnlockAll
+              definition:  Flash_Lock
+              definition:  Flash_EraseSector
+              definition:  Asm_CtrEncryptDecrypt
+              definition:  Asm_CbcMacEncryptDecrypt
+              definition:  Asm_CcmEncryptDecrypt
+              definition:  Asm_Ccm
+              definition:  InitFromFlash
+              definition:  InitFromMemory
+              definition:  __aeabi_idiv
+              definition:  __aeabi_idivmod
+              definition:  __aeabi_uidiv
+              definition:  __aeabi_uidivmod
+              definition:  InterruptInit
+              definition:  ITC_Init
+              definition:  ITC_SetPriority
+              definition:  IntAssignHandler
+              definition:  IntGetHandler
+              definition:  ITC_EnableInterrupt
+              definition:  ITC_DisableInterrupt
+              definition:  ITC_SetIrqMinimumLevel
+              definition:  IntRestoreFIQ
+              definition:  IntRestoreIRQ
+              definition:  IntRestoreAll
+              definition:  IntDisableIRQ
+              definition:  IntDisableFIQ
+              definition:  IntDisableAll
+              definition:  IrqHandler
+              definition:  FiqHandler
+              definition:  __rom_data_init
+              definition:  __aeabi_uwrite4
+              definition:  __aeabi_uread4
+              definition:  __aeabi_idiv0
+              definition:  gLCDVerdanaFont
+              definition:  gLCDNormalFont
+              definition:  gLCDNormalIndex
+              definition:  gLCDVerdanaIndex
+              definition:  Region_ROM_Table_ROM_Base
+              definition:  Region_ROM_Table_ROM_Limit
+              definition:  mHandlerTable
+              definition:  mExceptionHandlerUndefined
+              definition:  mExceptionHandlerSupervisor
+              definition:  mExceptionHandlerPrefetchAbort
+              definition:  mExceptionHandlerDataAbort
+Selecting member rp_vector_IAR.o(LLC.a) to define RP_Vector_Init.
+              reference :  InitExecuteEntry
+              definition:  RP_Vector_Thumb_0
+              definition:  RP_Vector_Thumb_1
+              definition:  RP_Vector_Thumb_2
+              definition:  RP_Vector_Thumb_3
+              definition:  RP_Vector_Init
+              definition:  PATCH_Ret_InitExecuteEntry
+Selecting member Synthesizer.o(MC1322x.a) to define GetCurrentChannel.
+              reference :  InitFromMemory
+              reference :  InitRifModuleVars
+              reference :  SMAC_InitFromFlash
+              reference :  SetPower
+              reference :  __aeabi_uidivmod
+              reference :  bGetEnableLock
+              reference :  u8RamValues
+              definition:  GetCurrentChann
+              definition:  GetCurrentChannel
+              definition:  InitIdleToRun
+              definition:  PhyPlmeGetLQI
+              definition:  RFSynthDisable
+              definition:  RFSynthEnable
+              definition:  RadioInit
+              definition:  SMAC_InitFlybackSettings
+              definition:  SetChannel
+              definition:  SetDemulatorMode
+              definition:  SetEdCcaThreshold
+              definition:  buffer_radio_init
+              definition:  fill_ram_struct
+              definition:  gChannelFreq_c
+              definition:  gRFSynCoarseTuneTreshold_None24MHz_c
+              definition:  gRFSynVCODivF_None24MHz_c
+              definition:  gRFSynVCODivI_None24MHz_c
+              definition:  gRadioIdleToRun_c
+              definition:  gRadioInit_RegReplacement_c
+              definition:  gRadioTOCCal1
+              definition:  gRadioTOCCal2_24MHz_c
+              definition:  gRadioTOCCal2_None24MHz_c
+              definition:  gRadioTOCCal3_c
+              definition:  gRadioTOCCal4_None24MHz_c
+              definition:  gRadioTOCCal5
+              definition:  get_ctov
+              definition:  ram_init_val
+              definition:  u32SystemClock
+Selecting member rif.o(MC1322x.a) to define SetComplementaryPAState.
+              reference :  GetCurrentChann
+              definition:  ArePaPowerLvlAndChannelValid
+              definition:  InitRifModuleVars
+              definition:  SetComplementaryPAState
+              definition:  SetPower
+              definition:  SetPowerLevelLockMode
+              definition:  bGetEnableLock
+              definition:  bGetPaEnState
+              definition:  disable_test_mode_continuos_tx_nomod
+              definition:  gAIMVAL_c
+              definition:  gPAVAL_c
+              definition:  gPSMVAL_c
+              definition:  rif_get_status
+              definition:  rif_set_power
+              definition:  set_test_mode_continuos_tx_nomod
+              definition:  u8GetPowerLevel
+Selecting member Init_Utils_patched.o(LLC.a) to define InitExecuteEntry.
+              reference :  Init_Delay
+              reference :  PATCH_Ret_InitExecuteEntry
+              definition:  InitExecuteEntry
+              definition:  mInitDenyVregCntlOvr
+Selecting member Init_Utils.o(MC1322x.a) to define SMAC_InitFromFlash.
+              reference :  CRM_VRegCntl
+              reference :  NVM_Detect
+              reference :  NVM_Read
+              reference :  NVM_SetSVar
+              reference :  __aeabi_uidivmod
+              reference :  u32SystemClock
+              definition:  SMAC_InitFromFlash
+              definition:  SMAC_InitFromMemory
+              definition:  u8RamValues
+Selecting member Init_Delay_patched.o(LLC.a) to define Init_Delay.
+              definition:  Init_Delay
+Selecting member ABImemclr4.o(rt4t_al.a) to define __aeabi_memclr4.
+              reference :  __iar_Memset4_word
+              definition:  __aeabi_memclr4
+Selecting member ABImemcpy.o(rt4t_al.a) to define __aeabi_memcpy4.
+              definition:  __aeabi_memcpy
+              definition:  __aeabi_memcpy4
+              definition:  __aeabi_memcpy8
+Selecting member ABImemset48.o(rt4t_al.a) to define __iar_Memset4_word.
+              definition:  __aeabi_memset4
+              definition:  __aeabi_memset8
+              definition:  __iar_Memset4_word
+              definition:  __iar_Memset8_word
+Selecting member data_init.o(rt4t_al.a) to define __iar_data_init3 (optional).
+              definition:  __iar_data_init3
+              reference :  Region$$Table$$Base
+              reference :  Region$$Table$$Limit
+Selecting member zero_init3.o(rt4t_al.a) to define __iar_zero_init3.
+              definition:  __iar_zero_init3
+Selecting member copy_init3.o(rt4t_al.a) to define __iar_copy_init3.
+              definition:  __iar_copy_init3
+Selecting member rle_init_single.o(rt4t_al.a) to define __iar_rle_init_single3.
+              definition:  __iar_rle_init_single3
+Selecting member rle_init.o(rt4t_al.a) to define __iar_rle_init3.
+              reference :  abort
+              definition:  __iar_rle_init3
+Selecting member packbits_init_single.o(rt4t_al.a) to define __iar_packbits_init_single3.
+              definition:  __iar_packbits_init_single3
+Selecting member packbits_init.o(rt4t_al.a) to define __iar_packbits_init3.
+              reference :  abort
+              definition:  __iar_packbits_init3
+Selecting member lz77_init_single.o(rt4t_al.a) to define __iar_lz77_init_single3.
+              definition:  __iar_lz77_init_single3
+Selecting member lz77_init.o(rt4t_al.a) to define __iar_lz77_init3.
+              reference :  abort
+              definition:  __iar_lz77_init3
+Selecting member abort.o(dl4t_tln.a) to define abort (optional).
+              reference :  __exit
+              definition:  abort
+Selecting member XXexit.o(rt4t_al.a) to define __exit (optional).
+              definition:  __exit
+Resolving duplicate symbol definitions
+*** Marking from roots ***
+Marking symbol _start_vector_                   Glb (34 Init-IAR.o) [program entry]
+  Marking fragment #60 .vect (6 Init-IAR.o) init:always
+Marking symbol __iar_section$$root                  (3 Init-IAR.o) [__root]
+Marking symbol __iar_section$$root                  (4 Init-IAR.o) [__root]
+  Marking fragment #61 .text (7 Init-IAR.o)
+Marking symbol __iar_section$$root                  (5 Init-IAR.o) [__root]
+  Marking fragment #62 .stack (8 Init-IAR.o)
+Marking symbol __iar_section$$root                  (2 rp_vector_IAR.o) [__root]
+  Marking fragment #246 rp_vector_thumb_0 (6 rp_vector_IAR.o(LLC.a))
+Marking symbol __iar_section$$root                  (3 rp_vector_IAR.o) [__root]
+  Marking fragment #247 rp_vector_thumb_1 (7 rp_vector_IAR.o(LLC.a))
+Marking symbol __iar_section$$root                  (4 rp_vector_IAR.o) [__root]
+  Marking fragment #248 rp_vector_thumb_2 (8 rp_vector_IAR.o(LLC.a))
+Marking symbol __iar_section$$root                  (5 rp_vector_IAR.o) [__root]
+  Marking fragment #249 rp_vector_thumb_3 (9 rp_vector_IAR.o(LLC.a))
+Marking from fragment #249 rp_vector_thumb_3 (9 rp_vector_IAR.o(LLC.a))
+Marking from fragment #248 rp_vector_thumb_2 (8 rp_vector_IAR.o(LLC.a))
+Marking from fragment #247 rp_vector_thumb_1 (7 rp_vector_IAR.o(LLC.a))
+  Marking symbol InitExecuteEntry                 Glb (8 Init_Utils_patched.o)
+    Marking fragment #294 .text (7 Init_Utils_patched.o(LLC.a))
+Marking from fragment #294 .text (7 Init_Utils_patched.o(LLC.a))
+  Marking symbol Init_Delay                       Glb (4 Init_Delay_patched.o)
+    Marking fragment #306 .text (6 Init_Delay_patched.o(LLC.a))
+  Marking symbol PATCH_Ret_InitExecuteEntry       Glb (25 rp_vector_IAR.o)
+    Marking fragment #698 .text (10 rp_vector_IAR.o(LLC.a))
+  Marking symbol mInitDenyVregCntlOvr             Glb (9 Init_Utils_patched.o)
+    Marking fragment #293 .bss (6 Init_Utils_patched.o(LLC.a))
+Marking from fragment #293 .bss (6 Init_Utils_patched.o(LLC.a))
+Marking from fragment #698 .text (10 rp_vector_IAR.o(LLC.a))
+Marking from fragment #306 .text (6 Init_Delay_patched.o(LLC.a))
+Marking from fragment #246 rp_vector_thumb_0 (6 rp_vector_IAR.o(LLC.a))
+Marking from fragment #62 .stack (8 Init-IAR.o)
+  Marking symbol RP_Vector_Thumb_0                Glb (20 rp_vector_IAR.o)
+  Marking symbol RP_Vector_Thumb_1                Glb (21 rp_vector_IAR.o)
+  Marking symbol RP_Vector_Thumb_2                Glb (22 rp_vector_IAR.o)
+  Marking symbol RP_Vector_Thumb_3                Glb (23 rp_vector_IAR.o)
+Marking from fragment #61 .text (7 Init-IAR.o)
+  Marking symbol __iar_data_init3                 Glb (14 data_init.o)
+    Marking fragment #740 .text (6 data_init.o(rt4t_al.a))
+  Marking symbol __rom_data_init                  Glb (367 rom-symbols-LLC.o)
+  Marking symbol Main                             Glb (203 repeater.o)
+    Marking fragment #535 .text (13 repeater.o)
+  Marking symbol .stack8                              (11 Init-IAR.o)
+  Marking symbol Region_ROM_Table_ROM_Base        Glb (375 rom-symbols-LLC.o)
+  Marking symbol Region_ROM_Table_ROM_Limit       Glb (376 rom-symbols-LLC.o)
+  Marking symbol mExceptionHandlerUndefined       Glb (378 rom-symbols-LLC.o)
+  Marking symbol mExceptionHandlerSupervisor      Glb (379 rom-symbols-LLC.o)
+  Marking symbol mExceptionHandlerPrefetchAbort   Glb (380 rom-symbols-LLC.o)
+  Marking symbol mExceptionHandlerDataAbort       Glb (381 rom-symbols-LLC.o)
+Marking from fragment #535 .text (13 repeater.o)
+  Marking symbol .text_24                             (64 repeater.o)
+    Marking fragment #549 .text (13 repeater.o)
+  Marking symbol .text_25                             (66 repeater.o)
+    Marking fragment #550 .text (13 repeater.o)
+  Marking symbol .text_26                             (67 repeater.o)
+    Marking fragment #551 .text (13 repeater.o)
+  Marking symbol repeater_app_init                    (16 repeater.o)
+    Marking fragment #577 .text (13 repeater.o)
+  Marking symbol .text_27                             (68 repeater.o)
+    Marking fragment #552 .text (13 repeater.o)
+  Marking symbol process_radio_msg                Glb (141 RadioManagement.o)
+    Marking fragment #498 .text (7 RadioManagement.o)
+  Marking symbol data_indication_execute          Glb (208 repeater.o)
+    Marking fragment #538 .text (13 repeater.o)
+  Marking symbol .text_28                             (69 repeater.o)
+    Marking fragment #553 .text (13 repeater.o)
+  Marking symbol UartGetByteFromRxBuffer          Glb (209 rom-symbols-LLC.o)
+  Marking symbol __aeabi_memcpy4                  Glb (12 ABImemcpy.o)
+    Marking fragment #736 .text (6 ABImemcpy.o(rt4t_al.a))
+  Marking symbol cbRepeaterStFn_c                     (3 repeater.o)
+    Marking fragment #536 .text (13 repeater.o)
+  Marking symbol                                      (174 repeater.o)
+    Marking fragment #603 .text (13 repeater.o)
+Marking from fragment #603 .text (13 repeater.o)
+Marking from fragment #536 .text (13 repeater.o)
+  Marking symbol process_ready_prompt                 (13 repeater.o)
+    Marking fragment #564 .text (13 repeater.o)
+  Marking symbol process_repeater_run                 (15 repeater.o)
+    Marking fragment #565 .text (13 repeater.o)
+  Marking symbol process_change_delay                 (8 repeater.o)
+    Marking fragment #573 .text (13 repeater.o)
+Marking from fragment #573 .text (13 repeater.o)
+  Marking symbol .text_51                             (116 repeater.o)
+    Marking fragment #576 .text (13 repeater.o)
+  Marking symbol .text_54                             (123 repeater.o)
+    Marking fragment #579 .text (13 repeater.o)
+  Marking symbol .text_55                             (125 repeater.o)
+    Marking fragment #580 .text (13 repeater.o)
+  Marking symbol .text_60                             (131 repeater.o)
+    Marking fragment #585 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+    Marking fragment #660 .text (7 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol display_config                       (4 repeater.o)
+    Marking fragment #548 .text (13 repeater.o)
+  Marking symbol u8RepRdyPrompt                   Glb (218 repeater.o)
+    Marking fragment #602 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol u8RepRdyPrompt                   Glb (218 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #602 .text (13 repeater.o)
+Marking from fragment #548 .text (13 repeater.o)
+  Marking symbol .text_41                             (98 repeater.o)
+    Marking fragment #566 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+    Marking fragment #578 .text (13 repeater.o)
+  Marking symbol .text_42                             (100 repeater.o)
+    Marking fragment #567 .text (13 repeater.o)
+  Marking symbol u8RepOpModeText                  Glb (217 repeater.o)
+    Marking fragment #555 .text (13 repeater.o)
+  Marking symbol Uart_Tx                          Glb (93 UartUtil.o)
+    Marking fragment #662 .text (7 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintByteDec                Glb (90 UartUtil.o)
+    Marking fragment #677 .text (7 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintByteDec                Glb (90 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+    Marking fragment #678 .text (7 UartUtil.o)
+  Marking symbol .text_31                             (74 repeater.o)
+    Marking fragment #556 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol .text_32                             (77 repeater.o)
+    Marking fragment #557 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #557 .text (13 repeater.o)
+Marking from fragment #556 .text (13 repeater.o)
+Marking from fragment #678 .text (7 UartUtil.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #677 .text (7 UartUtil.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #662 .text (7 UartUtil.o)
+  Marking symbol UartWriteData                    Glb (202 rom-symbols-LLC.o)
+  Marking symbol UartWriteData                    Glb (202 rom-symbols-LLC.o)
+Marking from fragment #555 .text (13 repeater.o)
+Marking from fragment #567 .text (13 repeater.o)
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+    Marking fragment #144 .bss (11 repeater.o)
+Marking from fragment #144 .bss (11 repeater.o)
+Marking from fragment #578 .text (13 repeater.o)
+  Marking symbol .text_59                             (129 repeater.o)
+    Marking fragment #584 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #584 .text (13 repeater.o)
+Marking from fragment #566 .text (13 repeater.o)
+  Marking symbol .rodata7                             (20 repeater.o)
+    Marking fragment #140 .rodata (7 repeater.o)
+Marking from fragment #140 .rodata (7 repeater.o)
+Marking from fragment #660 .text (7 UartUtil.o)
+  Marking symbol UartWriteData                    Glb (202 rom-symbols-LLC.o)
+Marking from fragment #585 .text (13 repeater.o)
+Marking from fragment #580 .text (13 repeater.o)
+  Marking symbol .rodata8                             (23 repeater.o)
+    Marking fragment #141 .rodata (8 repeater.o)
+Marking from fragment #141 .rodata (8 repeater.o)
+Marking from fragment #579 .text (13 repeater.o)
+  Marking symbol process_change_delay::u8ChgDlySt     (11 repeater.o)
+    Marking fragment #148 .bss (15 repeater.o)
+Marking from fragment #148 .bss (15 repeater.o)
+Marking from fragment #576 .text (13 repeater.o)
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+Marking from fragment #565 .text (13 repeater.o)
+  Marking symbol .text_42                             (100 repeater.o)
+  Marking symbol abort_message                    Glb (128 RadioManagement.o)
+    Marking fragment #489 .text (7 RadioManagement.o)
+  Marking symbol .text_50                             (115 repeater.o)
+    Marking fragment #575 .text (13 repeater.o)
+  Marking symbol abort_message                    Glb (128 RadioManagement.o)
+  Marking symbol .text_43                             (101 repeater.o)
+    Marking fragment #568 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol repeater_run_sm                      (17 repeater.o)
+    Marking fragment #570 .text (13 repeater.o)
+Marking from fragment #570 .text (13 repeater.o)
+  Marking symbol .text_51                             (116 repeater.o)
+  Marking symbol .text_50                             (115 repeater.o)
+  Marking symbol MLMERXEnableRequest              Glb (50 WirelessLinkMngmt.o)
+    Marking fragment #685 .text (6 WirelessLinkMngmt.o)
+  Marking symbol MLMERXEnableRequest              Glb (50 WirelessLinkMngmt.o)
+  Marking symbol .text_47                             (108 repeater.o)
+    Marking fragment #572 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_PrintHex                    Glb (91 UartUtil.o)
+    Marking fragment #665 .text (7 UartUtil.o)
+  Marking symbol .text_46                             (106 repeater.o)
+    Marking fragment #571 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol MLMERXEnableRequest              Glb (50 WirelessLinkMngmt.o)
+  Marking symbol MCPSDataRequest                  Glb (44 WirelessLinkMngmt.o)
+    Marking fragment #682 .text (6 WirelessLinkMngmt.o)
+Marking from fragment #682 .text (6 WirelessLinkMngmt.o)
+  Marking symbol                                      (32 WirelessLinkMngmt.o)
+    Marking fragment #686 .text (6 WirelessLinkMngmt.o)
+Marking from fragment #686 .text (6 WirelessLinkMngmt.o)
+  Marking symbol handle_new_message               Glb (140 RadioManagement.o)
+    Marking fragment #495 .text (7 RadioManagement.o)
+Marking from fragment #495 .text (7 RadioManagement.o)
+  Marking symbol .text_22                             (59 RadioManagement.o)
+    Marking fragment #506 .text (7 RadioManagement.o)
+Marking from fragment #506 .text (7 RadioManagement.o)
+  Marking symbol mRetries_timmer                      (9 RadioManagement.o)
+    Marking fragment #112 .data (8 RadioManagement.o)
+Marking from fragment #112 .data (8 RadioManagement.o)
+Marking from fragment #571 .text (13 repeater.o)
+Marking from fragment #665 .text (7 UartUtil.o)
+  Marking symbol HexToAscii                           (3 UartUtil.o)
+    Marking fragment #658 .text (7 UartUtil.o)
+  Marking symbol HexToAscii                           (3 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_28                             (49 UartUtil.o)
+    Marking fragment #675 .text (7 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_29                             (51 UartUtil.o)
+    Marking fragment #676 .text (7 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #676 .text (7 UartUtil.o)
+Marking from fragment #675 .text (7 UartUtil.o)
+Marking from fragment #658 .text (7 UartUtil.o)
+Marking from fragment #572 .text (13 repeater.o)
+Marking from fragment #685 .text (6 WirelessLinkMngmt.o)
+  Marking symbol                                      (32 WirelessLinkMngmt.o)
+Marking from fragment #568 .text (13 repeater.o)
+  Marking symbol u8RepRdyPrompt                   Glb (218 repeater.o)
+Marking from fragment #575 .text (13 repeater.o)
+  Marking symbol TX_msg                           Glb (205 repeater.o)
+    Marking fragment #145 .bss (12 repeater.o)
+Marking from fragment #145 .bss (12 repeater.o)
+Marking from fragment #489 .text (7 RadioManagement.o)
+  Marking symbol is_a_handled_message                 (6 RadioManagement.o)
+    Marking fragment #491 .text (7 RadioManagement.o)
+  Marking symbol .text_17                             (50 RadioManagement.o)
+    Marking fragment #501 .text (7 RadioManagement.o)
+  Marking symbol .text_18                             (52 RadioManagement.o)
+    Marking fragment #502 .text (7 RadioManagement.o)
+  Marking symbol .text_19                             (53 RadioManagement.o)
+    Marking fragment #503 .text (7 RadioManagement.o)
+  Marking symbol mAbortStates                         (7 RadioManagement.o)
+    Marking fragment #490 .text (7 RadioManagement.o)
+Marking from fragment #490 .text (7 RadioManagement.o)
+Marking from fragment #503 .text (7 RadioManagement.o)
+Marking from fragment #502 .text (7 RadioManagement.o)
+Marking from fragment #501 .text (7 RadioManagement.o)
+  Marking symbol mRetries_timmer                      (9 RadioManagement.o)
+Marking from fragment #491 .text (7 RadioManagement.o)
+  Marking symbol .text_17                             (50 RadioManagement.o)
+Marking from fragment #564 .text (13 repeater.o)
+  Marking symbol .text_42                             (100 repeater.o)
+  Marking symbol .text_49                             (113 repeater.o)
+    Marking fragment #574 .text (13 repeater.o)
+  Marking symbol display_menu                         (5 repeater.o)
+    Marking fragment #539 .text (13 repeater.o)
+  Marking symbol display_config                       (4 repeater.o)
+  Marking symbol .text_43                             (101 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol execute_command                      (6 repeater.o)
+    Marking fragment #558 .text (13 repeater.o)
+Marking from fragment #558 .text (13 repeater.o)
+  Marking symbol .text_43                             (101 repeater.o)
+  Marking symbol .text_35                             (85 repeater.o)
+    Marking fragment #560 .text (13 repeater.o)
+  Marking symbol .text_44                             (102 repeater.o)
+    Marking fragment #569 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_36                             (86 repeater.o)
+    Marking fragment #561 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol .text_46                             (106 repeater.o)
+  Marking symbol .text_37                             (89 repeater.o)
+    Marking fragment #562 .text (13 repeater.o)
+  Marking symbol display_menu                         (5 repeater.o)
+  Marking symbol display_config                       (4 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_38                             (91 repeater.o)
+    Marking fragment #563 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol MLMEPAOutputAdjust               Glb (48 WirelessLinkMngmt.o)
+    Marking fragment #690 .text (6 WirelessLinkMngmt.o)
+  Marking symbol MLMESetChannelRequest            Glb (52 WirelessLinkMngmt.o)
+    Marking fragment #683 .text (6 WirelessLinkMngmt.o)
+Marking from fragment #683 .text (6 WirelessLinkMngmt.o)
+  Marking symbol .text_12                             (24 WirelessLinkMngmt.o)
+    Marking fragment #692 .text (6 WirelessLinkMngmt.o)
+  Marking symbol .text_13                             (26 WirelessLinkMngmt.o)
+    Marking fragment #693 .text (6 WirelessLinkMngmt.o)
+  Marking symbol SetChannel                       Glb (77 Synthesizer.o)
+    Marking fragment #701 .text (13 Synthesizer.o(MC1322x.a))
+Marking from fragment #701 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol bGetEnableLock                   Glb (56 rif.o)
+    Marking fragment #725 .text (8 rif.o(MC1322x.a))
+  Marking symbol .text_16                             (31 Synthesizer.o)
+    Marking fragment #706 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol .text_14                             (26 Synthesizer.o)
+    Marking fragment #704 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol .text_16                             (31 Synthesizer.o)
+  Marking symbol .text_16                             (31 Synthesizer.o)
+  Marking symbol .text_21                             (48 Synthesizer.o)
+    Marking fragment #711 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol .text_16                             (31 Synthesizer.o)
+  Marking symbol .text_16                             (31 Synthesizer.o)
+Marking from fragment #711 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol ram_init_val                     Glb (95 Synthesizer.o)
+    Marking fragment #256 .data (9 Synthesizer.o(MC1322x.a))
+Marking from fragment #256 .data (9 Synthesizer.o(MC1322x.a))
+Marking from fragment #704 .text (13 Synthesizer.o(MC1322x.a))
+Marking from fragment #706 .text (13 Synthesizer.o(MC1322x.a))
+Marking from fragment #725 .text (8 rif.o(MC1322x.a))
+  Marking symbol u8mCurrentPowerLvl                   (4 rif.o)
+    Marking fragment #277 .bss (7 rif.o(MC1322x.a))
+Marking from fragment #277 .bss (7 rif.o(MC1322x.a))
+Marking from fragment #693 .text (6 WirelessLinkMngmt.o)
+  Marking symbol gaRFSynVCODivI_c                 Glb (137 RadioManagement.o)
+    Marking fragment #516 .text (7 RadioManagement.o)
+Marking from fragment #516 .text (7 RadioManagement.o)
+Marking from fragment #692 .text (6 WirelessLinkMngmt.o)
+  Marking symbol gaRFSynVCODivF_c                 Glb (136 RadioManagement.o)
+    Marking fragment #110 .rodata (6 RadioManagement.o)
+Marking from fragment #110 .rodata (6 RadioManagement.o)
+Marking from fragment #690 .text (6 WirelessLinkMngmt.o)
+  Marking symbol SetPower                         Glb (54 rif.o)
+    Marking fragment #720 .text (8 rif.o(MC1322x.a))
+Marking from fragment #720 .text (8 rif.o(MC1322x.a))
+  Marking symbol .text_18                             (48 rif.o)
+    Marking fragment #729 .text (8 rif.o(MC1322x.a))
+  Marking symbol .text_16                             (43 rif.o)
+    Marking fragment #727 .text (8 rif.o(MC1322x.a))
+  Marking symbol GetCurrentChann                  Glb (69 Synthesizer.o)
+    Marking fragment #712 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol gPSMVAL_c                        Glb (61 rif.o)
+    Marking fragment #276 .rodata (6 rif.o(MC1322x.a))
+Marking from fragment #276 .rodata (6 rif.o(MC1322x.a))
+Marking from fragment #712 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol ram_init_val                     Glb (95 Synthesizer.o)
+Marking from fragment #727 .text (8 rif.o(MC1322x.a))
+Marking from fragment #729 .text (8 rif.o(MC1322x.a))
+  Marking symbol u8mCurrentPowerLvl                   (4 rif.o)
+Marking from fragment #563 .text (13 repeater.o)
+Marking from fragment #562 .text (13 repeater.o)
+Marking from fragment #561 .text (13 repeater.o)
+Marking from fragment #569 .text (13 repeater.o)
+  Marking symbol .rodata8                             (23 repeater.o)
+Marking from fragment #560 .text (13 repeater.o)
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+Marking from fragment #539 .text (13 repeater.o)
+  Marking symbol .text_34                             (83 repeater.o)
+    Marking fragment #559 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_15                             (49 repeater.o)
+    Marking fragment #540 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_16                             (51 repeater.o)
+    Marking fragment #541 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_17                             (52 repeater.o)
+    Marking fragment #542 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_18                             (53 repeater.o)
+    Marking fragment #543 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_19                             (54 repeater.o)
+    Marking fragment #544 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_20                             (55 repeater.o)
+    Marking fragment #545 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_21                             (56 repeater.o)
+    Marking fragment #546 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_22                             (58 repeater.o)
+    Marking fragment #547 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #547 .text (13 repeater.o)
+Marking from fragment #546 .text (13 repeater.o)
+Marking from fragment #545 .text (13 repeater.o)
+Marking from fragment #544 .text (13 repeater.o)
+Marking from fragment #543 .text (13 repeater.o)
+Marking from fragment #542 .text (13 repeater.o)
+Marking from fragment #541 .text (13 repeater.o)
+Marking from fragment #540 .text (13 repeater.o)
+Marking from fragment #559 .text (13 repeater.o)
+  Marking symbol .rodata6                             (18 repeater.o)
+    Marking fragment #139 .rodata (6 repeater.o)
+Marking from fragment #139 .rodata (6 repeater.o)
+Marking from fragment #574 .text (13 repeater.o)
+  Marking symbol process_ready_prompt::u8RdySt        (14 repeater.o)
+    Marking fragment #147 .bss (14 repeater.o)
+Marking from fragment #147 .bss (14 repeater.o)
+Marking from fragment #736 .text (6 ABImemcpy.o(rt4t_al.a))
+Marking from fragment #553 .text (13 repeater.o)
+  Marking symbol gu8SCIStatus                     Glb (98 UartUtil.o)
+    Marking fragment #204 .bss (6 UartUtil.o)
+Marking from fragment #204 .bss (6 UartUtil.o)
+Marking from fragment #538 .text (13 repeater.o)
+  Marking symbol .text_25                             (66 repeater.o)
+Marking from fragment #498 .text (7 RadioManagement.o)
+  Marking symbol .text_22                             (59 RadioManagement.o)
+  Marking symbol cbProcessMsg_c                       (4 RadioManagement.o)
+    Marking fragment #499 .text (7 RadioManagement.o)
+  Marking symbol                                      (120 RadioManagement.o)
+    Marking fragment #532 .text (7 RadioManagement.o)
+  Marking symbol process_scan_req                 Glb (142 RadioManagement.o)
+    Marking fragment #522 .text (7 RadioManagement.o)
+Marking from fragment #522 .text (7 RadioManagement.o)
+  Marking symbol .text_39                             (90 RadioManagement.o)
+    Marking fragment #523 .text (7 RadioManagement.o)
+  Marking symbol get_next_chann_to_scan           Glb (139 RadioManagement.o)
+    Marking fragment #524 .text (7 RadioManagement.o)
+  Marking symbol                                      (123 RadioManagement.o)
+    Marking fragment #114 .text (10 RadioManagement.o)
+  Marking symbol is_a_handled_message                 (6 RadioManagement.o)
+  Marking symbol MLMEEnergyDetect                 Glb (45 WirelessLinkMngmt.o)
+    Marking fragment #688 .text (6 WirelessLinkMngmt.o)
+Marking from fragment #688 .text (6 WirelessLinkMngmt.o)
+  Marking symbol handle_new_message               Glb (140 RadioManagement.o)
+Marking from fragment #114 .text (10 RadioManagement.o)
+Marking from fragment #524 .text (7 RadioManagement.o)
+  Marking symbol .text_47                             (111 RadioManagement.o)
+    Marking fragment #531 .text (7 RadioManagement.o)
+Marking from fragment #531 .text (7 RadioManagement.o)
+  Marking symbol mRetries_timmer                      (9 RadioManagement.o)
+Marking from fragment #523 .text (7 RadioManagement.o)
+  Marking symbol mRetries_timmer                      (9 RadioManagement.o)
+Marking from fragment #532 .text (7 RadioManagement.o)
+Marking from fragment #499 .text (7 RadioManagement.o)
+  Marking symbol process_tx_msg                       (22 RadioManagement.o)
+    Marking fragment #500 .text (7 RadioManagement.o)
+  Marking symbol process_rx_msg                       (16 RadioManagement.o)
+    Marking fragment #504 .text (7 RadioManagement.o)
+  Marking symbol process_ed_msg                       (14 RadioManagement.o)
+    Marking fragment #513 .text (7 RadioManagement.o)
+  Marking symbol process_to_msg                       (21 RadioManagement.o)
+    Marking fragment #517 .text (7 RadioManagement.o)
+Marking from fragment #517 .text (7 RadioManagement.o)
+  Marking symbol .text_39                             (90 RadioManagement.o)
+  Marking symbol .text_44                             (108 RadioManagement.o)
+    Marking fragment #528 .text (7 RadioManagement.o)
+  Marking symbol .text_45                             (109 RadioManagement.o)
+    Marking fragment #529 .text (7 RadioManagement.o)
+  Marking symbol .text_46                             (110 RadioManagement.o)
+    Marking fragment #530 .text (7 RadioManagement.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+    Marking fragment #496 .text (7 RadioManagement.o)
+  Marking symbol .text_42                             (106 RadioManagement.o)
+    Marking fragment #526 .text (7 RadioManagement.o)
+  Marking symbol .text_43                             (107 RadioManagement.o)
+    Marking fragment #527 .text (7 RadioManagement.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+  Marking symbol                                      (121 RadioManagement.o)
+    Marking fragment #505 .text (7 RadioManagement.o)
+Marking from fragment #505 .text (7 RadioManagement.o)
+Marking from fragment #527 .text (7 RadioManagement.o)
+Marking from fragment #526 .text (7 RadioManagement.o)
+Marking from fragment #496 .text (7 RadioManagement.o)
+  Marking symbol .text_22                             (59 RadioManagement.o)
+Marking from fragment #530 .text (7 RadioManagement.o)
+Marking from fragment #529 .text (7 RadioManagement.o)
+Marking from fragment #528 .text (7 RadioManagement.o)
+Marking from fragment #513 .text (7 RadioManagement.o)
+  Marking symbol .text_39                             (90 RadioManagement.o)
+  Marking symbol command_xcvr_ed                  Glb (132 RadioManagement.o)
+    Marking fragment #507 .text (7 RadioManagement.o)
+  Marking symbol .text_41                             (104 RadioManagement.o)
+    Marking fragment #525 .text (7 RadioManagement.o)
+  Marking symbol calculate_ed_value                   (3 RadioManagement.o)
+    Marking fragment #521 .text (7 RadioManagement.o)
+  Marking symbol .text_35                             (83 RadioManagement.o)
+    Marking fragment #519 .text (7 RadioManagement.o)
+  Marking symbol gaRFSynVCODivI_c                 Glb (137 RadioManagement.o)
+  Marking symbol command_xcvr_ed                  Glb (132 RadioManagement.o)
+  Marking symbol .text_41                             (104 RadioManagement.o)
+  Marking symbol calculate_ed_value                   (3 RadioManagement.o)
+  Marking symbol .text_35                             (83 RadioManagement.o)
+  Marking symbol gaRFSynVCODivI_c                 Glb (137 RadioManagement.o)
+  Marking symbol SetChannel                       Glb (77 Synthesizer.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+  Marking symbol .text_42                             (106 RadioManagement.o)
+  Marking symbol .text_43                             (107 RadioManagement.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+Marking from fragment #519 .text (7 RadioManagement.o)
+  Marking symbol gaRFSynVCODivF_c                 Glb (136 RadioManagement.o)
+Marking from fragment #521 .text (7 RadioManagement.o)
+Marking from fragment #525 .text (7 RadioManagement.o)
+Marking from fragment #507 .text (7 RadioManagement.o)
+  Marking symbol gaRFSynVCODivI_c                 Glb (137 RadioManagement.o)
+  Marking symbol .text_35                             (83 RadioManagement.o)
+  Marking symbol GetCurrentChannel                Glb (70 Synthesizer.o)
+    Marking fragment #702 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol SetChannel                       Glb (77 Synthesizer.o)
+  Marking symbol .text_36                             (84 RadioManagement.o)
+    Marking fragment #520 .text (7 RadioManagement.o)
+  Marking symbol .text_30                             (73 RadioManagement.o)
+    Marking fragment #514 .text (7 RadioManagement.o)
+  Marking symbol                                      (122 RadioManagement.o)
+Marking from fragment #514 .text (7 RadioManagement.o)
+Marking from fragment #520 .text (7 RadioManagement.o)
+Marking from fragment #702 .text (13 Synthesizer.o(MC1322x.a))
+Marking from fragment #504 .text (7 RadioManagement.o)
+  Marking symbol                                      (121 RadioManagement.o)
+  Marking symbol .text_22                             (59 RadioManagement.o)
+  Marking symbol .text_25                             (66 RadioManagement.o)
+    Marking fragment #509 .text (7 RadioManagement.o)
+  Marking symbol .text_26                             (67 RadioManagement.o)
+    Marking fragment #510 .text (7 RadioManagement.o)
+  Marking symbol .text_28                             (69 RadioManagement.o)
+    Marking fragment #512 .text (7 RadioManagement.o)
+  Marking symbol .text_30                             (73 RadioManagement.o)
+  Marking symbol .text_31                             (75 RadioManagement.o)
+    Marking fragment #515 .text (7 RadioManagement.o)
+  Marking symbol .text_34                             (81 RadioManagement.o)
+    Marking fragment #518 .text (7 RadioManagement.o)
+  Marking symbol .text_28                             (69 RadioManagement.o)
+  Marking symbol .text_30                             (73 RadioManagement.o)
+  Marking symbol .text_31                             (75 RadioManagement.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+Marking from fragment #518 .text (7 RadioManagement.o)
+Marking from fragment #515 .text (7 RadioManagement.o)
+Marking from fragment #512 .text (7 RadioManagement.o)
+Marking from fragment #510 .text (7 RadioManagement.o)
+Marking from fragment #509 .text (7 RadioManagement.o)
+Marking from fragment #500 .text (7 RadioManagement.o)
+  Marking symbol .text_17                             (50 RadioManagement.o)
+  Marking symbol .text_25                             (66 RadioManagement.o)
+  Marking symbol .text_26                             (67 RadioManagement.o)
+  Marking symbol .text_27                             (68 RadioManagement.o)
+    Marking fragment #511 .text (7 RadioManagement.o)
+  Marking symbol .text_28                             (69 RadioManagement.o)
+  Marking symbol .text_18                             (52 RadioManagement.o)
+  Marking symbol .text_28                             (69 RadioManagement.o)
+  Marking symbol .text_18                             (52 RadioManagement.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+  Marking symbol                                      (121 RadioManagement.o)
+Marking from fragment #511 .text (7 RadioManagement.o)
+Marking from fragment #552 .text (13 repeater.o)
+  Marking symbol gu16SCINumOfBytes                Glb (96 UartUtil.o)
+Marking from fragment #577 .text (13 repeater.o)
+  Marking symbol .text_56                             (126 repeater.o)
+    Marking fragment #581 .text (13 repeater.o)
+  Marking symbol ITC_Init                         Glb (352 rom-symbols-LLC.o)
+  Marking symbol .text_57                             (127 repeater.o)
+    Marking fragment #582 .text (13 repeater.o)
+  Marking symbol IntAssignHandler                 Glb (354 rom-symbols-LLC.o)
+  Marking symbol ITC_SetPriority                  Glb (353 rom-symbols-LLC.o)
+  Marking symbol ITC_EnableInterrupt              Glb (356 rom-symbols-LLC.o)
+  Marking symbol IntDisableAll                    Glb (364 rom-symbols-LLC.o)
+  Marking symbol ResetMaca                        Glb (9 maca.o)
+    Marking fragment #87 .text (6 maca.o)
+  Marking symbol MLMERadioInit                    Glb (79 TransceiverConfigMngmnt.o)
+    Marking fragment #619 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol PlatformPortInit                 Glb (20 PlatformInit.o)
+    Marking fragment #481 .text (6 PlatformInit.o)
+  Marking symbol MLMESetChannelRequest            Glb (52 WirelessLinkMngmt.o)
+  Marking symbol IntRestoreAll                    Glb (361 rom-symbols-LLC.o)
+  Marking symbol Uart_Init                        Glb (87 UartUtil.o)
+    Marking fragment #650 .text (7 UartUtil.o)
+  Marking symbol .text_61                             (133 repeater.o)
+    Marking fragment #586 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_62                             (135 repeater.o)
+    Marking fragment #587 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_63                             (138 repeater.o)
+    Marking fragment #588 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_64                             (140 repeater.o)
+    Marking fragment #589 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_65                             (142 repeater.o)
+    Marking fragment #590 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_66                             (144 repeater.o)
+    Marking fragment #591 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_67                             (145 repeater.o)
+    Marking fragment #592 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_68                             (146 repeater.o)
+    Marking fragment #593 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_69                             (148 repeater.o)
+    Marking fragment #594 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_70                             (150 repeater.o)
+    Marking fragment #595 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_71                             (152 repeater.o)
+    Marking fragment #596 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_72                             (154 repeater.o)
+    Marking fragment #597 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_58                             (128 repeater.o)
+    Marking fragment #583 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_73                             (156 repeater.o)
+    Marking fragment #598 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_74                             (158 repeater.o)
+    Marking fragment #599 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_75                             (160 repeater.o)
+    Marking fragment #600 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_76                             (163 repeater.o)
+    Marking fragment #601 .text (13 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol MLMEPAOutputAdjust               Glb (48 WirelessLinkMngmt.o)
+  Marking symbol DelayMs                          Glb (13 Delay.o)
+    Marking fragment #408 .text (6 Delay.o)
+  Marking symbol MLMESetChannelRequest            Glb (52 WirelessLinkMngmt.o)
+Marking from fragment #408 .text (6 Delay.o)
+  Marking symbol .text_3                              (6 Delay.o)
+    Marking fragment #409 .text (6 Delay.o)
+Marking from fragment #409 .text (6 Delay.o)
+Marking from fragment #601 .text (13 repeater.o)
+Marking from fragment #600 .text (13 repeater.o)
+Marking from fragment #599 .text (13 repeater.o)
+Marking from fragment #598 .text (13 repeater.o)
+Marking from fragment #583 .text (13 repeater.o)
+  Marking symbol .rodata9                             (26 repeater.o)
+    Marking fragment #142 .rodata (9 repeater.o)
+Marking from fragment #142 .rodata (9 repeater.o)
+Marking from fragment #597 .text (13 repeater.o)
+Marking from fragment #596 .text (13 repeater.o)
+Marking from fragment #595 .text (13 repeater.o)
+Marking from fragment #594 .text (13 repeater.o)
+Marking from fragment #593 .text (13 repeater.o)
+Marking from fragment #592 .text (13 repeater.o)
+Marking from fragment #591 .text (13 repeater.o)
+Marking from fragment #590 .text (13 repeater.o)
+Marking from fragment #589 .text (13 repeater.o)
+Marking from fragment #588 .text (13 repeater.o)
+Marking from fragment #587 .text (13 repeater.o)
+Marking from fragment #586 .text (13 repeater.o)
+Marking from fragment #650 .text (7 UartUtil.o)
+  Marking symbol GpioUart1Init                    Glb (81 UartUtil.o)
+    Marking fragment #651 .text (7 UartUtil.o)
+  Marking symbol .text_19                             (39 UartUtil.o)
+    Marking fragment #666 .text (7 UartUtil.o)
+  Marking symbol IntAssignHandler                 Glb (354 rom-symbols-LLC.o)
+  Marking symbol ITC_SetPriority                  Glb (353 rom-symbols-LLC.o)
+  Marking symbol ITC_EnableInterrupt              Glb (356 rom-symbols-LLC.o)
+  Marking symbol .text_20                             (41 UartUtil.o)
+    Marking fragment #667 .text (7 UartUtil.o)
+  Marking symbol UartOpen                         Glb (195 rom-symbols-LLC.o)
+  Marking symbol UartSetConfig                    Glb (196 rom-symbols-LLC.o)
+  Marking symbol UartSetTransmitterThreshold      Glb (199 rom-symbols-LLC.o)
+  Marking symbol UartSetReceiverThreshold         Glb (197 rom-symbols-LLC.o)
+  Marking symbol .text_21                             (42 UartUtil.o)
+    Marking fragment #668 .text (7 UartUtil.o)
+  Marking symbol .text_22                             (43 UartUtil.o)
+    Marking fragment #669 .text (7 UartUtil.o)
+  Marking symbol UartSetCallbackFunctions         Glb (200 rom-symbols-LLC.o)
+  Marking symbol IntRestoreIRQ                    Glb (360 rom-symbols-LLC.o)
+  Marking symbol UartReadData                     Glb (201 rom-symbols-LLC.o)
+Marking from fragment #669 .text (7 UartUtil.o)
+  Marking symbol UartEventRead1                   Glb (83 UartUtil.o)
+    Marking fragment #653 .text (7 UartUtil.o)
+Marking from fragment #653 .text (7 UartUtil.o)
+  Marking symbol                                      (64 UartUtil.o)
+    Marking fragment #656 .text (7 UartUtil.o)
+Marking from fragment #656 .text (7 UartUtil.o)
+  Marking symbol .text_27                             (48 UartUtil.o)
+    Marking fragment #674 .text (7 UartUtil.o)
+Marking from fragment #674 .text (7 UartUtil.o)
+  Marking symbol gu8SCIStatus                     Glb (98 UartUtil.o)
+Marking from fragment #668 .text (7 UartUtil.o)
+  Marking symbol UartEventWrite1                  Glb (85 UartUtil.o)
+    Marking fragment #654 .text (7 UartUtil.o)
+Marking from fragment #654 .text (7 UartUtil.o)
+Marking from fragment #667 .text (7 UartUtil.o)
+Marking from fragment #666 .text (7 UartUtil.o)
+  Marking symbol UartIsr1                         Glb (207 rom-symbols-LLC.o)
+Marking from fragment #651 .text (7 UartUtil.o)
+  Marking symbol .text_23                             (44 UartUtil.o)
+    Marking fragment #670 .text (7 UartUtil.o)
+  Marking symbol .text_24                             (45 UartUtil.o)
+    Marking fragment #671 .text (7 UartUtil.o)
+Marking from fragment #671 .text (7 UartUtil.o)
+Marking from fragment #670 .text (7 UartUtil.o)
+Marking from fragment #481 .text (6 PlatformInit.o)
+  Marking symbol .text_6                              (12 PlatformInit.o)
+    Marking fragment #485 .text (6 PlatformInit.o)
+Marking from fragment #485 .text (6 PlatformInit.o)
+Marking from fragment #619 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_22                             (40 TransceiverConfigMngmnt.o)
+    Marking fragment #631 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_23                             (41 TransceiverConfigMngmnt.o)
+    Marking fragment #632 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol RadioInit                        Glb (75 Synthesizer.o)
+    Marking fragment #699 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol MLMEPHYXtalAdjust                Glb (78 TransceiverConfigMngmnt.o)
+    Marking fragment #614 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol radio_manager_init               Glb (143 RadioManagement.o)
+    Marking fragment #497 .text (7 RadioManagement.o)
+  Marking symbol .text_24                             (42 TransceiverConfigMngmnt.o)
+    Marking fragment #633 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_25                             (43 TransceiverConfigMngmnt.o)
+    Marking fragment #634 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_26                             (44 TransceiverConfigMngmnt.o)
+    Marking fragment #635 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_27                             (45 TransceiverConfigMngmnt.o)
+    Marking fragment #636 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_28                             (46 TransceiverConfigMngmnt.o)
+    Marking fragment #637 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_29                             (47 TransceiverConfigMngmnt.o)
+    Marking fragment #638 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol SetComplementaryPAState          Glb (53 rif.o)
+    Marking fragment #722 .text (8 rif.o(MC1322x.a))
+  Marking symbol SetPowerLevelLockMode            Glb (55 rif.o)
+    Marking fragment #724 .text (8 rif.o(MC1322x.a))
+  Marking symbol SetEdCcaThreshold                Glb (79 Synthesizer.o)
+    Marking fragment #709 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol .text_30                             (48 TransceiverConfigMngmnt.o)
+    Marking fragment #639 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_31                             (49 TransceiverConfigMngmnt.o)
+    Marking fragment #640 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #640 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #639 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #709 .text (13 Synthesizer.o(MC1322x.a))
+Marking from fragment #724 .text (8 rif.o(MC1322x.a))
+  Marking symbol .text_18                             (48 rif.o)
+  Marking symbol .text_16                             (43 rif.o)
+  Marking symbol GetCurrentChann                  Glb (69 Synthesizer.o)
+Marking from fragment #722 .text (8 rif.o(MC1322x.a))
+  Marking symbol .text_18                             (48 rif.o)
+  Marking symbol SetPower                         Glb (54 rif.o)
+Marking from fragment #638 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #637 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #636 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #635 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #634 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #633 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #497 .text (7 RadioManagement.o)
+  Marking symbol .text_17                             (50 RadioManagement.o)
+  Marking symbol .text_24                             (64 RadioManagement.o)
+    Marking fragment #508 .text (7 RadioManagement.o)
+Marking from fragment #508 .text (7 RadioManagement.o)
+Marking from fragment #614 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_15                             (33 TransceiverConfigMngmnt.o)
+    Marking fragment #624 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_16                             (34 TransceiverConfigMngmnt.o)
+    Marking fragment #625 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_17                             (35 TransceiverConfigMngmnt.o)
+    Marking fragment #626 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_18                             (36 TransceiverConfigMngmnt.o)
+    Marking fragment #627 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #627 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #626 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #625 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #624 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #699 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol .text_21                             (48 Synthesizer.o)
+  Marking symbol __aeabi_uidivmod                 Glb (350 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol SMAC_InitFromFlash               Glb (23 Init_Utils.o)
+    Marking fragment #731 .text (7 Init_Utils.o(MC1322x.a))
+  Marking symbol SMAC_InitFlybackSettings         Glb (76 Synthesizer.o)
+    Marking fragment #713 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol fill_ram_struct                  Glb (81 Synthesizer.o)
+    Marking fragment #710 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol get_ctov                         Glb (94 Synthesizer.o)
+    Marking fragment #714 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol InitRifModuleVars                Glb (52 rif.o)
+    Marking fragment #728 .text (8 rif.o(MC1322x.a))
+  Marking symbol SetPower                         Glb (54 rif.o)
+  Marking symbol gRadioTOCCal2_24MHz_c            Glb (89 Synthesizer.o)
+    Marking fragment #257 .rodata (10 Synthesizer.o(MC1322x.a))
+  Marking symbol u8RamValues                      Glb (25 Init_Utils.o)
+    Marking fragment #298 .bss (6 Init_Utils.o(MC1322x.a))
+Marking from fragment #298 .bss (6 Init_Utils.o(MC1322x.a))
+Marking from fragment #257 .rodata (10 Synthesizer.o(MC1322x.a))
+Marking from fragment #728 .text (8 rif.o(MC1322x.a))
+  Marking symbol .text_18                             (48 rif.o)
+Marking from fragment #714 .text (13 Synthesizer.o(MC1322x.a))
+Marking from fragment #710 .text (13 Synthesizer.o(MC1322x.a))
+  Marking symbol .text_21                             (48 Synthesizer.o)
+Marking from fragment #713 .text (13 Synthesizer.o(MC1322x.a))
+Marking from fragment #731 .text (7 Init_Utils.o(MC1322x.a))
+  Marking symbol CRM_VRegCntl                     Glb (227 rom-symbols-LLC.o)
+  Marking symbol __aeabi_uidivmod                 Glb (350 rom-symbols-LLC.o)
+  Marking symbol NVM_Detect                       Glb (257 rom-symbols-LLC.o)
+  Marking symbol NVM_SetSVar                      Glb (263 rom-symbols-LLC.o)
+  Marking symbol NVM_Read                         Glb (258 rom-symbols-LLC.o)
+  Marking symbol NVM_SetSVar                      Glb (263 rom-symbols-LLC.o)
+  Marking symbol SMAC_InitExecuteEntry                (2 Init_Utils.o)
+    Marking fragment #730 .text (7 Init_Utils.o(MC1322x.a))
+  Marking symbol NVM_Read                         Glb (258 rom-symbols-LLC.o)
+  Marking symbol NVM_SetSVar                      Glb (263 rom-symbols-LLC.o)
+  Marking symbol NVM_SetSVar                      Glb (263 rom-symbols-LLC.o)
+  Marking symbol                                      (16 Init_Utils.o)
+    Marking fragment #733 .text (7 Init_Utils.o(MC1322x.a))
+  Marking symbol u32SystemClock                   Glb (96 Synthesizer.o)
+Marking from fragment #733 .text (7 Init_Utils.o(MC1322x.a))
+Marking from fragment #730 .text (7 Init_Utils.o(MC1322x.a))
+  Marking symbol u8RamValues                      Glb (25 Init_Utils.o)
+Marking from fragment #632 .text (7 TransceiverConfigMngmnt.o)
+Marking from fragment #631 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol mIsPromiscousMode                    (4 TransceiverConfigMngmnt.o)
+    Marking fragment #181 .bss (8 TransceiverConfigMngmnt.o)
+Marking from fragment #181 .bss (8 TransceiverConfigMngmnt.o)
+Marking from fragment #87 .text (6 maca.o)
+Marking from fragment #582 .text (13 repeater.o)
+  Marking symbol MACA_Interrupt                   Glb (30 MacaInterrupt.o)
+    Marking fragment #470 .text (7 MacaInterrupt.o)
+Marking from fragment #470 .text (7 MacaInterrupt.o)
+  Marking symbol .text_10                             (18 MacaInterrupt.o)
+    Marking fragment #476 .text (7 MacaInterrupt.o)
+  Marking symbol .text_11                             (19 MacaInterrupt.o)
+    Marking fragment #477 .text (7 MacaInterrupt.o)
+  Marking symbol .text_11                             (19 MacaInterrupt.o)
+  Marking symbol .text_12                             (20 MacaInterrupt.o)
+    Marking fragment #478 .text (7 MacaInterrupt.o)
+  Marking symbol .text_7                              (15 MacaInterrupt.o)
+    Marking fragment #473 .text (7 MacaInterrupt.o)
+  Marking symbol execute_current_message_callback Glb (134 RadioManagement.o)
+    Marking fragment #493 .text (7 RadioManagement.o)
+  Marking symbol .text_11                             (19 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+    Marking fragment #469 .text (7 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol .text_13                             (21 MacaInterrupt.o)
+    Marking fragment #479 .text (7 MacaInterrupt.o)
+  Marking symbol .text_14                             (22 MacaInterrupt.o)
+    Marking fragment #480 .text (7 MacaInterrupt.o)
+  Marking symbol MLMEGetPromiscuousMode           Glb (74 TransceiverConfigMngmnt.o)
+    Marking fragment #618 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol execute_current_message_callback Glb (134 RadioManagement.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol .text_11                             (19 MacaInterrupt.o)
+Marking from fragment #618 .text (7 TransceiverConfigMngmnt.o)
+  Marking symbol .text_22                             (40 TransceiverConfigMngmnt.o)
+Marking from fragment #480 .text (7 MacaInterrupt.o)
+Marking from fragment #479 .text (7 MacaInterrupt.o)
+Marking from fragment #469 .text (7 MacaInterrupt.o)
+  Marking symbol ITC_DisableInterrupt             Glb (357 rom-symbols-LLC.o)
+  Marking symbol .text_5                              (12 MacaInterrupt.o)
+    Marking fragment #471 .text (7 MacaInterrupt.o)
+  Marking symbol .text_6                              (14 MacaInterrupt.o)
+    Marking fragment #472 .text (7 MacaInterrupt.o)
+  Marking symbol .text_7                              (15 MacaInterrupt.o)
+  Marking symbol .text_8                              (16 MacaInterrupt.o)
+    Marking fragment #474 .text (7 MacaInterrupt.o)
+  Marking symbol .text_9                              (17 MacaInterrupt.o)
+    Marking fragment #475 .text (7 MacaInterrupt.o)
+  Marking symbol ITC_EnableInterrupt              Glb (356 rom-symbols-LLC.o)
+Marking from fragment #475 .text (7 MacaInterrupt.o)
+Marking from fragment #474 .text (7 MacaInterrupt.o)
+Marking from fragment #472 .text (7 MacaInterrupt.o)
+Marking from fragment #471 .text (7 MacaInterrupt.o)
+Marking from fragment #493 .text (7 RadioManagement.o)
+  Marking symbol .text_17                             (50 RadioManagement.o)
+  Marking symbol                                      (120 RadioManagement.o)
+Marking from fragment #473 .text (7 MacaInterrupt.o)
+Marking from fragment #478 .text (7 MacaInterrupt.o)
+  Marking symbol gRadioEvntFlags                  Glb (135 RadioManagement.o)
+Marking from fragment #477 .text (7 MacaInterrupt.o)
+  Marking symbol mMacaIsrEntryCounter                 (3 MacaInterrupt.o)
+    Marking fragment #93 .bss (6 MacaInterrupt.o)
+Marking from fragment #93 .bss (6 MacaInterrupt.o)
+Marking from fragment #476 .text (7 MacaInterrupt.o)
+Marking from fragment #581 .text (13 repeater.o)
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+Marking from fragment #551 .text (13 repeater.o)
+  Marking symbol repeater_rx_cb                   Glb (212 repeater.o)
+    Marking fragment #537 .text (13 repeater.o)
+Marking from fragment #537 .text (13 repeater.o)
+  Marking symbol .text_29                             (70 repeater.o)
+    Marking fragment #554 .text (13 repeater.o)
+  Marking symbol .text_25                             (66 repeater.o)
+Marking from fragment #554 .text (13 repeater.o)
+  Marking symbol gRadioEvntFlags                  Glb (135 RadioManagement.o)
+Marking from fragment #550 .text (13 repeater.o)
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+Marking from fragment #549 .text (13 repeater.o)
+  Marking symbol TX_msg                           Glb (205 repeater.o)
+Marking from fragment #740 .text (6 data_init.o(rt4t_al.a))
+  Marking symbol                                      (13 data_init.o)
+    Marking fragment #741 .text (6 data_init.o(rt4t_al.a))
+  Marking symbol Region$$Table$$Base              Ext (15 data_init.o)
+  Marking symbol Region$$Table$$Limit             Ext (16 data_init.o)
+Marking from fragment #741 .text (6 data_init.o(rt4t_al.a))
+Marking from fragment #60 .vect (6 Init-IAR.o) init:always
+  Marking symbol .text7                               (8 Init-IAR.o)
+    Marking fragment #61 .text (7 Init-IAR.o) init:always
+  Marking symbol                                      (13 Init-IAR.o)
+  Marking symbol                                      (14 Init-IAR.o)
+  Marking symbol                                      (15 Init-IAR.o)
+  Marking symbol                                      (16 Init-IAR.o)
+  Marking symbol                                      (17 Init-IAR.o)
+  Marking symbol IrqHandler                       Glb (365 rom-symbols-LLC.o)
+  Marking symbol FiqHandler                       Glb (366 rom-symbols-LLC.o)
+Marking from fragment #61 .text (7 Init-IAR.o) init:always
+  Marking symbol __iar_data_init3                 Glb (14 data_init.o)
+    Marking fragment #740 .text (6 data_init.o(rt4t_al.a)) init:always
+  Marking symbol __rom_data_init                  Glb (367 rom-symbols-LLC.o)
+  Marking symbol Main                             Glb (203 repeater.o)
+    Marking fragment #535 .text (13 repeater.o) init:always
+  Marking symbol .stack8                              (11 Init-IAR.o)
+    Marking fragment #62 .stack (8 Init-IAR.o) init:always
+  Marking symbol Region_ROM_Table_ROM_Base        Glb (375 rom-symbols-LLC.o)
+  Marking symbol Region_ROM_Table_ROM_Limit       Glb (376 rom-symbols-LLC.o)
+  Marking symbol mExceptionHandlerUndefined       Glb (378 rom-symbols-LLC.o)
+  Marking symbol mExceptionHandlerSupervisor      Glb (379 rom-symbols-LLC.o)
+  Marking symbol mExceptionHandlerPrefetchAbort   Glb (380 rom-symbols-LLC.o)
+  Marking symbol mExceptionHandlerDataAbort       Glb (381 rom-symbols-LLC.o)
+Marking from fragment #62 .stack (8 Init-IAR.o) init:always
+  Marking symbol RP_Vector_Thumb_0                Glb (20 rp_vector_IAR.o)
+    Marking fragment #246 rp_vector_thumb_0 (6 rp_vector_IAR.o(LLC.a)) init:always
+  Marking symbol RP_Vector_Thumb_1                Glb (21 rp_vector_IAR.o)
+    Marking fragment #247 rp_vector_thumb_1 (7 rp_vector_IAR.o(LLC.a)) init:always
+  Marking symbol RP_Vector_Thumb_2                Glb (22 rp_vector_IAR.o)
+    Marking fragment #248 rp_vector_thumb_2 (8 rp_vector_IAR.o(LLC.a)) init:always
+  Marking symbol RP_Vector_Thumb_3                Glb (23 rp_vector_IAR.o)
+    Marking fragment #249 rp_vector_thumb_3 (9 rp_vector_IAR.o(LLC.a)) init:always
+Marking from fragment #249 rp_vector_thumb_3 (9 rp_vector_IAR.o(LLC.a)) init:always
+Marking from fragment #248 rp_vector_thumb_2 (8 rp_vector_IAR.o(LLC.a)) init:always
+Marking from fragment #247 rp_vector_thumb_1 (7 rp_vector_IAR.o(LLC.a)) init:always
+  Marking symbol InitExecuteEntry                 Glb (8 Init_Utils_patched.o)
+    Marking fragment #294 .text (7 Init_Utils_patched.o(LLC.a)) init:always
+Marking from fragment #294 .text (7 Init_Utils_patched.o(LLC.a)) init:always
+  Marking symbol Init_Delay                       Glb (4 Init_Delay_patched.o)
+    Marking fragment #306 .text (6 Init_Delay_patched.o(LLC.a)) init:always
+  Marking symbol PATCH_Ret_InitExecuteEntry       Glb (25 rp_vector_IAR.o)
+    Marking fragment #698 .text (10 rp_vector_IAR.o(LLC.a)) init:always
+  Marking symbol mInitDenyVregCntlOvr             Glb (9 Init_Utils_patched.o)
+    Marking fragment #293 .bss (6 Init_Utils_patched.o(LLC.a)) init:always
+Marking from fragment #293 .bss (6 Init_Utils_patched.o(LLC.a)) init:always
+Marking from fragment #698 .text (10 rp_vector_IAR.o(LLC.a)) init:always
+Marking from fragment #306 .text (6 Init_Delay_patched.o(LLC.a)) init:always
+Marking from fragment #246 rp_vector_thumb_0 (6 rp_vector_IAR.o(LLC.a)) init:always
+Marking from fragment #535 .text (13 repeater.o) init:always
+  Marking symbol .text_24                             (64 repeater.o)
+    Marking fragment #549 .text (13 repeater.o) init:always
+  Marking symbol .text_25                             (66 repeater.o)
+    Marking fragment #550 .text (13 repeater.o) init:always
+  Marking symbol .text_26                             (67 repeater.o)
+    Marking fragment #551 .text (13 repeater.o) init:always
+  Marking symbol repeater_app_init                    (16 repeater.o)
+    Marking fragment #577 .text (13 repeater.o) init:always
+  Marking symbol .text_27                             (68 repeater.o)
+    Marking fragment #552 .text (13 repeater.o) init:always
+  Marking symbol process_radio_msg                Glb (141 RadioManagement.o)
+    Marking fragment #498 .text (7 RadioManagement.o) init:always
+  Marking symbol data_indication_execute          Glb (208 repeater.o)
+    Marking fragment #538 .text (13 repeater.o) init:always
+  Marking symbol .text_28                             (69 repeater.o)
+    Marking fragment #553 .text (13 repeater.o) init:always
+  Marking symbol UartGetByteFromRxBuffer          Glb (209 rom-symbols-LLC.o)
+  Marking symbol __aeabi_memcpy4                  Glb (12 ABImemcpy.o)
+    Marking fragment #736 .text (6 ABImemcpy.o(rt4t_al.a)) init:always
+  Marking symbol cbRepeaterStFn_c                     (3 repeater.o)
+    Marking fragment #536 .text (13 repeater.o) init:always
+  Marking symbol                                      (174 repeater.o)
+    Marking fragment #603 .text (13 repeater.o) init:always
+Marking from fragment #603 .text (13 repeater.o) init:always
+Marking from fragment #536 .text (13 repeater.o) init:always
+  Marking symbol process_ready_prompt                 (13 repeater.o)
+    Marking fragment #564 .text (13 repeater.o) init:always
+  Marking symbol process_repeater_run                 (15 repeater.o)
+    Marking fragment #565 .text (13 repeater.o) init:always
+  Marking symbol process_change_delay                 (8 repeater.o)
+    Marking fragment #573 .text (13 repeater.o) init:always
+Marking from fragment #573 .text (13 repeater.o) init:always
+  Marking symbol .text_51                             (116 repeater.o)
+    Marking fragment #576 .text (13 repeater.o) init:always
+  Marking symbol .text_54                             (123 repeater.o)
+    Marking fragment #579 .text (13 repeater.o) init:always
+  Marking symbol .text_55                             (125 repeater.o)
+    Marking fragment #580 .text (13 repeater.o) init:always
+  Marking symbol .text_60                             (131 repeater.o)
+    Marking fragment #585 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+    Marking fragment #660 .text (7 UartUtil.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol display_config                       (4 repeater.o)
+    Marking fragment #548 .text (13 repeater.o) init:always
+  Marking symbol u8RepRdyPrompt                   Glb (218 repeater.o)
+    Marking fragment #602 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol u8RepRdyPrompt                   Glb (218 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #602 .text (13 repeater.o) init:always
+Marking from fragment #548 .text (13 repeater.o) init:always
+  Marking symbol .text_41                             (98 repeater.o)
+    Marking fragment #566 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+    Marking fragment #578 .text (13 repeater.o) init:always
+  Marking symbol .text_42                             (100 repeater.o)
+    Marking fragment #567 .text (13 repeater.o) init:always
+  Marking symbol u8RepOpModeText                  Glb (217 repeater.o)
+    Marking fragment #555 .text (13 repeater.o) init:always
+  Marking symbol Uart_Tx                          Glb (93 UartUtil.o)
+    Marking fragment #662 .text (7 UartUtil.o) init:always
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintByteDec                Glb (90 UartUtil.o)
+    Marking fragment #677 .text (7 UartUtil.o) init:always
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintByteDec                Glb (90 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+    Marking fragment #678 .text (7 UartUtil.o) init:always
+  Marking symbol .text_31                             (74 repeater.o)
+    Marking fragment #556 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol .text_32                             (77 repeater.o)
+    Marking fragment #557 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #557 .text (13 repeater.o) init:always
+Marking from fragment #556 .text (13 repeater.o) init:always
+Marking from fragment #678 .text (7 UartUtil.o) init:always
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #677 .text (7 UartUtil.o) init:always
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
+  Marking symbol __aeabi_idivmod                  Glb (348 rom-symbols-LLC.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #662 .text (7 UartUtil.o) init:always
+  Marking symbol UartWriteData                    Glb (202 rom-symbols-LLC.o)
+  Marking symbol UartWriteData                    Glb (202 rom-symbols-LLC.o)
+Marking from fragment #555 .text (13 repeater.o) init:always
+Marking from fragment #567 .text (13 repeater.o) init:always
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+    Marking fragment #144 .bss (11 repeater.o) init:always
+Marking from fragment #144 .bss (11 repeater.o) init:always
+Marking from fragment #578 .text (13 repeater.o) init:always
+  Marking symbol .text_59                             (129 repeater.o)
+    Marking fragment #584 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #584 .text (13 repeater.o) init:always
+Marking from fragment #566 .text (13 repeater.o) init:always
+  Marking symbol .rodata7                             (20 repeater.o)
+    Marking fragment #140 .rodata (7 repeater.o) init:always
+Marking from fragment #140 .rodata (7 repeater.o) init:always
+Marking from fragment #660 .text (7 UartUtil.o) init:always
+  Marking symbol UartWriteData                    Glb (202 rom-symbols-LLC.o)
+Marking from fragment #585 .text (13 repeater.o) init:always
+Marking from fragment #580 .text (13 repeater.o) init:always
+  Marking symbol .rodata8                             (23 repeater.o)
+    Marking fragment #141 .rodata (8 repeater.o) init:always
+Marking from fragment #141 .rodata (8 repeater.o) init:always
+Marking from fragment #579 .text (13 repeater.o) init:always
+  Marking symbol process_change_delay::u8ChgDlySt     (11 repeater.o)
+    Marking fragment #148 .bss (15 repeater.o) init:always
+Marking from fragment #148 .bss (15 repeater.o) init:always
+Marking from fragment #576 .text (13 repeater.o) init:always
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+Marking from fragment #565 .text (13 repeater.o) init:always
+  Marking symbol .text_42                             (100 repeater.o)
+  Marking symbol abort_message                    Glb (128 RadioManagement.o)
+    Marking fragment #489 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_50                             (115 repeater.o)
+    Marking fragment #575 .text (13 repeater.o) init:always
+  Marking symbol abort_message                    Glb (128 RadioManagement.o)
+  Marking symbol .text_43                             (101 repeater.o)
+    Marking fragment #568 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol repeater_run_sm                      (17 repeater.o)
+    Marking fragment #570 .text (13 repeater.o) init:always
+Marking from fragment #570 .text (13 repeater.o) init:always
+  Marking symbol .text_51                             (116 repeater.o)
+  Marking symbol .text_50                             (115 repeater.o)
+  Marking symbol MLMERXEnableRequest              Glb (50 WirelessLinkMngmt.o)
+    Marking fragment #685 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol MLMERXEnableRequest              Glb (50 WirelessLinkMngmt.o)
+  Marking symbol .text_47                             (108 repeater.o)
+    Marking fragment #572 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_PrintHex                    Glb (91 UartUtil.o)
+    Marking fragment #665 .text (7 UartUtil.o) init:always
+  Marking symbol .text_46                             (106 repeater.o)
+    Marking fragment #571 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol MLMERXEnableRequest              Glb (50 WirelessLinkMngmt.o)
+  Marking symbol MCPSDataRequest                  Glb (44 WirelessLinkMngmt.o)
+    Marking fragment #682 .text (6 WirelessLinkMngmt.o) init:always
+Marking from fragment #682 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol                                      (32 WirelessLinkMngmt.o)
+    Marking fragment #686 .text (6 WirelessLinkMngmt.o) init:always
+Marking from fragment #686 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol handle_new_message               Glb (140 RadioManagement.o)
+    Marking fragment #495 .text (7 RadioManagement.o) init:always
+Marking from fragment #495 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_22                             (59 RadioManagement.o)
+    Marking fragment #506 .text (7 RadioManagement.o) init:always
+Marking from fragment #506 .text (7 RadioManagement.o) init:always
+  Marking symbol mRetries_timmer                      (9 RadioManagement.o)
+    Marking fragment #112 .data (8 RadioManagement.o) init:always
+Marking from fragment #112 .data (8 RadioManagement.o) init:always
+Marking from fragment #571 .text (13 repeater.o) init:always
+Marking from fragment #665 .text (7 UartUtil.o) init:always
+  Marking symbol HexToAscii                           (3 UartUtil.o)
+    Marking fragment #658 .text (7 UartUtil.o) init:always
+  Marking symbol HexToAscii                           (3 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_28                             (49 UartUtil.o)
+    Marking fragment #675 .text (7 UartUtil.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_29                             (51 UartUtil.o)
+    Marking fragment #676 .text (7 UartUtil.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #676 .text (7 UartUtil.o) init:always
+Marking from fragment #675 .text (7 UartUtil.o) init:always
+Marking from fragment #658 .text (7 UartUtil.o) init:always
+Marking from fragment #572 .text (13 repeater.o) init:always
+Marking from fragment #685 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol                                      (32 WirelessLinkMngmt.o)
+Marking from fragment #568 .text (13 repeater.o) init:always
+  Marking symbol u8RepRdyPrompt                   Glb (218 repeater.o)
+Marking from fragment #575 .text (13 repeater.o) init:always
+  Marking symbol TX_msg                           Glb (205 repeater.o)
+    Marking fragment #145 .bss (12 repeater.o) init:always
+Marking from fragment #145 .bss (12 repeater.o) init:always
+Marking from fragment #489 .text (7 RadioManagement.o) init:always
+  Marking symbol is_a_handled_message                 (6 RadioManagement.o)
+    Marking fragment #491 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_17                             (50 RadioManagement.o)
+    Marking fragment #501 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_18                             (52 RadioManagement.o)
+    Marking fragment #502 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_19                             (53 RadioManagement.o)
+    Marking fragment #503 .text (7 RadioManagement.o) init:always
+  Marking symbol mAbortStates                         (7 RadioManagement.o)
+    Marking fragment #490 .text (7 RadioManagement.o) init:always
+Marking from fragment #490 .text (7 RadioManagement.o) init:always
+Marking from fragment #503 .text (7 RadioManagement.o) init:always
+Marking from fragment #502 .text (7 RadioManagement.o) init:always
+Marking from fragment #501 .text (7 RadioManagement.o) init:always
+  Marking symbol mRetries_timmer                      (9 RadioManagement.o)
+Marking from fragment #491 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_17                             (50 RadioManagement.o)
+Marking from fragment #564 .text (13 repeater.o) init:always
+  Marking symbol .text_42                             (100 repeater.o)
+  Marking symbol .text_49                             (113 repeater.o)
+    Marking fragment #574 .text (13 repeater.o) init:always
+  Marking symbol display_menu                         (5 repeater.o)
+    Marking fragment #539 .text (13 repeater.o) init:always
+  Marking symbol display_config                       (4 repeater.o)
+  Marking symbol .text_43                             (101 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol execute_command                      (6 repeater.o)
+    Marking fragment #558 .text (13 repeater.o) init:always
+Marking from fragment #558 .text (13 repeater.o) init:always
+  Marking symbol .text_43                             (101 repeater.o)
+  Marking symbol .text_35                             (85 repeater.o)
+    Marking fragment #560 .text (13 repeater.o) init:always
+  Marking symbol .text_44                             (102 repeater.o)
+    Marking fragment #569 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_36                             (86 repeater.o)
+    Marking fragment #561 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol print_n_blank_spaces                 (7 repeater.o)
+  Marking symbol Uart_PrintShortDec               Glb (92 UartUtil.o)
+  Marking symbol .text_46                             (106 repeater.o)
+  Marking symbol .text_37                             (89 repeater.o)
+    Marking fragment #562 .text (13 repeater.o) init:always
+  Marking symbol display_menu                         (5 repeater.o)
+  Marking symbol display_config                       (4 repeater.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_38                             (91 repeater.o)
+    Marking fragment #563 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol MLMEPAOutputAdjust               Glb (48 WirelessLinkMngmt.o)
+    Marking fragment #690 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol MLMESetChannelRequest            Glb (52 WirelessLinkMngmt.o)
+    Marking fragment #683 .text (6 WirelessLinkMngmt.o) init:always
+Marking from fragment #683 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol .text_12                             (24 WirelessLinkMngmt.o)
+    Marking fragment #692 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol .text_13                             (26 WirelessLinkMngmt.o)
+    Marking fragment #693 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol SetChannel                       Glb (77 Synthesizer.o)
+    Marking fragment #701 .text (13 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #701 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol bGetEnableLock                   Glb (56 rif.o)
+    Marking fragment #725 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol .text_16                             (31 Synthesizer.o)
+    Marking fragment #706 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol .text_14                             (26 Synthesizer.o)
+    Marking fragment #704 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol .text_16                             (31 Synthesizer.o)
+  Marking symbol .text_16                             (31 Synthesizer.o)
+  Marking symbol .text_21                             (48 Synthesizer.o)
+    Marking fragment #711 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol .text_16                             (31 Synthesizer.o)
+  Marking symbol .text_16                             (31 Synthesizer.o)
+Marking from fragment #711 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol ram_init_val                     Glb (95 Synthesizer.o)
+    Marking fragment #256 .data (9 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #256 .data (9 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #704 .text (13 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #706 .text (13 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #725 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol u8mCurrentPowerLvl                   (4 rif.o)
+    Marking fragment #277 .bss (7 rif.o(MC1322x.a)) init:always
+Marking from fragment #277 .bss (7 rif.o(MC1322x.a)) init:always
+Marking from fragment #693 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol gaRFSynVCODivI_c                 Glb (137 RadioManagement.o)
+    Marking fragment #516 .text (7 RadioManagement.o) init:always
+Marking from fragment #516 .text (7 RadioManagement.o) init:always
+Marking from fragment #692 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol gaRFSynVCODivF_c                 Glb (136 RadioManagement.o)
+    Marking fragment #110 .rodata (6 RadioManagement.o) init:always
+Marking from fragment #110 .rodata (6 RadioManagement.o) init:always
+Marking from fragment #690 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol SetPower                         Glb (54 rif.o)
+    Marking fragment #720 .text (8 rif.o(MC1322x.a)) init:always
+Marking from fragment #720 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol .text_18                             (48 rif.o)
+    Marking fragment #729 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol .text_16                             (43 rif.o)
+    Marking fragment #727 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol GetCurrentChann                  Glb (69 Synthesizer.o)
+    Marking fragment #712 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol gPSMVAL_c                        Glb (61 rif.o)
+    Marking fragment #276 .rodata (6 rif.o(MC1322x.a)) init:always
+Marking from fragment #276 .rodata (6 rif.o(MC1322x.a)) init:always
+Marking from fragment #712 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol ram_init_val                     Glb (95 Synthesizer.o)
+Marking from fragment #727 .text (8 rif.o(MC1322x.a)) init:always
+Marking from fragment #729 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol u8mCurrentPowerLvl                   (4 rif.o)
+Marking from fragment #563 .text (13 repeater.o) init:always
+Marking from fragment #562 .text (13 repeater.o) init:always
+Marking from fragment #561 .text (13 repeater.o) init:always
+Marking from fragment #569 .text (13 repeater.o) init:always
+  Marking symbol .rodata8                             (23 repeater.o)
+Marking from fragment #560 .text (13 repeater.o) init:always
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+Marking from fragment #539 .text (13 repeater.o) init:always
+  Marking symbol .text_34                             (83 repeater.o)
+    Marking fragment #559 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_15                             (49 repeater.o)
+    Marking fragment #540 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_16                             (51 repeater.o)
+    Marking fragment #541 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_17                             (52 repeater.o)
+    Marking fragment #542 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_18                             (53 repeater.o)
+    Marking fragment #543 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_19                             (54 repeater.o)
+    Marking fragment #544 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_20                             (55 repeater.o)
+    Marking fragment #545 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_21                             (56 repeater.o)
+    Marking fragment #546 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_22                             (58 repeater.o)
+    Marking fragment #547 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+Marking from fragment #547 .text (13 repeater.o) init:always
+Marking from fragment #546 .text (13 repeater.o) init:always
+Marking from fragment #545 .text (13 repeater.o) init:always
+Marking from fragment #544 .text (13 repeater.o) init:always
+Marking from fragment #543 .text (13 repeater.o) init:always
+Marking from fragment #542 .text (13 repeater.o) init:always
+Marking from fragment #541 .text (13 repeater.o) init:always
+Marking from fragment #540 .text (13 repeater.o) init:always
+Marking from fragment #559 .text (13 repeater.o) init:always
+  Marking symbol .rodata6                             (18 repeater.o)
+    Marking fragment #139 .rodata (6 repeater.o) init:always
+Marking from fragment #139 .rodata (6 repeater.o) init:always
+Marking from fragment #574 .text (13 repeater.o) init:always
+  Marking symbol process_ready_prompt::u8RdySt        (14 repeater.o)
+    Marking fragment #147 .bss (14 repeater.o) init:always
+Marking from fragment #147 .bss (14 repeater.o) init:always
+Marking from fragment #736 .text (6 ABImemcpy.o(rt4t_al.a)) init:always
+Marking from fragment #553 .text (13 repeater.o) init:always
+  Marking symbol gu8SCIStatus                     Glb (98 UartUtil.o)
+    Marking fragment #204 .bss (6 UartUtil.o) init:always
+Marking from fragment #204 .bss (6 UartUtil.o) init:always
+Marking from fragment #538 .text (13 repeater.o) init:always
+  Marking symbol .text_25                             (66 repeater.o)
+Marking from fragment #498 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_22                             (59 RadioManagement.o)
+  Marking symbol cbProcessMsg_c                       (4 RadioManagement.o)
+    Marking fragment #499 .text (7 RadioManagement.o) init:always
+  Marking symbol                                      (120 RadioManagement.o)
+    Marking fragment #532 .text (7 RadioManagement.o) init:always
+  Marking symbol process_scan_req                 Glb (142 RadioManagement.o)
+    Marking fragment #522 .text (7 RadioManagement.o) init:always
+Marking from fragment #522 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_39                             (90 RadioManagement.o)
+    Marking fragment #523 .text (7 RadioManagement.o) init:always
+  Marking symbol get_next_chann_to_scan           Glb (139 RadioManagement.o)
+    Marking fragment #524 .text (7 RadioManagement.o) init:always
+  Marking symbol                                      (123 RadioManagement.o)
+    Marking fragment #114 .text (10 RadioManagement.o) init:always
+  Marking symbol is_a_handled_message                 (6 RadioManagement.o)
+  Marking symbol MLMEEnergyDetect                 Glb (45 WirelessLinkMngmt.o)
+    Marking fragment #688 .text (6 WirelessLinkMngmt.o) init:always
+Marking from fragment #688 .text (6 WirelessLinkMngmt.o) init:always
+  Marking symbol handle_new_message               Glb (140 RadioManagement.o)
+Marking from fragment #114 .text (10 RadioManagement.o) init:always
+Marking from fragment #524 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_47                             (111 RadioManagement.o)
+    Marking fragment #531 .text (7 RadioManagement.o) init:always
+Marking from fragment #531 .text (7 RadioManagement.o) init:always
+  Marking symbol mRetries_timmer                      (9 RadioManagement.o)
+Marking from fragment #523 .text (7 RadioManagement.o) init:always
+  Marking symbol mRetries_timmer                      (9 RadioManagement.o)
+Marking from fragment #532 .text (7 RadioManagement.o) init:always
+Marking from fragment #499 .text (7 RadioManagement.o) init:always
+  Marking symbol process_tx_msg                       (22 RadioManagement.o)
+    Marking fragment #500 .text (7 RadioManagement.o) init:always
+  Marking symbol process_rx_msg                       (16 RadioManagement.o)
+    Marking fragment #504 .text (7 RadioManagement.o) init:always
+  Marking symbol process_ed_msg                       (14 RadioManagement.o)
+    Marking fragment #513 .text (7 RadioManagement.o) init:always
+  Marking symbol process_to_msg                       (21 RadioManagement.o)
+    Marking fragment #517 .text (7 RadioManagement.o) init:always
+Marking from fragment #517 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_39                             (90 RadioManagement.o)
+  Marking symbol .text_44                             (108 RadioManagement.o)
+    Marking fragment #528 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_45                             (109 RadioManagement.o)
+    Marking fragment #529 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_46                             (110 RadioManagement.o)
+    Marking fragment #530 .text (7 RadioManagement.o) init:always
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+    Marking fragment #496 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_42                             (106 RadioManagement.o)
+    Marking fragment #526 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_43                             (107 RadioManagement.o)
+    Marking fragment #527 .text (7 RadioManagement.o) init:always
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+  Marking symbol                                      (121 RadioManagement.o)
+    Marking fragment #505 .text (7 RadioManagement.o) init:always
+Marking from fragment #505 .text (7 RadioManagement.o) init:always
+Marking from fragment #527 .text (7 RadioManagement.o) init:always
+Marking from fragment #526 .text (7 RadioManagement.o) init:always
+Marking from fragment #496 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_22                             (59 RadioManagement.o)
+Marking from fragment #530 .text (7 RadioManagement.o) init:always
+Marking from fragment #529 .text (7 RadioManagement.o) init:always
+Marking from fragment #528 .text (7 RadioManagement.o) init:always
+Marking from fragment #513 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_39                             (90 RadioManagement.o)
+  Marking symbol command_xcvr_ed                  Glb (132 RadioManagement.o)
+    Marking fragment #507 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_41                             (104 RadioManagement.o)
+    Marking fragment #525 .text (7 RadioManagement.o) init:always
+  Marking symbol calculate_ed_value                   (3 RadioManagement.o)
+    Marking fragment #521 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_35                             (83 RadioManagement.o)
+    Marking fragment #519 .text (7 RadioManagement.o) init:always
+  Marking symbol gaRFSynVCODivI_c                 Glb (137 RadioManagement.o)
+  Marking symbol command_xcvr_ed                  Glb (132 RadioManagement.o)
+  Marking symbol .text_41                             (104 RadioManagement.o)
+  Marking symbol calculate_ed_value                   (3 RadioManagement.o)
+  Marking symbol .text_35                             (83 RadioManagement.o)
+  Marking symbol gaRFSynVCODivI_c                 Glb (137 RadioManagement.o)
+  Marking symbol SetChannel                       Glb (77 Synthesizer.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+  Marking symbol .text_42                             (106 RadioManagement.o)
+  Marking symbol .text_43                             (107 RadioManagement.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+Marking from fragment #519 .text (7 RadioManagement.o) init:always
+  Marking symbol gaRFSynVCODivF_c                 Glb (136 RadioManagement.o)
+Marking from fragment #521 .text (7 RadioManagement.o) init:always
+Marking from fragment #525 .text (7 RadioManagement.o) init:always
+Marking from fragment #507 .text (7 RadioManagement.o) init:always
+  Marking symbol gaRFSynVCODivI_c                 Glb (137 RadioManagement.o)
+  Marking symbol .text_35                             (83 RadioManagement.o)
+  Marking symbol GetCurrentChannel                Glb (70 Synthesizer.o)
+    Marking fragment #702 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol SetChannel                       Glb (77 Synthesizer.o)
+  Marking symbol .text_36                             (84 RadioManagement.o)
+    Marking fragment #520 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_30                             (73 RadioManagement.o)
+    Marking fragment #514 .text (7 RadioManagement.o) init:always
+  Marking symbol                                      (122 RadioManagement.o)
+Marking from fragment #514 .text (7 RadioManagement.o) init:always
+Marking from fragment #520 .text (7 RadioManagement.o) init:always
+Marking from fragment #702 .text (13 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #504 .text (7 RadioManagement.o) init:always
+  Marking symbol                                      (121 RadioManagement.o)
+  Marking symbol .text_22                             (59 RadioManagement.o)
+  Marking symbol .text_25                             (66 RadioManagement.o)
+    Marking fragment #509 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_26                             (67 RadioManagement.o)
+    Marking fragment #510 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_28                             (69 RadioManagement.o)
+    Marking fragment #512 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_30                             (73 RadioManagement.o)
+  Marking symbol .text_31                             (75 RadioManagement.o)
+    Marking fragment #515 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_34                             (81 RadioManagement.o)
+    Marking fragment #518 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_28                             (69 RadioManagement.o)
+  Marking symbol .text_30                             (73 RadioManagement.o)
+  Marking symbol .text_31                             (75 RadioManagement.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+Marking from fragment #518 .text (7 RadioManagement.o) init:always
+Marking from fragment #515 .text (7 RadioManagement.o) init:always
+Marking from fragment #512 .text (7 RadioManagement.o) init:always
+Marking from fragment #510 .text (7 RadioManagement.o) init:always
+Marking from fragment #509 .text (7 RadioManagement.o) init:always
+Marking from fragment #500 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_17                             (50 RadioManagement.o)
+  Marking symbol .text_25                             (66 RadioManagement.o)
+  Marking symbol .text_26                             (67 RadioManagement.o)
+  Marking symbol .text_27                             (68 RadioManagement.o)
+    Marking fragment #511 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_28                             (69 RadioManagement.o)
+  Marking symbol .text_18                             (52 RadioManagement.o)
+  Marking symbol .text_28                             (69 RadioManagement.o)
+  Marking symbol .text_18                             (52 RadioManagement.o)
+  Marking symbol release_current_message          Glb (144 RadioManagement.o)
+  Marking symbol                                      (121 RadioManagement.o)
+Marking from fragment #511 .text (7 RadioManagement.o) init:always
+Marking from fragment #552 .text (13 repeater.o) init:always
+  Marking symbol gu16SCINumOfBytes                Glb (96 UartUtil.o)
+Marking from fragment #577 .text (13 repeater.o) init:always
+  Marking symbol .text_56                             (126 repeater.o)
+    Marking fragment #581 .text (13 repeater.o) init:always
+  Marking symbol ITC_Init                         Glb (352 rom-symbols-LLC.o)
+  Marking symbol .text_57                             (127 repeater.o)
+    Marking fragment #582 .text (13 repeater.o) init:always
+  Marking symbol IntAssignHandler                 Glb (354 rom-symbols-LLC.o)
+  Marking symbol ITC_SetPriority                  Glb (353 rom-symbols-LLC.o)
+  Marking symbol ITC_EnableInterrupt              Glb (356 rom-symbols-LLC.o)
+  Marking symbol IntDisableAll                    Glb (364 rom-symbols-LLC.o)
+  Marking symbol ResetMaca                        Glb (9 maca.o)
+    Marking fragment #87 .text (6 maca.o) init:always
+  Marking symbol MLMERadioInit                    Glb (79 TransceiverConfigMngmnt.o)
+    Marking fragment #619 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol PlatformPortInit                 Glb (20 PlatformInit.o)
+    Marking fragment #481 .text (6 PlatformInit.o) init:always
+  Marking symbol MLMESetChannelRequest            Glb (52 WirelessLinkMngmt.o)
+  Marking symbol IntRestoreAll                    Glb (361 rom-symbols-LLC.o)
+  Marking symbol Uart_Init                        Glb (87 UartUtil.o)
+    Marking fragment #650 .text (7 UartUtil.o) init:always
+  Marking symbol .text_61                             (133 repeater.o)
+    Marking fragment #586 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_62                             (135 repeater.o)
+    Marking fragment #587 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_63                             (138 repeater.o)
+    Marking fragment #588 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_64                             (140 repeater.o)
+    Marking fragment #589 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_65                             (142 repeater.o)
+    Marking fragment #590 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_66                             (144 repeater.o)
+    Marking fragment #591 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_67                             (145 repeater.o)
+    Marking fragment #592 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_68                             (146 repeater.o)
+    Marking fragment #593 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_69                             (148 repeater.o)
+    Marking fragment #594 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_70                             (150 repeater.o)
+    Marking fragment #595 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_71                             (152 repeater.o)
+    Marking fragment #596 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_72                             (154 repeater.o)
+    Marking fragment #597 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_58                             (128 repeater.o)
+    Marking fragment #583 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_73                             (156 repeater.o)
+    Marking fragment #598 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_74                             (158 repeater.o)
+    Marking fragment #599 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_75                             (160 repeater.o)
+    Marking fragment #600 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol .text_76                             (163 repeater.o)
+    Marking fragment #601 .text (13 repeater.o) init:always
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol Uart_Print                       Glb (89 UartUtil.o)
+  Marking symbol MLMEPAOutputAdjust               Glb (48 WirelessLinkMngmt.o)
+  Marking symbol DelayMs                          Glb (13 Delay.o)
+    Marking fragment #408 .text (6 Delay.o) init:always
+  Marking symbol MLMESetChannelRequest            Glb (52 WirelessLinkMngmt.o)
+Marking from fragment #408 .text (6 Delay.o) init:always
+  Marking symbol .text_3                              (6 Delay.o)
+    Marking fragment #409 .text (6 Delay.o) init:always
+Marking from fragment #409 .text (6 Delay.o) init:always
+Marking from fragment #601 .text (13 repeater.o) init:always
+Marking from fragment #600 .text (13 repeater.o) init:always
+Marking from fragment #599 .text (13 repeater.o) init:always
+Marking from fragment #598 .text (13 repeater.o) init:always
+Marking from fragment #583 .text (13 repeater.o) init:always
+  Marking symbol .rodata9                             (26 repeater.o)
+    Marking fragment #142 .rodata (9 repeater.o) init:always
+Marking from fragment #142 .rodata (9 repeater.o) init:always
+Marking from fragment #597 .text (13 repeater.o) init:always
+Marking from fragment #596 .text (13 repeater.o) init:always
+Marking from fragment #595 .text (13 repeater.o) init:always
+Marking from fragment #594 .text (13 repeater.o) init:always
+Marking from fragment #593 .text (13 repeater.o) init:always
+Marking from fragment #592 .text (13 repeater.o) init:always
+Marking from fragment #591 .text (13 repeater.o) init:always
+Marking from fragment #590 .text (13 repeater.o) init:always
+Marking from fragment #589 .text (13 repeater.o) init:always
+Marking from fragment #588 .text (13 repeater.o) init:always
+Marking from fragment #587 .text (13 repeater.o) init:always
+Marking from fragment #586 .text (13 repeater.o) init:always
+Marking from fragment #650 .text (7 UartUtil.o) init:always
+  Marking symbol GpioUart1Init                    Glb (81 UartUtil.o)
+    Marking fragment #651 .text (7 UartUtil.o) init:always
+  Marking symbol .text_19                             (39 UartUtil.o)
+    Marking fragment #666 .text (7 UartUtil.o) init:always
+  Marking symbol IntAssignHandler                 Glb (354 rom-symbols-LLC.o)
+  Marking symbol ITC_SetPriority                  Glb (353 rom-symbols-LLC.o)
+  Marking symbol ITC_EnableInterrupt              Glb (356 rom-symbols-LLC.o)
+  Marking symbol .text_20                             (41 UartUtil.o)
+    Marking fragment #667 .text (7 UartUtil.o) init:always
+  Marking symbol UartOpen                         Glb (195 rom-symbols-LLC.o)
+  Marking symbol UartSetConfig                    Glb (196 rom-symbols-LLC.o)
+  Marking symbol UartSetTransmitterThreshold      Glb (199 rom-symbols-LLC.o)
+  Marking symbol UartSetReceiverThreshold         Glb (197 rom-symbols-LLC.o)
+  Marking symbol .text_21                             (42 UartUtil.o)
+    Marking fragment #668 .text (7 UartUtil.o) init:always
+  Marking symbol .text_22                             (43 UartUtil.o)
+    Marking fragment #669 .text (7 UartUtil.o) init:always
+  Marking symbol UartSetCallbackFunctions         Glb (200 rom-symbols-LLC.o)
+  Marking symbol IntRestoreIRQ                    Glb (360 rom-symbols-LLC.o)
+  Marking symbol UartReadData                     Glb (201 rom-symbols-LLC.o)
+Marking from fragment #669 .text (7 UartUtil.o) init:always
+  Marking symbol UartEventRead1                   Glb (83 UartUtil.o)
+    Marking fragment #653 .text (7 UartUtil.o) init:always
+Marking from fragment #653 .text (7 UartUtil.o) init:always
+  Marking symbol                                      (64 UartUtil.o)
+    Marking fragment #656 .text (7 UartUtil.o) init:always
+Marking from fragment #656 .text (7 UartUtil.o) init:always
+  Marking symbol .text_27                             (48 UartUtil.o)
+    Marking fragment #674 .text (7 UartUtil.o) init:always
+Marking from fragment #674 .text (7 UartUtil.o) init:always
+  Marking symbol gu8SCIStatus                     Glb (98 UartUtil.o)
+Marking from fragment #668 .text (7 UartUtil.o) init:always
+  Marking symbol UartEventWrite1                  Glb (85 UartUtil.o)
+    Marking fragment #654 .text (7 UartUtil.o) init:always
+Marking from fragment #654 .text (7 UartUtil.o) init:always
+Marking from fragment #667 .text (7 UartUtil.o) init:always
+Marking from fragment #666 .text (7 UartUtil.o) init:always
+  Marking symbol UartIsr1                         Glb (207 rom-symbols-LLC.o)
+Marking from fragment #651 .text (7 UartUtil.o) init:always
+  Marking symbol .text_23                             (44 UartUtil.o)
+    Marking fragment #670 .text (7 UartUtil.o) init:always
+  Marking symbol .text_24                             (45 UartUtil.o)
+    Marking fragment #671 .text (7 UartUtil.o) init:always
+Marking from fragment #671 .text (7 UartUtil.o) init:always
+Marking from fragment #670 .text (7 UartUtil.o) init:always
+Marking from fragment #481 .text (6 PlatformInit.o) init:always
+  Marking symbol .text_6                              (12 PlatformInit.o)
+    Marking fragment #485 .text (6 PlatformInit.o) init:always
+Marking from fragment #485 .text (6 PlatformInit.o) init:always
+Marking from fragment #619 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_22                             (40 TransceiverConfigMngmnt.o)
+    Marking fragment #631 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_23                             (41 TransceiverConfigMngmnt.o)
+    Marking fragment #632 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol RadioInit                        Glb (75 Synthesizer.o)
+    Marking fragment #699 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol MLMEPHYXtalAdjust                Glb (78 TransceiverConfigMngmnt.o)
+    Marking fragment #614 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol radio_manager_init               Glb (143 RadioManagement.o)
+    Marking fragment #497 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_24                             (42 TransceiverConfigMngmnt.o)
+    Marking fragment #633 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_25                             (43 TransceiverConfigMngmnt.o)
+    Marking fragment #634 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_26                             (44 TransceiverConfigMngmnt.o)
+    Marking fragment #635 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_27                             (45 TransceiverConfigMngmnt.o)
+    Marking fragment #636 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_28                             (46 TransceiverConfigMngmnt.o)
+    Marking fragment #637 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_29                             (47 TransceiverConfigMngmnt.o)
+    Marking fragment #638 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol SetComplementaryPAState          Glb (53 rif.o)
+    Marking fragment #722 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol SetPowerLevelLockMode            Glb (55 rif.o)
+    Marking fragment #724 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol SetEdCcaThreshold                Glb (79 Synthesizer.o)
+    Marking fragment #709 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol .text_30                             (48 TransceiverConfigMngmnt.o)
+    Marking fragment #639 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_31                             (49 TransceiverConfigMngmnt.o)
+    Marking fragment #640 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #640 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #639 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #709 .text (13 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #724 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol .text_18                             (48 rif.o)
+  Marking symbol .text_16                             (43 rif.o)
+  Marking symbol GetCurrentChann                  Glb (69 Synthesizer.o)
+Marking from fragment #722 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol .text_18                             (48 rif.o)
+  Marking symbol SetPower                         Glb (54 rif.o)
+Marking from fragment #638 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #637 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #636 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #635 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #634 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #633 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #497 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_17                             (50 RadioManagement.o)
+  Marking symbol .text_24                             (64 RadioManagement.o)
+    Marking fragment #508 .text (7 RadioManagement.o) init:always
+Marking from fragment #508 .text (7 RadioManagement.o) init:always
+Marking from fragment #614 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_15                             (33 TransceiverConfigMngmnt.o)
+    Marking fragment #624 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_16                             (34 TransceiverConfigMngmnt.o)
+    Marking fragment #625 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_17                             (35 TransceiverConfigMngmnt.o)
+    Marking fragment #626 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_18                             (36 TransceiverConfigMngmnt.o)
+    Marking fragment #627 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #627 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #626 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #625 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #624 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #699 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol .text_21                             (48 Synthesizer.o)
+  Marking symbol __aeabi_uidivmod                 Glb (350 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol InitFromMemory                   Glb (346 rom-symbols-LLC.o)
+  Marking symbol SMAC_InitFromFlash               Glb (23 Init_Utils.o)
+    Marking fragment #731 .text (7 Init_Utils.o(MC1322x.a)) init:always
+  Marking symbol SMAC_InitFlybackSettings         Glb (76 Synthesizer.o)
+    Marking fragment #713 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol fill_ram_struct                  Glb (81 Synthesizer.o)
+    Marking fragment #710 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol get_ctov                         Glb (94 Synthesizer.o)
+    Marking fragment #714 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol InitRifModuleVars                Glb (52 rif.o)
+    Marking fragment #728 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol SetPower                         Glb (54 rif.o)
+  Marking symbol gRadioTOCCal2_24MHz_c            Glb (89 Synthesizer.o)
+    Marking fragment #257 .rodata (10 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol u8RamValues                      Glb (25 Init_Utils.o)
+    Marking fragment #298 .bss (6 Init_Utils.o(MC1322x.a)) init:always
+Marking from fragment #298 .bss (6 Init_Utils.o(MC1322x.a)) init:always
+Marking from fragment #257 .rodata (10 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #728 .text (8 rif.o(MC1322x.a)) init:always
+  Marking symbol .text_18                             (48 rif.o)
+Marking from fragment #714 .text (13 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #710 .text (13 Synthesizer.o(MC1322x.a)) init:always
+  Marking symbol .text_21                             (48 Synthesizer.o)
+Marking from fragment #713 .text (13 Synthesizer.o(MC1322x.a)) init:always
+Marking from fragment #731 .text (7 Init_Utils.o(MC1322x.a)) init:always
+  Marking symbol CRM_VRegCntl                     Glb (227 rom-symbols-LLC.o)
+  Marking symbol __aeabi_uidivmod                 Glb (350 rom-symbols-LLC.o)
+  Marking symbol NVM_Detect                       Glb (257 rom-symbols-LLC.o)
+  Marking symbol NVM_SetSVar                      Glb (263 rom-symbols-LLC.o)
+  Marking symbol NVM_Read                         Glb (258 rom-symbols-LLC.o)
+  Marking symbol NVM_SetSVar                      Glb (263 rom-symbols-LLC.o)
+  Marking symbol SMAC_InitExecuteEntry                (2 Init_Utils.o)
+    Marking fragment #730 .text (7 Init_Utils.o(MC1322x.a)) init:always
+  Marking symbol NVM_Read                         Glb (258 rom-symbols-LLC.o)
+  Marking symbol NVM_SetSVar                      Glb (263 rom-symbols-LLC.o)
+  Marking symbol NVM_SetSVar                      Glb (263 rom-symbols-LLC.o)
+  Marking symbol                                      (16 Init_Utils.o)
+    Marking fragment #733 .text (7 Init_Utils.o(MC1322x.a)) init:always
+  Marking symbol u32SystemClock                   Glb (96 Synthesizer.o)
+Marking from fragment #733 .text (7 Init_Utils.o(MC1322x.a)) init:always
+Marking from fragment #730 .text (7 Init_Utils.o(MC1322x.a)) init:always
+  Marking symbol u8RamValues                      Glb (25 Init_Utils.o)
+Marking from fragment #632 .text (7 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #631 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol mIsPromiscousMode                    (4 TransceiverConfigMngmnt.o)
+    Marking fragment #181 .bss (8 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #181 .bss (8 TransceiverConfigMngmnt.o) init:always
+Marking from fragment #87 .text (6 maca.o) init:always
+Marking from fragment #582 .text (13 repeater.o) init:always
+  Marking symbol MACA_Interrupt                   Glb (30 MacaInterrupt.o)
+    Marking fragment #470 .text (7 MacaInterrupt.o) init:always
+Marking from fragment #470 .text (7 MacaInterrupt.o) init:always
+  Marking symbol .text_10                             (18 MacaInterrupt.o)
+    Marking fragment #476 .text (7 MacaInterrupt.o) init:always
+  Marking symbol .text_11                             (19 MacaInterrupt.o)
+    Marking fragment #477 .text (7 MacaInterrupt.o) init:always
+  Marking symbol .text_11                             (19 MacaInterrupt.o)
+  Marking symbol .text_12                             (20 MacaInterrupt.o)
+    Marking fragment #478 .text (7 MacaInterrupt.o) init:always
+  Marking symbol .text_7                              (15 MacaInterrupt.o)
+    Marking fragment #473 .text (7 MacaInterrupt.o) init:always
+  Marking symbol execute_current_message_callback Glb (134 RadioManagement.o)
+    Marking fragment #493 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_11                             (19 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+    Marking fragment #469 .text (7 MacaInterrupt.o) init:always
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol .text_13                             (21 MacaInterrupt.o)
+    Marking fragment #479 .text (7 MacaInterrupt.o) init:always
+  Marking symbol .text_14                             (22 MacaInterrupt.o)
+    Marking fragment #480 .text (7 MacaInterrupt.o) init:always
+  Marking symbol MLMEGetPromiscuousMode           Glb (74 TransceiverConfigMngmnt.o)
+    Marking fragment #618 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol execute_current_message_callback Glb (134 RadioManagement.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol ResumeMACASync                   Glb (31 MacaInterrupt.o)
+  Marking symbol .text_11                             (19 MacaInterrupt.o)
+Marking from fragment #618 .text (7 TransceiverConfigMngmnt.o) init:always
+  Marking symbol .text_22                             (40 TransceiverConfigMngmnt.o)
+Marking from fragment #480 .text (7 MacaInterrupt.o) init:always
+Marking from fragment #479 .text (7 MacaInterrupt.o) init:always
+Marking from fragment #469 .text (7 MacaInterrupt.o) init:always
+  Marking symbol ITC_DisableInterrupt             Glb (357 rom-symbols-LLC.o)
+  Marking symbol .text_5                              (12 MacaInterrupt.o)
+    Marking fragment #471 .text (7 MacaInterrupt.o) init:always
+  Marking symbol .text_6                              (14 MacaInterrupt.o)
+    Marking fragment #472 .text (7 MacaInterrupt.o) init:always
+  Marking symbol .text_7                              (15 MacaInterrupt.o)
+  Marking symbol .text_8                              (16 MacaInterrupt.o)
+    Marking fragment #474 .text (7 MacaInterrupt.o) init:always
+  Marking symbol .text_9                              (17 MacaInterrupt.o)
+    Marking fragment #475 .text (7 MacaInterrupt.o) init:always
+  Marking symbol ITC_EnableInterrupt              Glb (356 rom-symbols-LLC.o)
+Marking from fragment #475 .text (7 MacaInterrupt.o) init:always
+Marking from fragment #474 .text (7 MacaInterrupt.o) init:always
+Marking from fragment #472 .text (7 MacaInterrupt.o) init:always
+Marking from fragment #471 .text (7 MacaInterrupt.o) init:always
+Marking from fragment #493 .text (7 RadioManagement.o) init:always
+  Marking symbol .text_17                             (50 RadioManagement.o)
+  Marking symbol                                      (120 RadioManagement.o)
+Marking from fragment #473 .text (7 MacaInterrupt.o) init:always
+Marking from fragment #478 .text (7 MacaInterrupt.o) init:always
+  Marking symbol gRadioEvntFlags                  Glb (135 RadioManagement.o)
+Marking from fragment #477 .text (7 MacaInterrupt.o) init:always
+  Marking symbol mMacaIsrEntryCounter                 (3 MacaInterrupt.o)
+    Marking fragment #93 .bss (6 MacaInterrupt.o) init:always
+Marking from fragment #93 .bss (6 MacaInterrupt.o) init:always
+Marking from fragment #476 .text (7 MacaInterrupt.o) init:always
+Marking from fragment #581 .text (13 repeater.o) init:always
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+Marking from fragment #551 .text (13 repeater.o) init:always
+  Marking symbol repeater_rx_cb                   Glb (212 repeater.o)
+    Marking fragment #537 .text (13 repeater.o) init:always
+Marking from fragment #537 .text (13 repeater.o) init:always
+  Marking symbol .text_29                             (70 repeater.o)
+    Marking fragment #554 .text (13 repeater.o) init:always
+  Marking symbol .text_25                             (66 repeater.o)
+Marking from fragment #554 .text (13 repeater.o) init:always
+  Marking symbol gRadioEvntFlags                  Glb (135 RadioManagement.o)
+Marking from fragment #550 .text (13 repeater.o) init:always
+  Marking symbol RX_msg                           Glb (204 repeater.o)
+Marking from fragment #549 .text (13 repeater.o) init:always
+  Marking symbol TX_msg                           Glb (205 repeater.o)
+Marking from fragment #740 .text (6 data_init.o(rt4t_al.a)) init:always
+  Marking symbol                                      (13 data_init.o)
+    Marking fragment #741 .text (6 data_init.o(rt4t_al.a)) init:always
+  Marking symbol Region$$Table$$Base              Ext (15 data_init.o)
+  Marking symbol Region$$Table$$Limit             Ext (16 data_init.o)
+Marking from fragment #741 .text (6 data_init.o(rt4t_al.a)) init:always
+*** Marking optional init routines ***
+Marking fragment #340 .text (7 zero_init3.o(rt4t_al.a)) {__iar_zero_init3} init:{__iar_zero_init3}
+Marking fragment #347 .text (7 copy_init3.o(rt4t_al.a)) {__iar_copy_init3} init:{__iar_copy_init3}
+Marking fragment #354 .text (7 rle_init_single.o(rt4t_al.a)) {__iar_rle_init_single3} init:{__iar_rle_init_single3}
+Marking fragment #361 .text (7 rle_init.o(rt4t_al.a)) {__iar_rle_init3} init:{__iar_rle_init3}
+Marking fragment #368 .text (7 packbits_init_single.o(rt4t_al.a)) {__iar_packbits_init_single3} init:{__iar_packbits_init_single3}
+Marking fragment #375 .text (7 packbits_init.o(rt4t_al.a)) {__iar_packbits_init3} init:{__iar_packbits_init3}
+Marking fragment #382 .text (7 lz77_init_single.o(rt4t_al.a)) {__iar_lz77_init_single3} init:{__iar_lz77_init_single3}
+Marking fragment #745 .text (7 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+Marking from fragment #745 .text (7 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+  Marking symbol __iar_SB                             (6 lz77_init.o)
+    Marking fragment #388 .rodata (6 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+  Marking symbol InStream_StepRegion                  (4 lz77_init.o)
+    Marking fragment #742 .text (7 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+  Marking symbol OutStream_Write                      (5 lz77_init.o)
+    Marking fragment #744 .text (7 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+  Marking symbol InStream_Read                        (3 lz77_init.o)
+    Marking fragment #743 .text (7 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+  Marking symbol InStream_Read                        (3 lz77_init.o)
+  Marking symbol abort                            Glb (9 abort.o)
+    Marking fragment #398 .text (6 abort.o(dl4t_tln.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+  Marking symbol InStream_Read                        (3 lz77_init.o)
+  Marking symbol InStream_Read                        (3 lz77_init.o)
+  Marking symbol InStream_Read                        (3 lz77_init.o)
+Marking from fragment #398 .text (6 abort.o(dl4t_tln.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+  Marking symbol __exit                           Glb (6 XXexit.o)
+    Marking fragment #404 .text (6 XXexit.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+Marking from fragment #404 .text (6 XXexit.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+Marking from fragment #743 .text (7 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+Marking from fragment #744 .text (7 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+  Marking symbol __iar_SB                             (6 lz77_init.o)
+  Marking symbol abort                            Glb (9 abort.o)
+Marking from fragment #742 .text (7 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+Marking from fragment #388 .rodata (6 lz77_init.o(rt4t_al.a)) {__iar_lz77_init3} init:{__iar_lz77_init3}
+Marking from fragment #382 .text (7 lz77_init_single.o(rt4t_al.a)) {__iar_lz77_init_single3} init:{__iar_lz77_init_single3}
+  Marking symbol __iar_SB                             (3 lz77_init_single.o)
+    Marking fragment #381 .rodata (6 lz77_init_single.o(rt4t_al.a)) {__iar_lz77_init_single3} init:{__iar_lz77_init_single3}
+Marking from fragment #381 .rodata (6 lz77_init_single.o(rt4t_al.a)) {__iar_lz77_init_single3} init:{__iar_lz77_init_single3}
+Marking from fragment #375 .text (7 packbits_init.o(rt4t_al.a)) {__iar_packbits_init3} init:{__iar_packbits_init3}
+  Marking symbol __iar_SB                             (3 packbits_init.o)
+    Marking fragment #374 .rodata (6 packbits_init.o(rt4t_al.a)) {__iar_packbits_init3} init:{__iar_packbits_init3}
+  Marking symbol abort                            Glb (9 abort.o)
+    Marking fragment #398 .text (6 abort.o(dl4t_tln.a)) {__iar_packbits_init3} init:{__iar_packbits_init3}
+Marking from fragment #398 .text (6 abort.o(dl4t_tln.a)) {__iar_packbits_init3} init:{__iar_packbits_init3}
+  Marking symbol __exit                           Glb (6 XXexit.o)
+    Marking fragment #404 .text (6 XXexit.o(rt4t_al.a)) {__iar_packbits_init3} init:{__iar_packbits_init3}
+Marking from fragment #404 .text (6 XXexit.o(rt4t_al.a)) {__iar_packbits_init3} init:{__iar_packbits_init3}
+Marking from fragment #374 .rodata (6 packbits_init.o(rt4t_al.a)) {__iar_packbits_init3} init:{__iar_packbits_init3}
+Marking from fragment #368 .text (7 packbits_init_single.o(rt4t_al.a)) {__iar_packbits_init_single3} init:{__iar_packbits_init_single3}
+  Marking symbol __iar_SB                             (3 packbits_init_single.o)
+    Marking fragment #367 .rodata (6 packbits_init_single.o(rt4t_al.a)) {__iar_packbits_init_single3} init:{__iar_packbits_init_single3}
+Marking from fragment #367 .rodata (6 packbits_init_single.o(rt4t_al.a)) {__iar_packbits_init_single3} init:{__iar_packbits_init_single3}
+Marking from fragment #361 .text (7 rle_init.o(rt4t_al.a)) {__iar_rle_init3} init:{__iar_rle_init3}
+  Marking symbol __iar_SB                             (3 rle_init.o)
+    Marking fragment #360 .rodata (6 rle_init.o(rt4t_al.a)) {__iar_rle_init3} init:{__iar_rle_init3}
+  Marking symbol abort                            Glb (9 abort.o)
+    Marking fragment #398 .text (6 abort.o(dl4t_tln.a)) {__iar_rle_init3} init:{__iar_rle_init3}
+Marking from fragment #398 .text (6 abort.o(dl4t_tln.a)) {__iar_rle_init3} init:{__iar_rle_init3}
+  Marking symbol __exit                           Glb (6 XXexit.o)
+    Marking fragment #404 .text (6 XXexit.o(rt4t_al.a)) {__iar_rle_init3} init:{__iar_rle_init3}
+Marking from fragment #404 .text (6 XXexit.o(rt4t_al.a)) {__iar_rle_init3} init:{__iar_rle_init3}
+Marking from fragment #360 .rodata (6 rle_init.o(rt4t_al.a)) {__iar_rle_init3} init:{__iar_rle_init3}
+Marking from fragment #354 .text (7 rle_init_single.o(rt4t_al.a)) {__iar_rle_init_single3} init:{__iar_rle_init_single3}
+  Marking symbol __iar_SB                             (3 rle_init_single.o)
+    Marking fragment #353 .rodata (6 rle_init_single.o(rt4t_al.a)) {__iar_rle_init_single3} init:{__iar_rle_init_single3}
+Marking from fragment #353 .rodata (6 rle_init_single.o(rt4t_al.a)) {__iar_rle_init_single3} init:{__iar_rle_init_single3}
+Marking from fragment #347 .text (7 copy_init3.o(rt4t_al.a)) {__iar_copy_init3} init:{__iar_copy_init3}
+  Marking symbol __iar_SB                             (3 copy_init3.o)
+    Marking fragment #346 .rodata (6 copy_init3.o(rt4t_al.a)) {__iar_copy_init3} init:{__iar_copy_init3}
+Marking from fragment #346 .rodata (6 copy_init3.o(rt4t_al.a)) {__iar_copy_init3} init:{__iar_copy_init3}
+Marking from fragment #340 .text (7 zero_init3.o(rt4t_al.a)) {__iar_zero_init3} init:{__iar_zero_init3}
+  Marking symbol __iar_SB                             (3 zero_init3.o)
+    Marking fragment #339 .rodata (6 zero_init3.o(rt4t_al.a)) {__iar_zero_init3} init:{__iar_zero_init3}
+Marking from fragment #339 .rodata (6 zero_init3.o(rt4t_al.a)) {__iar_zero_init3} init:{__iar_zero_init3}
+*** Marking debug sections ***
+
+Creating copy init batch C1 (Table) for P2-P3 -> P2-P3, auto, unit
+  First match: .data (RadioManagement.o #8)
+Selecting packing algorithm for 'auto' batches
+  Estimating size for copy init batch C1 (P2-P3 -> P2-P3):
+      copy: 284 bytes
+      packbits [single range]: 124 bytes
+      lz77 [single range]: 95 bytes
+    Selecting lz77 [single range]
+  Using "packbits [single range]" instead of "lz77 [single range]" everywhere reduces total estimated
+    overhead from 221 to 188
+Creating initializer unit for P2-P3 -> P2-P3
+
+Veneer stats:
+
+   94 definitions
+  223 references
+      212 R_ARM_THM_CALL
+        2 R_ARM_CALL
+        9 R_ARM_JUMP24
+   26 veneers                       396 bytes
+        2 ARM v4 veneer                  24 bytes
+       23 Thumb v4 veneer               368 bytes
+        1 Thumb fall through veneer       4 bytes
+   53 redirected references

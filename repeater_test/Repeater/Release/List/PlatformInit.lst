@@ -1,0 +1,256 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM         31/Jan/2019  14:41:04
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Source\Common\Sys\PlatformInit.c
+#    Command line =  
+#        -f C:\Users\Brus\AppData\Local\Temp\EWFB2B.tmp
+#        (D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Source\Common\Sys\PlatformInit.c
+#        -D NDEBUG -D F24MHZ -D SECURITY_ENABLED -D MC13226Included_d=0
+#        --preprocess=cs
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lC
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lB
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List
+#        --diag_suppress Pe940,Pe951,Pe911 -o
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj
+#        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
+#        "C:\HDDPrograms\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Normal.h" -I
+#        D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Drivers\Interface\
+#        -I D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Interface\
+#        --cpu_mode thumb -Ohz --use_c++_inline)
+#    Locale       =  C
+#    List file    =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List\PlatformInit.lst
+#    Object file  =  
+#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\PlatformInit.o
+#
+###############################################################################
+
+D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Source\Common\Sys\PlatformInit.c
+      1          /************************************************************************************
+      2          *
+      3          * (c) Copyright 2007, Freescale, Inc.  All rights reserved.
+      4          *
+      5          *
+      6          * No part of this document must be reproduced in any form - including copied,
+      7          * transcribed, printed or by any electronic means - without specific written
+      8          * permission from Freescale.
+      9          *
+     10          ************************************************************************************/
+     11          
+     12          #include "../../../Interface/PortConfig.h"
+     13          #include "../../../Interface/PlatformInit.h"
+     14          #include "../../../Interface/EmbeddedTypes.h"
+     15          #include "../../../LibInterface/GPIO_Interface.h"
+     16          #include "../../../Interface/RF_Config.h"
+     17          
+     18          
+     19          /* CRM register containing the control of NVM regulator */
+     20          #define VregCntl            (*((volatile unsigned long*)(0x80003048)))
+     21          #define VREG_1P8V_EN        0x00000080UL
+     22          #define BUCK_BYPASS_EN      0x00000004UL
+     23          #define BUCK_EN             0x00000001UL
+     24          
+     25          
+     26          
+     27          static void PlatformInitGpio(void);
+     28          
+     29          /**************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+     30          void PlatformPortInit(void)
+     31          {
+     32            PlatformInitGpio();
+   \                     PlatformPortInit: (+1)
+   \        0x0   0x2080             MOVS     R0,#+128
+   \        0x2   0x0600             LSLS     R0,R0,#+24       ;; #-2147483648
+   \        0x4   0x21F0             MOVS     R1,#+240
+   \        0x6   0x0489             LSLS     R1,R1,#+18       ;; #+62914560
+   \        0x8   0x6081             STR      R1,[R0, #+8]
+   \        0xA   0x2200             MOVS     R2,#+0
+   \        0xC   0x60C2             STR      R2,[R0, #+12]
+   \        0xE   0x6001             STR      R1,[R0, #+0]
+   \       0x10   0x6042             STR      R2,[R0, #+4]
+   \       0x12   0x2100             MOVS     R1,#+0
+   \       0x14   0x43C9             MVNS     R1,R1            ;; #-1
+   \       0x16   0x6101             STR      R1,[R0, #+16]
+   \       0x18   0x6141             STR      R1,[R0, #+20]
+   \       0x1A   0x6182             STR      R2,[R0, #+24]
+   \       0x1C   0x61C2             STR      R2,[R0, #+28]
+   \       0x1E   0x6202             STR      R2,[R0, #+32]
+   \       0x20   0x6242             STR      R2,[R0, #+36]
+   \       0x22   0x6282             STR      R2,[R0, #+40]
+   \       0x24   0x62C2             STR      R2,[R0, #+44]
+   \       0x26   0x21C0             MOVS     R1,#+192
+   \       0x28   0x0189             LSLS     R1,R1,#+6        ;; #+12288
+   \       0x2A   0x6301             STR      R1,[R0, #+48]
+   \       0x2C   0x....             LDR      R1,??DataTable2  ;; 0x8001c000
+   \       0x2E   0x6341             STR      R1,[R0, #+52]
+   \       0x30   0x6382             STR      R2,[R0, #+56]
+   \       0x32   0x63C2             STR      R2,[R0, #+60]
+   \       0x34   0x21C0             MOVS     R1,#+192
+   \       0x36   0x0609             LSLS     R1,R1,#+24       ;; #-1073741824
+   \       0x38   0x6401             STR      R1,[R0, #+64]
+   \       0x3A   0x21DF             MOVS     R1,#+223
+   \       0x3C   0x6441             STR      R1,[R0, #+68]
+     33          }
+   \       0x3E   0x4770             BX       LR               ;; return
+     34          
+     35          /**************************************************************************************/
+     36          /*
+     37            Activates the NVM regulator via CRM
+     38          */
+
+   \                                 In section .text, align 2, keep-with-next
+     39          void StartNvmReg(void)
+     40          {
+   \                     StartNvmReg: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+     41            volatile uint32_t counter;
+     42          
+     43            VregCntl &= (~BUCK_EN);
+   \        0x2   0x....             LDR      R0,??DataTable2_1  ;; 0x80003048
+   \        0x4   0x6801             LDR      R1,[R0, #+0]
+   \        0x6   0x2201             MOVS     R2,#+1
+   \        0x8   0x4391             BICS     R1,R1,R2
+   \        0xA   0x6001             STR      R1,[R0, #+0]
+     44            VregCntl |= BUCK_BYPASS_EN;
+   \        0xC   0x6801             LDR      R1,[R0, #+0]
+   \        0xE   0x2204             MOVS     R2,#+4
+   \       0x10   0x430A             ORRS     R2,R2,R1
+   \       0x12   0x6002             STR      R2,[R0, #+0]
+     45          
+     46            counter = 18200;
+   \       0x14   0x....             LDR      R1,??DataTable2_2  ;; 0x4718
+   \       0x16   0x9100             STR      R1,[SP, #+0]
+     47            while(counter--);
+   \                     ??StartNvmReg_0: (+1)
+   \       0x18   0x9900             LDR      R1,[SP, #+0]
+   \       0x1A   0x1E4A             SUBS     R2,R1,#+1
+   \       0x1C   0x9200             STR      R2,[SP, #+0]
+   \       0x1E   0x2900             CMP      R1,#+0
+   \       0x20   0xD1FA             BNE      ??StartNvmReg_0
+     48          
+     49            VregCntl |= VREG_1P8V_EN;
+   \       0x22   0x6801             LDR      R1,[R0, #+0]
+   \       0x24   0x2280             MOVS     R2,#+128
+   \       0x26   0x430A             ORRS     R2,R2,R1
+   \       0x28   0x6002             STR      R2,[R0, #+0]
+     50            counter = 5200;
+   \       0x2A   0x....             B.N      ?Subroutine0
+     51            while(counter--);
+     52          }
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine0: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable2_3  ;; 0x1450
+   \        0x2   0x9000             STR      R0,[SP, #+0]
+   \                     ??Subroutine0_0: (+1)
+   \        0x4   0x9800             LDR      R0,[SP, #+0]
+   \        0x6   0x1E41             SUBS     R1,R0,#+1
+   \        0x8   0x9100             STR      R1,[SP, #+0]
+   \        0xA   0x2800             CMP      R0,#+0
+   \        0xC   0xD1FA             BNE      ??Subroutine0_0
+   \        0xE   0xB001             ADD      SP,SP,#+4
+   \       0x10   0x4770             BX       LR               ;; return
+     53          
+     54          /**************************************************************************************/
+     55          /*
+     56            Stops the NVM regulator via CRM
+     57          */
+
+   \                                 In section .text, align 2, keep-with-next
+     58          void StopNvmReg(void)
+     59          {
+   \                     StopNvmReg: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+     60            volatile uint32_t counter;
+     61          
+     62            VregCntl &= ~VREG_1P8V_EN;
+   \        0x2   0x....             LDR      R0,??DataTable2_1  ;; 0x80003048
+   \        0x4   0x6801             LDR      R1,[R0, #+0]
+   \        0x6   0x2280             MOVS     R2,#+128
+   \        0x8   0x4391             BICS     R1,R1,R2
+   \        0xA   0x6001             STR      R1,[R0, #+0]
+     63            counter = 5200;
+   \        0xC                      REQUIRE ?Subroutine0
+   \        0xC                      ;; // Fall through to label ?Subroutine0
+     64            while(counter--);
+     65          }
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2:
+   \        0x0   0x8001'C000        DC32     0x8001c000
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_1:
+   \        0x0   0x8000'3048        DC32     0x80003048
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_2:
+   \        0x0   0x0000'4718        DC32     0x4718
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_3:
+   \        0x0   0x0000'1450        DC32     0x1450
+     66          
+     67          /**************************************************************************************/
+     68          
+     69          static void PlatformInitGpio(void)
+     70          {
+     71            GPIO_REGS_P->DataLo = gDataLoValue_c;                  //MBAR_GPIO + 0x08
+     72            GPIO_REGS_P->DataHi = gDataHiValue_c;                  //MBAR_GPIO + 0x0C
+     73          
+     74            GPIO_REGS_P->DirLo =  gDirLoValue_c;                   //MBAR_GPIO + 0x00
+     75            GPIO_REGS_P->DirHi =  gDirHiValue_c;                   //MBAR_GPIO + 0x04
+     76          
+     77            GPIO_REGS_P->PuEnLo = gPuEnLoValue_c;                  //MBAR_GPIO + 0x10
+     78            GPIO_REGS_P->PuEnHi = gPuEnHiValue_c;                  //MBAR_GPIO + 0x14
+     79            GPIO_REGS_P->FuncSel0 = gFuncSel0Value_c;              //MBAR_GPIO + 0x18
+     80            GPIO_REGS_P->FuncSel1 = gFuncSel1Value_c;              //MBAR_GPIO + 0x1C
+     81            GPIO_REGS_P->FuncSel2 = gFuncSel2Value_c;              //MBAR_GPIO + 0x20
+     82            GPIO_REGS_P->FuncSel3 = gFuncSel3Value_c;              //MBAR_GPIO + 0x24
+     83            GPIO_REGS_P->InputDataSelLo = gInputDataSelLoValue_c;  //MBAR_GPIO + 0x28
+     84            GPIO_REGS_P->InputDataSelHi = gInputDataSelHiValue_c;  //MBAR_GPIO + 0x2C
+     85            GPIO_REGS_P->PuSelLo = gPuSelLoValue_c;                //MBAR_GPIO + 0x30
+     86            GPIO_REGS_P->PuSelHi = gPuSelHiValue_c;                //MBAR_GPIO + 0x34
+     87            GPIO_REGS_P->HystEnLo = gHystEnLoValue_c;              //MBAR_GPIO + 0x38
+     88            GPIO_REGS_P->HystEnHi = gHystEnHiValue_c;              //MBAR_GPIO + 0x3C
+     89            GPIO_REGS_P->PuKeepLo = gPuKeepLoValue_c;              //MBAR_GPIO + 0x40
+     90            GPIO_REGS_P->PuKeepHi = gPuKeepHiValue_c;              //MBAR_GPIO + 0x44 
+     91          }
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   PlatformPortInit
+       4   StartNvmReg
+       4   StopNvmReg
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable2
+       4  ??DataTable2_1
+       4  ??DataTable2_2
+       4  ??DataTable2_3
+      18  ?Subroutine0
+      64  PlatformPortInit
+      44  StartNvmReg
+      12  StopNvmReg
+
+ 
+ 154 bytes in section .text
+ 
+ 154 bytes of CODE memory
+
+Errors: none
+Warnings: none

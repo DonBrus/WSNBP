@@ -1,0 +1,452 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM         31/Jan/2019  15:13:43
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Application\Utilities\Sound.c
+#    Command line =  
+#        -f C:\Users\Brus\AppData\Local\Temp\EWDF67.tmp
+#        ("D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Application\Utilities\Sound.c" -D NDEBUG -D F24MHZ -D
+#        SECURITY_ENABLED -D MC13226Included_d=0 --preprocess=cs
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List"
+#        -lC "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\List" -lB
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List"
+#        --diag_suppress Pe940,Pe951,Pe911 -o
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\Obj"
+#        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
+#        "C:\HDDPrograms\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Normal.h" -I
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\SMAC\Drivers\Interface\" -I
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\PLM\Interface\" --cpu_mode thumb -Ohz --use_c++_inline)
+#    Locale       =  C
+#    List file    =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\List\Sound.lst
+#    Object file  =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\Obj\Sound.o
+#
+###############################################################################
+
+D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Application\Utilities\Sound.c
+      1          /************************************************************************************
+      2          * Kaibab Buzzer routines
+      3          *
+      4          * Author(s):
+      5          *   
+      6          *
+      7          * (c) Copyright 2008, Freescale, Inc.  All rights reserved.
+      8          *
+      9          * Freescale Confidential Proprietary
+     10          *
+     11          * No part of this document must be reproduced in any form - including copied,
+     12          * transcribed, printed or by any electronic means - without specific written
+     13          * permission from Freescale.
+     14          *
+     15          * Last Inspected:
+     16          * Last Tested:
+     17          ************************************************************************************/
+     18          #include "../../../PLM/Interface/EmbeddedTypes.h"
+     19          #include "../../../PLM/LibInterface/Timer.h"
+     20          #include "../../../PLM/LibInterface/I2C_Interface.h"
+     21          #include "../../../PLM/LibInterface/GPIO_Interface.h"
+     22          
+     23          #include "Sound.h"
+     24          #if gHaveBuzzer_c
+     25          /************************************************************************************
+     26          *************************************************************************************
+     27          * Private macros
+     28          *************************************************************************************
+     29          ************************************************************************************/
+     30          #define mBeepFreqinKHz_c  4
+     31          #define mToggleCompareValue_c  (SYSTEM_CLOCK/(mBeepFreqinKHz_c * 2))
+     32          #define  mSLAVE_DEV_ADDRESS_c  0x50
+     33          #define  mVREG_CMD_c           0x11
+     34          #define  gGpioBeepTimer_c     ((GpioPin_t)((uint8_t)gGpioPin8_c + (uint8_t)gBeepTimer_c))
+     35          /************************************************************************************
+     36          *************************************************************************************
+     37          * Private type definitions
+     38          
+     39          *************************************************************************************
+     40          ************************************************************************************/
+     41          
+     42          /************************************************************************************
+     43          *************************************************************************************
+     44          * Private prototypes
+     45          *************************************************************************************
+     46          ************************************************************************************/
+     47          
+     48          static void BuzzerTimerCallBack(TmrNumber_t tmrNumber);
+     49          static void Llc_VolumeInit(void);
+     50          static void Llc_VolumeSet(uint8_t volume);
+     51          /************************************************************************************
+     52          *************************************************************************************
+     53          * Public memory declarations
+     54          *************************************************************************************
+     55          ************************************************************************************/
+     56          
+     57          /************************************************************************************
+     58          *************************************************************************************
+     59          * Private memory declarations
+     60          *************************************************************************************
+     61          ************************************************************************************/
+
+   \                                 In section .bss, align 4
+     62          uint32_t mMsCounter;
+   \                     mMsCounter:
+   \        0x0                      DS8 4
+     63          uint32_t mBeepDuration;
+   \                     mBeepDuration:
+   \        0x4                      DS8 4
+     64          
+     65          /************************************************************************************
+     66          *************************************************************************************
+     67          * Public functions
+     68          *************************************************************************************
+     69          ************************************************************************************/
+     70          
+
+   \                                 In section .text, align 2, keep-with-next
+     71          bool_t BuzzerInit(void)
+     72          {
+   \                     BuzzerInit: (+1)
+   \        0x0   0xB53E             PUSH     {R1-R5,LR}
+     73            TmrConfig_t tmrConfig;
+     74            TmrStatusCtrl_t tmrStatusCtrl;
+     75            TmrComparatorStatusCtrl_t tmrComparatorStatusCtrl;
+     76            /* Enable hw timer 1 */
+     77            TmrEnable(gBeepTimer_c);
+   \        0x2   0x2003             MOVS     R0,#+3
+   \        0x4   0x....'....        BL       TmrEnable
+     78            /* Don't stat the timer yet */ 
+     79            if (gTmrErrNoError_c != TmrSetMode(gBeepTimer_c, gTmrNoOperation_c)) /*set timer mode no operation*/
+   \        0x8   0x2100             MOVS     R1,#+0
+   \        0xA   0x2003             MOVS     R0,#+3
+   \        0xC   0x....'....        BL       TmrSetMode
+   \       0x10   0x2800             CMP      R0,#+0
+   \       0x12   0xD127             BNE      ??BuzzerInit_0
+     80            {
+     81              return FALSE;
+     82            }
+     83            /* Register the callback executed when an interrupt occur */
+     84            if(gTmrErrNoError_c != TmrSetCallbackFunction(gBeepTimer_c, gTmrComp1Event_c, BuzzerTimerCallBack))
+   \       0x14   0x....             LDR      R2,??DataTable2
+   \       0x16   0x2100             MOVS     R1,#+0
+   \       0x18   0x2003             MOVS     R0,#+3
+   \       0x1A   0x....'....        BL       TmrSetCallbackFunction
+   \       0x1E   0x2800             CMP      R0,#+0
+   \       0x20   0xD120             BNE      ??BuzzerInit_0
+     85            {
+     86              return FALSE;
+     87            }
+     88            tmrStatusCtrl.uintValue = 0x0000;
+     89            tmrStatusCtrl.bitFields.OEN = 1;    //output enable
+   \       0x22   0x2401             MOVS     R4,#+1
+   \       0x24   0x4669             MOV      R1,SP
+   \       0x26   0x804C             STRH     R4,[R1, #+2]
+     90            if (gTmrErrNoError_c != TmrSetStatusControl(gBeepTimer_c, &tmrStatusCtrl))
+   \       0x28   0x1C89             ADDS     R1,R1,#+2
+   \       0x2A   0x2003             MOVS     R0,#+3
+   \       0x2C   0x....'....        BL       TmrSetStatusControl
+   \       0x30   0x2800             CMP      R0,#+0
+   \       0x32   0xD117             BNE      ??BuzzerInit_0
+     91            {
+     92              return FALSE;
+     93            }  
+     94            tmrComparatorStatusCtrl.uintValue = 0x0000;
+     95            tmrComparatorStatusCtrl.bitFields.TCF1EN = TRUE; /* Enable Compare 1 interrupt */
+   \       0x34   0x2040             MOVS     R0,#+64
+   \       0x36   0x4669             MOV      R1,SP
+   \       0x38   0x8008             STRH     R0,[R1, #+0]
+     96            if (gTmrErrNoError_c != TmrSetCompStatusControl(gBeepTimer_c, &tmrComparatorStatusCtrl))
+   \       0x3A   0x2003             MOVS     R0,#+3
+   \       0x3C   0x....'....        BL       TmrSetCompStatusControl
+   \       0x40   0x2800             CMP      R0,#+0
+   \       0x42   0xD10F             BNE      ??BuzzerInit_0
+     97            {
+     98              return FALSE;
+     99            }
+    100            tmrConfig.tmrOutputMode = gTmrToggleOF_c; 
+   \                     ??BuzzerInit_1: (+1)
+   \       0x44   0xA801             ADD      R0,SP,#+4
+   \       0x46   0x2103             MOVS     R1,#+3
+   \       0x48   0x7001             STRB     R1,[R0, #+0]
+    101            tmrConfig.tmrCoInit = FALSE;  /*co-chanel counter/timers can not force a re-initialization of this counter/timer*/
+   \       0x4A   0x2500             MOVS     R5,#+0
+   \       0x4C   0x7045             STRB     R5,[R0, #+1]
+    102            tmrConfig.tmrCntDir = FALSE;  /*count-up*/
+   \       0x4E   0x7085             STRB     R5,[R0, #+2]
+    103            tmrConfig.tmrCntLen = TRUE;  /*count until compare*/
+   \       0x50   0x70C4             STRB     R4,[R0, #+3]
+    104            tmrConfig.tmrCntOnce = FALSE;   /*count repeatedly*/
+   \       0x52   0x8085             STRH     R5,[R0, #+4]
+    105            tmrConfig.tmrSecondaryCntSrc = gTmrSecondaryCnt0Input_c;    /*secondary count source not needed*/
+    106            tmrConfig.tmrPrimaryCntSrc = gTmrPrimaryClkDiv1_c;    /*primary count source is IP BUS clock divide by 1 prescaler*/
+   \       0x54   0x2108             MOVS     R1,#+8
+   \       0x56   0x7181             STRB     R1,[R0, #+6]
+    107            if (gTmrErrNoError_c != TmrSetConfig(gBeepTimer_c, &tmrConfig))  /*set timer configuration */
+   \       0x58   0xA901             ADD      R1,SP,#+4
+   \       0x5A   0x2003             MOVS     R0,#+3
+   \       0x5C   0x....'....        BL       TmrSetConfig
+   \       0x60   0x2800             CMP      R0,#+0
+   \       0x62   0xD001             BEQ      ??BuzzerInit_2
+    108            {
+    109              return FALSE;
+   \                     ??BuzzerInit_0: (+1)
+   \       0x64   0x2000             MOVS     R0,#+0
+   \       0x66   0xE012             B        ??BuzzerInit_3
+    110            }
+    111            /* Config timer to raise interrupts each 0.1 ms */
+    112            SetComp1Val(gBeepTimer_c, mToggleCompareValue_c);
+   \                     ??BuzzerInit_2: (+1)
+   \       0x68   0x....             LDR      R0,??DataTable2_1  ;; 0x80007060
+   \       0x6A   0x....             LDR      R1,??DataTable2_2  ;; 0xbb8
+   \       0x6C   0x8001             STRH     R1,[R0, #+0]
+    113            /* Config timer to start from 0 after compare event */
+    114            SetLoadVal(gBeepTimer_c, 0);
+   \       0x6E   0x80C5             STRH     R5,[R0, #+6]
+    115            I2c_Init();
+   \       0x70   0x....'....        BL       I2c_Init
+    116            Gpio_SetPinFunction(gGpioBeepTimer_c, gGpioAlternate1Mode_c); 
+   \       0x74   0x2101             MOVS     R1,#+1
+   \       0x76   0x200B             MOVS     R0,#+11
+   \       0x78   0x....'....        BL       Gpio_SetPinFunction
+    117            Gpio_SetPinFunction(gGpioPin12_c, gGpioAlternate1Mode_c);
+   \       0x7C   0x2101             MOVS     R1,#+1
+   \       0x7E   0x200C             MOVS     R0,#+12
+   \       0x80   0x....'....        BL       Gpio_SetPinFunction
+    118            Gpio_SetPinFunction(gGpioPin13_c, gGpioAlternate1Mode_c);
+   \       0x84   0x2101             MOVS     R1,#+1
+   \       0x86   0x200D             MOVS     R0,#+13
+   \       0x88   0x....'....        BL       Gpio_SetPinFunction
+    119            return TRUE;
+   \       0x8C   0x2001             MOVS     R0,#+1
+   \                     ??BuzzerInit_3: (+1)
+   \       0x8E   0xBC3E             POP      {R1-R5}
+   \       0x90   0xBC08             POP      {R3}
+   \       0x92   0x4718             BX       R3               ;; return
+    120          }
+    121          
+    122          /***********************************************************************************/
+    123          
+
+   \                                 In section .text, align 2, keep-with-next
+    124          bool_t BuzzerBeep (uint16_t u16BeepDurationInMs) 
+    125          {
+   \                     BuzzerBeep: (+1)
+   \        0x0   0xB53E             PUSH     {R1-R5,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+    126            if( u16BeepDurationInMs == 0 )
+   \        0x4   0xD005             BEQ      ??BuzzerBeep_0
+    127              return FALSE;
+    128            if (gTmrErrNoError_c != TmrSetMode(gBeepTimer_c, gTmrNoOperation_c)) /*set timer mode no operation*/
+   \        0x6   0x2100             MOVS     R1,#+0
+   \        0x8   0x2003             MOVS     R0,#+3
+   \        0xA   0x....'....        BL       TmrSetMode
+   \        0xE   0x2800             CMP      R0,#+0
+   \       0x10   0xD001             BEQ      ??BuzzerBeep_1
+    129            {
+    130              return FALSE;
+   \                     ??BuzzerBeep_0: (+1)
+   \       0x12   0x2000             MOVS     R0,#+0
+   \       0x14   0xE022             B        ??BuzzerBeep_2
+    131            }
+    132            mMsCounter = 0;
+   \                     ??BuzzerBeep_1: (+1)
+   \       0x16   0x....             LDR      R0,??DataTable2_3
+   \       0x18   0x2500             MOVS     R5,#+0
+   \       0x1A   0x6005             STR      R5,[R0, #+0]
+    133            mBeepDuration = u16BeepDurationInMs;
+   \       0x1C   0x6044             STR      R4,[R0, #+4]
+    134            SetCntrVal(gBeepTimer_c, 0) ; /*clear counter*/
+   \       0x1E   0x....             LDR      R1,??DataTable2_4  ;; 0x8000706a
+   \       0x20   0x800D             STRH     R5,[R1, #+0]
+    135            Llc_VolumeInit();
+   \       0x22   0x....'....        BL       I2c_Enable
+   \       0x26   0x4668             MOV      R0,SP
+   \       0x28   0x7105             STRB     R5,[R0, #+4]
+   \       0x2A   0x2120             MOVS     R1,#+32
+   \       0x2C   0x7041             STRB     R1,[R0, #+1]
+   \       0x2E   0x2101             MOVS     R1,#+1
+   \       0x30   0x7081             STRB     R1,[R0, #+2]
+   \       0x32   0x7005             STRB     R5,[R0, #+0]
+   \       0x34   0x70C5             STRB     R5,[R0, #+3]
+   \       0x36   0x....'....        BL       I2c_SetConfig
+    136            Llc_VolumeSet(gBeepVolumeInPrc_c);   
+   \       0x3A   0x4668             MOV      R0,SP
+   \       0x3C   0x2111             MOVS     R1,#+17
+   \       0x3E   0x7001             STRB     R1,[R0, #+0]
+   \       0x40   0x7045             STRB     R5,[R0, #+1]
+   \       0x42   0x2301             MOVS     R3,#+1
+   \       0x44   0x2202             MOVS     R2,#+2
+   \       0x46   0x4669             MOV      R1,SP
+   \       0x48   0x2050             MOVS     R0,#+80
+   \       0x4A   0x....'....        BL       I2c_SendData
+    137            if (gTmrErrNoError_c != TmrSetMode(gBeepTimer_c, gTmrCntRiseEdgPriSrc_c))
+   \       0x4E   0x2101             MOVS     R1,#+1
+   \       0x50   0x2003             MOVS     R0,#+3
+   \       0x52   0x....'....        BL       TmrSetMode
+   \       0x56   0x1E40             SUBS     R0,R0,#+1
+   \       0x58   0x4180             SBCS     R0,R0,R0
+   \       0x5A   0x0FC0             LSRS     R0,R0,#+31
+    138            {
+    139              return FALSE;
+    140            }
+    141            return TRUE;
+   \                     ??BuzzerBeep_2: (+1)
+   \       0x5C   0xBC3E             POP      {R1-R5}
+   \       0x5E   0xBC08             POP      {R3}
+   \       0x60   0x4718             BX       R3               ;; return
+    142          }
+    143          
+    144          /************************************************************************************
+    145          *************************************************************************************
+    146          * Private functions
+    147          *************************************************************************************
+    148          ************************************************************************************/
+    149          
+
+   \                                 In section .text, align 2, keep-with-next
+    150          static void BuzzerTimerCallBack(TmrNumber_t tmrNumber)
+    151          {
+   \                     BuzzerTimerCallBack: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable2_3
+   \        0x2   0x6801             LDR      R1,[R0, #+0]
+   \        0x4   0x1C49             ADDS     R1,R1,#+1
+   \        0x6   0x6001             STR      R1,[R0, #+0]
+   \        0x8   0x2908             CMP      R1,#+8
+   \        0xA   0xD200             BCS      ??BuzzerTimerCallBack_0
+   \        0xC   0x4770             BX       LR
+   \                     ??BuzzerTimerCallBack_0: (+1)
+   \        0xE   0xB580             PUSH     {R7,LR}
+    152            mMsCounter++;
+    153            if(mMsCounter >= mBeepFreqinKHz_c<<1)
+    154            {
+    155              mMsCounter = 0;
+   \       0x10   0x2100             MOVS     R1,#+0
+   \       0x12   0x6001             STR      R1,[R0, #+0]
+    156              mBeepDuration --;
+   \       0x14   0x6841             LDR      R1,[R0, #+4]
+   \       0x16   0x1E49             SUBS     R1,R1,#+1
+   \       0x18   0x6041             STR      R1,[R0, #+4]
+    157              if(mBeepDuration == 0)
+   \       0x1A   0xD102             BNE      ??BuzzerTimerCallBack_1
+    158              {
+    159                TmrSetMode(gBeepTimer_c, gTmrNoOperation_c);    //stop timer  
+   \       0x1C   0x2003             MOVS     R0,#+3
+   \       0x1E   0x....'....        BL       TmrSetMode
+    160              }
+    161            }
+    162          }
+   \                     ??BuzzerTimerCallBack_1: (+1)
+   \       0x22   0xBC09             POP      {R0,R3}
+   \       0x24   0x4718             BX       R3               ;; return
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2:
+   \        0x0   0x....'....        DC32     BuzzerTimerCallBack
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_1:
+   \        0x0   0x8000'7060        DC32     0x80007060
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_2:
+   \        0x0   0x0000'0BB8        DC32     0xbb8
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_3:
+   \        0x0   0x....'....        DC32     mMsCounter
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable2_4:
+   \        0x0   0x8000'706A        DC32     0x8000706a
+    163          
+    164          /***********************************************************************************/
+    165          
+    166          static void Llc_VolumeInit(void)
+    167          {
+    168            I2cConfig_t i2cConfig;
+    169            I2c_Enable();
+    170            i2cConfig.i2cBroadcastEn = FALSE;
+    171            i2cConfig.freqDivider   = 0x20;
+    172            i2cConfig.saplingRate   = 0x01;
+    173            i2cConfig.slaveAddress   = 0x00;
+    174            i2cConfig.i2cInterruptEn = FALSE; 
+    175            I2c_SetConfig(&i2cConfig);
+    176          }
+    177          
+    178          /***********************************************************************************/
+    179          
+    180          static void Llc_VolumeSet(uint8_t volume)
+    181          {
+    182            uint8_t buffer[2];
+    183            if(volume > (uint8_t)100)
+    184            {
+    185              volume = 100; /* Limit volume to 100% */
+    186            }
+    187            /* Scale down the volume value to 0 - 31 range */
+    188            volume = (volume * 31) / 100;
+    189            buffer[0] = mVREG_CMD_c;
+    190            buffer[1] = (volume & 0xFF) << 3;
+    191            I2c_SendData(mSLAVE_DEV_ADDRESS_c, &buffer[0], 2, gI2cMstrReleaseBus_c);
+    192          }
+    193          
+    194          #endif 
+    195           
+    196           
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      24   BuzzerBeep
+        24   -> I2c_Enable
+        24   -> I2c_SendData
+        24   -> I2c_SetConfig
+        24   -> TmrSetMode
+      24   BuzzerInit
+        24   -> Gpio_SetPinFunction
+        24   -> I2c_Init
+        24   -> TmrEnable
+        24   -> TmrSetCallbackFunction
+        24   -> TmrSetCompStatusControl
+        24   -> TmrSetConfig
+        24   -> TmrSetMode
+        24   -> TmrSetStatusControl
+       8   BuzzerTimerCallBack
+         8   -> TmrSetMode
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable2
+       4  ??DataTable2_1
+       4  ??DataTable2_2
+       4  ??DataTable2_3
+       4  ??DataTable2_4
+      98  BuzzerBeep
+     148  BuzzerInit
+      38  BuzzerTimerCallBack
+       8  mMsCounter
+          mBeepDuration
+
+ 
+   8 bytes in section .bss
+ 304 bytes in section .text
+ 
+ 304 bytes of CODE memory
+   8 bytes of DATA memory
+
+Errors: none
+Warnings: none
