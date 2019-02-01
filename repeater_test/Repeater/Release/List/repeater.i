@@ -6770,7 +6770,7 @@ static void repeater_run_sm (void)
             else if(gRepOpModeDummy_c == u8RepOpMode)
             {
               (sRepeaterStat.u16RetransmitedPkts)++;
-			  TX_msg.pu8Buffer->u8Data[3] = 'R';
+			  TX_msg.pu8Buffer->u8Data[4] = 'R';
 
               MCPSDataRequest(&TX_msg);
               u8RepeaterRunSt = gRepeaterRunStTx_c;

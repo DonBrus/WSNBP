@@ -9,9 +9,9 @@ D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_te
 -I
 D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\PLM\Interface
 -I
-C:\HDDprograms\IAR Systems\Embedded Workbench 8.2\arm\inc
+C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\arm\inc
 -I
-C:\HDDprograms\IAR Systems\Embedded Workbench 8.2\arm\inc\c
+C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\arm\inc\c
 -I
 D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_test\Connectivity Test\SMAC\Drivers\Interface
 -I
@@ -263,8 +263,8 @@ D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_te
 -DF24MHZ=1
 -DSECURITY_ENABLED=1
 -DMC13226Included_d=0
--D_DLIB_CONFIG_FILE_HEADER_NAME="C:\\HDDprograms\\IAR Systems\\Embedded Workbench 8.2\\arm\\inc\\c\\DLib_Config_Normal.h"
--D_DLIB_CONFIG_FILE_STRING="C:\\HDDprograms\\IAR Systems\\Embedded Workbench 8.2\\arm\\inc\\c\\DLib_Config_Normal.h"
+-D_DLIB_CONFIG_FILE_HEADER_NAME="C:\\HDDPrograms\\IAR Systems\\Embedded Workbench 8.2\\arm\\inc\\c\\DLib_Config_Normal.h"
+-D_DLIB_CONFIG_FILE_STRING="C:\\HDDPrograms\\IAR Systems\\Embedded Workbench 8.2\\arm\\inc\\c\\DLib_Config_Normal.h"
 -D__VERSION__="IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM"
 -D__ICCARM_OLD_DEFINED_VAARGS__=1
 -D__VA_STACK_ALIGN__=8

@@ -262,7 +262,7 @@
 								  <br /><br /><b>This setting will have effect only for a User Defined Target.</b></temp:description>
                   <temp:regExLib name="define" param1="gDirLoValue_c" />
                   <temp:readonly value="true" />
-                  <plm:value>0x03c00000</plm:value>
+                  <plm:value>0x03C00000</plm:value>
                 </plm:gDirLoValue_c>
                 <plm:gDirHiValue_c displayName="GPIO Direction Register High" editor="BeeKitSMACARM7PlatformEditorV05">
                   <temp:description>
@@ -293,7 +293,7 @@
 								  <br /><br /><b>This setting will have effect only for a User Defined Target.</b></temp:description>
                   <temp:regExLib name="define" param1="gDataLoValue_c" />
                   <temp:readonly value="true" />
-                  <plm:value>0x03c00000</plm:value>
+                  <plm:value>0x03C00000</plm:value>
                 </plm:gDataLoValue_c>
                 <plm:gDataHiValue_c displayName="GPIO Data Register High" editor="BeeKitSMACARM7PlatformEditorV05">
                   <temp:description>
@@ -321,7 +321,7 @@
 								  <br /><br /><b>This setting will have effect only for a User Defined Target.</b></temp:description>
                   <temp:regExLib name="define" param1="gPuEnLoValue_c" />
                   <temp:readonly value="true" />
-                  <plm:value>0xffffffff</plm:value>
+                  <plm:value>0xFFFFFFFF</plm:value>
                 </plm:gPuEnLoValue_c>
                 <plm:gPuEnHiValue_c displayName="GPIO Pullup Enable Register High" editor="BeeKitSMACARM7PlatformEditorV05">
                   <temp:description>
@@ -335,7 +335,7 @@
 								  <br /><br /><b>This setting will have effect only for a User Defined Target.</b></temp:description>
                   <temp:regExLib name="define" param1="gPuEnHiValue_c" />
                   <temp:readonly value="true" />
-                  <plm:value>0xffffffff</plm:value>
+                  <plm:value>0xFFFFFFFF</plm:value>
                 </plm:gPuEnHiValue_c>
                 <plm:gFuncSel0Value_c displayName="GPIO Functional Mode Select Register 0" editor="BeeKitSMACARM7PlatformEditorV05">
                   <temp:description>
@@ -453,7 +453,7 @@
 								  <br /><br /><b>This setting will have effect only for a User Defined Target.</b></temp:description>
                   <temp:regExLib name="define" param1="gPuSelHiValue_c" />
                   <temp:readonly value="true" />
-                  <plm:value>0x8001c000</plm:value>
+                  <plm:value>0x8001C000</plm:value>
                 </plm:gPuSelHiValue_c>
                 <plm:gHystEnLoValue_c displayName="GPIO Pad Hysteresis Enable Register Low" editor="BeeKitSMACARM7PlatformEditorV05">
                   <temp:description>
@@ -498,7 +498,7 @@
 								  <br /><br /><b>This setting will have effect only for a User Defined Target.</b></temp:description>
                   <temp:regExLib name="define" param1="gPuKeepLoValue_c" />
                   <temp:readonly value="true" />
-                  <plm:value>0xc0000000</plm:value>
+                  <plm:value>0xC0000000</plm:value>
                 </plm:gPuKeepLoValue_c>
                 <plm:gPuKeepHiValue_c displayName="GPIO Pad Pullup Keeper Register High" editor="BeeKitSMACARM7PlatformEditorV05">
                   <temp:description>
@@ -515,7 +515,7 @@
 								  <br /><br /><b>This setting will have effect only for a User Defined Target.</b></temp:description>
                   <temp:regExLib name="define" param1="gPuKeepHiValue_c" />
                   <temp:readonly value="true" />
-                  <plm:value>0x000000df</plm:value>
+                  <plm:value>0x000000DF</plm:value>
                 </plm:gPuKeepHiValue_c>
               </plm:properties>
               <temp:actions>
@@ -651,20 +651,20 @@
                   Enables or disables the output power lock in the -6 to -4dBm range for channels 11-25. <br />To change the setting launch the User Defined Target Editor by pressing the [...] button on the right side of the property.<br /><br /><b>This setting will have effect only for a User Defined Target.</b></temp:description>
                   <temp:regExLib name="define" param1="gPowerLevelLock_c" />
                   <temp:readonly value="true" />
-                  <plm:value>FALSE</plm:value>
+                  <plm:value>False</plm:value>
                 </plm:gPowerLevelLock_c>
                 <plm:gEnableComplementaryPAOutput_c displayName="Enable complementary PA output" editor="BeeKitSMACARM7PlatformEditorV05">
                   <temp:description />
                   <temp:regExLib name="define" param1="gEnableComplementaryPAOutput_c" />
                   <temp:readonly value="true" />
-                  <plm:value>FALSE</plm:value>
+                  <plm:value>False</plm:value>
                 </plm:gEnableComplementaryPAOutput_c>
                 <plm:gDualPortRFOperation_c displayName="Enable Hardware RF Control Signals" editor="BeeKitSMACARM7PlatformEditorV05">
                   <temp:description>
                   Enables or disables dual port RF operation. <br />To change the setting launch the User Defined Target Editor by pressing the [...] button on the right side of the property.<br /><br /><b>This setting will have effect only for a User Defined Target.</b></temp:description>
                   <temp:regExLib name="define" param1="gDualPortRFOperation_c" />
                   <temp:readonly value="true" />
-                  <plm:value>FALSE</plm:value>
+                  <plm:value>False</plm:value>
                 </plm:gDualPortRFOperation_c>
                 <plm:gDefaultPowerLevel_c displayName="Default power level">
                   <temp:description>

@@ -13,238 +13,172 @@
     <configuration>
         <name>Release</name>
         <outputs>
-            <file>$PROJ_DIR$\Release\Obj\WirelessLinkMngmt.o</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\CRM_Regs.h</file>
-            <file>$PROJ_DIR$\Release\List\Sound.i</file>
-            <file>$PROJ_DIR$\SMAC\Source\TransceiverConfigMngmnt.c</file>
-            <file>$PROJ_DIR$\Release\List\Keyboard.s</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Lib\MC1322x.a</file>
-            <file>$PROJ_DIR$\SMAC\Source\HLDrv.c</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\UartLowLevel.h</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Source\MacaInterrupt.c</file>
-            <file>$PROJ_DIR$\Release\Exe\Connectivity Test.out</file>
-            <file>$PROJ_DIR$\Release\Obj\connectivity_test_rx.o</file>
-            <file>$PROJ_DIR$\Release\List\connectivity_test_rx.lst</file>
-            <file>$TOOLKIT_DIR$\lib\m4t_al.a</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Source\maca.c</file>
-            <file>$PROJ_DIR$\Release\List\TransceiverPowerMngmnt.i</file>
-            <file>$PROJ_DIR$\Release\List\Display.lst</file>
-            <file>$PROJ_DIR$\Release\List\maca.lst</file>
-            <file>$PROJ_DIR$\Release\Obj\MacaInterrupt.pbi</file>
-            <file>$PROJ_DIR$\SMAC\Source\TransceiverPowerMngmnt.c</file>
-            <file>$PROJ_DIR$\Release\Obj\WirelessLinkMngmt.pbi</file>
-            <file>$PROJ_DIR$\SMAC\Source\RadioManagement.c</file>
-            <file>$PROJ_DIR$\Release\List\SecurityMngmnt.lst</file>
-            <file>$PROJ_DIR$\SMAC\Source\SecurityMngmnt.c</file>
-            <file>$PROJ_DIR$\Application\Utilities\LCD_Font.h</file>
-            <file>$PROJ_DIR$\Release\List\Leds.i</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Source\Delay.c</file>
-            <file>$PROJ_DIR$\SMAC\Source\WirelessLinkMngmt.c</file>
-            <file>$PROJ_DIR$\Release\List\WirelessLinkMngmt.lst</file>
-            <file>$PROJ_DIR$\Release\List\Keyboard.i</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\Platform.h</file>
-            <file>$PROJ_DIR$\SMAC\Configure\security_config.h</file>
-            <file>$PROJ_DIR$\Release\List\UartUtil.i</file>
-            <file>$PROJ_DIR$\PLM\Interface\PortConfig.h</file>
-            <file>$PROJ_DIR$\Application\Utilities\Sound.c</file>
-            <file>$PROJ_DIR$\PLM\Interface\UART_Interface.h</file>
-            <file>$PROJ_DIR$\PLM\Source\Common\Sys\Init-IAR.S</file>
-            <file>$PROJ_DIR$\Application\Utilities\Display.c</file>
-            <file>$PROJ_DIR$\Application\Source\connectivity_test_rx.c</file>
-            <file>$PROJ_DIR$\Application\Utilities\Leds.c</file>
-            <file>$PROJ_DIR$\Application\Utilities\UartUtil.c</file>
-            <file>$PROJ_DIR$\Application\Utilities\Keyboard.c</file>
-            <file>$PROJ_DIR$\PLM\Lib\LLC.a</file>
-            <file>$PROJ_DIR$\PLM\Source\Common\Sys\PlatformInit.c</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Interface\Delay.h</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\GPIO_Interface.h</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\NVM.h</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Interface\FreqDepSettings.h</file>
-            <file>$PROJ_DIR$\Release\Obj\Sound.o</file>
-            <file>$PROJ_DIR$\Release\List\PlatformInit.s</file>
-            <file>$PROJ_DIR$\SMAC\Source\RadioMngmntWrapper.h</file>
-            <file>$PROJ_DIR$\Release\List\Init-IAR.lst</file>
-            <file>$PROJ_DIR$\SMAC\Interface\RadioManagement.h</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Interface\ghdr\asm.h</file>
-            <file>$PROJ_DIR$\Release\Obj\Delay.o</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\Ssi_Regs.h</file>
-            <file>$PROJ_DIR$\Release\List\UartUtil.s</file>
-            <file>$PROJ_DIR$\Release\List\Delay.s</file>
-            <file>$PROJ_DIR$\Release\List\Display.i</file>
-            <file>$PROJ_DIR$\Release\Obj\Keyboard.pbi</file>
-            <file>$PROJ_DIR$\SMAC\Interface\GlobalDefs.h</file>
-            <file>$PROJ_DIR$\Release\List\Connectivity Test.log</file>
-            <file>$PROJ_DIR$\Release\List\TransceiverPowerMngmnt.s</file>
-            <file>$PROJ_DIR$\Release\Obj\TransceiverConfigMngmnt.o</file>
-            <file>$PROJ_DIR$\Release\Obj\Display.pbi</file>
-            <file>$PROJ_DIR$\SMAC\Configure\options_config.h</file>
-            <file>$PROJ_DIR$\Release\List\PlatformInit.lst</file>
-            <file>$PROJ_DIR$\Release\Obj\TransceiverPowerMngmnt.pbi</file>
-            <file>$PROJ_DIR$\SMAC\Interface\TransceiverPowerMngmnt.h</file>
-            <file>$PROJ_DIR$\Release\List\RadioManagement.s</file>
-            <file>$PROJ_DIR$\Release\Obj\maca.pbi</file>
-            <file>$PROJ_DIR$\Release\Obj\Sound.pbi</file>
-            <file>$PROJ_DIR$\Release\List\RadioManagement.lst</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\I2C_Interface.h</file>
-            <file>$PROJ_DIR$\PLM\Interface\RF_Config.h</file>
-            <file>$PROJ_DIR$\Release\List\TransceiverPowerMngmnt.lst</file>
-            <file>$PROJ_DIR$\Release\List\connectivity_test_rx.i</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Configure\board_config.h</file>
-            <file>$PROJ_DIR$\Release\Obj\connectivity_test_rx.pbi</file>
-            <file>$PROJ_DIR$\Release\Obj\Keyboard.o</file>
-            <file>$PROJ_DIR$\Release\List\Leds.lst</file>
-            <file>$PROJ_DIR$\Release\List\MacaInterrupt.s</file>
-            <file>$PROJ_DIR$\Release\Obj\SecurityMngmnt.pbi</file>
-            <file>$PROJ_DIR$\Application\Utilities\Display.h</file>
-            <file>$PROJ_DIR$\Release\List\SecurityMngmnt.s</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\ITC_Interface.h</file>
-            <file>$PROJ_DIR$\Application\Utilities\UartUtil.h</file>
-            <file>$PROJ_DIR$\Release\List\Display.s</file>
-            <file>$PROJ_DIR$\Release\List\Leds.s</file>
-            <file>$PROJ_DIR$\PLM\Interface\PWR_Config.h</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\Timer.h</file>
-            <file>$PROJ_DIR$\Release\List\Keyboard.lst</file>
-            <file>$PROJ_DIR$\Release\Obj\Delay.pbi</file>
-            <file>$PROJ_DIR$\Application\Otap\Otap.h</file>
-            <file>$PROJ_DIR$\Release\Obj\SecurityMngmnt.o</file>
-            <file>$PROJ_DIR$\Release\List\Sound.lst</file>
-            <file>$PROJ_DIR$\Release\List\WirelessLinkMngmt.s</file>
-            <file>$PROJ_DIR$\Release\List\HLDrv.s</file>
-            <file>$PROJ_DIR$\Release\Obj\RadioManagement.o</file>
-            <file>$PROJ_DIR$\SMAC\Interface\TransceiverConfigMngmnt.h</file>
-            <file>$PROJ_DIR$\Release\Obj\TransceiverPowerMngmnt.o</file>
-            <file>$PROJ_DIR$\Release\List\PlatformInit.i</file>
-            <file>$PROJ_DIR$\Release\List\WirelessLinkMngmt.i</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\LibInterface\Synthesizer_inc.h</file>
-            <file>$PROJ_DIR$\Release\Obj\Init-IAR.o</file>
             <file>$PROJ_DIR$\PLM\Interface\EmbeddedTypes.h</file>
-            <file>$PROJ_DIR$\Release\List\Connectivity Test.map</file>
-            <file>$PROJ_DIR$\Release\Obj\PlatformInit.pbi</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\Interrupt.h</file>
-            <file>$PROJ_DIR$\Release\Obj\UartUtil.o</file>
-            <file>$PROJ_DIR$\Release\List\maca.i</file>
-            <file>$PROJ_DIR$\Release\Obj\RadioManagement.pbi</file>
-            <file>$PROJ_DIR$\PLM\LibInterface\Crm.h</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Interface\ghdr\rcv_spi_regs.h</file>
-            <file>$PROJ_DIR$\Release\List\TransceiverConfigMngmnt.lst</file>
-            <file>$PROJ_DIR$\Release\List\SecurityMngmnt.i</file>
-            <file>$PROJ_DIR$\Release\Obj\Connectivity Test.pbd</file>
-            <file>$PROJ_DIR$\Release\List\TransceiverConfigMngmnt.i</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\LibInterface\rif_inc.h</file>
-            <file>$PROJ_DIR$\Release\Obj\Display.o</file>
-            <file>$PROJ_DIR$\Release\Obj\UartUtil.pbi</file>
-            <file>$PROJ_DIR$\Release\List\maca.s</file>
-            <file>$PROJ_DIR$\Release\List\connectivity_test_rx.s</file>
-            <file>$PROJ_DIR$\SMAC\Interface\HLDrv.h</file>
+            <file>$PROJ_DIR$\Release\Obj\HLDrv.pbi</file>
+            <file>$PROJ_DIR$\Release\List\TransceiverConfigMngmnt.s</file>
+            <file>$PROJ_DIR$\Release\List\Display.s</file>
+            <file>$PROJ_DIR$\Release\List\Keyboard.lst</file>
             <file>$PROJ_DIR$\Release\List\HLDrv.i</file>
-            <file>$PROJ_DIR$\Release\Obj\Leds.o</file>
-            <file>$PROJ_DIR$\Release\List\Delay.lst</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Interface\MacaInterrupt.h</file>
-            <file>$PROJ_DIR$\Release\List\HLDrv.lst</file>
-            <file>$PROJ_DIR$\Release\List\Delay.i</file>
             <file>$TOOLKIT_DIR$\lib\dl4t_tln.a</file>
-            <file>$PROJ_DIR$\Application\Utilities\Keyboard.h</file>
-            <file>$PROJ_DIR$\SMAC\Interface\SecurityMngmnt.h</file>
-            <file>$PROJ_DIR$\SMAC\Drivers\Interface\ghdr\maca.h</file>
-            <file>$PROJ_DIR$\Release\Obj\MacaInterrupt.o</file>
-            <file>$PROJ_DIR$\Release\Obj\PlatformInit.o</file>
-            <file>$PROJ_DIR$\SMAC\Interface\WirelessLinkMngmt.h</file>
-            <file>$PROJ_DIR$\Release\List\MacaInterrupt.lst</file>
+            <file>$PROJ_DIR$\SMAC\Interface\HLDrv.h</file>
             <file>$PROJ_DIR$\Release\Obj\maca.o</file>
             <file>$PROJ_DIR$\Application\Configure\app_config.h</file>
-            <file>$PROJ_DIR$\Release\Obj\HLDrv.pbi</file>
-            <file>$PROJ_DIR$\Release\List\UartUtil.lst</file>
+            <file>$PROJ_DIR$\Release\Obj\Leds.o</file>
+            <file>$PROJ_DIR$\Release\List\HLDrv.lst</file>
+            <file>$PROJ_DIR$\Release\Obj\UartUtil.pbi</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\Interrupt.h</file>
+            <file>$PROJ_DIR$\Release\List\connectivity_test_rx.s</file>
+            <file>$PROJ_DIR$\Release\Obj\Connectivity Test.pbd</file>
+            <file>$PROJ_DIR$\Release\List\TransceiverConfigMngmnt.i</file>
+            <file>$PROJ_DIR$\Release\List\SecurityMngmnt.i</file>
+            <file>$PROJ_DIR$\SMAC\Interface\WirelessLinkMngmt.h</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Interface\ghdr\rcv_spi_regs.h</file>
+            <file>$PROJ_DIR$\Release\List\maca.i</file>
+            <file>$PROJ_DIR$\SMAC\Interface\SecurityMngmnt.h</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Interface\MacaInterrupt.h</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\Crm.h</file>
+            <file>$PROJ_DIR$\Release\List\maca.s</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\LibInterface\rif_inc.h</file>
+            <file>$PROJ_DIR$\Release\Obj\TransceiverPowerMngmnt.pbi</file>
             <file>$PROJ_DIR$\Release\List\MacaInterrupt.i</file>
-            <file>$PROJ_DIR$\Application\Utilities\Leds.h</file>
-            <file>$PROJ_DIR$\PLM\Interface\PlatformInit.h</file>
-            <file>$PROJ_DIR$\Application\Utilities\Sound.h</file>
-            <file>$PROJ_DIR$\Release\List\RadioManagement.i</file>
-            <file>$PROJ_DIR$\Release\Obj\Leds.pbi</file>
-            <file>$PROJ_DIR$\PLM\Icf\MC1322x-RAM-ROM.icf</file>
-            <file>$PROJ_DIR$\Release\Obj\TransceiverConfigMngmnt.pbi</file>
-            <file>$PROJ_DIR$\Release\List\Sound.s</file>
-            <file>$PROJ_DIR$\Release\Obj\HLDrv.o</file>
+            <file>$PROJ_DIR$\SMAC\Configure\security_config.h</file>
+            <file>$PROJ_DIR$\Release\List\UartUtil.lst</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\CRM_Regs.h</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Interface\ghdr\maca.h</file>
+            <file>$PROJ_DIR$\Release\List\connectivity_test_rx.lst</file>
+            <file>$PROJ_DIR$\Release\Obj\MacaInterrupt.pbi</file>
+            <file>$PROJ_DIR$\Release\Obj\UartUtil.o</file>
+            <file>$PROJ_DIR$\Release\List\TransceiverConfigMngmnt.lst</file>
+            <file>$PROJ_DIR$\Release\List\maca.lst</file>
+            <file>$PROJ_DIR$\Release\List\WirelessLinkMngmt.lst</file>
+            <file>$PROJ_DIR$\Release\Obj\Display.pbi</file>
+            <file>$PROJ_DIR$\Release\Exe\Connectivity Test.out</file>
+            <file>$PROJ_DIR$\Release\List\Connectivity Test.log</file>
+            <file>$PROJ_DIR$\Release\List\Keyboard.s</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\I2C_Interface.h</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\UartLowLevel.h</file>
+            <file>$PROJ_DIR$\SMAC\Interface\RadioManagement.h</file>
+            <file>$PROJ_DIR$\Release\Obj\Display.o</file>
+            <file>$PROJ_DIR$\Release\Obj\WirelessLinkMngmt.o</file>
+            <file>$PROJ_DIR$\Release\List\SecurityMngmnt.lst</file>
+            <file>$PROJ_DIR$\Release\List\TransceiverPowerMngmnt.s</file>
+            <file>$PROJ_DIR$\Release\Obj\TransceiverConfigMngmnt.o</file>
+            <file>$TOOLKIT_DIR$\lib\m4t_al.a</file>
+            <file>$PROJ_DIR$\Release\Obj\Delay.o</file>
+            <file>$PROJ_DIR$\Release\Obj\RadioManagement.pbi</file>
+            <file>$PROJ_DIR$\Application\Utilities\Keyboard.h</file>
+            <file>$PROJ_DIR$\Release\Obj\PlatformInit.o</file>
             <file>$TOOLKIT_DIR$\lib\rt4t_al.a</file>
-            <file>$PROJ_DIR$\Release\List\TransceiverConfigMngmnt.s</file>
+            <file>$PROJ_DIR$\Release\List\UartUtil.i</file>
+            <file>$PROJ_DIR$\Release\List\MacaInterrupt.lst</file>
+            <file>$PROJ_DIR$\Release\List\UartUtil.s</file>
+            <file>$PROJ_DIR$\Release\Obj\WirelessLinkMngmt.pbi</file>
+            <file>$PROJ_DIR$\Release\Obj\Sound.o</file>
+            <file>$PROJ_DIR$\Application\Otap\Otap.h</file>
+            <file>$PROJ_DIR$\SMAC\Interface\GlobalDefs.h</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\Platform.h</file>
+            <file>$PROJ_DIR$\Release\List\Sound.i</file>
+            <file>$PROJ_DIR$\Release\List\PlatformInit.lst</file>
+            <file>$PROJ_DIR$\SMAC\Interface\TransceiverConfigMngmnt.h</file>
+            <file>$PROJ_DIR$\Release\Obj\PlatformInit.pbi</file>
+            <file>$PROJ_DIR$\Release\List\Display.i</file>
+            <file>$PROJ_DIR$\Release\Obj\TransceiverPowerMngmnt.o</file>
+            <file>$PROJ_DIR$\Release\List\RadioManagement.lst</file>
+            <file>$PROJ_DIR$\Release\List\RadioManagement.s</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\Ssi_Regs.h</file>
+            <file>$PROJ_DIR$\Release\List\Delay.s</file>
+            <file>$PROJ_DIR$\Release\List\SecurityMngmnt.s</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Interface\FreqDepSettings.h</file>
+            <file>$PROJ_DIR$\Release\Obj\Sound.pbi</file>
+            <file>$PROJ_DIR$\Release\Obj\Keyboard.pbi</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Interface\ghdr\asm.h</file>
+            <file>$PROJ_DIR$\SMAC\Source\RadioMngmntWrapper.h</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\NVM.h</file>
+            <file>$PROJ_DIR$\Release\List\PlatformInit.s</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\GPIO_Interface.h</file>
+            <file>$PROJ_DIR$\SMAC\Configure\options_config.h</file>
+            <file>$PROJ_DIR$\Release\List\connectivity_test_rx.i</file>
+            <file>$PROJ_DIR$\Release\Obj\SecurityMngmnt.pbi</file>
+            <file>$PROJ_DIR$\Release\Obj\SecurityMngmnt.o</file>
+            <file>$PROJ_DIR$\Release\List\TransceiverPowerMngmnt.lst</file>
+            <file>$PROJ_DIR$\Release\List\Init-IAR.lst</file>
+            <file>$PROJ_DIR$\PLM\Interface\RF_Config.h</file>
+            <file>$PROJ_DIR$\Release\Obj\maca.pbi</file>
+            <file>$PROJ_DIR$\Application\Utilities\Display.h</file>
+            <file>$PROJ_DIR$\Release\List\Delay.lst</file>
+            <file>$PROJ_DIR$\Release\List\Leds.lst</file>
+            <file>$PROJ_DIR$\Application\Utilities\Sound.h</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Configure\board_config.h</file>
+            <file>$PROJ_DIR$\SMAC\Interface\TransceiverPowerMngmnt.h</file>
+            <file>$PROJ_DIR$\Release\Obj\connectivity_test_rx.o</file>
+            <file>$PROJ_DIR$\Release\List\RadioManagement.i</file>
+            <file>$PROJ_DIR$\Application\Utilities\LCD_Font.h</file>
+            <file>$PROJ_DIR$\Release\Obj\RadioManagement.o</file>
+            <file>$PROJ_DIR$\Release\List\Connectivity Test.map</file>
+            <file>$PROJ_DIR$\Release\List\Keyboard.i</file>
+            <file>$PROJ_DIR$\Release\List\Leds.i</file>
+            <file>$PROJ_DIR$\Release\Obj\Leds.pbi</file>
+            <file>$PROJ_DIR$\Release\List\PlatformInit.i</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\Timer.h</file>
+            <file>$PROJ_DIR$\PLM\Interface\PWR_Config.h</file>
+            <file>$PROJ_DIR$\Application\Utilities\Leds.h</file>
+            <file>$PROJ_DIR$\Release\List\Display.lst</file>
+            <file>$PROJ_DIR$\Release\List\WirelessLinkMngmt.s</file>
+            <file>$PROJ_DIR$\Release\List\TransceiverPowerMngmnt.i</file>
+            <file>$PROJ_DIR$\Release\List\Sound.lst</file>
+            <file>$PROJ_DIR$\Release\Obj\Delay.pbi</file>
+            <file>$PROJ_DIR$\Release\Obj\Init-IAR.o</file>
+            <file>$PROJ_DIR$\Release\Obj\TransceiverConfigMngmnt.pbi</file>
+            <file>$PROJ_DIR$\Release\Obj\Keyboard.o</file>
+            <file>$PROJ_DIR$\Release\Obj\MacaInterrupt.o</file>
+            <file>$PROJ_DIR$\Release\List\Leds.s</file>
+            <file>$PROJ_DIR$\Release\Obj\HLDrv.o</file>
+            <file>$PROJ_DIR$\Release\Obj\connectivity_test_rx.pbi</file>
+            <file>$PROJ_DIR$\Release\List\MacaInterrupt.s</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\LibInterface\Synthesizer_inc.h</file>
+            <file>$PROJ_DIR$\PLM\Icf\MC1322x-RAM-ROM.icf</file>
+            <file>$PROJ_DIR$\PLM\LibInterface\ITC_Interface.h</file>
+            <file>$PROJ_DIR$\PLM\Lib\LLC.a</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Source\maca.c</file>
+            <file>$PROJ_DIR$\Application\Utilities\Keyboard.c</file>
+            <file>$PROJ_DIR$\SMAC\Source\RadioManagement.c</file>
+            <file>$PROJ_DIR$\SMAC\Source\SecurityMngmnt.c</file>
+            <file>$PROJ_DIR$\SMAC\Source\TransceiverConfigMngmnt.c</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Interface\Delay.h</file>
+            <file>$PROJ_DIR$\SMAC\Source\TransceiverPowerMngmnt.c</file>
+            <file>$PROJ_DIR$\Application\Utilities\UartUtil.h</file>
+            <file>$PROJ_DIR$\Release\List\Delay.i</file>
+            <file>$PROJ_DIR$\PLM\Source\Common\Sys\Init-IAR.S</file>
+            <file>$PROJ_DIR$\PLM\Interface\UART_Interface.h</file>
+            <file>$PROJ_DIR$\Release\List\HLDrv.s</file>
+            <file>$PROJ_DIR$\SMAC\Source\HLDrv.c</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Source\MacaInterrupt.c</file>
+            <file>$PROJ_DIR$\Application\Utilities\UartUtil.c</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Lib\MC1322x.a</file>
+            <file>$PROJ_DIR$\SMAC\Source\WirelessLinkMngmt.c</file>
+            <file>$PROJ_DIR$\Application\Utilities\Sound.c</file>
+            <file>$PROJ_DIR$\PLM\Interface\PlatformInit.h</file>
+            <file>$PROJ_DIR$\Application\Source\connectivity_test_rx.c</file>
+            <file>$PROJ_DIR$\PLM\Source\Common\Sys\PlatformInit.c</file>
+            <file>$PROJ_DIR$\Release\List\WirelessLinkMngmt.i</file>
+            <file>$PROJ_DIR$\Application\Utilities\Leds.c</file>
+            <file>$PROJ_DIR$\PLM\Interface\PortConfig.h</file>
+            <file>$PROJ_DIR$\Release\List\Sound.s</file>
+            <file>$PROJ_DIR$\SMAC\Drivers\Source\Delay.c</file>
+            <file>$PROJ_DIR$\Application\Utilities\Display.c</file>
         </outputs>
-        <file>
-            <name>[ROOT_NODE]</name>
-            <outputs>
-                <tool>
-                    <name>ILINK</name>
-                    <file> 9 105 60</file>
-                </tool>
-            </outputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\SMAC\Source\TransceiverConfigMngmnt.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 116 152 113 62</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 148</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 29 1 104 54 44 73 64 76 46 43 132 117 102 98 59 51</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\SMAC\Source\HLDrv.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 123 96 127 150</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 139</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 111 29 1 104 54 122 59 73</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\SMAC\Drivers\Source\MacaInterrupt.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 141 80 136 133</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 17</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 104 84 29 1 54 132 51 59 73 98 102 46 126</file>
-                </tool>
-            </inputs>
-        </file>
         <file>
             <name>$PROJ_DIR$\Release\Exe\Connectivity Test.out</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 105 60</file>
+                    <file> 101 40</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 147 10 53 118 150 103 78 124 41 137 133 5 134 97 93 47 62 99 108 0 151 12 129</file>
+                    <file> 123 97 51 45 119 114 116 10 125 8 117 141 54 100 86 60 49 69 34 46 55 50 6</file>
                 </tool>
             </inputs>
         </file>
@@ -253,168 +187,26 @@
             <outputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 109 120 16 137</file>
+                    <file> 20 24 36 8</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 69</file>
+                    <file> 90</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 132 104</file>
+                    <file> 31 0</file>
                 </tool>
             </inputs>
         </file>
         <file>
-            <name>$PROJ_DIR$\SMAC\Source\TransceiverPowerMngmnt.c</name>
+            <name>$PROJ_DIR$\Application\Utilities\Keyboard.c</name>
             <outputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 14 61 74 99</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 66</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 67 59 104 73 111 29 1 54 88 117</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\SMAC\Source\RadioManagement.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 145 68 71 97</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 110</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 51 59 104 73 43 49 132 102 46 98 64 76</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\SMAC\Source\SecurityMngmnt.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 114 83 21 93</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 81</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 131 59 104 73 64 52</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\SMAC\Drivers\Source\Delay.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 128 56 125 53</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 91</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 104 76 46</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\SMAC\Source\WirelessLinkMngmt.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 101 95 27 0</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 19</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 135 59 104 73 51 49 132 102 46 98 64 76 112 117</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\Application\Utilities\Sound.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 2 149 94 47</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 70</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 104 89 29 1 54 72 44 144</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\PLM\Source\Common\Sys\Init-IAR.S</name>
-            <outputs>
-                <tool>
-                    <name>AARM</name>
-                    <file> 103 50</file>
-                </tool>
-            </outputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\Application\Utilities\Display.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 57 86 15 118</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 63</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 104 44 29 1 54 43 82 23</file>
-                </tool>
-            </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\Application\Source\connectivity_test_rx.c</name>
-            <outputs>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 75 121 11 10</file>
+                    <file> 102 41 4 116</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
@@ -424,26 +216,130 @@
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 138 111 29 1 104 54 107 84 89 143 73 59 98 51 102 46 67 88 135 131 64 30 126 132 43 76 85 7 34 142 44 130 82 23 144 92 45</file>
+                    <file> 53 82 63 30 0 72 23 95 75</file>
                 </tool>
             </inputs>
         </file>
         <file>
-            <name>$PROJ_DIR$\Application\Utilities\Leds.c</name>
+            <name>$PROJ_DIR$\SMAC\Source\RadioManagement.c</name>
             <outputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 24 87 79 124</file>
+                    <file> 98 71 70 100</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 146</file>
+                    <file> 52</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 142 104 44 29 1 54 76 46</file>
+                    <file> 44 62 0 89 131 79 31 122 75 66 83 95</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\SMAC\Source\SecurityMngmnt.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 17 74 47 86</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 85</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 21 62 0 89 83 78</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\SMAC\Source\TransceiverConfigMngmnt.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 16 2 35 49</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 115</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 63 30 0 72 82 89 83 95 75 131 31 25 122 66 62 44</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\SMAC\Source\TransceiverPowerMngmnt.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 111 48 87 69</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 26</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 96 62 0 89 23 63 30 72 107 25</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\PLM\Source\Common\Sys\Init-IAR.S</name>
+            <outputs>
+                <tool>
+                    <name>AARM</name>
+                    <file> 114 88</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\SMAC\Source\HLDrv.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 5 137 11 119</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 1</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 23 63 30 0 72 7 62 89</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\SMAC\Drivers\Source\MacaInterrupt.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 27 121 57 117</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 33</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 0 124 63 30 72 31 44 62 89 66 122 75 22</file>
                 </tool>
             </inputs>
         </file>
@@ -452,36 +348,78 @@
             <outputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 31 55 140 108</file>
+                    <file> 56 58 29 34</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 119</file>
+                    <file> 12</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 104 107 84 29 1 54 59 73 85 7 76 46 34</file>
+                    <file> 0 13 124 63 30 72 62 89 133 43 95 75 136</file>
                 </tool>
             </inputs>
         </file>
         <file>
-            <name>$PROJ_DIR$\Application\Utilities\Keyboard.c</name>
+            <name>$PROJ_DIR$\SMAC\Source\WirelessLinkMngmt.c</name>
             <outputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 28 4 90 78</file>
+                    <file> 147 110 37 46</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 58</file>
+                    <file> 59</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 130 44 29 1 104 54 111 76 46</file>
+                    <file> 18 62 0 89 44 79 31 122 75 66 83 95 19 25</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\Application\Utilities\Sound.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 64 150 112 60</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 76</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 0 106 63 30 72 42 82 94</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\Application\Source\connectivity_test_rx.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 84 14 32 97</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 120</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 9 23 63 30 0 72 13 124 106 144 89 62 66 44 122 75 96 107 18 21 83 28 22 31 131 95 133 43 136 108 82 53 91 99 94 61 80</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 131 63 95 96 0 144 83 53 124 23 13 62 21 22 133 94 75 82 99 66 106 89 18 28 31 108 91 61 72 44 9 30 122 107 43 136 80</file>
                 </tool>
             </inputs>
         </file>
@@ -490,19 +428,85 @@
             <outputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 100 48 65 134</file>
+                    <file> 105 81 65 54</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 106</file>
+                    <file> 67</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 32 143 104 44 29 1 54 73</file>
+                    <file> 149 144 0 82 63 30 72 89</file>
                 </tool>
             </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\Application\Utilities\Leds.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 103 118 93 10</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 104</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 108 0 82 63 30 72 95 75</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\SMAC\Drivers\Source\Delay.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 134 73 92 51</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 113</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 0 95 75</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\Application\Utilities\Display.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 68 3 109 45</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 38</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 0 82 63 30 72 131 91 99</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>[ROOT_NODE]</name>
+            <outputs>
+                <tool>
+                    <name>ILINK</name>
+                    <file> 39 101 40</file>
+                </tool>
+            </outputs>
         </file>
     </configuration>
 </project>

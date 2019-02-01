@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM        01/Feb/2019  11:30:27
+// IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM        31/Jan/2019  22:21:50
 // Copyright 1999-2018 IAR Systems AB.
 //
 //    Cpu mode     =  
@@ -9,7 +9,7 @@
 //        D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
 //        M\Project\WSNBP\repeater_test\Repeater\Application\Source\repeater.c
 //    Command line =  
-//        -f C:\Users\Brus\AppData\Local\Temp\EWDDEC.tmp
+//        -f C:\Users\Brus\AppData\Local\Temp\EW98E7.tmp
 //        ("D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
 //        M\Project\WSNBP\repeater_test\Repeater\Application\Source\repeater.c"
 //        -D NDEBUG -D F24MHZ -D SECURITY_ENABLED -D MC13226Included_d=0
@@ -22,7 +22,7 @@
 //        Pe940,Pe951,Pe911 -o "D:\Users\Brus\Documents\Uni\Wireless Sensors
 //        Networks M\Project\WSNBP\repeater_test\Repeater\Release\Obj"
 //        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
-//        "C:\HDDprograms\IAR Systems\Embedded Workbench
+//        "C:\HDDPrograms\IAR Systems\Embedded Workbench
 //        8.2\arm\inc\c\DLib_Config_Normal.h" -I
 //        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
 //        M\Project\WSNBP\repeater_test\Repeater\SMAC\Drivers\Interface\" -I
@@ -1520,9 +1520,9 @@ repeater_run_sm:
         LDRH     R1,[R4, #+42]
         ADDS     R1,R1,#+1
         STRH     R1,[R4, #+42]
-//  583 			  TX_msg.pu8Buffer->u8Data[3] = 'R';
+//  583 			  TX_msg.pu8Buffer->u8Data[4] = 'R';
         MOVS     R1,#+82
-        STRB     R1,[R2, #+6]
+        STRB     R1,[R2, #+7]
 //  584 
 //  585               MCPSDataRequest(&TX_msg);
         B.N      ??repeater_run_sm_10
