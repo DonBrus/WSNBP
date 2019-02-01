@@ -732,6 +732,43 @@ static void process_incoming_msg(void)
         }  
         LCD_WriteStringValue("Max LQI:",(maxLQI),5,gLCD_DecFormat_c);
         LCD_WriteStringValue("Min LQI:",(minLQI),6,gLCD_DecFormat_c);
+        
+        ACK_msg.pu8Buffer->u8Data[0] = 'A';
+        ACK_msg.pu8Buffer->u8Data[1] = 'C';
+        ACK_msg.pu8Buffer->u8Data[2] = 'K';
+  
+  #if INTERFACE_TYPE == SERIAL
+        ACK_msg.pu8Buffer->u8Data[3] = u8Lqi; 
+  #endif      
+  
+  #if INTERFACE_TYPE == MANUAL
+        ACK_msg.pu8Buffer->u8Data[3] = u8LQIAdjusted;
+  #endif      
+  
+        
+  #if SMAC_FEATURE_SECURITY ==  TRUE
+        uint8_t fill_counter;
+        for(fill_counter = 6; fill_counter < BLOCK_SIZE; fill_counter++)
+        {
+          ACK_msg.pu8Buffer->u8Data[fill_counter] = '\0';
+        }
+  
+        if(AES_DEFAULT_MODE != AES_CTR_MODE)
+        {
+          ACK_msg.u8BufSize = 2*BLOCK_SIZE;
+        }
+        else
+        {
+          ACK_msg.u8BufSize = BLOCK_SIZE;
+        }
+  
+        (void)CipherMsgU8 (&(ACK_msg.pu8Buffer->u8Data[0]),(ACK_msg.u8BufSize));
+  #else
+          ACK_msg.pu8Buffer->u8Data[4] = '\0';
+          ACK_msg.u8BufSize = 5;
+  #endif  
+        
+        MCPSDataRequest(&ACK_msg);
          DelayMs(1500);
           maxLQI=0;
           minLQI=255;
