@@ -1,31 +1,38 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM        31/Jan/2019  14:41:04
+// IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM        31/Jan/2019  22:21:50
 // Copyright 1999-2018 IAR Systems AB.
 //
 //    Cpu mode     =  
 //    Endian       =  little
 //    Source file  =  
-//        D:\Users\Brus\Documents\repeater_test\Repeater\Application\Source\repeater.c
+//        D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+//        M\Project\WSNBP\repeater_test\Repeater\Application\Source\repeater.c
 //    Command line =  
-//        -f C:\Users\Brus\AppData\Local\Temp\EWFB5C.tmp
-//        (D:\Users\Brus\Documents\repeater_test\Repeater\Application\Source\repeater.c
+//        -f C:\Users\Brus\AppData\Local\Temp\EW98E7.tmp
+//        ("D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+//        M\Project\WSNBP\repeater_test\Repeater\Application\Source\repeater.c"
 //        -D NDEBUG -D F24MHZ -D SECURITY_ENABLED -D MC13226Included_d=0
-//        --preprocess=cs
-//        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lC
-//        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List -lB
-//        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List
-//        --diag_suppress Pe940,Pe951,Pe911 -o
-//        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj
+//        --preprocess=cs "D:\Users\Brus\Documents\Uni\Wireless Sensors
+//        Networks M\Project\WSNBP\repeater_test\Repeater\Release\List" -lC
+//        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+//        M\Project\WSNBP\repeater_test\Repeater\Release\List" -lB
+//        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+//        M\Project\WSNBP\repeater_test\Repeater\Release\List" --diag_suppress
+//        Pe940,Pe951,Pe911 -o "D:\Users\Brus\Documents\Uni\Wireless Sensors
+//        Networks M\Project\WSNBP\repeater_test\Repeater\Release\Obj"
 //        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
 //        "C:\HDDPrograms\IAR Systems\Embedded Workbench
 //        8.2\arm\inc\c\DLib_Config_Normal.h" -I
-//        D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Drivers\Interface\
-//        -I D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Interface\
-//        --cpu_mode thumb -Ohz --use_c++_inline)
+//        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+//        M\Project\WSNBP\repeater_test\Repeater\SMAC\Drivers\Interface\" -I
+//        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+//        M\Project\WSNBP\repeater_test\Repeater\PLM\Interface\" --cpu_mode
+//        thumb -Ohz --use_c++_inline)
 //    Locale       =  C
 //    List file    =  
-//        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List\repeater.s
+//        D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+//        M\Project\WSNBP\repeater_test\Repeater\Release\List\repeater.s
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -124,7 +131,7 @@
         DC8 0AH, 0DH, 0
         DATA8
         DC8 0
-// D:\Users\Brus\Documents\repeater_test\Repeater\Application\Source\repeater.c
+// D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\Application\Source\repeater.c
 //    1 /************************************************************************************
 //    2 * Repeater main 
 //    3 *
@@ -359,10 +366,13 @@ u8WrongChar:
         SECTION `.rodata`:CONST:REORDER:NOROOT(2)
         DATA
 ?_11:
-        DC8 "\015  ###  *  #         F R E E S C A L E\012"
-        DC8 "\015     ***            S E M I C O N D U C T O R\012"
-        DC8 "\015  #           Press any key to continue...\012\012"
+        DC8 "\015  ###  *  #         CODICE FATTO\012"
+        DATA8
+        DC8 0
+        DC8 "\015     ***            M   A       L       E >:(((\012"
         DATA16
+        DC8 0, 0
+        DC8 "\015  #           Press any key to continue...\012\012"
         DC8 0, 0
 
         SECTION `.rodata`:CONST:NOROOT(2)
@@ -455,8 +465,6 @@ sRepeaterDelay:
 //  201 uint32_t u32RepeatRxTimeOut;
 u32RepeatRxTimeOut:
         DS8 4
-dataTX:
-        DS8 128
 dataRX:
         DS8 128
 
@@ -466,6 +474,11 @@ TX_msg:
         DS8 16
 u8UartDataSz:
         DS8 1
+
+        SECTION `.bss`:DATA:REORDER:NOROOT(2)
+        DATA
+dataTX:
+        DS8 128
 //  202 
 //  203 /************************************************************************************
 //  204 * main function
@@ -482,17 +495,16 @@ Main:
         PUSH     {R3-R7,LR}
 //  211   MSG_INIT(TX_msg, &dataTX, NULL);
         LDR      R6,??DataTable40
-        LDR      R4,??DataTable40_1
-        MOVS     R0,R4
-        ADDS     R0,R0,#+56
+        LDR      R0,??DataTable40_1
         STR      R0,[R6, #+4]
         MOVS     R5,#+0
         STR      R5,[R6, #+12]
 //  212   MSG_INIT(RX_msg, &dataRX, (callback_t)(repeater_rx_cb));
+        LDR      R4,??DataTable40_2
         MOVS     R0,R4
-        ADDS     R0,R0,#+184
+        ADDS     R0,R0,#+56
         STR      R0,[R4, #+4]
-        LDR      R0,??DataTable40_2
+        LDR      R0,??DataTable40_3
         STR      R0,[R4, #+12]
 //  213   RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
         MOVS     R0,#+125
@@ -500,7 +512,7 @@ Main:
 //  214   
 //  215   repeater_app_init();
         BL       repeater_app_init
-        LDR      R7,??DataTable40_3
+        LDR      R7,??DataTable40_4
 //  216 
 //  217   for(;;)
 //  218   {
@@ -521,7 +533,7 @@ Main:
 //  230     {
 //  231       process_uart_data();
         STRB     R5,[R4, #+18]
-        LDR      R0,??DataTable40_4
+        LDR      R0,??DataTable40_5
         LDRB     R0,[R0, #+0]
         CMP      R0,#+0
         BNE      ??Main_1
@@ -548,7 +560,6 @@ Main:
         STRB     R0,[R4, #+18]
 //  232       repeater_app();
 ??Main_1:
-        Nop      
         ADR.N    R0,cbRepeaterStFn_c
         LDRB     R1,[R4, #+22]
         LSLS     R1,R1,#+2
@@ -581,7 +592,7 @@ cbRepeaterStFn_c:
 //  246 {
 //  247   if(TRUE == gRadioEvntFlags.Bits.data_indication_flag)
 repeater_rx_cb:
-        LDR      R0,??DataTable40_5
+        LDR      R0,??DataTable40_6
         LDR      R1,[R0, #+0]
         MOVS     R2,#+1
         LSRS     R3,R1,#+4
@@ -593,7 +604,7 @@ repeater_rx_cb:
         BICS     R1,R1,R3
         STR      R1,[R0, #+0]
 //  250     gbDataIndicationFlag = TRUE;
-        LDR      R0,??DataTable40_1
+        LDR      R0,??DataTable40_2
         STRB     R2,[R0, #+16]
 //  251   }
 //  252   else
@@ -621,7 +632,7 @@ repeater_rx_cb:
 //  269         (MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state)  ) &&
 //  270       (TRUE == gbDataIndicationFlag) )
 data_indication_execute:
-        LDR      R0,??DataTable40_1
+        LDR      R0,??DataTable40_2
         LDRB     R1,[R0, #+0]
         LSRS     R1,R1,#+3
         CMP      R1,#+4
@@ -851,33 +862,40 @@ display_config:
         DATA
 ??DataTable40_1:
         DATA32
-        DC32     RX_msg
+        DC32     dataTX
 
         SECTION `.text`:CODE:NOROOT(2)
         SECTION_TYPE SHT_PROGBITS, 0
         DATA
 ??DataTable40_2:
         DATA32
-        DC32     repeater_rx_cb
+        DC32     RX_msg
 
         SECTION `.text`:CODE:NOROOT(2)
         SECTION_TYPE SHT_PROGBITS, 0
         DATA
 ??DataTable40_3:
         DATA32
-        DC32     gu16SCINumOfBytes
+        DC32     repeater_rx_cb
 
         SECTION `.text`:CODE:NOROOT(2)
         SECTION_TYPE SHT_PROGBITS, 0
         DATA
 ??DataTable40_4:
         DATA32
-        DC32     gu8SCIStatus
+        DC32     gu16SCINumOfBytes
 
         SECTION `.text`:CODE:NOROOT(2)
         SECTION_TYPE SHT_PROGBITS, 0
         DATA
 ??DataTable40_5:
+        DATA32
+        DC32     gu8SCIStatus
+
+        SECTION `.text`:CODE:NOROOT(2)
+        SECTION_TYPE SHT_PROGBITS, 0
+        DATA
+??DataTable40_6:
         DATA32
         DC32     gRadioEvntFlags
 
@@ -1405,111 +1423,123 @@ process_repeater_run:
 //  544 static void repeater_run_sm (void)
 //  545 {
 repeater_run_sm:
-        PUSH     {R3-R5,LR}
+        PUSH     {R3-R7,LR}
 //  546   switch(u8RepeaterRunSt)
         LDR      R4,??DataTable45_2
         LDRB     R0,[R4, #+0]
-        LSRS     R2,R0,#+3
+        LSRS     R3,R0,#+3
         MOVS     R5,#+0
         MOVS     R1,#+125
+        LDR      R2,??DataTable45_3
         LDR      R0,??DataTable45_1
-        LDRB     R3,[R4, #+23]
-        CMP      R3,#+0
+        MOVS     R6,#+3
+        LDRB     R7,[R4, #+23]
+        CMP      R7,#+0
         BEQ      ??repeater_run_sm_0
-        CMP      R3,#+2
+        CMP      R7,#+2
         BEQ      ??repeater_run_sm_1
         BCC      ??repeater_run_sm_2
-        CMP      R3,#+3
+        CMP      R7,#+3
         BEQ      ??repeater_run_sm_3
         B        ??repeater_run_sm_4
 //  547   {
 //  548     case(gRepeaterRunStIdle_c):
 //  549       {
 //  550         /* Use the TX buffer to receive then it will be ready to be repeated */
-//  551         RX_msg.pu8Buffer = (smac_pdu_t *)(&dataTX);
+//  551         // assegna al buffer rx, riempito successivamente dalla funzione corrispondente,
+//  552         // l'indirizzo di tx così da usarlo direttamente
+//  553         RX_msg.pu8Buffer = (smac_pdu_t *)(&dataTX);
 ??repeater_run_sm_0:
-        MOVS     R0,R4
-        ADDS     R0,R0,#+56
-        STR      R0,[R4, #+4]
-//  552         
-//  553         /* Receive without any timeout */
-//  554         RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
+        STR      R2,[R4, #+4]
+//  554         
+//  555         /* Receive without any timeout */
+//  556         RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
         STRB     R1,[R4, #+8]
-//  555         MLMERXEnableRequest(&RX_msg, 0x00000000);
+//  557         MLMERXEnableRequest(&RX_msg, 0x00000000);
         MOVS     R1,#+0
         MOVS     R0,R4
         BL       MLMERXEnableRequest
-//  556 
-//  557         u8RepeaterRunSt = gRepeaterRunStRcv_c;
+//  558 
+//  559         u8RepeaterRunSt = gRepeaterRunStRcv_c;
         MOVS     R0,#+1
         B.N      ??repeater_run_sm_5
-//  558       }
-//  559       break;
-//  560     case(gRepeaterRunStRcv_c):
-//  561       {
-//  562         if(TRUE == gbRdyToProcessEvnt)
+//  560       }
+//  561       break;
+//  562     case(gRepeaterRunStRcv_c):
+//  563       {
+//  564         if(TRUE == gbRdyToProcessEvnt)
 ??repeater_run_sm_2:
-        LDRB     R3,[R4, #+17]
-        CMP      R3,#+1
+        LDRB     R7,[R4, #+17]
+        CMP      R7,#+1
         BNE      ??repeater_run_sm_6
-//  563         {
-//  564           gbRdyToProcessEvnt = FALSE;
+//  565         {
+//  566           gbRdyToProcessEvnt = FALSE;
         STRB     R5,[R4, #+17]
-//  565           
-//  566           if(MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state)
-        CMP      R2,#+5
+//  567           
+//  568           if(MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state)
+        CMP      R3,#+5
         BNE      ??repeater_run_sm_7
-//  567           {
-//  568             (sRepeaterStat.u16ReccivedPkts)++;
-        LDRH     R2,[R4, #+40]
-        ADDS     R2,R2,#+1
-        STRH     R2,[R4, #+40]
-//  569             TX_msg.u8BufSize = RX_msg.u8BufSize;
-        LDRB     R2,[R4, #+8]
-        STRB     R2,[R0, #+8]
-//  570             TX_msg.pu8Buffer = (smac_pdu_t *)(&(dataTX[1]));
-        MOVS     R2,R4
-        ADDS     R2,R2,#+57
-        STR      R2,[R0, #+4]
-//  571             if(gRepOpModeNormal_c == u8RepOpMode)
-        LDRB     R2,[R4, #+19]
-        CMP      R2,#+0
+//  569           {
+//  570             (sRepeaterStat.u16ReccivedPkts)++;
+        LDRH     R3,[R4, #+40]
+        ADDS     R3,R3,#+1
+        STRH     R3,[R4, #+40]
+//  571             TX_msg.u8BufSize = RX_msg.u8BufSize;
+        LDRB     R3,[R4, #+8]
+        STRB     R3,[R0, #+8]
+//  572             TX_msg.pu8Buffer = (smac_pdu_t *)(&(dataTX[1]));
+        ADDS     R3,R2,#+1
+        STR      R3,[R0, #+4]
+//  573             if(gRepOpModeNormal_c == u8RepOpMode)
+        LDRB     R3,[R4, #+19]
+        CMP      R3,#+0
         BNE      ??repeater_run_sm_8
-//  572             {
-//  573               RX_msg.pu8Buffer = (smac_pdu_t *)(&dataRX);
+//  574             {
+//  575               RX_msg.pu8Buffer = (smac_pdu_t *)(&dataRX);
         MOVS     R0,R4
-        ADDS     R0,R0,#+184
+        ADDS     R0,R0,#+56
         STR      R0,[R4, #+4]
-//  574               RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
+//  576               RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
         STRB     R1,[R4, #+8]
-//  575               MLMERXEnableRequest(&RX_msg, u32RepeatRxTimeOut);
+//  577               MLMERXEnableRequest(&RX_msg, u32RepeatRxTimeOut);
         LDR      R1,[R4, #+52]
         MOVS     R0,R4
         BL       MLMERXEnableRequest
-//  576               u8RepeaterRunSt = gRepeaterRunStWaiting_c;
+//  578               u8RepeaterRunSt = gRepeaterRunStWaiting_c;
         MOVS     R0,#+2
-        B.N      ??repeater_run_sm_5
-//  577             }
-//  578             else if(gRepOpModeDummy_c == u8RepOpMode)
+??repeater_run_sm_5:
+        STRB     R0,[R4, #+23]
+        B        ??repeater_run_sm_4
+//  579             }
+//  580             else if(gRepOpModeDummy_c == u8RepOpMode)
 ??repeater_run_sm_8:
-        CMP      R2,#+1
-        BEQ      ??repeater_run_sm_9
-//  579             {
-//  580               (sRepeaterStat.u16RetransmitedPkts)++;
-//  581               MCPSDataRequest(&TX_msg);
-//  582               u8RepeaterRunSt = gRepeaterRunStTx_c;
-//  583             }
-//  584             else if(gRepOpModeSniff_c == u8RepOpMode)
-        CMP      R2,#+2
+        CMP      R3,#+1
+        BNE      ??repeater_run_sm_9
+//  581             {
+//  582               (sRepeaterStat.u16RetransmitedPkts)++;
+        LDRH     R1,[R4, #+42]
+        ADDS     R1,R1,#+1
+        STRH     R1,[R4, #+42]
+//  583 			  TX_msg.pu8Buffer->u8Data[4] = 'R';
+        MOVS     R1,#+82
+        STRB     R1,[R2, #+7]
+//  584 
+//  585               MCPSDataRequest(&TX_msg);
+        B.N      ??repeater_run_sm_10
+//  586               u8RepeaterRunSt = gRepeaterRunStTx_c;
+//  587             }
+//  588             else if(gRepOpModeSniff_c == u8RepOpMode)
+??repeater_run_sm_9:
+        CMP      R3,#+2
         BNE      ??repeater_run_sm_4
-//  585             {
-//  586               Uart_Print("New frame: ");
+//  589             {
+//  590               Uart_Print("New frame: ");
         Nop      
         ADR.N    R0,?_28
         BL       Uart_Print
-//  587               Uart_PrintHex( (RX_msg.pu8Buffer->reserved), \ 
-//  588                              ((RX_msg.pu8Buffer->reserved[0])+1), \ 
-//  589                              (gPrtHexCommas_c|gPrtHexBigEndian_c));
+//  591               Uart_PrintHex( (RX_msg.pu8Buffer->reserved), \ 
+//  592                              ((RX_msg.pu8Buffer->reserved[0])+1), \ 
+//  593                              (gPrtHexCommas_c|gPrtHexBigEndian_c));
         LDR      R0,[R4, #+4]
         MOVS     R2,#+5
         LDRB     R1,[R0, #+0]
@@ -1517,144 +1547,142 @@ repeater_run_sm:
         LSLS     R1,R1,#+24
         LSRS     R1,R1,#+24
         BL       Uart_PrintHex
-//  590               Uart_Print("\n\r");
+//  594               Uart_Print("\n\r");
         ADR      R0,??DataTable44  ;; 0x0A, 0x0D, 0x00, 0x00
         BL       Uart_Print
-//  591               u8RepeaterRunSt = gRepeaterRunStIdle_c;
-        B        ??repeater_run_sm_10
-//  592             }
-//  593           }
-//  594           else
-//  595           {
-//  596             if( (MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state) ||
-//  597                 (MSG_RX_ABORTED == RX_msg.u8Status.msg_state)      ||
-//  598                 (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state) )
+//  595               u8RepeaterRunSt = gRepeaterRunStIdle_c;
+        B        ??repeater_run_sm_11
+//  596             }
+//  597           }
+//  598           else
+//  599           {
+//  600             if( (MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state) ||
+//  601                 (MSG_RX_ABORTED == RX_msg.u8Status.msg_state)      ||
+//  602                 (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state) )
 ??repeater_run_sm_7:
-        CMP      R2,#+4
-        BEQ      ??repeater_run_sm_11
-        CMP      R2,#+8
-        BEQ      ??repeater_run_sm_11
-        CMP      R2,#+6
+        CMP      R3,#+4
+        BEQ      ??repeater_run_sm_12
+        CMP      R3,#+8
+        BEQ      ??repeater_run_sm_12
+        CMP      R3,#+6
         BNE      ??repeater_run_sm_4
-//  599             {
-//  600               (sRepeaterStat.u16BadPkts)++;
-??repeater_run_sm_11:
+//  603             {
+//  604               (sRepeaterStat.u16BadPkts)++;
+??repeater_run_sm_12:
         LDRH     R0,[R4, #+44]
         ADDS     R0,R0,#+1
         STRH     R0,[R4, #+44]
-//  601               /* Receive without any timeout */
-//  602               RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
+//  605               /* Receive without any timeout */
+//  606               RX_msg.u8BufSize = MAX_SMAC_PACK_SZ;
         STRB     R1,[R4, #+8]
-//  603               MLMERXEnableRequest(&RX_msg, 0x00000000);
+//  607               MLMERXEnableRequest(&RX_msg, 0x00000000);
         MOVS     R1,#+0
         MOVS     R0,R4
         BL       MLMERXEnableRequest
         B        ??repeater_run_sm_4
-//  604             }
-//  605           }
-//  606         }
-//  607         else
-//  608         {
-//  609           if( (MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state) ||
-//  610               (MSG_RX_ABORTED == RX_msg.u8Status.msg_state)      ||
-//  611               (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state) ||
-//  612               (MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state) )
+//  608             }
+//  609           }
+//  610         }
+//  611         else
+//  612         {
+//  613           if( (MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state) ||
+//  614               (MSG_RX_ABORTED == RX_msg.u8Status.msg_state)      ||
+//  615               (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state) ||
+//  616               (MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state) )
 ??repeater_run_sm_6:
-        CMP      R2,#+4
-        BEQ      ??repeater_run_sm_10
-        CMP      R2,#+8
-        BEQ      ??repeater_run_sm_10
-        CMP      R2,#+6
-        BEQ      ??repeater_run_sm_10
-        CMP      R2,#+5
+        CMP      R3,#+4
+        BEQ      ??repeater_run_sm_11
+        CMP      R3,#+8
+        BEQ      ??repeater_run_sm_11
+        CMP      R3,#+6
+        BEQ      ??repeater_run_sm_11
+        CMP      R3,#+5
         BNE      ??repeater_run_sm_4
-//  613           {
-//  614             u8RepeaterRunSt = gRepeaterRunStIdle_c;
-        B        ??repeater_run_sm_10
-//  615           }
-//  616         }
-//  617         
-//  618       }
-//  619       break;
-//  620     case(gRepeaterRunStWaiting_c):
-//  621       {
-//  622         if(MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state)
+//  617           {
+//  618             u8RepeaterRunSt = gRepeaterRunStIdle_c;
+        B        ??repeater_run_sm_11
+//  619           }
+//  620         }
+//  621         
+//  622       }
+//  623       break;
+//  624     case(gRepeaterRunStWaiting_c):
+//  625       {
+//  626         if(MSG_RX_ACTION_COMPLETE_SUCCESS == RX_msg.u8Status.msg_state)
 ??repeater_run_sm_1:
-        CMP      R2,#+5
-        BNE      ??repeater_run_sm_12
-//  623         {
-//  624           (sRepeaterStat.u16DroppedPkts)++;
+        CMP      R3,#+5
+        BNE      ??repeater_run_sm_13
+//  627         {
+//  628           (sRepeaterStat.u16DroppedPkts)++;
         LDRH     R0,[R4, #+46]
         ADDS     R0,R0,#+1
         STRH     R0,[R4, #+46]
-//  625           u8RepeaterRunSt = gRepeaterRunStIdle_c;
-        B        ??repeater_run_sm_10
-//  626         }
-//  627         else if(MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state)
-??repeater_run_sm_12:
-        CMP      R2,#+4
-        BNE      ??repeater_run_sm_13
-//  628         {
-//  629           (sRepeaterStat.u16RetransmitedPkts)++;
-??repeater_run_sm_9:
+//  629           u8RepeaterRunSt = gRepeaterRunStIdle_c;
+        B        ??repeater_run_sm_11
+//  630         }
+//  631         else if(MSG_RX_TIMEOUT_FAIL == RX_msg.u8Status.msg_state)
+??repeater_run_sm_13:
+        CMP      R3,#+4
+        BNE      ??repeater_run_sm_14
+//  632         {
+//  633           (sRepeaterStat.u16RetransmitedPkts)++;
         LDRH     R1,[R4, #+42]
         ADDS     R1,R1,#+1
         STRH     R1,[R4, #+42]
-//  630           MCPSDataRequest(&TX_msg);
+//  634           MCPSDataRequest(&TX_msg);
+??repeater_run_sm_10:
         BL       MCPSDataRequest
-//  631           u8RepeaterRunSt = gRepeaterRunStTx_c;
-        MOVS     R0,#+3
-??repeater_run_sm_5:
-        STRB     R0,[R4, #+23]
+//  635           u8RepeaterRunSt = gRepeaterRunStTx_c;
+        STRB     R6,[R4, #+23]
         B        ??repeater_run_sm_4
-//  632         }
-//  633         else if( (MSG_RX_ABORTED == RX_msg.u8Status.msg_state) ||
-//  634                  (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state))
-??repeater_run_sm_13:
-        CMP      R2,#+8
-        BEQ      ??repeater_run_sm_14
-        CMP      R2,#+6
-        BNE      ??repeater_run_sm_4
-//  635         {
-//  636           (sRepeaterStat.u16BadPkts)++;
+//  636         }
+//  637         else if( (MSG_RX_ABORTED == RX_msg.u8Status.msg_state) ||
+//  638                  (MSG_RX_ACTION_COMPLETE_FAIL == RX_msg.u8Status.msg_state))
 ??repeater_run_sm_14:
+        CMP      R3,#+8
+        BEQ      ??repeater_run_sm_15
+        CMP      R3,#+6
+        BNE      ??repeater_run_sm_4
+//  639         {
+//  640           (sRepeaterStat.u16BadPkts)++;
+??repeater_run_sm_15:
         LDRH     R0,[R4, #+44]
         ADDS     R0,R0,#+1
         STRH     R0,[R4, #+44]
-//  637           u8RepeaterRunSt = gRepeaterRunStIdle_c;
-        B        ??repeater_run_sm_10
-//  638         }
-//  639       }
-//  640       break;
-//  641     case(gRepeaterRunStTx_c):
-//  642       {
-//  643         if( (MSG_TX_ACTION_COMPLETE_SUCCESS == TX_msg.u8Status.msg_state) ||
-//  644             (MSG_TX_ACTION_COMPLETE_FAIL == TX_msg.u8Status.msg_state)    ||
-//  645             (MSG_TX_ABORTED == TX_msg.u8Status.msg_state) )
+//  641           u8RepeaterRunSt = gRepeaterRunStIdle_c;
+        B        ??repeater_run_sm_11
+//  642         }
+//  643       }
+//  644       break;
+//  645     case(gRepeaterRunStTx_c):
+//  646       {
+//  647         if( (MSG_TX_ACTION_COMPLETE_SUCCESS == TX_msg.u8Status.msg_state) ||
+//  648             (MSG_TX_ACTION_COMPLETE_FAIL == TX_msg.u8Status.msg_state)    ||
+//  649             (MSG_TX_ABORTED == TX_msg.u8Status.msg_state) )
 ??repeater_run_sm_3:
         LDRB     R0,[R0, #+0]
         LSRS     R0,R0,#+3
         CMP      R0,#+4
-        BEQ      ??repeater_run_sm_10
+        BEQ      ??repeater_run_sm_11
         CMP      R0,#+5
-        BEQ      ??repeater_run_sm_10
+        BEQ      ??repeater_run_sm_11
         CMP      R0,#+7
         BNE      ??repeater_run_sm_4
-//  646         {
-//  647             u8RepeaterRunSt = gRepeaterRunStIdle_c;
-??repeater_run_sm_10:
+//  650         {
+//  651             u8RepeaterRunSt = gRepeaterRunStIdle_c;
+??repeater_run_sm_11:
         STRB     R5,[R4, #+23]
-//  648         }
-//  649       }
-//  650       break;
-//  651     default:
-//  652       {
+//  652         }
 //  653       }
 //  654       break;
-//  655   }
-//  656 }
+//  655     default:
+//  656       {
+//  657       }
+//  658       break;
+//  659   }
+//  660 }
 ??repeater_run_sm_4:
-        POP      {R0,R4,R5}
+        POP      {R0,R4-R7}
         POP      {R3}
         BX       R3               ;; return
 
@@ -1670,38 +1698,38 @@ repeater_run_sm:
         DATA
 ?_28:
         DC8 "New frame: "
-//  657 
-//  658 /************************************************************************************
-//  659 * process_change_delay function
-//  660 *
-//  661 * This function .
-//  662 ************************************************************************************/
+//  661 
+//  662 /************************************************************************************
+//  663 * process_change_delay function
+//  664 *
+//  665 * This function .
+//  666 ************************************************************************************/
 
         SECTION `.text`:CODE:NOROOT(2)
         THUMB
-//  663 static void process_change_delay (void)
-//  664 {
+//  667 static void process_change_delay (void)
+//  668 {
 process_change_delay:
         PUSH     {R1-R7,LR}
-//  665   static uint8_t u8ChgDlySt = DLY_MILLISEC;
-//  666   static uint8_t u8DigitCount = 0;
-//  667   static uint32_t u32MilliSecsTmp = 0;
-//  668   static uint16_t u16MicroSecsTmp = 0;
-//  669   uint8_t u8Digit;
-//  670 
-//  671   if(TRUE == isUartDataRdy)
+//  669   static uint8_t u8ChgDlySt = DLY_MILLISEC;
+//  670   static uint8_t u8DigitCount = 0;
+//  671   static uint32_t u32MilliSecsTmp = 0;
+//  672   static uint16_t u16MicroSecsTmp = 0;
+//  673   uint8_t u8Digit;
+//  674 
+//  675   if(TRUE == isUartDataRdy)
         LDR      R4,??DataTable45_2
         LDRB     R0,[R4, #+18]
         CMP      R0,#+1
         BNE      ??process_change_delay_0
-//  672   {
-//  673     u8DigitCount++;
+//  676   {
+//  677     u8DigitCount++;
         LDR      R5,??DataTable47
         LDRB     R2,[R5, #+1]
         ADDS     R2,R2,#+1
         STRB     R2,[R5, #+1]
-//  674     if( ('0' <= (u8UartData[0]) ) &&
-//  675         ('9' >= (u8UartData[0]) )    )
+//  678     if( ('0' <= (u8UartData[0]) ) &&
+//  679         ('9' >= (u8UartData[0]) )    )
         MOVS     R0,#+32
         LDRB     R0,[R4, R0]
         LDR      R7,??DataTable47_1
@@ -1714,13 +1742,13 @@ process_change_delay:
         SUBS     R1,R1,#+48
         CMP      R1,#+10
         BCS      ??process_change_delay_1
-//  676     {
-//  677       u8Digit = (u8UartData[0]) - '0';
+//  680     {
+//  681       u8Digit = (u8UartData[0]) - '0';
         SUBS     R0,R0,#+48
         LSLS     R0,R0,#+24
         LSRS     R0,R0,#+24
         STR      R0,[SP, #+0]
-//  678       switch(u8ChgDlySt)
+//  682       switch(u8ChgDlySt)
         LDR      R1,[R5, #+4]
         ADR.N    R0,?_29
         LDRB     R3,[R5, #+0]
@@ -1729,66 +1757,66 @@ process_change_delay:
         CMP      R3,#+1
         BEQ      ??process_change_delay_3
         B        ??process_change_delay_0
-//  679       {
-//  680         case(DLY_MILLISEC):
-//  681           {
-//  682             u32MilliSecsTmp = u32MilliSecsTmp*10;
-//  683             u32MilliSecsTmp = u32MilliSecsTmp + u8Digit;
+//  683       {
+//  684         case(DLY_MILLISEC):
+//  685           {
+//  686             u32MilliSecsTmp = u32MilliSecsTmp*10;
+//  687             u32MilliSecsTmp = u32MilliSecsTmp + u8Digit;
 ??process_change_delay_2:
         MOVS     R3,#+10
         MULS     R1,R3,R1
         LDR      R3,[SP, #+0]
         ADDS     R1,R1,R3
         STR      R1,[R5, #+4]
-//  684             if(MAX_MILLI_DIGITS == u8DigitCount)
+//  688             if(MAX_MILLI_DIGITS == u8DigitCount)
         LSLS     R2,R2,#+24
         LSRS     R2,R2,#+24
         CMP      R2,#+5
         BNE      ??process_change_delay_0
-//  685             {
-//  686 
-//  687               u8DigitCount = 0;
+//  689             {
+//  690 
+//  691               u8DigitCount = 0;
         STRB     R6,[R5, #+1]
-//  688               if( (MIN_MILLI_VALUE <= u32MilliSecsTmp) &&
-//  689                   (MAX_MILLI_VALUE >= u32MilliSecsTmp)    )
+//  692               if( (MIN_MILLI_VALUE <= u32MilliSecsTmp) &&
+//  693                   (MAX_MILLI_VALUE >= u32MilliSecsTmp)    )
         CMP      R1,#+0
         BEQ      ??process_change_delay_4
         MOVS     R2,#+128
         LSLS     R2,R2,#+9        ;; #+65536
         CMP      R1,R2
         BCS      ??process_change_delay_4
-//  690               {
-//  691                 u8ChgDlySt = DLY_MICROSEC;
+//  694               {
+//  695                 u8ChgDlySt = DLY_MICROSEC;
         MOVS     R1,#+1
         STRB     R1,[R5, #+0]
-//  692                 Uart_Print("\n\r  Thank you\n\r");
+//  696                 Uart_Print("\n\r  Thank you\n\r");
         BL       Uart_Print
-//  693                 Uart_Print("  How many usecs (where 000<value<999), please write all three digits (if you don 't want to use it just write 000)> ");
+//  697                 Uart_Print("  How many usecs (where 000<value<999), please write all three digits (if you don 't want to use it just write 000)> ");
         MOVS     R0,#+184
         LSLS     R0,R0,#+1        ;; #+368
         ADDS     R0,R7,R0
         BL       Uart_Print
         B        ??process_change_delay_0
-//  694               }
-//  695               else
-//  696               {
-//  697                 u8ChgDlySt = DLY_MILLISEC;
-//  698                 u32MilliSecsTmp = 0;
-//  699                 u16MicroSecsTmp = 0;
-//  700                 PRINT_CHAR_ERROR();
-//  701                 PRINT_PROMPT();
-//  702                 u8RepeaterState = gRepAppStReady_c;
-//  703               }
-//  704 
-//  705             }
-//  706 
-//  707           }
-//  708           break;
-//  709   
-//  710         case(DLY_MICROSEC):
-//  711           {
-//  712             u16MicroSecsTmp = u16MicroSecsTmp * 10;
-//  713             u16MicroSecsTmp = u16MicroSecsTmp + u8Digit;
+//  698               }
+//  699               else
+//  700               {
+//  701                 u8ChgDlySt = DLY_MILLISEC;
+//  702                 u32MilliSecsTmp = 0;
+//  703                 u16MicroSecsTmp = 0;
+//  704                 PRINT_CHAR_ERROR();
+//  705                 PRINT_PROMPT();
+//  706                 u8RepeaterState = gRepAppStReady_c;
+//  707               }
+//  708 
+//  709             }
+//  710 
+//  711           }
+//  712           break;
+//  713   
+//  714         case(DLY_MICROSEC):
+//  715           {
+//  716             u16MicroSecsTmp = u16MicroSecsTmp * 10;
+//  717             u16MicroSecsTmp = u16MicroSecsTmp + u8Digit;
 ??process_change_delay_3:
         LDRH     R3,[R5, #+2]
         MOVS     R7,#+10
@@ -1796,19 +1824,19 @@ process_change_delay:
         LDR      R7,[SP, #+0]
         ADDS     R3,R3,R7
         STRH     R3,[R5, #+2]
-//  714             if(MAX_MICRO_DIGITS == u8DigitCount)
+//  718             if(MAX_MICRO_DIGITS == u8DigitCount)
         LSLS     R2,R2,#+24
         LSRS     R2,R2,#+24
         CMP      R2,#+3
         BNE      ??process_change_delay_0
-//  715             {
-//  716               sRepeaterDelay.millisecondsDly = (uint16_t)(u32MilliSecsTmp);
+//  719             {
+//  720               sRepeaterDelay.millisecondsDly = (uint16_t)(u32MilliSecsTmp);
         STRH     R1,[R4, #+48]
-//  717               sRepeaterDelay.microsecondsDly = u16MicroSecsTmp;
+//  721               sRepeaterDelay.microsecondsDly = u16MicroSecsTmp;
         STRH     R3,[R4, #+50]
-//  718 
-//  719                u32RepeatRxTimeOut = (sRepeaterDelay.millisecondsDly * MACA_CLK_COUNTS_FOR_ONE_MILLISEC) \ 
-//  720                                    + ((sRepeaterDelay.microsecondsDly)>>2);
+//  722 
+//  723                u32RepeatRxTimeOut = (sRepeaterDelay.millisecondsDly * MACA_CLK_COUNTS_FOR_ONE_MILLISEC) \ 
+//  724                                    + ((sRepeaterDelay.microsecondsDly)>>2);
         LDRH     R1,[R4, #+48]
         MOVS     R2,#+250
         MULS     R2,R1,R2
@@ -1816,57 +1844,57 @@ process_change_delay:
         LSRS     R1,R1,#+18
         ADDS     R1,R2,R1
         STR      R1,[R4, #+52]
-//  721 
-//  722               Uart_Print("\n\r  Thank you\n\r");
+//  725 
+//  726               Uart_Print("\n\r  Thank you\n\r");
         BL       Uart_Print
-//  723               display_config();
+//  727               display_config();
         BL       display_config
-//  724               PRINT_PROMPT();
+//  728               PRINT_PROMPT();
         ADR.N    R0,u8RepRdyPrompt
         BL       Uart_Print
-//  725               u8ChgDlySt = DLY_MILLISEC;
+//  729               u8ChgDlySt = DLY_MILLISEC;
         STRB     R6,[R5, #+0]
-//  726               u8DigitCount = 0;
+//  730               u8DigitCount = 0;
         STRB     R6,[R5, #+1]
-//  727               u32MilliSecsTmp = 0;
+//  731               u32MilliSecsTmp = 0;
         STR      R6,[R5, #+4]
-//  728               u16MicroSecsTmp = 0;
+//  732               u16MicroSecsTmp = 0;
         STRH     R6,[R5, #+2]
-//  729               u8RepeaterState = gRepAppStReady_c;
+//  733               u8RepeaterState = gRepAppStReady_c;
         B        ??process_change_delay_5
-//  730             }
-//  731           }
-//  732           break;
-//  733   
-//  734         default:
-//  735           break;
-//  736       }
-//  737     }
-//  738     else
-//  739     {
-//  740       u8ChgDlySt = DLY_MILLISEC;
+//  734             }
+//  735           }
+//  736           break;
+//  737   
+//  738         default:
+//  739           break;
+//  740       }
+//  741     }
+//  742     else
+//  743     {
+//  744       u8ChgDlySt = DLY_MILLISEC;
 ??process_change_delay_1:
         STRB     R6,[R5, #+0]
-//  741       u8DigitCount = 0;
+//  745       u8DigitCount = 0;
         STRB     R6,[R5, #+1]
-//  742       u32MilliSecsTmp = 0;
+//  746       u32MilliSecsTmp = 0;
 ??process_change_delay_4:
         STR      R6,[R5, #+4]
-//  743       u16MicroSecsTmp = 0;
+//  747       u16MicroSecsTmp = 0;
         STRH     R6,[R5, #+2]
-//  744       PRINT_CHAR_ERROR();
+//  748       PRINT_CHAR_ERROR();
         LDR      R0,[SP, #+4]
         BL       Uart_Print
-//  745       PRINT_PROMPT();
+//  749       PRINT_PROMPT();
         Nop      
         ADR.N    R0,u8RepRdyPrompt
         BL       Uart_Print
-//  746       u8RepeaterState = gRepAppStReady_c;
+//  750       u8RepeaterState = gRepAppStReady_c;
 ??process_change_delay_5:
         STRB     R6,[R4, #+22]
-//  747     }
-//  748   }
-//  749 }
+//  751     }
+//  752   }
+//  753 }
 ??process_change_delay_0:
         POP      {R0-R2,R4-R7}
         POP      {R3}
@@ -1893,6 +1921,13 @@ process_change_delay:
         DATA32
         DC32     RX_msg
 
+        SECTION `.text`:CODE:NOROOT(2)
+        SECTION_TYPE SHT_PROGBITS, 0
+        DATA
+??DataTable45_3:
+        DATA32
+        DC32     dataTX
+
         SECTION `.bss`:DATA:REORDER:NOROOT(2)
         DATA
 `process_change_delay::u8ChgDlySt`:
@@ -1900,103 +1935,103 @@ process_change_delay:
         DS8 1
         DS8 2
         DS8 4
-//  750 
-//  751 /************************************************************************************
-//  752 * repeater_app function
-//  753 *
-//  754 * This function .
-//  755 ************************************************************************************/
-//  756 static void repeater_app (void)
-//  757 {
-//  758   (cbRepeaterStFn_c[u8RepeaterState])();
-//  759 }
-//  760 
-//  761 
-//  762 /************************************************************************************
-//  763 * repeater_app_init function
-//  764 *
-//  765 * This function .
-//  766 ************************************************************************************/
+//  754 
+//  755 /************************************************************************************
+//  756 * repeater_app function
+//  757 *
+//  758 * This function .
+//  759 ************************************************************************************/
+//  760 static void repeater_app (void)
+//  761 {
+//  762   (cbRepeaterStFn_c[u8RepeaterState])();
+//  763 }
+//  764 
+//  765 
+//  766 /************************************************************************************
+//  767 * repeater_app_init function
+//  768 *
+//  769 * This function .
+//  770 ************************************************************************************/
 
         SECTION `.text`:CODE:NOROOT(2)
         THUMB
-//  767 static void repeater_app_init(void)
-//  768 {
+//  771 static void repeater_app_init(void)
+//  772 {
 repeater_app_init:
         PUSH     {R3-R5,LR}
-//  769   gbDataIndicationFlag = FALSE;
+//  773   gbDataIndicationFlag = FALSE;
         MOVS     R0,#+0
         LDR      R4,??DataTable47_2
         STRH     R0,[R4, #+16]
-//  770   gbRdyToProcessEvnt = FALSE;
-//  771 
-//  772   u8RepOpMode = gRepOpModeNormal_c;
-        STRB     R0,[R4, #+19]
-//  773   u8RepeaterChann = REPEATER_CHANN;
-        STRB     R0,[R4, #+21]
-//  774   u8RepeaterPower = gDefaultPowerLevel_c;
-        MOVS     R1,#+15
-        STRB     R1,[R4, #+20]
-//  775   sRepeaterDelay.millisecondsDly = 1;
+//  774   gbRdyToProcessEvnt = FALSE;
+//  775 
+//  776   u8RepOpMode = gRepOpModeDummy_c;
         MOVS     R1,#+1
+        STRB     R1,[R4, #+19]
+//  777   u8RepeaterChann = REPEATER_CHANN;
+        STRB     R0,[R4, #+21]
+//  778   u8RepeaterPower = gDefaultPowerLevel_c;
+        MOVS     R2,#+15
+        STRB     R2,[R4, #+20]
+//  779   sRepeaterDelay.millisecondsDly = 1;
         STRH     R1,[R4, #+48]
-//  776   sRepeaterDelay.microsecondsDly = 0;
+//  780   sRepeaterDelay.microsecondsDly = 0;
         STRH     R0,[R4, #+50]
-//  777   sRepeaterStat.u16ReccivedPkts = 0;
+//  781   sRepeaterStat.u16ReccivedPkts = 0;
         STR      R0,[R4, #+40]
-//  778   sRepeaterStat.u16RetransmitedPkts = 0;
-//  779   sRepeaterStat.u16BadPkts = 0;
+//  782   sRepeaterStat.u16RetransmitedPkts = 0;
+//  783   sRepeaterStat.u16BadPkts = 0;
         STR      R0,[R4, #+44]
-//  780   sRepeaterStat.u16DroppedPkts = 0;
-//  781   u8RepeaterState = gRepAppStReady_c;
+//  784   sRepeaterStat.u16DroppedPkts = 0;
+//  785   u8RepeaterState = gRepAppStReady_c;
         STRH     R0,[R4, #+22]
-//  782   isUartDataRdy = FALSE;
+//  786   isUartDataRdy = FALSE;
         STRB     R0,[R4, #+18]
-//  783 
-//  784   u8RepeaterRunSt = gRepeaterRunStIdle_c;
-//  785   
-//  786   u32RepeatRxTimeOut = (sRepeaterDelay.millisecondsDly * MACA_CLK_COUNTS_FOR_ONE_MILLISEC) \ 
-//  787                        + ((sRepeaterDelay.microsecondsDly)>>2);
+//  787 
+//  788   u8RepeaterRunSt = gRepeaterRunStIdle_c;
+//  789   
+//  790   u32RepeatRxTimeOut = (sRepeaterDelay.millisecondsDly * MACA_CLK_COUNTS_FOR_ONE_MILLISEC) \ 
+//  791                        + ((sRepeaterDelay.microsecondsDly)>>2);
         MOVS     R0,#+250
         STR      R0,[R4, #+52]
-//  788 
-//  789   ITC_Init();
+//  792 
+//  793   ITC_Init();
         BL       ITC_Init
-//  790   IntAssignHandler(gMacaInt_c, MACA_Interrupt);
+//  794   IntAssignHandler(gMacaInt_c, MACA_Interrupt);
         LDR      R1,??DataTable47_3
         MOVS     R0,#+7
         BL       IntAssignHandler
-//  791   ITC_SetPriority(gMacaInt_c, gItcFastPriority_c); // gItcNormalPriority_c
+//  795   ITC_SetPriority(gMacaInt_c, gItcFastPriority_c); // gItcNormalPriority_c
         MOVS     R1,#+1
         MOVS     R0,#+7
         BL       ITC_SetPriority
-//  792   ITC_EnableInterrupt(gMacaInt_c);
+//  796   ITC_EnableInterrupt(gMacaInt_c);
         MOVS     R0,#+7
         BL       ITC_EnableInterrupt
-//  793   IntDisableAll();
+//  797   IntDisableAll();
         BL       IntDisableAll
-//  794 
-//  795   ResetMaca();
+//  798 
+//  799   ResetMaca();
         BL       ResetMaca
-//  796   MLMERadioInit();
+//  800   MLMERadioInit();
         BL       MLMERadioInit
-//  797   PlatformPortInit();
+//  801   PlatformPortInit();
         BL       PlatformPortInit
-//  798   MLMESetChannelRequest(u8RepeaterChann);
+//  802   MLMESetChannelRequest(u8RepeaterChann);
         LDRB     R0,[R4, #+21]
         BL       MLMESetChannelRequest
-//  799 
-//  800   IntEnableAll();
+//  803 
+//  804   IntEnableAll();
         MOVS     R0,#+0
         BL       IntRestoreAll
-//  801   
-//  802   Uart_Init(u8UartBuffer, 8);
+//  805   
+//  806   Uart_Init(u8UartBuffer, 8);
         MOVS     R1,#+8
         MOVS     R0,R4
         ADDS     R0,R0,#+24
         BL       Uart_Init
-//  803 
-//  804   print_freescale_logo();
+//  807 
+//  808   print_freescale_logo();
         Nop      
         ADR.N    R0,?_31
         BL       Uart_Print
@@ -2040,7 +2075,7 @@ repeater_app_init:
         ADR.N    R0,?_43
         BL       Uart_Print
         MOVS     R0,R5
-        ADDS     R0,R0,#+40
+        ADDS     R0,R0,#+36
         BL       Uart_Print
         Nop      
         ADR.N    R0,?_44
@@ -2054,63 +2089,63 @@ repeater_app_init:
         MOVS     R0,R5
         ADDS     R0,R0,#+88
         BL       Uart_Print
-//  805 
-//  806   (void)MLMEPAOutputAdjust(u8RepeaterPower);
+//  809 
+//  810   (void)MLMEPAOutputAdjust(u8RepeaterPower);
         LDRB     R0,[R4, #+20]
         BL       MLMEPAOutputAdjust
-//  807 
-//  808 
-//  809   DelayMs(500);
+//  811 
+//  812 
+//  813   DelayMs(500);
         MOVS     R0,#+250
         LSLS     R0,R0,#+1        ;; #+500
         BL       DelayMs
-//  810   MLMESetChannelRequest(u8RepeaterChann);
+//  814   MLMESetChannelRequest(u8RepeaterChann);
         LDRB     R0,[R4, #+21]
         BL       MLMESetChannelRequest
-//  811 
-//  812 
-//  813 
-//  814 #if OTAP_ENABLED == TRUE
-//  815   OTAP_Init(&RX_msg);
-//  816   gbOtapExecute = OTAP_ENABLED;  
-//  817 #endif 
-//  818 
-//  819 }
+//  815 
+//  816 
+//  817 
+//  818 #if OTAP_ENABLED == TRUE
+//  819   OTAP_Init(&RX_msg);
+//  820   gbOtapExecute = OTAP_ENABLED;  
+//  821 #endif 
+//  822 
+//  823 }
         POP      {R0,R4,R5}
         POP      {R3}
         BX       R3               ;; return
-//  820 
-//  821 /************************************************************************************
-//  822 * display_config function
-//  823 *
-//  824 * This function prints n blank spaces.
-//  825 ************************************************************************************/
+//  824 
+//  825 /************************************************************************************
+//  826 * display_config function
+//  827 *
+//  828 * This function prints n blank spaces.
+//  829 ************************************************************************************/
 
         SECTION `.text`:CODE:NOROOT(1)
         THUMB
-//  826 static void print_n_blank_spaces(uint8_t n)
-//  827 {
+//  830 static void print_n_blank_spaces(uint8_t n)
+//  831 {
 print_n_blank_spaces:
         PUSH     {R4-R6,LR}
         MOVS     R5,R0
-//  828   uint8_t i;
-//  829   for(i=0; i<n; i++)
+//  832   uint8_t i;
+//  833   for(i=0; i<n; i++)
         MOVS     R6,#+0
         ADR      R4,??DataTable47_5  ;; " "
         B        ??print_n_blank_spaces_0
-//  830   {
-//  831     Uart_Print(" ");
+//  834   {
+//  835     Uart_Print(" ");
 ??print_n_blank_spaces_1:
         MOVS     R0,R4
         BL       Uart_Print
-//  832   }
+//  836   }
         ADDS     R6,R6,#+1
 ??print_n_blank_spaces_0:
         LSLS     R0,R6,#+24
         LSRS     R0,R0,#+24
         CMP      R0,R5
         BCC      ??print_n_blank_spaces_1
-//  833 }
+//  837 }
         POP      {R4-R6}
         POP      {R3}
         BX       R3               ;; return
@@ -2268,7 +2303,7 @@ print_n_blank_spaces:
         SECTION_TYPE SHT_PROGBITS, 0
         DATA
 ?_45:
-        DC8 "\015  ###               2 0 0 8\012"
+        DC8 "\015  ###               2 0 1 9\012"
         DATA16
         DC8 0, 0
 
@@ -2300,50 +2335,50 @@ u8RepRdyPrompt:
         DC32 0
 
         END
-//  834 
-//  835 
-//  836 /************************************************************************************
-//  837 * display_config function
-//  838 *
-//  839 * This function prints an ASCII Freescale's logo.
-//  840 ************************************************************************************/
-//  841 static void print_freescale_logo(void)
-//  842 {
-//  843   Uart_Print("\n\r\n\r\n\r      #\n");
-//  844   Uart_Print("\r     ###\n");
-//  845   Uart_Print("\r    ###  *\n");
-//  846   Uart_Print("\r     #  ***\n");
-//  847   Uart_Print("\r       ***  #\n");
-//  848   Uart_Print("\r        *  ###\n");
-//  849   Uart_Print("\r          ###\n");
-//  850   Uart_Print("\r        *  #\n");
-//  851   Uart_Print("\r       ***\n");
-//  852   Uart_Print("\r      ***  #\n");
-//  853   Uart_Print("\r    #  *  ###\n");
-//  854   Uart_Print("\r   ###   ###\n");
-//  855   Uart_Print("\r  ###  *  #         F R E E S C A L E\n");
-//  856   Uart_Print("\r   #  ***\n");
-//  857   Uart_Print("\r     ***            S E M I C O N D U C T O R\n");
-//  858   Uart_Print("\r   #  *\n");
-//  859   Uart_Print("\r  ###               2 0 0 8\n");
-//  860   Uart_Print("\r ###\n");
-//  861   Uart_Print("\r  #           Press any key to continue...\n\n");
-//  862 }
-//  863 
-//  864 
-//  865 /************************************************************************************
-//  866 *************************************************************************************
-//  867 * Private Debug stuff
-//  868 *************************************************************************************
-//  869 ************************************************************************************/
-//  870 
-//  871 
+//  838 
+//  839 
+//  840 /************************************************************************************
+//  841 * display_config function
+//  842 *
+//  843 * This function prints an ASCII Freescale's logo.
+//  844 ************************************************************************************/
+//  845 static void print_freescale_logo(void)
+//  846 {
+//  847   Uart_Print("\n\r\n\r\n\r      #\n");
+//  848   Uart_Print("\r     ###\n");
+//  849   Uart_Print("\r    ###  *\n");
+//  850   Uart_Print("\r     #  ***\n");
+//  851   Uart_Print("\r       ***  #\n");
+//  852   Uart_Print("\r        *  ###\n");
+//  853   Uart_Print("\r          ###\n");
+//  854   Uart_Print("\r        *  #\n");
+//  855   Uart_Print("\r       ***\n");
+//  856   Uart_Print("\r      ***  #\n");
+//  857   Uart_Print("\r    #  *  ###\n");
+//  858   Uart_Print("\r   ###   ###\n");
+//  859   Uart_Print("\r  ###  *  #         CODICE FATTO\n");
+//  860   Uart_Print("\r   #  ***\n");
+//  861   Uart_Print("\r     ***            M   A       L       E >:(((\n");
+//  862   Uart_Print("\r   #  *\n");
+//  863   Uart_Print("\r  ###               2 0 1 9\n");
+//  864   Uart_Print("\r ###\n");
+//  865   Uart_Print("\r  #           Press any key to continue...\n\n");
+//  866 }
+//  867 
+//  868 
+//  869 /************************************************************************************
+//  870 *************************************************************************************
+//  871 * Private Debug stuff
+//  872 *************************************************************************************
+//  873 ************************************************************************************/
+//  874 
+//  875 
 // 
 //   338 bytes in section .bss
 //   934 bytes in section .rodata
-// 2 262 bytes in section .text
+// 2 276 bytes in section .text
 // 
-// 2 260 bytes of CODE  memory (+ 2 bytes shared)
+// 2 274 bytes of CODE  memory (+ 2 bytes shared)
 //   934 bytes of CONST memory
 //   338 bytes of DATA  memory
 //

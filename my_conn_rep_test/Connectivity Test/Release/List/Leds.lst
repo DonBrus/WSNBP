@@ -1,0 +1,668 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM         31/Jan/2019  15:13:42
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Application\Utilities\Leds.c
+#    Command line =  
+#        -f C:\Users\Brus\AppData\Local\Temp\EWDDCB.tmp
+#        ("D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Application\Utilities\Leds.c" -D NDEBUG -D F24MHZ -D
+#        SECURITY_ENABLED -D MC13226Included_d=0 --preprocess=cs
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List"
+#        -lC "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\List" -lB
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List"
+#        --diag_suppress Pe940,Pe951,Pe911 -o
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\Obj"
+#        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
+#        "C:\HDDPrograms\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Normal.h" -I
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\SMAC\Drivers\Interface\" -I
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\PLM\Interface\" --cpu_mode thumb -Ohz --use_c++_inline)
+#    Locale       =  C
+#    List file    =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\List\Leds.lst
+#    Object file  =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\Obj\Leds.o
+#
+###############################################################################
+
+D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Application\Utilities\Leds.c
+      1          /************************************************************************************
+      2          * Leds.c
+      3          *
+      4          * This file contains util funcions for the LEDs management.
+      5          *
+      6          * Author(s): 
+      7          *
+      8          * Copyright (c) 2008, Freescale, Inc.  All rights reserved.
+      9          *
+     10          *
+     11          * No part of this document must be reproduced in any form - including copied,
+     12          * transcribed, printed or by any electronic means - without specific written
+     13          * permission from Freescale.
+     14          *
+     15          Revision history:
+     16             Date                     Author                                    Comments
+     17             ----------               ----------------------                    -------
+     18          ************************************************************************************/
+     19          #include "Leds.h"
+     20          
+     21          #if (gLEDSupported_d)
+     22          
+     23          /******************************************************************************
+     24          *******************************************************************************
+     25          * Public Macros
+     26          *******************************************************************************
+     27          ******************************************************************************/
+     28          
+     29          /*None*/
+     30          
+     31          /******************************************************************************
+     32          *******************************************************************************
+     33          * Private prototypes
+     34          *******************************************************************************
+     35          ******************************************************************************/
+     36          
+     37          /******************************************************************************
+     38          *******************************************************************************
+     39          * Private type definitions
+     40          *******************************************************************************
+     41          ******************************************************************************/
+     42          
+     43          /******************************************************************************
+     44          *******************************************************************************
+     45          * Private Memory Declarations
+     46          *******************************************************************************
+     47          ******************************************************************************/
+     48          
+     49          /******************************************************************************
+     50          *******************************************************************************
+     51          * Public functions
+     52          *******************************************************************************
+     53          ******************************************************************************/
+     54          
+     55          /******************************************************************************
+     56          * LED_Init
+     57          *
+     58          * Initialize the LED system.
+     59          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+     60          void LED_Init(void)
+     61          {
+   \                     LED_Init: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     62            InitLed();
+   \        0x2   0x200F             MOVS     R0,#+15
+   \        0x4   0x....'....        BL       Set_Pins
+     63            TurnOffLeds();
+   \        0x8   0x....'....        BL       LED_TurnOffAllLeds
+     64            Led3Off();
+   \        0xC   0x2100             MOVS     R1,#+0
+   \        0xE   0x2019             MOVS     R0,#+25
+   \       0x10   0x....'....        BL       Gpio_SetPinData
+     65          }
+   \       0x14   0xBC09             POP      {R0,R3}
+   \       0x16   0x4718             BX       R3               ;; return
+     66          
+     67          
+     68          /******************************************************************************
+     69          * Set_Pins
+     70          *
+     71          * Set a PIN with Direction Out, this PIN can be used as a LED.
+     72          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+     73          void Set_Pins( LED_t LEDNr )
+     74          {
+   \                     Set_Pins: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+     75            if (LEDNr & LED1){
+   \        0x4   0x07E0             LSLS     R0,R4,#+31
+   \        0x6   0xD50F             BPL      ??Set_Pins_0
+     76              Gpio_SetPinFunction(LED1_PIN, gGpioNormalMode_c);
+   \        0x8   0x2100             MOVS     R1,#+0
+   \        0xA   0x2017             MOVS     R0,#+23
+   \        0xC   0x....'....        BL       Gpio_SetPinFunction
+     77              Gpio_SetPinReadSource(LED1_PIN, gGpioPinReadReg_c);
+   \       0x10   0x2101             MOVS     R1,#+1
+   \       0x12   0x2017             MOVS     R0,#+23
+   \       0x14   0x....'....        BL       Gpio_SetPinReadSource
+     78              Gpio_SetPinDir(LED1_PIN, gGpioDirOut_c);
+   \       0x18   0x2101             MOVS     R1,#+1
+   \       0x1A   0x2017             MOVS     R0,#+23
+   \       0x1C   0x....'....        BL       Gpio_SetPinDir
+     79            Gpio_SetPinData(LED1_PIN, gGpioPinStateHigh_c);
+   \       0x20   0x2101             MOVS     R1,#+1
+   \       0x22   0x2017             MOVS     R0,#+23
+   \       0x24   0x....'....        BL       Gpio_SetPinData
+     80            }
+     81            if (LEDNr & LED2){
+   \                     ??Set_Pins_0: (+1)
+   \       0x28   0x07A0             LSLS     R0,R4,#+30
+   \       0x2A   0xD50F             BPL      ??Set_Pins_1
+     82              Gpio_SetPinFunction(LED2_PIN, gGpioNormalMode_c);
+   \       0x2C   0x2100             MOVS     R1,#+0
+   \       0x2E   0x2018             MOVS     R0,#+24
+   \       0x30   0x....'....        BL       Gpio_SetPinFunction
+     83              Gpio_SetPinReadSource(LED2_PIN, gGpioPinReadReg_c);
+   \       0x34   0x2101             MOVS     R1,#+1
+   \       0x36   0x2018             MOVS     R0,#+24
+   \       0x38   0x....'....        BL       Gpio_SetPinReadSource
+     84              Gpio_SetPinDir(LED2_PIN, gGpioDirOut_c);
+   \       0x3C   0x2101             MOVS     R1,#+1
+   \       0x3E   0x2018             MOVS     R0,#+24
+   \       0x40   0x....'....        BL       Gpio_SetPinDir
+     85              Gpio_SetPinData(LED2_PIN, gGpioPinStateHigh_c);
+   \       0x44   0x2101             MOVS     R1,#+1
+   \       0x46   0x2018             MOVS     R0,#+24
+   \       0x48   0x....'....        BL       Gpio_SetPinData
+     86            }
+     87            if (LEDNr & LED3){
+   \                     ??Set_Pins_1: (+1)
+   \       0x4C   0x0760             LSLS     R0,R4,#+29
+   \       0x4E   0xD50F             BPL      ??Set_Pins_2
+     88              Gpio_SetPinFunction(LED3_PIN, gGpioNormalMode_c);
+   \       0x50   0x2100             MOVS     R1,#+0
+   \       0x52   0x2019             MOVS     R0,#+25
+   \       0x54   0x....'....        BL       Gpio_SetPinFunction
+     89              Gpio_SetPinReadSource(LED3_PIN, gGpioPinReadReg_c);
+   \       0x58   0x2101             MOVS     R1,#+1
+   \       0x5A   0x2019             MOVS     R0,#+25
+   \       0x5C   0x....'....        BL       Gpio_SetPinReadSource
+     90              Gpio_SetPinDir(LED3_PIN, gGpioDirOut_c);
+   \       0x60   0x2101             MOVS     R1,#+1
+   \       0x62   0x2019             MOVS     R0,#+25
+   \       0x64   0x....'....        BL       Gpio_SetPinDir
+     91              Gpio_SetPinData(LED3_PIN, gGpioPinStateHigh_c);
+   \       0x68   0x2101             MOVS     R1,#+1
+   \       0x6A   0x2019             MOVS     R0,#+25
+   \       0x6C   0x....'....        BL       Gpio_SetPinData
+     92            }
+     93            if (LEDNr & LED4){
+   \                     ??Set_Pins_2: (+1)
+   \       0x70   0x0720             LSLS     R0,R4,#+28
+   \       0x72   0xD50F             BPL      ??Set_Pins_3
+     94              Gpio_SetPinFunction(LED4_PIN, gGpioNormalMode_c);
+   \       0x74   0x2100             MOVS     R1,#+0
+   \       0x76   0x202C             MOVS     R0,#+44
+   \       0x78   0x....'....        BL       Gpio_SetPinFunction
+     95              Gpio_SetPinReadSource(LED4_PIN, gGpioPinReadReg_c);
+   \       0x7C   0x2101             MOVS     R1,#+1
+   \       0x7E   0x202C             MOVS     R0,#+44
+   \       0x80   0x....'....        BL       Gpio_SetPinReadSource
+     96              Gpio_SetPinDir(LED4_PIN, gGpioDirOut_c);
+   \       0x84   0x2101             MOVS     R1,#+1
+   \       0x86   0x202C             MOVS     R0,#+44
+   \       0x88   0x....'....        BL       Gpio_SetPinDir
+     97              Gpio_SetPinData(LED4_PIN, gGpioPinStateHigh_c);
+   \       0x8C   0x2101             MOVS     R1,#+1
+   \       0x8E   0x202C             MOVS     R0,#+44
+   \       0x90   0x....'....        BL       Gpio_SetPinData
+     98            }
+     99          }
+   \                     ??Set_Pins_3: (+1)
+   \       0x94   0xBC10             POP      {R4}
+   \       0x96   0xBC08             POP      {R3}
+   \       0x98   0x4718             BX       R3               ;; return
+    100          
+    101          /******************************************************************************
+    102          * LED_GetLed
+    103          *
+    104          * Get LED state.
+    105          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    106          LedState_t LED_GetLed( LED_t LEDNr)                      
+    107          {
+   \                     LED_GetLed: (+1)
+   \        0x0   0xB57C             PUSH     {R2-R6,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+    108            GpioPinState_t gpioPinState;
+    109            LED_t LEDpinsState = 0;
+    110            int8_t ReturnSingleLED = 0;
+    111            
+    112            if ( (LEDNr == LED1) || (LEDNr == LED2) || (LEDNr == LED3) || (LEDNr == LED4) )
+   \        0x4   0x2801             CMP      R0,#+1
+   \        0x6   0xD005             BEQ      ??LED_GetLed_0
+   \        0x8   0x2802             CMP      R0,#+2
+   \        0xA   0xD003             BEQ      ??LED_GetLed_0
+   \        0xC   0x2804             CMP      R0,#+4
+   \        0xE   0xD001             BEQ      ??LED_GetLed_0
+   \       0x10   0x2808             CMP      R0,#+8
+   \       0x12   0xD101             BNE      ??LED_GetLed_1
+    113              ReturnSingleLED = 1;
+   \                     ??LED_GetLed_0: (+1)
+   \       0x14   0x2501             MOVS     R5,#+1
+   \       0x16   0xE000             B        ??LED_GetLed_2
+    114            else
+    115              ReturnSingleLED = 0;
+   \                     ??LED_GetLed_1: (+1)
+   \       0x18   0x2500             MOVS     R5,#+0
+    116            
+    117            if (LEDNr & LED1)
+   \                     ??LED_GetLed_2: (+1)
+   \       0x1A   0x07E0             LSLS     R0,R4,#+31
+   \       0x1C   0xD505             BPL      ??LED_GetLed_3
+    118            {
+    119              Gpio_GetPinData(LED1_PIN, &gpioPinState);
+   \       0x1E   0x4669             MOV      R1,SP
+   \       0x20   0x2017             MOVS     R0,#+23
+   \       0x22   0x....'....        BL       Gpio_GetPinData
+    120              if (ReturnSingleLED)
+   \       0x26   0x2D00             CMP      R5,#+0
+   \       0x28   0xD123             BNE      ??LED_GetLed_4
+    121                return !gpioPinState;
+    122            }
+    123            LEDpinsState |= gpioPinState << 0;
+   \                     ??LED_GetLed_3: (+1)
+   \       0x2A   0x4668             MOV      R0,SP
+   \       0x2C   0x7806             LDRB     R6,[R0, #+0]
+    124            
+    125            if (LEDNr & LED2)
+   \       0x2E   0x07A0             LSLS     R0,R4,#+30
+   \       0x30   0xD505             BPL      ??LED_GetLed_5
+    126            {
+    127              Gpio_GetPinData(LED2_PIN, &gpioPinState);
+   \       0x32   0x4669             MOV      R1,SP
+   \       0x34   0x2018             MOVS     R0,#+24
+   \       0x36   0x....'....        BL       Gpio_GetPinData
+    128              if (ReturnSingleLED)
+   \       0x3A   0x2D00             CMP      R5,#+0
+   \       0x3C   0xD119             BNE      ??LED_GetLed_4
+    129                return !gpioPinState;
+    130            }
+    131            LEDpinsState |= gpioPinState << 1;
+   \                     ??LED_GetLed_5: (+1)
+   \       0x3E   0x4668             MOV      R0,SP
+   \       0x40   0x7800             LDRB     R0,[R0, #+0]
+   \       0x42   0x0040             LSLS     R0,R0,#+1
+   \       0x44   0x4330             ORRS     R0,R0,R6
+   \       0x46   0x0006             MOVS     R6,R0
+    132            
+    133            if (LEDNr & LED3)
+   \       0x48   0x0760             LSLS     R0,R4,#+29
+   \       0x4A   0xD505             BPL      ??LED_GetLed_6
+    134            {
+    135              Gpio_GetPinData(LED3_PIN, &gpioPinState);
+   \       0x4C   0x4669             MOV      R1,SP
+   \       0x4E   0x2019             MOVS     R0,#+25
+   \       0x50   0x....'....        BL       Gpio_GetPinData
+    136              if (ReturnSingleLED)
+   \       0x54   0x2D00             CMP      R5,#+0
+   \       0x56   0xD10C             BNE      ??LED_GetLed_4
+    137                return !gpioPinState;
+    138            }
+    139            LEDpinsState |= gpioPinState << 2;
+   \                     ??LED_GetLed_6: (+1)
+   \       0x58   0x4668             MOV      R0,SP
+   \       0x5A   0x7800             LDRB     R0,[R0, #+0]
+   \       0x5C   0x0080             LSLS     R0,R0,#+2
+   \       0x5E   0x4330             ORRS     R0,R0,R6
+   \       0x60   0x0006             MOVS     R6,R0
+    140            
+    141            if (LEDNr & LED4)
+   \       0x62   0x0720             LSLS     R0,R4,#+28
+   \       0x64   0xD50B             BPL      ??LED_GetLed_7
+    142            {
+    143              Gpio_GetPinData(LED4_PIN, &gpioPinState);
+   \       0x66   0x4669             MOV      R1,SP
+   \       0x68   0x202C             MOVS     R0,#+44
+   \       0x6A   0x....'....        BL       Gpio_GetPinData
+    144              if (ReturnSingleLED)
+   \       0x6E   0x2D00             CMP      R5,#+0
+   \       0x70   0xD005             BEQ      ??LED_GetLed_7
+    145                return !gpioPinState;
+   \                     ??LED_GetLed_4: (+1)
+   \       0x72   0x4668             MOV      R0,SP
+   \       0x74   0x7800             LDRB     R0,[R0, #+0]
+   \       0x76   0x1E40             SUBS     R0,R0,#+1
+   \       0x78   0x4180             SBCS     R0,R0,R0
+   \       0x7A   0x0FC0             LSRS     R0,R0,#+31
+   \       0x7C   0xE008             B        ??LED_GetLed_8
+    146            }
+    147            LEDpinsState |= gpioPinState << 3;
+    148            
+    149            return ~LEDpinsState;
+   \                     ??LED_GetLed_7: (+1)
+   \       0x7E   0x4668             MOV      R0,SP
+   \       0x80   0x7800             LDRB     R0,[R0, #+0]
+   \       0x82   0x00C1             LSLS     R1,R0,#+3
+   \       0x84   0x4331             ORRS     R1,R1,R6
+   \       0x86   0x0609             LSLS     R1,R1,#+24
+   \       0x88   0x0E09             LSRS     R1,R1,#+24
+   \       0x8A   0x43C8             MVNS     R0,R1
+   \       0x8C   0x0600             LSLS     R0,R0,#+24
+   \       0x8E   0x0E00             LSRS     R0,R0,#+24
+   \                     ??LED_GetLed_8: (+1)
+   \       0x90   0xBC76             POP      {R1,R2,R4-R6}
+   \       0x92   0xBC08             POP      {R3}
+   \       0x94   0x4718             BX       R3               ;; return
+    150            
+    151          }
+    152          
+    153          /******************************************************************************
+    154          * LED_ToggleLed
+    155          *
+    156          * Toggles on or more LEDs. Doesn't check/affect flashing states.
+    157          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    158          void LED_ToggleLed(LED_t LEDNr)
+    159          {
+   \                     LED_ToggleLed: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+    160            if (LEDNr & LED1){    
+   \        0x4   0x07E0             LSLS     R0,R4,#+31
+   \        0x6   0xD502             BPL      ??LED_ToggleLed_0
+    161              Led1Toggle();
+   \        0x8   0x2017             MOVS     R0,#+23
+   \        0xA   0x....'....        BL       Gpio_TogglePin
+    162            }
+    163            if (LEDNr & LED2){    
+   \                     ??LED_ToggleLed_0: (+1)
+   \        0xE   0x07A0             LSLS     R0,R4,#+30
+   \       0x10   0xD502             BPL      ??LED_ToggleLed_1
+    164              Led2Toggle();
+   \       0x12   0x2018             MOVS     R0,#+24
+   \       0x14   0x....'....        BL       Gpio_TogglePin
+    165            }
+    166            if (LEDNr & LED3){    
+   \                     ??LED_ToggleLed_1: (+1)
+   \       0x18   0x0760             LSLS     R0,R4,#+29
+   \       0x1A   0xD502             BPL      ??LED_ToggleLed_2
+    167              Led3Toggle();
+   \       0x1C   0x2019             MOVS     R0,#+25
+   \       0x1E   0x....'....        BL       Gpio_TogglePin
+    168            }
+    169            if (LEDNr & LED4){    
+   \                     ??LED_ToggleLed_2: (+1)
+   \       0x22   0x0720             LSLS     R0,R4,#+28
+   \       0x24   0xD502             BPL      ??LED_ToggleLed_3
+    170              Led4Toggle();
+   \       0x26   0x202C             MOVS     R0,#+44
+   \       0x28   0x....'....        BL       Gpio_TogglePin
+    171            }
+    172          }
+   \                     ??LED_ToggleLed_3: (+1)
+   \       0x2C   0xBC10             POP      {R4}
+   \       0x2E   0xBC08             POP      {R3}
+   \       0x30   0x4718             BX       R3               ;; return
+    173          
+    174          /******************************************************************************
+    175          * LED_TurnOffLed
+    176          *
+    177          * Turns off on or more LEDs. Doesn't check/affect flashing states.
+    178          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    179          void LED_TurnOffLed(LED_t LEDNr)
+    180          {
+   \                     LED_TurnOffLed: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+    181            if (LEDNr & LED1)
+   \        0x4   0x07E0             LSLS     R0,R4,#+31
+   \        0x6   0xD503             BPL      ??LED_TurnOffLed_0
+    182              Led1Off();
+   \        0x8   0x2100             MOVS     R1,#+0
+   \        0xA   0x2017             MOVS     R0,#+23
+   \        0xC   0x....'....        BL       Gpio_SetPinData
+    183            if (LEDNr & LED2)
+   \                     ??LED_TurnOffLed_0: (+1)
+   \       0x10   0x07A0             LSLS     R0,R4,#+30
+   \       0x12   0xD503             BPL      ??LED_TurnOffLed_1
+    184              Led2Off();
+   \       0x14   0x2100             MOVS     R1,#+0
+   \       0x16   0x2018             MOVS     R0,#+24
+   \       0x18   0x....'....        BL       Gpio_SetPinData
+    185            if (LEDNr & LED3)
+   \                     ??LED_TurnOffLed_1: (+1)
+   \       0x1C   0x0760             LSLS     R0,R4,#+29
+   \       0x1E   0xD503             BPL      ??LED_TurnOffLed_2
+    186              Led3Off();
+   \       0x20   0x2100             MOVS     R1,#+0
+   \       0x22   0x2019             MOVS     R0,#+25
+   \       0x24   0x....'....        BL       Gpio_SetPinData
+    187            if (LEDNr & LED4)
+   \                     ??LED_TurnOffLed_2: (+1)
+   \       0x28   0x0720             LSLS     R0,R4,#+28
+   \       0x2A   0xD503             BPL      ??LED_TurnOffLed_3
+    188              Led4Off();
+   \       0x2C   0x2100             MOVS     R1,#+0
+   \       0x2E   0x202C             MOVS     R0,#+44
+   \       0x30   0x....'....        BL       Gpio_SetPinData
+    189          }
+   \                     ??LED_TurnOffLed_3: (+1)
+   \       0x34   0xBC10             POP      {R4}
+   \       0x36   0xBC08             POP      {R3}
+   \       0x38   0x4718             BX       R3               ;; return
+    190          
+    191          /******************************************************************************
+    192          * LED_TurnOnLed
+    193          *
+    194          * Turn on one or more LEDs. Doesn't check/affect flashing states.
+    195          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    196          void LED_TurnOnLed(LED_t LEDNr)
+    197          {
+   \                     LED_TurnOnLed: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+    198            if (LEDNr & LED1)
+   \        0x4   0x07E0             LSLS     R0,R4,#+31
+   \        0x6   0xD503             BPL      ??LED_TurnOnLed_0
+    199              Led1On();
+   \        0x8   0x2101             MOVS     R1,#+1
+   \        0xA   0x2017             MOVS     R0,#+23
+   \        0xC   0x....'....        BL       Gpio_SetPinData
+    200            if (LEDNr & LED2)
+   \                     ??LED_TurnOnLed_0: (+1)
+   \       0x10   0x07A0             LSLS     R0,R4,#+30
+   \       0x12   0xD503             BPL      ??LED_TurnOnLed_1
+    201              Led2On();
+   \       0x14   0x2101             MOVS     R1,#+1
+   \       0x16   0x2018             MOVS     R0,#+24
+   \       0x18   0x....'....        BL       Gpio_SetPinData
+    202            if (LEDNr & LED3)
+   \                     ??LED_TurnOnLed_1: (+1)
+   \       0x1C   0x0760             LSLS     R0,R4,#+29
+   \       0x1E   0xD503             BPL      ??LED_TurnOnLed_2
+    203              Led3On();
+   \       0x20   0x2101             MOVS     R1,#+1
+   \       0x22   0x2019             MOVS     R0,#+25
+   \       0x24   0x....'....        BL       Gpio_SetPinData
+    204            if (LEDNr & LED4)
+   \                     ??LED_TurnOnLed_2: (+1)
+   \       0x28   0x0720             LSLS     R0,R4,#+28
+   \       0x2A   0xD503             BPL      ??LED_TurnOnLed_3
+    205              Led4On();
+   \       0x2C   0x2101             MOVS     R1,#+1
+   \       0x2E   0x202C             MOVS     R0,#+44
+   \       0x30   0x....'....        BL       Gpio_SetPinData
+    206          }
+   \                     ??LED_TurnOnLed_3: (+1)
+   \       0x34   0xBC10             POP      {R4}
+   \       0x36   0xBC08             POP      {R3}
+   \       0x38   0x4718             BX       R3               ;; return
+    207          
+    208          /******************************************************************************
+    209          * LED_TurnOffAllLeds
+    210          *
+    211          * Turn off all LEDs. 
+    212          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    213          void LED_TurnOffAllLeds(void)
+    214          {
+   \                     LED_TurnOffAllLeds: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    215            LED_TurnOffLed(LED_ALL);
+   \        0x2   0x200F             MOVS     R0,#+15
+   \        0x4   0x....'....        BL       LED_TurnOffLed
+    216          }
+   \        0x8   0xBC09             POP      {R0,R3}
+   \        0xA   0x4718             BX       R3               ;; return
+    217          
+    218          /******************************************************************************
+    219          * LED_TurnOnAllLeds
+    220          *
+    221          * Turn on all LEDs. 
+    222          *******************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    223          void LED_TurnOnAllLeds(void)
+    224          {
+   \                     LED_TurnOnAllLeds: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    225            LED_TurnOnLed(LED_ALL);
+   \        0x2   0x200F             MOVS     R0,#+15
+   \        0x4   0x....'....        BL       LED_TurnOnLed
+    226          }
+   \        0x8   0xBC09             POP      {R0,R3}
+   \        0xA   0x4718             BX       R3               ;; return
+    227          
+    228          /************************************************************************************
+    229          * ShowBinaryLedValue
+    230          *
+    231          * The purpose of this function is to show the binary value received as parameter 
+    232          * through four LEDs, then the maximum possible u8leds_value is the 0x0F.
+    233          *
+    234          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    235          void LED_SetHex(uint8_t u8HexValue){
+   \                     LED_SetHex: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+    236          
+    237            TurnOffLeds(); 
+   \        0x4   0x....'....        BL       LED_TurnOffAllLeds
+    238          
+    239            if(0x01 & u8HexValue)
+   \        0x8   0x07E0             LSLS     R0,R4,#+31
+   \        0xA   0xD503             BPL      ??LED_SetHex_0
+    240            {
+    241              Led4On();
+   \        0xC   0x2101             MOVS     R1,#+1
+   \        0xE   0x202C             MOVS     R0,#+44
+   \       0x10   0x....'....        BL       Gpio_SetPinData
+    242            }
+    243            if((0x01<<1) & u8HexValue)
+   \                     ??LED_SetHex_0: (+1)
+   \       0x14   0x07A0             LSLS     R0,R4,#+30
+   \       0x16   0xD503             BPL      ??LED_SetHex_1
+    244            {
+    245              Led3On();
+   \       0x18   0x2101             MOVS     R1,#+1
+   \       0x1A   0x2019             MOVS     R0,#+25
+   \       0x1C   0x....'....        BL       Gpio_SetPinData
+    246            }
+    247            if((0x01<<2) & u8HexValue)
+   \                     ??LED_SetHex_1: (+1)
+   \       0x20   0x0760             LSLS     R0,R4,#+29
+   \       0x22   0xD503             BPL      ??LED_SetHex_2
+    248            {
+    249              Led2On();
+   \       0x24   0x2101             MOVS     R1,#+1
+   \       0x26   0x2018             MOVS     R0,#+24
+   \       0x28   0x....'....        BL       Gpio_SetPinData
+    250            }
+    251            if((0x01<<3) & u8HexValue)
+   \                     ??LED_SetHex_2: (+1)
+   \       0x2C   0x0720             LSLS     R0,R4,#+28
+   \       0x2E   0xD503             BPL      ??LED_SetHex_3
+    252            {
+    253              Led1On();
+   \       0x30   0x2101             MOVS     R1,#+1
+   \       0x32   0x2017             MOVS     R0,#+23
+   \       0x34   0x....'....        BL       Gpio_SetPinData
+    254            }
+    255            
+    256          }
+   \                     ??LED_SetHex_3: (+1)
+   \       0x38   0xBC10             POP      {R4}
+   \       0x3A   0xBC08             POP      {R3}
+   \       0x3C   0x4718             BX       R3               ;; return
+    257          
+    258          /******************************************************************************
+    259          *******************************************************************************
+    260          * Private functions
+    261          *******************************************************************************
+    262          ******************************************************************************/
+    263          
+    264          /******************************************************************************
+    265          *******************************************************************************
+    266          * Unit Testing
+    267          *******************************************************************************
+    268          ******************************************************************************/
+    269          
+    270          /* None */
+    271          
+    272          #endif /* gLEDSupported_d */
+    273          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      24   LED_GetLed
+        24   -> Gpio_GetPinData
+       8   LED_Init
+         8   -> Gpio_SetPinData
+         8   -> LED_TurnOffAllLeds
+         8   -> Set_Pins
+       8   LED_SetHex
+         8   -> Gpio_SetPinData
+         8   -> LED_TurnOffAllLeds
+       8   LED_ToggleLed
+         8   -> Gpio_TogglePin
+       8   LED_TurnOffAllLeds
+         8   -> LED_TurnOffLed
+       8   LED_TurnOffLed
+         8   -> Gpio_SetPinData
+       8   LED_TurnOnAllLeds
+         8   -> LED_TurnOnLed
+       8   LED_TurnOnLed
+         8   -> Gpio_SetPinData
+       8   Set_Pins
+         8   -> Gpio_SetPinData
+         8   -> Gpio_SetPinDir
+         8   -> Gpio_SetPinFunction
+         8   -> Gpio_SetPinReadSource
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+     150  LED_GetLed
+      24  LED_Init
+      62  LED_SetHex
+      50  LED_ToggleLed
+      12  LED_TurnOffAllLeds
+      58  LED_TurnOffLed
+      12  LED_TurnOnAllLeds
+      58  LED_TurnOnLed
+     154  Set_Pins
+
+ 
+ 580 bytes in section .text
+ 
+ 580 bytes of CODE memory
+
+Errors: none
+Warnings: none

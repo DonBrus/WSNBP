@@ -1,0 +1,2164 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.1.169/W32 for ARM         31/Jan/2019  15:13:43
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\SMAC\Source\RadioManagement.c
+#    Command line =  
+#        -f C:\Users\Brus\AppData\Local\Temp\EWDEE8.tmp
+#        ("D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\SMAC\Source\RadioManagement.c" -D NDEBUG -D F24MHZ -D
+#        SECURITY_ENABLED -D MC13226Included_d=0 --preprocess=cs
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List"
+#        -lC "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\List" -lB
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List"
+#        --diag_suppress Pe940,Pe951,Pe911 -o
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\Obj"
+#        --endian=little --cpu=ARM7TDMI-S --fpu=None --dlib_config
+#        "C:\HDDPrograms\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Normal.h" -I
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\SMAC\Drivers\Interface\" -I
+#        "D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\PLM\Interface\" --cpu_mode thumb -Ohz --use_c++_inline)
+#    Locale       =  C
+#    List file    =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\List\RadioManagement.lst
+#    Object file  =  
+#        D:\Users\Brus\Documents\my_conn_test\Connectivity
+#        Test\Release\Obj\RadioManagement.o
+#
+###############################################################################
+
+D:\Users\Brus\Documents\my_conn_test\Connectivity Test\SMAC\Source\RadioManagement.c
+      1          /************************************************************************************
+      2          * Radio Management implementation
+      3          *
+      4          * (c) Copyright 2006, Freescale, Inc.  All rights reserved.
+      5          *
+      6          * No part of this document must be reproduced in any form - including copied,
+      7          * transcribed, printed or by any electronic means - without specific written
+      8          * permission from Freescale.
+      9          *
+     10          * Last Inspected:
+     11          * Last Tested:
+     12          ************************************************************************************/
+     13          
+     14          #include "../Interface/RadioManagement.h"
+     15          #include "../Drivers/Interface/Delay.h"
+     16          #include "RadioMngmntWrapper.h"
+     17          
+     18          
+     19          
+     20          /************************************************************************************
+     21          *************************************************************************************
+     22          * Private macros
+     23          *************************************************************************************
+     24          ************************************************************************************/
+     25          #define mStartclk_init_c    (0x00000080)
+     26          #define mCplclk_init_c      (0x00001E00)
+     27          #define mSftclk_init_c      (0x000001FE)
+     28          
+     29          #define is_any_action_complete_evnt() \
+     30                                ( is_tx_action_completed_evnt() || \
+     31                                  is_rx_action_completed_evnt() || \
+     32                                  is_action_completed_evnt() )
+     33          
+     34          /************************************************************************************
+     35          *************************************************************************************
+     36          * Private prototypes
+     37          *************************************************************************************
+     38          ************************************************************************************/
+     39          static FuncReturn_t process_tx_msg (void);
+     40          static FuncReturn_t process_rx_msg (void);
+     41          static FuncReturn_t process_ed_msg (void);
+     42          static FuncReturn_t process_to_msg (void);
+     43          static uint8_t calculate_ed_value (uint32_t);
+     44          
+     45          
+     46          static bool_t is_a_handled_message(message_t * msg);
+
+   \                                 In section .text, align 4, keep-with-next
+     47          const uint8_t gaRFSynVCODivI_c[16] = gaRFSynVCODivIVal_c;
+   \                     gaRFSynVCODivI_c:
+   \        0x0   0x2F 0x2F          DC8 47, 47, 47, 47, 47, 47, 47, 47, 47, 48, 48, 48, 48, 48, 48, 48
+   \              0x2F 0x2F    
+   \              0x2F 0x2F    
+   \              0x2F 0x2F    
+   \              0x2F 0x30    
+   \              0x30 0x30    
+   \              0x30 0x30    
+   \              0x30 0x30    
+
+   \                                 In section .rodata, align 4
+     48          const uint32_t gaRFSynVCODivF_c[16] = gaRFSynVCODivFVal_c;
+   \                     gaRFSynVCODivF_c:
+   \        0x0   0x0035'5555        DC32 3495253, 6990506, 10485760, 13981013, 17476266, 20971520, 24466773
+   \              0x006A'AAAA  
+   \              0x00A0'0000  
+   \              0x00D5'5555  
+   \              0x010A'AAAA  
+   \              0x0140'0000  
+   \              0x0175'5555  
+   \       0x1C   0x01AA'AAAA        DC32 27962026, 31457280, 1398101, 4893354, 8388608, 11883861, 15379114
+   \              0x01E0'0000  
+   \              0x0015'5555  
+   \              0x004A'AAAA  
+   \              0x0080'0000  
+   \              0x00B5'5555  
+   \              0x00EA'AAAA  
+   \       0x38   0x0120'0000        DC32 18874368, 22369621
+   \              0x0155'5555  
+     49          
+     50          /************************************************************************************
+     51          *************************************************************************************
+     52          * Private type definitions
+     53          *************************************************************************************
+     54          ************************************************************************************/
+     55          #define MAX_NUM_MSG (4)
+     56          #define PROCESS_TIMEOUT  (0xffff)
+     57          
+     58          #define _inc_msg(x) (((MAX_NUM_MSG-1) == x)? 0: x+1)
+     59          
+     60          
+     61          /************************************************************************************
+     62          *************************************************************************************
+     63          * Private memory declarations
+     64          *************************************************************************************
+     65          ************************************************************************************/
+     66          static uint8_t mRetries_timmer;
+     67          
+     68          
+     69          static uint8_t current_msg;
+     70          static uint8_t next_msg_to_store;
+     71          static message_t* maMessage_Queu[MAX_NUM_MSG];
+     72          static uint32_t maMessageTO[MAX_NUM_MSG];
+     73          
+     74          //static uint32_t mStartclk_offset = mStartclk_init_c;
+     75          static uint32_t mCplclk_offset   = mCplclk_init_c;
+     76          static uint32_t mSftclk_offset   = mSftclk_init_c;
+     77          
+     78          #define _set_startclk_offset(x) (mStartclk_offset = x)
+     79          #define _set_cplclk_offset(x)   (mCplclk_offset = x)
+     80          #define _set_sftclk_offset(x)   (mSftclk_offset = x)
+     81          
+     82          
+     83          /* This constant must keep the same order than the msg_type_tag enumeration */
+
+   \                                 In section .text, align 4, keep-with-next
+     84          static const callback_t cbProcessMsg_c[MAX_MSG_TYPE] = {
+   \                     cbProcessMsg_c:
+   \        0x0   0x....'....        DC32 process_tx_msg, process_rx_msg, process_ed_msg, process_to_msg
+   \              0x....'....  
+   \              0x....'....  
+   \              0x....'....  
+     85                    (callback_t)(process_tx_msg),
+     86                    (callback_t)(process_rx_msg),
+     87                    (callback_t)(process_ed_msg),
+     88                    (callback_t)(process_to_msg) };
+     89          
+
+   \                                 In section .text, align 4, keep-with-next
+     90          static const uint8_t mAbortStates[MAX_MSG_TYPE] = {
+   \                     mAbortStates:
+   \        0x0   0x06 0x07          DC8 6, 7, 4, 4
+   \              0x04 0x04    
+     91                    MSG_TX_RQST_ABORT,
+     92                    MSG_RX_RQST_ABORT,
+     93                    MSG_ED_RQST_ABORT,
+     94                    MSG_TO_RQST_ABORT };
+     95          
+     96          
+     97          /************************************************************************************
+     98          *************************************************************************************
+     99          * Public memory declarations
+    100          *************************************************************************************
+    101          ************************************************************************************/
+    102          evnt_flags_t gRadioEvntFlags;
+    103          // when doing Tx MACA requires a valid pointer in maca_dmarx 
+    104          // in order to handle possible incoming ACK frames;
+    105          // this space can also be allocated dinamically;
+    106          uint32_t ackBox[10];
+    107          
+    108          message_t Scan_msg;
+    109          vScanCallback_t vScanReqCallBack;
+    110          uint16_t u16ChannToScan;
+    111          uint8_t u8ScanValPerChann[TOTAL_CHANN];
+    112          uint8_t dataScan[1];
+    113          bool_t bScanReqFlag;
+    114          
+    115          /************************************************************************************
+    116          *************************************************************************************
+    117          * Public functions
+    118          *************************************************************************************
+    119          ************************************************************************************/
+    120          void process_scan_req(void);
+    121          channel_num_t get_next_chann_to_scan(channel_num_t);
+    122          extern FuncReturn_t MLMEEnergyDetect  (message_t *, channel_num_t);
+    123          
+    124          
+    125          /************************************************************************************
+    126          * abort_message
+    127          *
+    128          * This function aborts a message
+    129          *
+    130          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    131          FuncReturn_t abort_message (message_t * msg){
+   \                     abort_message: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+   \        0x2   0x0004             MOVS     R4,R0
+    132            if(FALSE == is_a_handled_message(msg)){
+   \        0x4   0x....'....        BL       is_a_handled_message
+   \        0x8   0x2800             CMP      R0,#+0
+   \        0xA   0xD101             BNE      ??abort_message_0
+    133              return gFailOutOfRange_c;
+   \        0xC   0x2001             MOVS     R0,#+1
+   \        0xE   0xE017             B        ??abort_message_1
+    134            }
+    135            else{
+    136              /* Do Nothing */
+    137            }
+    138            if(maMessage_Queu[current_msg] == msg){
+   \                     ??abort_message_0: (+1)
+   \       0x10   0x....             LDR      R0,??DataTable12
+   \       0x12   0x7841             LDRB     R1,[R0, #+1]
+   \       0x14   0x0089             LSLS     R1,R1,#+2
+   \       0x16   0x1840             ADDS     R0,R0,R1
+   \       0x18   0x6AC0             LDR      R0,[R0, #+44]
+   \       0x1A   0x42A0             CMP      R0,R4
+   \       0x1C   0xD104             BNE      ??abort_message_2
+    139              command_xcvr_abort();
+   \       0x1E   0x....             LDR      R0,??DataTable12_1  ;; 0x8000400c
+   \       0x20   0x2100             MOVS     R1,#+0
+   \       0x22   0x6341             STR      R1,[R0, #+52]
+   \       0x24   0x....             LDR      R1,??DataTable12_2  ;; 0x201
+   \       0x26   0x6001             STR      R1,[R0, #+0]
+    140            }
+    141            else{
+    142              /* Do Nothing */
+    143            }
+    144            msg->u8Status.msg_state = (mAbortStates[msg->u8Status.msg_type]);
+   \                     ??abort_message_2: (+1)
+   \       0x28   0x2007             MOVS     R0,#+7
+   \       0x2A   0x7821             LDRB     R1,[R4, #+0]
+   \       0x2C   0x4001             ANDS     R1,R1,R0
+   \       0x2E   0x46C0             Nop      
+   \       0x30   0x....             ADR.N    R2,mAbortStates
+   \       0x32   0x7823             LDRB     R3,[R4, #+0]
+   \       0x34   0x4018             ANDS     R0,R0,R3
+   \       0x36   0x5C10             LDRB     R0,[R2, R0]
+   \       0x38   0x00C0             LSLS     R0,R0,#+3
+   \       0x3A   0x4308             ORRS     R0,R0,R1
+   \       0x3C   0x7020             STRB     R0,[R4, #+0]
+    145            return gSuccess_c;
+   \       0x3E   0x2000             MOVS     R0,#+0
+   \                     ??abort_message_1: (+1)
+   \       0x40   0xBC10             POP      {R4}
+   \       0x42   0xBC08             POP      {R3}
+   \       0x44   0x4718             BX       R3               ;; return
+    146          }
+    147          
+    148          /************************************************************************************
+    149          * is_a_handled_message
+    150          *
+    151          * This function check if a given message is placed at the queu
+    152          *
+    153          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    154          static bool_t is_a_handled_message(message_t * msg){
+   \                     is_a_handled_message: (+1)
+   \        0x0   0xB410             PUSH     {R4}
+    155            uint8_t i;
+    156            for(i=0; i<MAX_NUM_MSG; i++){
+   \        0x2   0x2100             MOVS     R1,#+0
+   \        0x4   0x....             LDR      R2,??DataTable12
+    157              if(maMessage_Queu[i] == msg){
+   \                     ??is_a_handled_message_0: (+1)
+   \        0x6   0x0013             MOVS     R3,R2
+   \        0x8   0x332C             ADDS     R3,R3,#+44
+   \        0xA   0x060C             LSLS     R4,R1,#+24
+   \        0xC   0x0DA4             LSRS     R4,R4,#+22
+   \        0xE   0x591B             LDR      R3,[R3, R4]
+   \       0x10   0x4283             CMP      R3,R0
+   \       0x12   0xD007             BEQ      ??is_a_handled_message_1
+   \       0x14   0x1C49             ADDS     R1,R1,#+1
+   \       0x16   0x060B             LSLS     R3,R1,#+24
+   \       0x18   0x0E1B             LSRS     R3,R3,#+24
+   \       0x1A   0x2B04             CMP      R3,#+4
+   \       0x1C   0xDBF3             BLT      ??is_a_handled_message_0
+    158                return TRUE;
+    159              }
+    160              else{
+    161                /* Do Nothing */
+    162              }
+    163            }
+    164            return FALSE;
+   \       0x1E   0x2000             MOVS     R0,#+0
+   \                     ??is_a_handled_message_2: (+1)
+   \       0x20   0xBC10             POP      {R4}
+   \       0x22   0x4770             BX       LR               ;; return
+   \                     ??is_a_handled_message_1: (+1)
+   \       0x24   0x2001             MOVS     R0,#+1
+   \       0x26   0xE7FB             B        ??is_a_handled_message_2
+    165          }
+    166          
+    167          
+    168          /************************************************************************************
+    169          * change_current_message_state
+    170          *
+    171          * This function the current message state to the "mssg_state"
+    172          *
+    173          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    174          void change_current_message_state (any_mssg_state_t mssg_state){
+   \                     change_current_message_state: (+1)
+   \        0x0   0xB081             SUB      SP,SP,#+4
+    175            if(NULL != maMessage_Queu[current_msg]){
+   \        0x2   0x....             LDR      R1,??DataTable12
+   \        0x4   0x784A             LDRB     R2,[R1, #+1]
+   \        0x6   0x0092             LSLS     R2,R2,#+2
+   \        0x8   0x1889             ADDS     R1,R1,R2
+   \        0xA   0x6AC9             LDR      R1,[R1, #+44]
+   \        0xC   0x2900             CMP      R1,#+0
+   \        0xE   0xD008             BEQ      ??change_current_message_state_0
+   \       0x10   0x9000             STR      R0,[SP, #+0]
+    176              (maMessage_Queu[current_msg])->u8Status.msg_state = (mssg_state.any_type);
+   \       0x12   0x7808             LDRB     R0,[R1, #+0]
+   \       0x14   0x0740             LSLS     R0,R0,#+29
+   \       0x16   0x0F40             LSRS     R0,R0,#+29
+   \       0x18   0x466A             MOV      R2,SP
+   \       0x1A   0x7812             LDRB     R2,[R2, #+0]
+   \       0x1C   0x00D2             LSLS     R2,R2,#+3
+   \       0x1E   0x4302             ORRS     R2,R2,R0
+   \       0x20   0x700A             STRB     R2,[R1, #+0]
+    177            }
+    178            else{
+    179              /* Do Nothing */
+    180            }
+    181          }
+   \                     ??change_current_message_state_0: (+1)
+   \       0x22   0xB001             ADD      SP,SP,#+4
+   \       0x24   0x4770             BX       LR               ;; return
+    182          
+    183          
+    184          /************************************************************************************
+    185          * change_current_message_state
+    186          *
+    187          * This function the callback assosiated with the current message
+    188          *
+    189          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    190          void execute_current_message_callback (void){
+   \                     execute_current_message_callback: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable12
+   \        0x2   0x7841             LDRB     R1,[R0, #+1]
+   \        0x4   0x0089             LSLS     R1,R1,#+2
+   \        0x6   0x1840             ADDS     R0,R0,R1
+   \        0x8   0x6AC0             LDR      R0,[R0, #+44]
+   \        0xA   0x2800             CMP      R0,#+0
+   \        0xC   0xD100             BNE      ??execute_current_message_callback_0
+   \        0xE   0x4770             BX       LR
+   \                     ??execute_current_message_callback_0: (+1)
+   \       0x10   0xB580             PUSH     {R7,LR}
+    191            if(NULL != maMessage_Queu[current_msg]){
+    192              if(NULL != ((maMessage_Queu[current_msg])->cbDataIndication)){
+   \       0x12   0x68C0             LDR      R0,[R0, #+12]
+   \       0x14   0x2800             CMP      R0,#+0
+   \       0x16   0xD001             BEQ      ??execute_current_message_callback_1
+    193                (maMessage_Queu[current_msg])->cbDataIndication();
+   \       0x18   0x....'....        BL       ??__iar_via_R0_0
+    194              }
+    195              else {
+    196                /* Do Nothing */
+    197              }
+    198            }
+    199            else{
+    200              /* Do Nothing */
+    201            }
+    202          }
+   \                     ??execute_current_message_callback_1: (+1)
+   \       0x1C   0xBC09             POP      {R0,R3}
+   \       0x1E   0x4718             BX       R3               ;; return
+    203          
+    204          /************************************************************************************
+    205          * get_current_message
+    206          *
+    207          * This function returns a pointer to the message that is been processed, it will 
+    208          * return NULL if there is no message.
+    209          *
+    210          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    211          message_t* get_current_message (void){
+    212            return (maMessage_Queu[current_msg]);
+   \                     get_current_message: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable12
+   \        0x2   0x7841             LDRB     R1,[R0, #+1]
+   \        0x4   0x0089             LSLS     R1,R1,#+2
+   \        0x6   0x1840             ADDS     R0,R0,R1
+   \        0x8   0x6AC0             LDR      R0,[R0, #+44]
+   \        0xA   0x4770             BX       LR               ;; return
+    213          }
+    214          
+    215          
+    216          /************************************************************************************
+    217          * handle_new_message
+    218          *
+    219          * This function link a new msg to the queu.
+    220          *
+    221          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    222          FuncReturn_t handle_new_message (message_t * msg, uint32_t timeout){
+   \                     handle_new_message: (+1)
+   \        0x0   0xB430             PUSH     {R4,R5}
+    223            if(NULL != maMessage_Queu[next_msg_to_store]){
+   \        0x2   0x....             LDR      R2,??DataTable13
+   \        0x4   0x7893             LDRB     R3,[R2, #+2]
+   \        0x6   0x009C             LSLS     R4,R3,#+2
+   \        0x8   0x1914             ADDS     R4,R2,R4
+   \        0xA   0x6AE5             LDR      R5,[R4, #+44]
+   \        0xC   0x2D00             CMP      R5,#+0
+   \        0xE   0xD001             BEQ      ??handle_new_message_0
+    224              return gFailNoResourcesAvailable_c;
+   \       0x10   0x2002             MOVS     R0,#+2
+   \       0x12   0xE00C             B        ??handle_new_message_1
+    225            }
+    226            else{
+    227              msg->u8Status.msg_state = initial_state_c;
+   \                     ??handle_new_message_0: (+1)
+   \       0x14   0x7805             LDRB     R5,[R0, #+0]
+   \       0x16   0x076D             LSLS     R5,R5,#+29
+   \       0x18   0x0F6D             LSRS     R5,R5,#+29
+   \       0x1A   0x7005             STRB     R5,[R0, #+0]
+    228              maMessage_Queu[next_msg_to_store] = msg;
+   \       0x1C   0x62E0             STR      R0,[R4, #+44]
+    229              maMessageTO[next_msg_to_store]= timeout;
+   \       0x1E   0x63E1             STR      R1,[R4, #+60]
+    230              next_msg_to_store = _inc_msg(next_msg_to_store);
+   \       0x20   0x2B03             CMP      R3,#+3
+   \       0x22   0xD101             BNE      ??handle_new_message_2
+   \       0x24   0x2300             MOVS     R3,#+0
+   \       0x26   0xE000             B        ??handle_new_message_3
+   \                     ??handle_new_message_2: (+1)
+   \       0x28   0x1C5B             ADDS     R3,R3,#+1
+   \                     ??handle_new_message_3: (+1)
+   \       0x2A   0x7093             STRB     R3,[R2, #+2]
+    231            }
+    232            return gSuccess_c;
+   \       0x2C   0x2000             MOVS     R0,#+0
+   \                     ??handle_new_message_1: (+1)
+   \       0x2E   0xBC30             POP      {R4,R5}
+   \       0x30   0x4770             BX       LR               ;; return
+    233          }
+    234          
+    235          
+    236          /************************************************************************************
+    237          * release_current_message
+    238          *
+    239          * This function releases a message from the queu.
+    240          *
+    241          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    242          FuncReturn_t release_current_message (void){
+    243            if(NULL != maMessage_Queu[current_msg]){
+   \                     release_current_message: (+1)
+   \        0x0   0x....             LDR      R0,??DataTable13
+   \        0x2   0x7841             LDRB     R1,[R0, #+1]
+   \        0x4   0x008A             LSLS     R2,R1,#+2
+   \        0x6   0x1882             ADDS     R2,R0,R2
+   \        0x8   0x6AD3             LDR      R3,[R2, #+44]
+   \        0xA   0x2B00             CMP      R3,#+0
+   \        0xC   0xD008             BEQ      ??release_current_message_0
+    244              maMessage_Queu[current_msg] = NULL;
+   \        0xE   0x2300             MOVS     R3,#+0
+   \       0x10   0x62D3             STR      R3,[R2, #+44]
+    245              maMessageTO[current_msg] = 0;
+   \       0x12   0x63D3             STR      R3,[R2, #+60]
+    246              current_msg = _inc_msg(current_msg);
+   \       0x14   0x2903             CMP      R1,#+3
+   \       0x16   0xD101             BNE      ??release_current_message_1
+   \       0x18   0x2100             MOVS     R1,#+0
+   \       0x1A   0xE000             B        ??release_current_message_2
+   \                     ??release_current_message_1: (+1)
+   \       0x1C   0x1C49             ADDS     R1,R1,#+1
+   \                     ??release_current_message_2: (+1)
+   \       0x1E   0x7041             STRB     R1,[R0, #+1]
+    247            }
+    248            else{
+    249              /* Do Nothing */
+    250            }
+    251            return gSuccess_c;
+   \                     ??release_current_message_0: (+1)
+   \       0x20   0x2000             MOVS     R0,#+0
+   \       0x22   0x4770             BX       LR               ;; return
+    252          }
+    253          
+    254          
+    255          /************************************************************************************
+    256          * radio_manager_init
+    257          *
+    258          * This initializes all the variables involved in the radio management.
+    259          *
+    260          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    261          FuncReturn_t radio_manager_init (void){
+   \                     radio_manager_init: (+1)
+   \        0x0   0xB410             PUSH     {R4}
+    262            uint8_t queu_count;
+    263            for(queu_count=0; queu_count<MAX_NUM_MSG; queu_count++){
+   \        0x2   0x2100             MOVS     R1,#+0
+   \        0x4   0x2200             MOVS     R2,#+0
+   \        0x6   0x....             LDR      R0,??DataTable12
+    264              maMessage_Queu[queu_count] = NULL;
+   \                     ??radio_manager_init_0: (+1)
+   \        0x8   0x0093             LSLS     R3,R2,#+2
+   \        0xA   0x0004             MOVS     R4,R0
+   \        0xC   0x342C             ADDS     R4,R4,#+44
+   \        0xE   0x50E1             STR      R1,[R4, R3]
+    265              maMessageTO[queu_count] = 0;
+   \       0x10   0x0004             MOVS     R4,R0
+   \       0x12   0x343C             ADDS     R4,R4,#+60
+   \       0x14   0x50E1             STR      R1,[R4, R3]
+    266            }
+   \       0x16   0x1C52             ADDS     R2,R2,#+1
+   \       0x18   0x2A03             CMP      R2,#+3
+   \       0x1A   0xDDF5             BLE      ??radio_manager_init_0
+    267            current_msg = 0;
+   \       0x1C   0x7041             STRB     R1,[R0, #+1]
+    268            next_msg_to_store = 0;
+   \       0x1E   0x7081             STRB     R1,[R0, #+2]
+    269            clear_all_radio_events();
+   \       0x20   0x6501             STR      R1,[R0, #+80]
+    270            bScanReqFlag = FALSE;
+   \       0x22   0x70C1             STRB     R1,[R0, #+3]
+    271            MSG_INIT(Scan_msg, &dataScan, NULL);
+   \       0x24   0x0002             MOVS     R2,R0
+   \       0x26   0x325C             ADDS     R2,R2,#+92
+   \       0x28   0x60C2             STR      R2,[R0, #+12]
+   \       0x2A   0x6141             STR      R1,[R0, #+20]
+    272            Scan_msg.u8Status.msg_state = MSG_ED_ACTION_COMPLETE_FAIL;
+   \       0x2C   0x7A01             LDRB     R1,[R0, #+8]
+   \       0x2E   0x0749             LSLS     R1,R1,#+29
+   \       0x30   0x0F49             LSRS     R1,R1,#+29
+   \       0x32   0x2218             MOVS     R2,#+24
+   \       0x34   0x430A             ORRS     R2,R2,R1
+   \       0x36   0x7202             STRB     R2,[R0, #+8]
+    273            Scan_msg.u8Status.msg_type = ED;
+   \       0x38   0x211A             MOVS     R1,#+26
+   \       0x3A   0x7201             STRB     R1,[R0, #+8]
+    274            u16ChannToScan = 0xFFFF;
+   \       0x3C   0x....             LDR      R1,??DataTable14  ;; 0xffff
+   \       0x3E   0x8501             STRH     R1,[R0, #+40]
+    275            return gSuccess_c;
+   \       0x40   0x2000             MOVS     R0,#+0
+   \       0x42   0xBC10             POP      {R4}
+   \       0x44   0x4770             BX       LR               ;; return
+    276          }
+    277          
+    278          /************************************************************************************
+    279          * process_radio_msg
+    280          *
+    281          * This function process any TX/RX/EnergyDetect/Timeout pending msg.
+    282          *
+    283          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    284          FuncReturn_t process_radio_msg (void){
+   \                     process_radio_msg: (+1)
+   \        0x0   0xB510             PUSH     {R4,LR}
+    285          
+    286            if(NULL != maMessage_Queu[current_msg]){
+   \        0x2   0x....             LDR      R4,??DataTable13
+   \        0x4   0x7860             LDRB     R0,[R4, #+1]
+   \        0x6   0x0080             LSLS     R0,R0,#+2
+   \        0x8   0x1820             ADDS     R0,R4,R0
+   \        0xA   0x6AC0             LDR      R0,[R0, #+44]
+   \        0xC   0x2800             CMP      R0,#+0
+   \        0xE   0xD00A             BEQ      ??process_radio_msg_0
+    287              if(MAX_MSG_TYPE > (maMessage_Queu[current_msg])->u8Status.msg_type){
+   \       0x10   0x7800             LDRB     R0,[R0, #+0]
+   \       0x12   0x0740             LSLS     R0,R0,#+29
+   \       0x14   0x0F40             LSRS     R0,R0,#+29
+   \       0x16   0x2803             CMP      R0,#+3
+   \       0x18   0xDC05             BGT      ??process_radio_msg_0
+    288                cbProcessMsg_c[(maMessage_Queu[current_msg])->u8Status.msg_type]();
+   \       0x1A   0x46C0             Nop      
+   \       0x1C   0x....             ADR.N    R1,cbProcessMsg_c
+   \       0x1E   0x0080             LSLS     R0,R0,#+2
+   \       0x20   0x5808             LDR      R0,[R1, R0]
+   \       0x22   0x....'....        BL       ??__iar_via_R0_0
+    289              }
+    290              else {
+    291                /* Do Nothing */
+    292              }
+    293            }
+    294            else {
+    295              /* Do Nothing */
+    296            }
+    297          
+    298            if(TRUE == bScanReqFlag)
+   \                     ??process_radio_msg_0: (+1)
+   \       0x26   0x78E0             LDRB     R0,[R4, #+3]
+   \       0x28   0x2801             CMP      R0,#+1
+   \       0x2A   0xD101             BNE      ??process_radio_msg_1
+    299            {
+    300              process_scan_req();
+   \       0x2C   0x....'....        BL       process_scan_req
+    301            }
+    302          
+    303            return gSuccess_c;
+   \                     ??process_radio_msg_1: (+1)
+   \       0x30   0x2000             MOVS     R0,#+0
+   \       0x32   0xBC10             POP      {R4}
+   \       0x34   0xBC08             POP      {R3}
+   \       0x36   0x4718             BX       R3               ;; return
+    304          }
+    305          
+    306          
+    307          /************************************************************************************
+    308          *************************************************************************************
+    309          * Private functions
+    310          *************************************************************************************
+    311          ************************************************************************************/
+    312          
+    313          /************************************************************************************
+    314          * process_tx_msg
+    315          *
+    316          * This function process any TX pending msg.
+    317          *
+    318          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    319          static FuncReturn_t process_tx_msg (void){
+   \                     process_tx_msg: (+1)
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
+    320            msg_tx_state_t state;
+    321            state = (msg_tx_state_t)((maMessage_Queu[current_msg])->u8Status.msg_state);
+    322            
+    323            if(is_action_completed_fail())
+   \        0x2   0x....             LDR      R4,??DataTable12
+   \        0x4   0x7860             LDRB     R0,[R4, #+1]
+   \        0x6   0x0080             LSLS     R0,R0,#+2
+   \        0x8   0x1820             ADDS     R0,R4,R0
+   \        0xA   0x6AC0             LDR      R0,[R0, #+44]
+   \        0xC   0x6D26             LDR      R6,[R4, #+80]
+   \        0xE   0x2528             MOVS     R5,#+40
+   \       0x10   0x2107             MOVS     R1,#+7
+   \       0x12   0x....             LDR      R2,??DataTable14_1  ;; 0x140208
+   \       0x14   0x4032             ANDS     R2,R2,R6
+   \       0x16   0xD007             BEQ      ??process_tx_msg_0
+    324            {
+    325              clear_complete_fail_evnt();
+   \       0x18   0x....             LDR      R2,??DataTable14_2  ;; 0xffebfdf7
+   \       0x1A   0x4032             ANDS     R2,R2,R6
+   \       0x1C   0x6522             STR      R2,[R4, #+80]
+    326              (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_TX_ACTION_COMPLETE_FAIL; 
+   \       0x1E   0x7802             LDRB     R2,[R0, #+0]
+   \       0x20   0x4011             ANDS     R1,R1,R2
+   \       0x22   0x430D             ORRS     R5,R5,R1
+   \       0x24   0x7005             STRB     R5,[R0, #+0]
+    327              return gSuccess_c;
+   \       0x26   0xE05B             B        ??process_tx_msg_1
+    328            }
+    329            
+    330            switch(state)
+   \                     ??process_tx_msg_0: (+1)
+   \       0x28   0x0022             MOVS     R2,R4
+   \       0x2A   0x3260             ADDS     R2,R2,#+96
+   \       0x2C   0x9200             STR      R2,[SP, #+0]
+   \       0x2E   0x....             LDR      R2,??DataTable14_3  ;; 0xa03
+   \       0x30   0x2308             MOVS     R3,#+8
+   \       0x32   0x7807             LDRB     R7,[R0, #+0]
+   \       0x34   0x08FF             LSRS     R7,R7,#+3
+   \       0x36   0xD006             BEQ      ??process_tx_msg_2
+   \       0x38   0x2F01             CMP      R7,#+1
+   \       0x3A   0xD012             BEQ      ??process_tx_msg_3
+   \       0x3C   0x2F02             CMP      R7,#+2
+   \       0x3E   0xD01C             BEQ      ??process_tx_msg_4
+   \       0x40   0x2F06             CMP      R7,#+6
+   \       0x42   0xD046             BEQ      ??process_tx_msg_5
+   \       0x44   0xE04A             B        ??process_tx_msg_6
+    331            {
+    332              case MSG_TX_RQST:
+    333                {
+    334                  clear_all_radio_events();
+   \                     ??process_tx_msg_2: (+1)
+   \       0x46   0x2500             MOVS     R5,#+0
+   \       0x48   0x6525             STR      R5,[R4, #+80]
+    335                  mRetries_timmer = MAX_TX_RETRIES;
+   \       0x4A   0x7025             STRB     R5,[R4, #+0]
+    336          
+    337                  command_xcvr_tx();
+   \       0x4C   0x7A04             LDRB     R4,[R0, #+8]
+   \       0x4E   0x1D24             ADDS     R4,R4,#+4
+   \       0x50   0x....             LDR      R5,??DataTable14_4  ;; 0x8000408c
+   \       0x52   0x602C             STR      R4,[R5, #+0]
+   \       0x54   0x6844             LDR      R4,[R0, #+4]
+   \       0x56   0x....             LDR      R5,??DataTable12_1  ;; 0x8000400c
+   \       0x58   0x67AC             STR      R4,[R5, #+120]
+   \       0x5A   0x9C00             LDR      R4,[SP, #+0]
+   \       0x5C   0x676C             STR      R4,[R5, #+116]
+   \       0x5E   0x602A             STR      R2,[R5, #+0]
+    338                  (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_TX_PASSED_TO_DEVICE;
+   \       0x60   0xE02D             B.N      ??process_tx_msg_7
+    339                }
+    340                break;
+    341              case MSG_TX_PASSED_TO_DEVICE:
+    342                {
+    343                  if(is_action_started_evnt()){
+   \                     ??process_tx_msg_3: (+1)
+   \       0x62   0x2221             MOVS     R2,#+33
+   \       0x64   0x4032             ANDS     R2,R2,R6
+   \       0x66   0xD03B             BEQ      ??process_tx_msg_1
+    344                    clear_action_started_evnt();
+   \       0x68   0x2201             MOVS     R2,#+1
+   \       0x6A   0x4396             BICS     R6,R6,R2
+   \       0x6C   0x6526             STR      R6,[R4, #+80]
+    345                    (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_TX_ACTION_STARTED;
+   \       0x6E   0x7802             LDRB     R2,[R0, #+0]
+   \       0x70   0x4011             ANDS     R1,R1,R2
+   \       0x72   0x2210             MOVS     R2,#+16
+   \       0x74   0x430A             ORRS     R2,R2,R1
+   \       0x76   0x7002             STRB     R2,[R0, #+0]
+   \       0x78   0xE032             B        ??process_tx_msg_1
+    346                  }
+    347                  else{
+    348          
+    349                  }
+    350                }
+    351                break;
+    352              case MSG_TX_ACTION_STARTED:
+    353                {
+    354                  if(is_tx_action_completed_evnt()){
+   \                     ??process_tx_msg_4: (+1)
+   \       0x7A   0x06B7             LSLS     R7,R6,#+26
+   \       0x7C   0x0FFF             LSRS     R7,R7,#+31
+   \       0x7E   0xD02F             BEQ      ??process_tx_msg_1
+    355                    clear_tx_action_completed_evnt();
+   \       0x80   0x2720             MOVS     R7,#+32
+   \       0x82   0x43BE             BICS     R6,R6,R7
+   \       0x84   0x6526             STR      R6,[R4, #+80]
+    356                    if(is_tx_ac_success_evnt()) {
+   \       0x86   0x0677             LSLS     R7,R6,#+25
+   \       0x88   0x0FFF             LSRS     R7,R7,#+31
+   \       0x8A   0xD007             BEQ      ??process_tx_msg_8
+    357                      clear_tx_ac_success_evnt();
+   \       0x8C   0x0032             MOVS     R2,R6
+   \       0x8E   0x2340             MOVS     R3,#+64
+   \       0x90   0x439A             BICS     R2,R2,R3
+   \       0x92   0x6522             STR      R2,[R4, #+80]
+    358                      (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    359                                                                 MSG_TX_ACTION_COMPLETE_SUCCESS;
+   \       0x94   0x7802             LDRB     R2,[R0, #+0]
+   \       0x96   0x4011             ANDS     R1,R1,R2
+   \       0x98   0x2220             MOVS     R2,#+32
+   \       0x9A   0xE01D             B        ??process_tx_msg_9
+    360                      release_current_message();
+    361                    }
+    362                    else {
+    363                      if(gNull_c != mRetries_timmer){
+   \                     ??process_tx_msg_8: (+1)
+   \       0x9C   0x7826             LDRB     R6,[R4, #+0]
+   \       0x9E   0x2E00             CMP      R6,#+0
+   \       0xA0   0xD012             BEQ      ??process_tx_msg_10
+    364                        _t_dec(mRetries_timmer);
+   \       0xA2   0x1E75             SUBS     R5,R6,#+1
+   \       0xA4   0x7025             STRB     R5,[R4, #+0]
+    365                        clear_all_radio_events();
+   \       0xA6   0x2500             MOVS     R5,#+0
+   \       0xA8   0x6525             STR      R5,[R4, #+80]
+    366                        command_xcvr_tx();
+   \       0xAA   0x7A04             LDRB     R4,[R0, #+8]
+   \       0xAC   0x1D24             ADDS     R4,R4,#+4
+   \       0xAE   0x....             LDR      R5,??DataTable14_4  ;; 0x8000408c
+   \       0xB0   0x602C             STR      R4,[R5, #+0]
+   \       0xB2   0x....             LDR      R4,??DataTable12_1  ;; 0x8000400c
+   \       0xB4   0x6845             LDR      R5,[R0, #+4]
+   \       0xB6   0x67A5             STR      R5,[R4, #+120]
+   \       0xB8   0x9D00             LDR      R5,[SP, #+0]
+   \       0xBA   0x6765             STR      R5,[R4, #+116]
+   \       0xBC   0x6022             STR      R2,[R4, #+0]
+    367                        (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    368                                                                        MSG_TX_PASSED_TO_DEVICE;
+   \                     ??process_tx_msg_7: (+1)
+   \       0xBE   0x7802             LDRB     R2,[R0, #+0]
+   \       0xC0   0x4011             ANDS     R1,R1,R2
+   \       0xC2   0x430B             ORRS     R3,R3,R1
+   \       0xC4   0x7003             STRB     R3,[R0, #+0]
+   \       0xC6   0xE00B             B        ??process_tx_msg_1
+    369                      }
+    370                      else {
+    371                        (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    372                                                                    MSG_TX_ACTION_COMPLETE_FAIL;
+   \                     ??process_tx_msg_10: (+1)
+   \       0xC8   0x7802             LDRB     R2,[R0, #+0]
+   \       0xCA   0x4011             ANDS     R1,R1,R2
+   \       0xCC   0x430D             ORRS     R5,R5,R1
+   \       0xCE   0x7005             STRB     R5,[R0, #+0]
+    373                        release_current_message();
+   \       0xD0   0xE004             B        ??process_tx_msg_6
+    374                      }
+    375                    }
+    376                  }
+    377                  else {
+    378                  }
+    379                }
+    380                break;
+    381              case MSG_TX_RQST_ABORT:
+    382                {
+    383                  (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_TX_ABORTED;
+   \                     ??process_tx_msg_5: (+1)
+   \       0xD2   0x7802             LDRB     R2,[R0, #+0]
+   \       0xD4   0x4011             ANDS     R1,R1,R2
+   \       0xD6   0x2238             MOVS     R2,#+56
+   \                     ??process_tx_msg_9: (+1)
+   \       0xD8   0x430A             ORRS     R2,R2,R1
+   \       0xDA   0x7002             STRB     R2,[R0, #+0]
+    384                  release_current_message();
+    385                }
+    386                break;
+    387              case MSG_TX_ABORTED:
+    388              case MSG_TX_ACTION_COMPLETE_SUCCESS:
+    389              case MSG_TX_ACTION_COMPLETE_FAIL:
+    390              default:
+    391                {
+    392                  release_current_message();
+   \                     ??process_tx_msg_6: (+1)
+   \       0xDC   0x....'....        BL       release_current_message
+    393                }
+    394                break;
+    395            }
+    396          
+    397            return gSuccess_c;
+   \                     ??process_tx_msg_1: (+1)
+   \       0xE0   0x....             B.N      ?Subroutine0
+    398          }
+
+   \                                 In section .text, align 2, keep-with-next
+   \                     ?Subroutine0: (+1)
+   \        0x0   0x2000             MOVS     R0,#+0
+   \                     ??Subroutine0_0: (+1)
+   \        0x2   0xBCF2             POP      {R1,R4-R7}
+   \        0x4   0xBC08             POP      {R3}
+   \        0x6   0x4718             BX       R3               ;; return
+    399          
+    400          /************************************************************************************
+    401          * process_rx_msg
+    402          *
+    403          * This function process any RX pending msg.
+    404          *
+    405          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    406          static FuncReturn_t process_rx_msg (void){
+   \                     process_rx_msg: (+1)
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
+    407            msg_rx_state_t state;
+    408            state = (msg_rx_state_t)((maMessage_Queu[current_msg])->u8Status.msg_state);
+    409            
+    410            if(is_action_completed_fail())
+   \        0x2   0x....             LDR      R6,??DataTable13
+   \        0x4   0x7870             LDRB     R0,[R6, #+1]
+   \        0x6   0x0080             LSLS     R0,R0,#+2
+   \        0x8   0x1830             ADDS     R0,R6,R0
+   \        0xA   0x6AC4             LDR      R4,[R0, #+44]
+   \        0xC   0x6D33             LDR      R3,[R6, #+80]
+   \        0xE   0x2107             MOVS     R1,#+7
+   \       0x10   0x....             LDR      R2,??DataTable14_1  ;; 0x140208
+   \       0x12   0x401A             ANDS     R2,R2,R3
+   \       0x14   0xD006             BEQ      ??process_rx_msg_0
+    411            {
+    412              clear_complete_fail_evnt();
+   \       0x16   0x....             LDR      R0,??DataTable14_2  ;; 0xffebfdf7
+   \       0x18   0x4018             ANDS     R0,R0,R3
+   \       0x1A   0x6530             STR      R0,[R6, #+80]
+    413              (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_RX_ACTION_COMPLETE_FAIL; 
+   \       0x1C   0x7820             LDRB     R0,[R4, #+0]
+   \       0x1E   0x4001             ANDS     R1,R1,R0
+   \       0x20   0x2030             MOVS     R0,#+48
+   \       0x22   0xE030             B.N      ??process_rx_msg_1
+    414               return gSuccess_c;
+    415            }
+    416            
+    417            switch(state)
+   \                     ??process_rx_msg_0: (+1)
+   \       0x24   0x7825             LDRB     R5,[R4, #+0]
+   \       0x26   0x0032             MOVS     R2,R6
+   \       0x28   0x3260             ADDS     R2,R2,#+96
+   \       0x2A   0x9200             STR      R2,[SP, #+0]
+   \       0x2C   0x2204             MOVS     R2,#+4
+   \       0x2E   0x08EF             LSRS     R7,R5,#+3
+   \       0x30   0xD008             BEQ      ??process_rx_msg_2
+   \       0x32   0x2F01             CMP      R7,#+1
+   \       0x34   0xD01E             BEQ      ??process_rx_msg_3
+   \       0x36   0x2F02             CMP      R7,#+2
+   \       0x38   0xD028             BEQ      ??process_rx_msg_4
+   \       0x3A   0x2F03             CMP      R7,#+3
+   \       0x3C   0xD07B             BEQ      ??process_rx_msg_5
+   \       0x3E   0x2F07             CMP      R7,#+7
+   \       0x40   0xD073             BEQ      ??process_rx_msg_6
+   \       0x42   0xE076             B        ??process_rx_msg_7
+    418            {
+    419              case MSG_RX_RQST:
+    420                {
+    421                  clear_all_radio_events();
+   \                     ??process_rx_msg_2: (+1)
+   \       0x44   0x2300             MOVS     R3,#+0
+   \       0x46   0x6533             STR      R3,[R6, #+80]
+    422                  mRetries_timmer = MAX_RX_RETRIES;
+   \       0x48   0x7033             STRB     R3,[R6, #+0]
+    423          
+    424                  _set_sftclk_offset(maMessageTO[current_msg]);
+   \       0x4A   0x6BC0             LDR      R0,[R0, #+60]
+   \       0x4C   0x64F0             STR      R0,[R6, #+76]
+    425                  command_xcvr_rx();
+   \       0x4E   0x7A23             LDRB     R3,[R4, #+8]
+   \       0x50   0x041B             LSLS     R3,R3,#+16
+   \       0x52   0x....             LDR      R5,??DataTable14_4  ;; 0x8000408c
+   \       0x54   0x602B             STR      R3,[R5, #+0]
+   \       0x56   0x9B00             LDR      R3,[SP, #+0]
+   \       0x58   0x....             LDR      R5,??DataTable15  ;; 0x8000400c
+   \       0x5A   0x67AB             STR      R3,[R5, #+120]
+   \       0x5C   0x6863             LDR      R3,[R4, #+4]
+   \       0x5E   0x676B             STR      R3,[R5, #+116]
+   \       0x60   0x6BEB             LDR      R3,[R5, #+60]
+   \       0x62   0x1818             ADDS     R0,R3,R0
+   \       0x64   0x64A8             STR      R0,[R5, #+72]
+   \       0x66   0x636A             STR      R2,[R5, #+52]
+   \       0x68   0x....             LDR      R0,??DataTable15_1  ;; 0xa04
+   \       0x6A   0x6028             STR      R0,[R5, #+0]
+    426          
+    427                  (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_RX_PASSED_TO_DEVICE;
+   \       0x6C   0x7820             LDRB     R0,[R4, #+0]
+   \       0x6E   0x4001             ANDS     R1,R1,R0
+   \       0x70   0x2008             MOVS     R0,#+8
+   \       0x72   0xE008             B.N      ??process_rx_msg_1
+    428                }
+    429                break;
+    430              case MSG_RX_PASSED_TO_DEVICE:
+    431                {
+    432                  if(is_action_started_evnt()){
+   \                     ??process_rx_msg_3: (+1)
+   \       0x74   0x2021             MOVS     R0,#+33
+   \       0x76   0x4018             ANDS     R0,R0,R3
+   \       0x78   0xD05D             BEQ      ??process_rx_msg_5
+    433                    clear_action_started_evnt();
+   \       0x7A   0x2001             MOVS     R0,#+1
+   \       0x7C   0x4383             BICS     R3,R3,R0
+   \       0x7E   0x6533             STR      R3,[R6, #+80]
+    434                    (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_RX_ACTION_STARTED;
+   \       0x80   0x7820             LDRB     R0,[R4, #+0]
+   \       0x82   0x4001             ANDS     R1,R1,R0
+   \       0x84   0x2010             MOVS     R0,#+16
+   \                     ??process_rx_msg_1: (+1)
+   \       0x86   0x4308             ORRS     R0,R0,R1
+   \       0x88   0x7020             STRB     R0,[R4, #+0]
+   \       0x8A   0xE054             B        ??process_rx_msg_5
+    435                  }
+    436                  else{
+    437                    /* Do nothing */
+    438                  }
+    439                }
+    440                break;
+    441              case MSG_RX_ACTION_STARTED:
+    442                {
+    443                  if(is_rx_action_completed_evnt()){
+   \                     ??process_rx_msg_4: (+1)
+   \       0x8C   0x069D             LSLS     R5,R3,#+26
+   \       0x8E   0x0FED             LSRS     R5,R5,#+31
+   \       0x90   0xD051             BEQ      ??process_rx_msg_5
+    444                    clear_rx_action_completed_evnt();
+   \       0x92   0x2520             MOVS     R5,#+32
+   \       0x94   0x43AB             BICS     R3,R3,R5
+   \       0x96   0x6533             STR      R3,[R6, #+80]
+    445                    if(is_rx_ac_success_evnt()) {
+   \       0x98   0x065D             LSLS     R5,R3,#+25
+   \       0x9A   0x0FED             LSRS     R5,R5,#+31
+   \       0x9C   0xD00B             BEQ      ??process_rx_msg_8
+    446                      clear_rx_ac_success_evnt();
+   \       0x9E   0x2240             MOVS     R2,#+64
+   \       0xA0   0x4393             BICS     R3,R3,R2
+   \       0xA2   0x6533             STR      R3,[R6, #+80]
+    447                      (maMessage_Queu[current_msg])->u8BufSize = get_rx_packet_sz();
+   \       0xA4   0x6862             LDR      R2,[R4, #+4]
+   \       0xA6   0x7812             LDRB     R2,[R2, #+0]
+   \       0xA8   0x1F12             SUBS     R2,R2,#+4
+   \       0xAA   0x7222             STRB     R2,[R4, #+8]
+    448                      (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    449                                                                 MSG_RX_ACTION_COMPLETE_SUCCESS;
+   \       0xAC   0x6AC0             LDR      R0,[R0, #+44]
+   \       0xAE   0x7802             LDRB     R2,[R0, #+0]
+   \       0xB0   0x4011             ANDS     R1,R1,R2
+   \       0xB2   0x2228             MOVS     R2,#+40
+   \       0xB4   0xE036             B.N      ??process_rx_msg_9
+    450                      release_current_message();
+    451                    }
+    452          
+    453                    else {
+    454                      if(is_timeout_evnt()){
+   \                     ??process_rx_msg_8: (+1)
+   \       0xB6   0x075F             LSLS     R7,R3,#+29
+   \       0xB8   0x0FFD             LSRS     R5,R7,#+31
+   \       0xBA   0x46AC             MOV      R12,R5
+   \       0xBC   0x045D             LSLS     R5,R3,#+17
+   \       0xBE   0x0FEF             LSRS     R7,R5,#+31
+   \       0xC0   0x4665             MOV      R5,R12
+   \       0xC2   0x432F             ORRS     R7,R7,R5
+   \       0xC4   0x46BC             MOV      R12,R7
+   \       0xC6   0x041F             LSLS     R7,R3,#+16
+   \       0xC8   0x0FFD             LSRS     R5,R7,#+31
+   \       0xCA   0x4667             MOV      R7,R12
+   \       0xCC   0x433D             ORRS     R5,R5,R7
+   \       0xCE   0xD006             BEQ      ??process_rx_msg_10
+    455                          clear_timeout_evnt();
+   \       0xD0   0x....             LDR      R0,??DataTable16  ;; 0xffff3ffb
+   \       0xD2   0x4018             ANDS     R0,R0,R3
+   \       0xD4   0x6530             STR      R0,[R6, #+80]
+    456                          (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_RX_TIMEOUT_FAIL;
+   \       0xD6   0x7820             LDRB     R0,[R4, #+0]
+   \       0xD8   0x4001             ANDS     R1,R1,R0
+   \       0xDA   0x2020             MOVS     R0,#+32
+   \       0xDC   0xE027             B        ??process_rx_msg_11
+    457                          release_current_message();
+    458                      }
+    459                      else {
+    460                        if(gNull_c != mRetries_timmer){
+   \                     ??process_rx_msg_10: (+1)
+   \       0xDE   0x7833             LDRB     R3,[R6, #+0]
+   \       0xE0   0x2B00             CMP      R3,#+0
+   \       0xE2   0xD01B             BEQ      ??process_rx_msg_12
+    461                          _t_dec(mRetries_timmer);
+   \       0xE4   0x1E5B             SUBS     R3,R3,#+1
+   \       0xE6   0x7033             STRB     R3,[R6, #+0]
+    462                          clear_all_radio_events();
+   \       0xE8   0x6535             STR      R5,[R6, #+80]
+    463                          (maMessage_Queu[current_msg])->u8BufSize = (0x00);
+   \       0xEA   0x7225             STRB     R5,[R4, #+8]
+    464                          command_xcvr_rx();
+   \       0xEC   0x6AC4             LDR      R4,[R0, #+44]
+   \       0xEE   0x7A25             LDRB     R5,[R4, #+8]
+   \       0xF0   0x042D             LSLS     R5,R5,#+16
+   \       0xF2   0x....             LDR      R7,??DataTable14_4  ;; 0x8000408c
+   \       0xF4   0x603D             STR      R5,[R7, #+0]
+   \       0xF6   0x....             LDR      R5,??DataTable15  ;; 0x8000400c
+   \       0xF8   0x9F00             LDR      R7,[SP, #+0]
+   \       0xFA   0x67AF             STR      R7,[R5, #+120]
+   \       0xFC   0x6867             LDR      R7,[R4, #+4]
+   \       0xFE   0x676F             STR      R7,[R5, #+116]
+   \      0x100   0x6BEF             LDR      R7,[R5, #+60]
+   \      0x102   0x6CF6             LDR      R6,[R6, #+76]
+   \      0x104   0x19BE             ADDS     R6,R7,R6
+   \      0x106   0x64AE             STR      R6,[R5, #+72]
+   \      0x108   0x636A             STR      R2,[R5, #+52]
+   \      0x10A   0x....             LDR      R2,??DataTable15_1  ;; 0xa04
+   \      0x10C   0x602A             STR      R2,[R5, #+0]
+    465                          (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    466                                                                        MSG_RX_PASSED_TO_DEVICE;
+   \      0x10E   0x7822             LDRB     R2,[R4, #+0]
+   \      0x110   0x400A             ANDS     R2,R2,R1
+   \      0x112   0x2508             MOVS     R5,#+8
+   \      0x114   0x4315             ORRS     R5,R5,R2
+   \      0x116   0x7025             STRB     R5,[R4, #+0]
+    467                        }
+    468          //              else {
+    469                        if(gNull_c == mRetries_timmer){
+   \      0x118   0x061B             LSLS     R3,R3,#+24
+   \      0x11A   0xD10C             BNE      ??process_rx_msg_5
+    470          
+    471                          (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    472                                                                    MSG_RX_ACTION_COMPLETE_FAIL;
+   \                     ??process_rx_msg_12: (+1)
+   \      0x11C   0x6AC0             LDR      R0,[R0, #+44]
+   \      0x11E   0x7802             LDRB     R2,[R0, #+0]
+   \      0x120   0x4011             ANDS     R1,R1,R2
+   \      0x122   0x2230             MOVS     R2,#+48
+   \                     ??process_rx_msg_9: (+1)
+   \      0x124   0x430A             ORRS     R2,R2,R1
+   \      0x126   0x7002             STRB     R2,[R0, #+0]
+    473          
+    474                          release_current_message();
+   \      0x128   0xE003             B        ??process_rx_msg_7
+    475          
+    476                        }
+    477                      }
+    478                    }
+    479          
+    480                  }
+    481                  else {
+    482          
+    483                  }
+    484                }
+    485                break;
+    486              case MSG_RX_SYNC_FOUND:
+    487                {
+    488                  /* Not used at this time */
+    489                }
+    490                break;
+    491              case MSG_RX_RQST_ABORT:
+    492                {
+    493                  (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_RX_ABORTED;
+   \                     ??process_rx_msg_6: (+1)
+   \      0x12A   0x4029             ANDS     R1,R1,R5
+   \      0x12C   0x2040             MOVS     R0,#+64
+   \                     ??process_rx_msg_11: (+1)
+   \      0x12E   0x4308             ORRS     R0,R0,R1
+   \      0x130   0x7020             STRB     R0,[R4, #+0]
+    494                  release_current_message();
+    495                }
+    496                break;
+    497              case MSG_RX_ABORTED:
+    498              case MSG_RX_TIMEOUT_FAIL:
+    499              case MSG_RX_ACTION_COMPLETE_SUCCESS:
+    500              case MSG_RX_ACTION_COMPLETE_FAIL:
+    501              default:
+    502                {
+    503                  release_current_message();
+   \                     ??process_rx_msg_7: (+1)
+   \      0x132   0x....'....        BL       release_current_message
+    504                }
+    505                break;
+    506            }
+    507          
+    508            return gSuccess_c;
+   \                     ??process_rx_msg_5: (+1)
+   \      0x136                      REQUIRE ?Subroutine0
+   \      0x136                      ;; // Fall through to label ?Subroutine0
+    509          }
+    510          
+    511          
+    512          
+
+   \                                 In section .text, align 4, keep-with-next
+    513           uint32_t command_xcvr_ed (uint8_t chann)
+    514            { 
+   \                     command_xcvr_ed: (+1)
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
+   \        0x2   0x0006             MOVS     R6,R0
+    515                    uint32_t tmpChannel;
+    516                    tmpChannel = GetCurrentChannel(gaRFSynVCODivI_c, gaRFSynVCODivF_c);
+   \        0x4   0x....             ADR.N    R4,gaRFSynVCODivI_c
+   \        0x6   0x....             LDR      R5,??DataTable16_1
+   \        0x8   0x0029             MOVS     R1,R5
+   \        0xA   0x0020             MOVS     R0,R4
+   \        0xC   0x....'....        BL       GetCurrentChannel
+   \       0x10   0x0007             MOVS     R7,R0
+    517                    _set_channel(chann);
+   \       0x12   0x0030             MOVS     R0,R6
+   \       0x14   0x0081             LSLS     R1,R0,#+2
+   \       0x16   0x586A             LDR      R2,[R5, R1]
+   \       0x18   0x5C21             LDRB     R1,[R4, R0]
+   \       0x1A   0x....'....        BL       SetChannel
+    518                    maca_control = (control_prm | control_asap | control_seq_ed );
+   \       0x1E   0x....             LDR      R0,??DataTable16_2  ;; 0xa07
+   \       0x20   0x....             LDR      R1,??DataTable15  ;; 0x8000400c
+   \       0x22   0x6008             STR      R0,[R1, #+0]
+    519                    return tmpChannel;
+   \       0x24   0x0038             MOVS     R0,R7
+   \       0x26   0x....             B.N      ??Subroutine0_0
+    520            }
+    521          
+    522          
+    523          
+    524          /************************************************************************************
+    525          * process_ed_msg
+    526          *
+    527          * This function process any Energy Detect pending msg.
+    528          *
+    529          ************************************************************************************/
+
+   \                                 In section .text, align 4, keep-with-next
+    530          static FuncReturn_t process_ed_msg (void){
+   \                     process_ed_msg: (+1)
+   \        0x0   0xB570             PUSH     {R4-R6,LR}
+    531            static uint32_t prev_chann;
+    532            msg_ed_state_t state;
+    533            state = (msg_ed_state_t)((maMessage_Queu[current_msg])->u8Status.msg_state);
+    534            switch(state)
+   \        0x2   0x....             LDR      R4,??DataTable17
+   \        0x4   0x7860             LDRB     R0,[R4, #+1]
+   \        0x6   0x0080             LSLS     R0,R0,#+2
+   \        0x8   0x1825             ADDS     R5,R4,R0
+   \        0xA   0x6AE9             LDR      R1,[R5, #+44]
+   \        0xC   0x780A             LDRB     R2,[R1, #+0]
+   \        0xE   0x2000             MOVS     R0,#+0
+   \       0x10   0x08D3             LSRS     R3,R2,#+3
+   \       0x12   0xD004             BEQ      ??process_ed_msg_0
+   \       0x14   0x2B01             CMP      R3,#+1
+   \       0x16   0xD01B             BEQ      ??process_ed_msg_1
+   \       0x18   0x2B04             CMP      R3,#+4
+   \       0x1A   0xD064             BEQ      ??process_ed_msg_2
+   \       0x1C   0xE068             B        ??process_ed_msg_3
+    535            {
+    536              case MSG_ED_RQST:
+    537                {
+    538                  clear_all_radio_events();
+   \                     ??process_ed_msg_0: (+1)
+   \       0x1E   0x6520             STR      R0,[R4, #+80]
+    539                  mRetries_timmer = MAX_ED_RETRIES;
+   \       0x20   0x7020             STRB     R0,[R4, #+0]
+    540          
+    541                  /* Use u8BufSize to store the desired channel */
+    542                  if((uintn8_t)MAX_SMAC_CHANNELS > ((maMessage_Queu[current_msg])->u8BufSize)){
+   \       0x22   0x7A08             LDRB     R0,[R1, #+8]
+   \       0x24   0x2810             CMP      R0,#+16
+   \       0x26   0xDA0E             BGE      ??process_ed_msg_4
+    543                    prev_chann = command_xcvr_ed((maMessage_Queu[current_msg])->u8BufSize);
+   \       0x28   0x....'....        BL       command_xcvr_ed
+   \       0x2C   0x65A0             STR      R0,[R4, #+88]
+    544                    (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_ED_PASSED_TO_DEVICE;
+   \       0x2E   0x0020             MOVS     R0,R4
+   \       0x30   0x302C             ADDS     R0,R0,#+44
+   \       0x32   0x7861             LDRB     R1,[R4, #+1]
+   \       0x34   0x0089             LSLS     R1,R1,#+2
+   \       0x36   0x5840             LDR      R0,[R0, R1]
+   \       0x38   0x7801             LDRB     R1,[R0, #+0]
+   \       0x3A   0x0749             LSLS     R1,R1,#+29
+   \       0x3C   0x0F49             LSRS     R1,R1,#+29
+   \       0x3E   0x2208             MOVS     R2,#+8
+   \       0x40   0x430A             ORRS     R2,R2,R1
+   \       0x42   0x7002             STRB     R2,[R0, #+0]
+   \       0x44   0xE056             B        ??process_ed_msg_5
+    545                  }
+    546                  else{
+    547                    (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    548                                                                    MSG_ED_ACTION_COMPLETE_FAIL;
+   \                     ??process_ed_msg_4: (+1)
+   \       0x46   0x7808             LDRB     R0,[R1, #+0]
+   \       0x48   0x0740             LSLS     R0,R0,#+29
+   \       0x4A   0x0F40             LSRS     R0,R0,#+29
+   \       0x4C   0x2218             MOVS     R2,#+24
+   \       0x4E   0xE04D             B        ??process_ed_msg_6
+    549                    release_current_message();
+    550                  }
+    551                }
+    552                break;
+    553              case MSG_ED_PASSED_TO_DEVICE:
+    554                {
+    555                  if(is_action_completed_evnt()){
+   \                     ??process_ed_msg_1: (+1)
+   \       0x50   0x6D22             LDR      R2,[R4, #+80]
+   \       0x52   0x0693             LSLS     R3,R2,#+26
+   \       0x54   0x0FDB             LSRS     R3,R3,#+31
+   \       0x56   0xD04D             BEQ      ??process_ed_msg_5
+    556                    clear_action_completed_evnt();
+   \       0x58   0x2320             MOVS     R3,#+32
+   \       0x5A   0x439A             BICS     R2,R2,R3
+   \       0x5C   0x6522             STR      R2,[R4, #+80]
+    557                    if(is_ac_success_evnt()) {
+   \       0x5E   0x2310             MOVS     R3,#+16
+   \       0x60   0x0656             LSLS     R6,R2,#+25
+   \       0x62   0x0FF6             LSRS     R6,R6,#+31
+   \       0x64   0xD017             BEQ      ??process_ed_msg_7
+    558                      clear_ac_success_evnt();
+   \       0x66   0x2040             MOVS     R0,#+64
+   \       0x68   0x4382             BICS     R2,R2,R0
+   \       0x6A   0x6522             STR      R2,[R4, #+80]
+    559                      (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    560                                                                 MSG_ED_ACTION_COMPLETE_SUCCESS;          
+   \       0x6C   0x7808             LDRB     R0,[R1, #+0]
+   \       0x6E   0x0740             LSLS     R0,R0,#+29
+   \       0x70   0x0F40             LSRS     R0,R0,#+29
+   \       0x72   0x4303             ORRS     R3,R3,R0
+   \       0x74   0x700B             STRB     R3,[R1, #+0]
+    561                      *((maMessage_Queu[current_msg])->pu8Buffer->u8Data) = calculate_ed_value(_get_ed_value());
+   \       0x76   0x....             LDR      R0,??DataTable18  ;; 0x80009488
+   \       0x78   0x6800             LDR      R0,[R0, #+0]
+   \       0x7A   0x....'....        BL       calculate_ed_value
+   \       0x7E   0x6AE9             LDR      R1,[R5, #+44]
+   \       0x80   0x6849             LDR      R1,[R1, #+4]
+   \       0x82   0x7088             STRB     R0,[R1, #+2]
+    562                      _set_channel(prev_chann);
+   \       0x84   0x....             LDR      R0,??DataTable16_1
+   \       0x86   0x6DA1             LDR      R1,[R4, #+88]
+   \       0x88   0x0089             LSLS     R1,R1,#+2
+   \       0x8A   0x5842             LDR      R2,[R0, R1]
+   \       0x8C   0x....             ADR.N    R0,gaRFSynVCODivI_c
+   \       0x8E   0x6DA1             LDR      R1,[R4, #+88]
+   \       0x90   0x5C41             LDRB     R1,[R0, R1]
+   \       0x92   0x6DA0             LDR      R0,[R4, #+88]
+   \       0x94   0xE022             B.N      ??process_ed_msg_8
+    563                      release_current_message();
+    564                    }
+    565                    else {
+    566                      if(gNull_c != mRetries_timmer){
+   \                     ??process_ed_msg_7: (+1)
+   \       0x96   0x7826             LDRB     R6,[R4, #+0]
+   \       0x98   0x2E00             CMP      R6,#+0
+   \       0x9A   0xD006             BEQ      ??process_ed_msg_9
+    567                        _t_dec(mRetries_timmer);
+   \       0x9C   0x1E72             SUBS     R2,R6,#+1
+   \       0x9E   0x7022             STRB     R2,[R4, #+0]
+    568                        clear_all_radio_events();
+   \       0xA0   0x6520             STR      R0,[R4, #+80]
+    569                        (void)command_xcvr_ed((maMessage_Queu[current_msg])->u8BufSize);
+   \       0xA2   0x7A08             LDRB     R0,[R1, #+8]
+   \       0xA4   0x....'....        BL       command_xcvr_ed
+   \       0xA8   0xE024             B        ??process_ed_msg_5
+    570                      }
+    571                      else {              
+    572                        if (is_channel_busy_evnt())
+   \                     ??process_ed_msg_9: (+1)
+   \       0xAA   0x7808             LDRB     R0,[R1, #+0]
+   \       0xAC   0x0740             LSLS     R0,R0,#+29
+   \       0xAE   0x0F40             LSRS     R0,R0,#+29
+   \       0xB0   0x05D6             LSLS     R6,R2,#+23
+   \       0xB2   0x0FF6             LSRS     R6,R6,#+31
+   \       0xB4   0xD009             BEQ      ??process_ed_msg_10
+    573                        {
+    574                          (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    575                                                                 MSG_ED_ACTION_COMPLETE_SUCCESS; 
+   \       0xB6   0x4303             ORRS     R3,R3,R0
+   \       0xB8   0x700B             STRB     R3,[R1, #+0]
+    576                          *((maMessage_Queu[current_msg])->pu8Buffer->u8Data) = calculate_ed_value(_get_ed_value()); 
+   \       0xBA   0x....             LDR      R0,??DataTable18  ;; 0x80009488
+   \       0xBC   0x6800             LDR      R0,[R0, #+0]
+   \       0xBE   0x....'....        BL       calculate_ed_value
+   \       0xC2   0x6AE9             LDR      R1,[R5, #+44]
+   \       0xC4   0x6849             LDR      R1,[R1, #+4]
+   \       0xC6   0x7088             STRB     R0,[R1, #+2]
+   \       0xC8   0xE002             B        ??process_ed_msg_11
+    577                        }
+    578                        else
+    579                        { 
+    580                        (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    581                                                                    MSG_ED_ACTION_COMPLETE_FAIL;
+   \                     ??process_ed_msg_10: (+1)
+   \       0xCA   0x2218             MOVS     R2,#+24
+   \       0xCC   0x4302             ORRS     R2,R2,R0
+   \       0xCE   0x700A             STRB     R2,[R1, #+0]
+    582                        }
+    583                        _set_channel(prev_chann);
+   \                     ??process_ed_msg_11: (+1)
+   \       0xD0   0x6DA0             LDR      R0,[R4, #+88]
+   \       0xD2   0x....             LDR      R1,??DataTable16_1
+   \       0xD4   0x0082             LSLS     R2,R0,#+2
+   \       0xD6   0x588A             LDR      R2,[R1, R2]
+   \       0xD8   0x....             ADR.N    R1,gaRFSynVCODivI_c
+   \       0xDA   0x5C09             LDRB     R1,[R1, R0]
+   \                     ??process_ed_msg_8: (+1)
+   \       0xDC   0x0600             LSLS     R0,R0,#+24
+   \       0xDE   0x0E00             LSRS     R0,R0,#+24
+   \       0xE0   0x....'....        BL       SetChannel
+    584                        release_current_message();         
+   \       0xE4   0xE004             B        ??process_ed_msg_3
+    585                      }
+    586                    }
+    587                  }
+    588                  else {
+    589          
+    590                  }
+    591                }
+    592                break;
+    593              case MSG_ED_RQST_ABORT:
+    594                {
+    595                  (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_ED_ABORTED;
+   \                     ??process_ed_msg_2: (+1)
+   \       0xE6   0x0750             LSLS     R0,R2,#+29
+   \       0xE8   0x0F40             LSRS     R0,R0,#+29
+   \       0xEA   0x2228             MOVS     R2,#+40
+   \                     ??process_ed_msg_6: (+1)
+   \       0xEC   0x4302             ORRS     R2,R2,R0
+   \       0xEE   0x700A             STRB     R2,[R1, #+0]
+    596                  release_current_message();
+    597                }
+    598                break;
+    599              case MSG_ED_ABORTED:
+    600              case MSG_ED_ACTION_COMPLETE_SUCCESS:
+    601              case MSG_ED_ACTION_COMPLETE_FAIL:
+    602              default:
+    603                {
+    604                  release_current_message();
+   \                     ??process_ed_msg_3: (+1)
+   \       0xF0   0x....'....        BL       release_current_message
+    605                }
+    606                break;
+    607            }
+    608          
+    609            if(is_action_completed_fail())
+   \                     ??process_ed_msg_5: (+1)
+   \       0xF4   0x6D20             LDR      R0,[R4, #+80]
+   \       0xF6   0x....             LDR      R1,??DataTable18_1  ;; 0x140208
+   \       0xF8   0x4001             ANDS     R1,R1,R0
+   \       0xFA   0xD00F             BEQ      ??process_ed_msg_12
+    610            {
+    611              clear_complete_fail_evnt();
+   \       0xFC   0x....             LDR      R1,??DataTable18_2  ;; 0xffebfdf7
+   \       0xFE   0x4001             ANDS     R1,R1,R0
+   \      0x100   0x6521             STR      R1,[R4, #+80]
+    612              (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_ED_ACTION_COMPLETE_FAIL; 
+   \      0x102   0x0020             MOVS     R0,R4
+   \      0x104   0x302C             ADDS     R0,R0,#+44
+   \      0x106   0x7861             LDRB     R1,[R4, #+1]
+   \      0x108   0x0089             LSLS     R1,R1,#+2
+   \      0x10A   0x5840             LDR      R0,[R0, R1]
+   \      0x10C   0x7801             LDRB     R1,[R0, #+0]
+   \      0x10E   0x0749             LSLS     R1,R1,#+29
+   \      0x110   0x0F49             LSRS     R1,R1,#+29
+   \      0x112   0x2218             MOVS     R2,#+24
+   \      0x114   0x430A             ORRS     R2,R2,R1
+   \      0x116   0x7002             STRB     R2,[R0, #+0]
+    613              release_current_message();
+   \      0x118   0x....'....        BL       release_current_message
+    614            }
+    615            return gSuccess_c;
+   \                     ??process_ed_msg_12: (+1)
+   \      0x11C   0x2000             MOVS     R0,#+0
+   \      0x11E   0xBC70             POP      {R4-R6}
+   \      0x120   0xBC08             POP      {R3}
+   \      0x122   0x4718             BX       R3               ;; return
+    616          }
+    617          
+    618          /************************************************************************************
+    619          * process_to_msg
+    620          *
+    621          * This function process any Timeout pending msg.
+    622          *
+    623          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    624          static FuncReturn_t process_to_msg (void){
+   \                     process_to_msg: (+1)
+   \        0x0   0xB5F8             PUSH     {R3-R7,LR}
+    625            msg_to_state_t state;
+    626            state = (msg_to_state_t)((maMessage_Queu[current_msg])->u8Status.msg_state);
+    627            switch(state)
+   \        0x2   0x....             LDR      R4,??DataTable17
+   \        0x4   0x7860             LDRB     R0,[R4, #+1]
+   \        0x6   0x0080             LSLS     R0,R0,#+2
+   \        0x8   0x1820             ADDS     R0,R4,R0
+   \        0xA   0x6AC0             LDR      R0,[R0, #+44]
+   \        0xC   0x7806             LDRB     R6,[R0, #+0]
+   \        0xE   0x....             LDR      R1,??DataTable18_3  ;; 0x8000400c
+   \       0x10   0x....             LDR      R2,??DataTable18_4  ;; 0xa02
+   \       0x12   0x2507             MOVS     R5,#+7
+   \       0x14   0x2300             MOVS     R3,#+0
+   \       0x16   0x08F7             LSRS     R7,R6,#+3
+   \       0x18   0xD004             BEQ      ??process_to_msg_0
+   \       0x1A   0x2F01             CMP      R7,#+1
+   \       0x1C   0xD015             BEQ      ??process_to_msg_1
+   \       0x1E   0x2F04             CMP      R7,#+4
+   \       0x20   0xD04F             BEQ      ??process_to_msg_2
+   \       0x22   0xE052             B        ??process_to_msg_3
+    628            {
+    629              case MSG_TO_RQST:
+    630                {
+    631                  clear_all_radio_events();
+   \                     ??process_to_msg_0: (+1)
+   \       0x24   0x6523             STR      R3,[R4, #+80]
+    632                  mRetries_timmer = MAX_TO_RETRIES;
+   \       0x26   0x7023             STRB     R3,[R4, #+0]
+    633          
+    634                  command_xcvr_to();
+   \       0x28   0x6BCB             LDR      R3,[R1, #+60]
+   \       0x2A   0x6846             LDR      R6,[R0, #+4]
+   \       0x2C   0x78B6             LDRB     R6,[R6, #+2]
+   \       0x2E   0x199B             ADDS     R3,R3,R6
+   \       0x30   0x644B             STR      R3,[R1, #+68]
+   \       0x32   0x6BCB             LDR      R3,[R1, #+60]
+   \       0x34   0x6846             LDR      R6,[R0, #+4]
+   \       0x36   0x78B6             LDRB     R6,[R6, #+2]
+   \       0x38   0x199B             ADDS     R3,R3,R6
+   \       0x3A   0x648B             STR      R3,[R1, #+72]
+   \       0x3C   0x600A             STR      R2,[R1, #+0]
+    635                  (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_TO_PASSED_TO_DEVICE;
+   \       0x3E   0x7801             LDRB     R1,[R0, #+0]
+   \       0x40   0x4029             ANDS     R1,R1,R5
+   \       0x42   0x2208             MOVS     R2,#+8
+   \       0x44   0x430A             ORRS     R2,R2,R1
+   \       0x46   0x7002             STRB     R2,[R0, #+0]
+    636                }
+    637                break;
+   \       0x48   0xE041             B        ??process_to_msg_4
+    638              case MSG_TO_PASSED_TO_DEVICE:
+    639                {
+    640                  if(is_action_completed_evnt()){
+   \                     ??process_to_msg_1: (+1)
+   \       0x4A   0x6D26             LDR      R6,[R4, #+80]
+   \       0x4C   0x06B7             LSLS     R7,R6,#+26
+   \       0x4E   0x0FFF             LSRS     R7,R7,#+31
+   \       0x50   0xD03D             BEQ      ??process_to_msg_4
+    641                    clear_action_completed_evnt();
+   \       0x52   0x2720             MOVS     R7,#+32
+   \       0x54   0x43BE             BICS     R6,R6,R7
+   \       0x56   0x6526             STR      R6,[R4, #+80]
+    642                    if(( is_ac_success_evnt()) || 
+    643                       ( is_ac_timeout_evnt()) ||
+    644                       ( is_timeout_evnt())) {
+   \       0x58   0x2650             MOVS     R6,#+80
+   \       0x5A   0x5DA6             LDRB     R6,[R4, R6]
+   \       0x5C   0x27C0             MOVS     R7,#+192
+   \       0x5E   0x4037             ANDS     R7,R7,R6
+   \       0x60   0xD10F             BNE      ??process_to_msg_5
+   \       0x62   0x6D26             LDR      R6,[R4, #+80]
+   \       0x64   0x0776             LSLS     R6,R6,#+29
+   \       0x66   0x0FF7             LSRS     R7,R6,#+31
+   \       0x68   0x46BC             MOV      R12,R7
+   \       0x6A   0x6D26             LDR      R6,[R4, #+80]
+   \       0x6C   0x0477             LSLS     R7,R6,#+17
+   \       0x6E   0x0FFE             LSRS     R6,R7,#+31
+   \       0x70   0x4667             MOV      R7,R12
+   \       0x72   0x433E             ORRS     R6,R6,R7
+   \       0x74   0x46B4             MOV      R12,R6
+   \       0x76   0x6D26             LDR      R6,[R4, #+80]
+   \       0x78   0x0436             LSLS     R6,R6,#+16
+   \       0x7A   0x0FF7             LSRS     R7,R6,#+31
+   \       0x7C   0x4666             MOV      R6,R12
+   \       0x7E   0x4337             ORRS     R7,R7,R6
+   \       0x80   0xD007             BEQ      ??process_to_msg_6
+    645                      clear_ac_success_evnt();
+    646                      clear_ac_timeout_evnt();
+    647                      clear_timeout_evnt();
+   \                     ??process_to_msg_5: (+1)
+   \       0x82   0x6D21             LDR      R1,[R4, #+80]
+   \       0x84   0x....             LDR      R2,??DataTable18_5  ;; 0xffff3f3b
+   \       0x86   0x400A             ANDS     R2,R2,R1
+   \       0x88   0x6522             STR      R2,[R4, #+80]
+    648                      (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    649                                                                 MSG_TO_ACTION_COMPLETE_SUCCESS;
+   \       0x8A   0x7801             LDRB     R1,[R0, #+0]
+   \       0x8C   0x4029             ANDS     R1,R1,R5
+   \       0x8E   0x2210             MOVS     R2,#+16
+   \       0x90   0xE014             B.N      ??process_to_msg_7
+    650                      release_current_message();
+    651                    }
+    652                    else {
+    653                      if(gNull_c != mRetries_timmer){
+   \                     ??process_to_msg_6: (+1)
+   \       0x92   0x7826             LDRB     R6,[R4, #+0]
+   \       0x94   0x2E00             CMP      R6,#+0
+   \       0x96   0xD00E             BEQ      ??process_to_msg_8
+    654                        _t_dec(mRetries_timmer);
+   \       0x98   0x1E76             SUBS     R6,R6,#+1
+   \       0x9A   0x7026             STRB     R6,[R4, #+0]
+    655                        clear_all_radio_events();
+   \       0x9C   0x6523             STR      R3,[R4, #+80]
+    656                        command_xcvr_to();
+   \       0x9E   0x6BCB             LDR      R3,[R1, #+60]
+   \       0xA0   0x6846             LDR      R6,[R0, #+4]
+   \       0xA2   0x78B6             LDRB     R6,[R6, #+2]
+   \       0xA4   0x199B             ADDS     R3,R3,R6
+   \       0xA6   0x644B             STR      R3,[R1, #+68]
+   \       0xA8   0x6BCB             LDR      R3,[R1, #+60]
+   \       0xAA   0x6840             LDR      R0,[R0, #+4]
+   \       0xAC   0x7880             LDRB     R0,[R0, #+2]
+   \       0xAE   0x1818             ADDS     R0,R3,R0
+   \       0xB0   0x6488             STR      R0,[R1, #+72]
+   \       0xB2   0x600A             STR      R2,[R1, #+0]
+   \       0xB4   0xE00B             B        ??process_to_msg_4
+    657                      }
+    658                      else {
+    659                        (maMessage_Queu[current_msg])->u8Status.msg_state = \
+    660                                                                    MSG_TO_ACTION_COMPLETE_FAIL;
+   \                     ??process_to_msg_8: (+1)
+   \       0xB6   0x7801             LDRB     R1,[R0, #+0]
+   \       0xB8   0x4029             ANDS     R1,R1,R5
+   \       0xBA   0x2218             MOVS     R2,#+24
+   \                     ??process_to_msg_7: (+1)
+   \       0xBC   0x430A             ORRS     R2,R2,R1
+   \       0xBE   0x7002             STRB     R2,[R0, #+0]
+    661                        release_current_message();
+   \       0xC0   0xE003             B        ??process_to_msg_3
+    662                      }
+    663                    }
+    664                  }
+    665                  else {
+    666          
+    667                  }
+    668                }
+    669                break;
+    670              case MSG_TO_RQST_ABORT:
+    671                {
+    672                  (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_TO_ABORTED;
+   \                     ??process_to_msg_2: (+1)
+   \       0xC2   0x402E             ANDS     R6,R6,R5
+   \       0xC4   0x2128             MOVS     R1,#+40
+   \       0xC6   0x4331             ORRS     R1,R1,R6
+   \       0xC8   0x7001             STRB     R1,[R0, #+0]
+    673                  release_current_message();
+    674                }
+    675                break;
+    676              case MSG_TO_ABORTED:
+    677              case MSG_TO_ACTION_COMPLETE_SUCCESS:
+    678              case MSG_TO_ACTION_COMPLETE_FAIL:
+    679              default:
+    680                {
+    681                  release_current_message();
+   \                     ??process_to_msg_3: (+1)
+   \       0xCA   0x....'....        BL       release_current_message
+    682                }
+    683                break;
+    684            }
+    685          
+    686            if(is_action_completed_fail())
+   \                     ??process_to_msg_4: (+1)
+   \       0xCE   0x6D20             LDR      R0,[R4, #+80]
+   \       0xD0   0x....             LDR      R1,??DataTable18_1  ;; 0x140208
+   \       0xD2   0x4001             ANDS     R1,R1,R0
+   \       0xD4   0xD00E             BEQ      ??process_to_msg_9
+    687            {
+    688              clear_complete_fail_evnt();
+   \       0xD6   0x....             LDR      R1,??DataTable18_2  ;; 0xffebfdf7
+   \       0xD8   0x4001             ANDS     R1,R1,R0
+   \       0xDA   0x6521             STR      R1,[R4, #+80]
+    689              (maMessage_Queu[current_msg])->u8Status.msg_state = MSG_TO_ACTION_COMPLETE_FAIL; 
+   \       0xDC   0x0020             MOVS     R0,R4
+   \       0xDE   0x302C             ADDS     R0,R0,#+44
+   \       0xE0   0x7861             LDRB     R1,[R4, #+1]
+   \       0xE2   0x0089             LSLS     R1,R1,#+2
+   \       0xE4   0x5840             LDR      R0,[R0, R1]
+   \       0xE6   0x7801             LDRB     R1,[R0, #+0]
+   \       0xE8   0x400D             ANDS     R5,R5,R1
+   \       0xEA   0x2118             MOVS     R1,#+24
+   \       0xEC   0x4329             ORRS     R1,R1,R5
+   \       0xEE   0x7001             STRB     R1,[R0, #+0]
+    690              release_current_message();
+   \       0xF0   0x....'....        BL       release_current_message
+    691            }
+    692          
+    693          
+    694            return gSuccess_c;
+   \                     ??process_to_msg_9: (+1)
+   \       0xF4   0x....             B.N      ?Subroutine0
+    695          }
+    696          
+    697          /************************************************************************************
+    698          * calculate_ed_value function
+    699          *
+    700          * This function is called to calculate the Energy Dectect value.
+    701          *
+    702          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    703          uint8_t calculate_ed_value(uint32_t x_agc_cca_ed_out)
+    704          {
+   \                     calculate_ed_value: (+1)
+   \        0x0   0x0001             MOVS     R1,R0
+    705            uint32_t u32EdVal;
+    706          
+    707            u32EdVal = x_agc_cca_ed_out & 0x000000FF;
+   \        0x2   0x20FF             MOVS     R0,#+255
+   \        0x4   0x4001             ANDS     R1,R1,R0
+    708            
+    709            if(u32EdVal<0x0F)
+   \        0x6   0x290F             CMP      R1,#+15
+   \        0x8   0xD201             BCS      ??calculate_ed_value_0
+    710            {
+    711              u32EdVal = 0x00;
+   \        0xA   0x2000             MOVS     R0,#+0
+   \        0xC   0xE004             B        ??calculate_ed_value_1
+    712            }
+    713            else if(u32EdVal>0x64)
+   \                     ??calculate_ed_value_0: (+1)
+   \        0xE   0x2965             CMP      R1,#+101
+   \       0x10   0xD202             BCS      ??calculate_ed_value_1
+    714            {
+    715              u32EdVal = 0xFF;
+    716            }
+    717            else
+    718            {
+    719              u32EdVal = ((u32EdVal<<1)+u32EdVal)-0x2D;
+   \       0x12   0x0048             LSLS     R0,R1,#+1
+   \       0x14   0x1840             ADDS     R0,R0,R1
+   \       0x16   0x382D             SUBS     R0,R0,#+45
+    720            }
+    721          
+    722            return (uint8_t)(u32EdVal);
+   \                     ??calculate_ed_value_1: (+1)
+   \       0x18   0x0600             LSLS     R0,R0,#+24
+   \       0x1A   0x0E00             LSRS     R0,R0,#+24
+   \       0x1C   0x4770             BX       LR               ;; return
+    723          }
+    724          
+    725          /************************************************************************************
+    726          * process_scan_req function
+    727          *
+    728          * This function is called to procees Channels Scan Requests.
+    729          *
+    730          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    731          void process_scan_req(void)
+    732          {
+   \                     process_scan_req: (+1)
+   \        0x0   0xB570             PUSH     {R4-R6,LR}
+    733            channel_num_t prevChann;
+    734            static uint8_t u8BestVal = 255;
+    735            static channel_num_t bestChann = CHANNEL11;
+    736            static channel_num_t EdCh2Evaluate = CHANNEL11;
+    737            static bool_t isSecondPass = FALSE;
+    738          
+    739            if(MSG_ED_ACTION_COMPLETE_SUCCESS == Scan_msg.u8Status.msg_state)
+   \        0x2   0x....             LDR      R5,??DataTable17
+   \        0x4   0x7A28             LDRB     R0,[R5, #+8]
+   \        0x6   0x08C0             LSRS     R0,R0,#+3
+   \        0x8   0x79A9             LDRB     R1,[R5, #+6]
+   \        0xA   0x2802             CMP      R0,#+2
+   \        0xC   0xD129             BNE      ??process_scan_req_0
+    740            {
+    741              u8ScanValPerChann[EdCh2Evaluate] = Scan_msg.pu8Buffer->u8Data[0];
+   \        0xE   0x68E8             LDR      R0,[R5, #+12]
+   \       0x10   0x7880             LDRB     R0,[R0, #+2]
+   \       0x12   0x186A             ADDS     R2,R5,R1
+   \       0x14   0x7610             STRB     R0,[R2, #+24]
+    742              if( (0 != (u8ScanValPerChann[EdCh2Evaluate])) ||(TRUE == isSecondPass))
+   \       0x16   0x2800             CMP      R0,#+0
+   \       0x18   0xD102             BNE      ??process_scan_req_1
+   \       0x1A   0x79EA             LDRB     R2,[R5, #+7]
+   \       0x1C   0x2A01             CMP      R2,#+1
+   \       0x1E   0xD116             BNE      ??process_scan_req_2
+    743              {
+    744                if(u8ScanValPerChann[EdCh2Evaluate] < u8BestVal)
+   \                     ??process_scan_req_1: (+1)
+   \       0x20   0x792A             LDRB     R2,[R5, #+4]
+   \       0x22   0x4290             CMP      R0,R2
+   \       0x24   0xD201             BCS      ??process_scan_req_3
+    745                 {
+    746                  u8BestVal = u8ScanValPerChann[EdCh2Evaluate];
+   \       0x26   0x7128             STRB     R0,[R5, #+4]
+    747                  bestChann = EdCh2Evaluate;
+   \       0x28   0x7169             STRB     R1,[R5, #+5]
+    748                 }      
+    749                prevChann = EdCh2Evaluate;
+   \                     ??process_scan_req_3: (+1)
+   \       0x2A   0x000C             MOVS     R4,R1
+    750                EdCh2Evaluate = get_next_chann_to_scan(EdCh2Evaluate);
+   \       0x2C   0x0008             MOVS     R0,R1
+   \       0x2E   0x....'....        BL       get_next_chann_to_scan
+   \       0x32   0x71A8             STRB     R0,[R5, #+6]
+    751                isSecondPass = FALSE;
+   \       0x34   0x2600             MOVS     R6,#+0
+   \       0x36   0x71EE             STRB     R6,[R5, #+7]
+    752                if(prevChann > EdCh2Evaluate)
+   \       0x38   0x42A0             CMP      R0,R4
+   \       0x3A   0xD20A             BCS      ??process_scan_req_4
+    753                {
+    754                  bScanReqFlag = FALSE;
+   \       0x3C   0x70EE             STRB     R6,[R5, #+3]
+    755                  vScanReqCallBack((uint8_t)(bestChann));
+   \       0x3E   0x7968             LDRB     R0,[R5, #+5]
+   \       0x40   0x6D69             LDR      R1,[R5, #+84]
+   \       0x42   0x....'....        BL       ??__iar_via_R1_0
+    756                  u8BestVal = 255;
+   \       0x46   0x20FF             MOVS     R0,#+255
+   \       0x48   0x7128             STRB     R0,[R5, #+4]
+    757                  bestChann = CHANNEL11;
+   \       0x4A   0x716E             STRB     R6,[R5, #+5]
+   \       0x4C   0xE001             B        ??process_scan_req_4
+    758                }
+    759              }
+    760              else
+    761              {
+    762                isSecondPass = TRUE;
+   \                     ??process_scan_req_2: (+1)
+   \       0x4E   0x2001             MOVS     R0,#+1
+   \       0x50   0x71E8             STRB     R0,[R5, #+7]
+    763              }
+    764              if(FALSE == is_a_handled_message(&Scan_msg))
+   \                     ??process_scan_req_4: (+1)
+   \       0x52   0x0028             MOVS     R0,R5
+   \       0x54   0x3008             ADDS     R0,R0,#+8
+   \       0x56   0x....'....        BL       is_a_handled_message
+   \       0x5A   0x2800             CMP      R0,#+0
+   \       0x5C   0xD109             BNE      ??process_scan_req_5
+    765              {
+    766                MLMEEnergyDetect(&Scan_msg, EdCh2Evaluate);
+   \       0x5E   0x79A9             LDRB     R1,[R5, #+6]
+   \       0x60   0xE003             B        ??process_scan_req_6
+    767              }
+    768            }
+    769            else if( (MSG_ED_ABORTED == Scan_msg.u8Status.msg_state) || 
+    770                     (MSG_ED_ACTION_COMPLETE_FAIL == Scan_msg.u8Status.msg_state) )
+   \                     ??process_scan_req_0: (+1)
+   \       0x62   0x2805             CMP      R0,#+5
+   \       0x64   0xD001             BEQ      ??process_scan_req_6
+   \       0x66   0x2803             CMP      R0,#+3
+   \       0x68   0xD103             BNE      ??process_scan_req_5
+    771            {
+    772              MLMEEnergyDetect(&Scan_msg, EdCh2Evaluate);
+   \                     ??process_scan_req_6: (+1)
+   \       0x6A   0x0028             MOVS     R0,R5
+   \       0x6C   0x3008             ADDS     R0,R0,#+8
+   \       0x6E   0x....'....        BL       MLMEEnergyDetect
+    773            }
+    774          }
+   \                     ??process_scan_req_5: (+1)
+   \       0x72   0xBC70             POP      {R4-R6}
+   \       0x74   0xBC08             POP      {R3}
+   \       0x76   0x4718             BX       R3               ;; return
+
+   \                                 In section .data, align 4
+   \                     mRetries_timmer:
+   \        0x0   0x00               DC8 0
+   \        0x1   0x00               DC8 0
+   \        0x2   0x00               DC8 0
+   \                     bScanReqFlag:
+   \        0x3   0x00               DC8 0
+   \        0x4   0xFF               DC8 255
+   \        0x5   0x00               DC8 0
+   \        0x6   0x00               DC8 0
+   \        0x7   0x00               DC8 0
+   \                     Scan_msg:
+   \        0x8   0x00 0x00          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \                     u8ScanValPerChann:
+   \       0x18   0x00 0x00          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \                     u16ChannToScan:
+   \       0x28   0x00 0x00          DC8 0, 0
+   \       0x2A   0x00 0x00          DC8 0, 0
+   \       0x2C   0x00 0x00          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \       0x3C   0x00 0x00          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \       0x4C   0x0000'01FE        DC32 510
+   \                     gRadioEvntFlags:
+   \       0x50   0x00 0x00          DC8 0, 0, 0, 0
+   \              0x00 0x00    
+   \                     vScanReqCallBack:
+   \       0x54   0x00 0x00          DC8 0, 0, 0, 0
+   \              0x00 0x00    
+   \       0x58   0x00 0x00          DC8 0, 0, 0, 0
+   \              0x00 0x00    
+   \                     dataScan:
+   \       0x5C   0x00               DC8 0
+   \       0x5D   0x00 0x00          DC8 0, 0, 0
+   \              0x00         
+   \                     ackBox:
+   \       0x60   0x00 0x00          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \       0x70   0x00 0x00          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \       0x80   0x00 0x00          DC8 0, 0, 0, 0, 0, 0, 0, 0
+   \              0x00 0x00    
+   \              0x00 0x00    
+   \              0x00 0x00    
+
+   \                                 In section .data, align 4
+   \        0x0   0x0000'1E00        DC32 7680
+    775          
+    776          
+    777          /************************************************************************************
+    778          * get_next_chann_to_scan function
+    779          *
+    780          * This function answer which is the next m.
+    781          *
+    782          ************************************************************************************/
+
+   \                                 In section .text, align 2, keep-with-next
+    783          channel_num_t get_next_chann_to_scan(channel_num_t currentCh)
+    784          {
+   \                     get_next_chann_to_scan: (+1)
+   \        0x0   0xB410             PUSH     {R4}
+    785            channel_num_t nextChann;
+    786            uint8_t timeOut;
+    787            nextChann = currentCh;
+    788          
+    789            timeOut = 0;
+   \        0x2   0x2110             MOVS     R1,#+16
+   \        0x4   0x....             LDR      R2,??DataTable18_6
+    790            while(TOTAL_CHANN > timeOut)
+    791            {
+    792              if(CHANNEL26 > nextChann)
+   \                     ??get_next_chann_to_scan_0: (+1)
+   \        0x6   0x0603             LSLS     R3,R0,#+24
+   \        0x8   0x0E1B             LSRS     R3,R3,#+24
+   \        0xA   0x2B0F             CMP      R3,#+15
+   \        0xC   0xDA01             BGE      ??get_next_chann_to_scan_1
+    793              {
+    794                nextChann++;
+   \        0xE   0x1C40             ADDS     R0,R0,#+1
+   \       0x10   0xE000             B        ??get_next_chann_to_scan_2
+    795              }
+    796              else
+    797              {
+    798                nextChann = CHANNEL11;
+   \                     ??get_next_chann_to_scan_1: (+1)
+   \       0x12   0x2000             MOVS     R0,#+0
+    799              }
+    800              if(u16ChannToScan & (0x01<<nextChann))
+   \                     ??get_next_chann_to_scan_2: (+1)
+   \       0x14   0x8D13             LDRH     R3,[R2, #+40]
+   \       0x16   0x2401             MOVS     R4,#+1
+   \       0x18   0x4084             LSLS     R4,R4,R0
+   \       0x1A   0x4223             TST      R3,R4
+   \       0x1C   0xD101             BNE      ??get_next_chann_to_scan_3
+    801                break;
+    802              timeOut++;
+   \       0x1E   0x1E49             SUBS     R1,R1,#+1
+    803            }
+   \       0x20   0xD1F1             BNE      ??get_next_chann_to_scan_0
+    804            return nextChann;
+   \                     ??get_next_chann_to_scan_3: (+1)
+   \       0x22   0x0600             LSLS     R0,R0,#+24
+   \       0x24   0x0E00             LSRS     R0,R0,#+24
+   \       0x26   0xBC10             POP      {R4}
+   \       0x28   0x4770             BX       LR               ;; return
+    805          }
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable12:
+   \        0x0   0x....'....        DC32     mRetries_timmer
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable12_1:
+   \        0x0   0x8000'400C        DC32     0x8000400c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable12_2:
+   \        0x0   0x0000'0201        DC32     0x201
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable13:
+   \        0x0   0x....'....        DC32     mRetries_timmer
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable14:
+   \        0x0   0x0000'FFFF        DC32     0xffff
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable14_1:
+   \        0x0   0x0014'0208        DC32     0x140208
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable14_2:
+   \        0x0   0xFFEB'FDF7        DC32     0xffebfdf7
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable14_3:
+   \        0x0   0x0000'0A03        DC32     0xa03
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable14_4:
+   \        0x0   0x8000'408C        DC32     0x8000408c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable15:
+   \        0x0   0x8000'400C        DC32     0x8000400c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable15_1:
+   \        0x0   0x0000'0A04        DC32     0xa04
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable16:
+   \        0x0   0xFFFF'3FFB        DC32     0xffff3ffb
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable16_1:
+   \        0x0   0x....'....        DC32     gaRFSynVCODivF_c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable16_2:
+   \        0x0   0x0000'0A07        DC32     0xa07
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable17:
+   \        0x0   0x....'....        DC32     mRetries_timmer
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable18:
+   \        0x0   0x8000'9488        DC32     0x80009488
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable18_1:
+   \        0x0   0x0014'0208        DC32     0x140208
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable18_2:
+   \        0x0   0xFFEB'FDF7        DC32     0xffebfdf7
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable18_3:
+   \        0x0   0x8000'400C        DC32     0x8000400c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable18_4:
+   \        0x0   0x0000'0A02        DC32     0xa02
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable18_5:
+   \        0x0   0xFFFF'3F3B        DC32     0xffff3f3b
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable18_6:
+   \        0x0   0x....'....        DC32     mRetries_timmer
+    806          
+    807          /************************************************************************************
+    808          *************************************************************************************
+    809          * Private Debug stuff
+    810          *************************************************************************************
+    811          ************************************************************************************/
+    812          
+    813          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   abort_message
+         8   -> is_a_handled_message
+       0   calculate_ed_value
+       4   change_current_message_state
+      24   command_xcvr_ed
+        24   -> GetCurrentChannel
+        24   -> SetChannel
+       8   execute_current_message_callback
+         8   -- Indirect call
+       0   get_current_message
+       4   get_next_chann_to_scan
+       8   handle_new_message
+       4   is_a_handled_message
+      16   process_ed_msg
+        16   -> SetChannel
+        16   -> calculate_ed_value
+        16   -> command_xcvr_ed
+        16   -> release_current_message
+       8   process_radio_msg
+         8   -- Indirect call
+         8   -> process_scan_req
+      24   process_rx_msg
+        24   -> release_current_message
+      16   process_scan_req
+        16   -- Indirect call
+        16   -> MLMEEnergyDetect
+        16   -> get_next_chann_to_scan
+        16   -> is_a_handled_message
+      24   process_to_msg
+        24   -> release_current_message
+      24   process_tx_msg
+        24   -> release_current_message
+       4   radio_manager_init
+       0   release_current_message
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable12
+       4  ??DataTable12_1
+       4  ??DataTable12_2
+       4  ??DataTable13
+       4  ??DataTable14
+       4  ??DataTable14_1
+       4  ??DataTable14_2
+       4  ??DataTable14_3
+       4  ??DataTable14_4
+       4  ??DataTable15
+       4  ??DataTable15_1
+       4  ??DataTable16
+       4  ??DataTable16_1
+       4  ??DataTable16_2
+       4  ??DataTable17
+       4  ??DataTable18
+       4  ??DataTable18_1
+       4  ??DataTable18_2
+       4  ??DataTable18_3
+       4  ??DataTable18_4
+       4  ??DataTable18_5
+       4  ??DataTable18_6
+       8  ?Subroutine0
+      70  abort_message
+      30  calculate_ed_value
+      16  cbProcessMsg_c
+      38  change_current_message_state
+      40  command_xcvr_ed
+      32  execute_current_message_callback
+      64  gaRFSynVCODivF_c
+      16  gaRFSynVCODivI_c
+      12  get_current_message
+      42  get_next_chann_to_scan
+      50  handle_new_message
+      40  is_a_handled_message
+       4  mAbortStates
+       4  mCplclk_offset
+     136  mRetries_timmer
+          current_msg
+          next_msg_to_store
+          bScanReqFlag
+          u8BestVal
+          bestChann
+          EdCh2Evaluate
+          isSecondPass
+          Scan_msg
+          u8ScanValPerChann
+          u16ChannToScan
+          maMessage_Queu
+          maMessageTO
+          mSftclk_offset
+          gRadioEvntFlags
+          vScanReqCallBack
+          prev_chann
+          dataScan
+          ackBox
+     292  process_ed_msg
+      56  process_radio_msg
+     310  process_rx_msg
+     120  process_scan_req
+     246  process_to_msg
+     226  process_tx_msg
+      70  radio_manager_init
+      36  release_current_message
+       4  -- Other
+
+ 
+   140 bytes in section .data
+    64 bytes in section .rodata
+ 1 846 bytes in section .text
+ 
+ 1 842 bytes of CODE  memory (+ 4 bytes shared)
+    64 bytes of CONST memory
+   140 bytes of DATA  memory
+
+Errors: none
+Warnings: none

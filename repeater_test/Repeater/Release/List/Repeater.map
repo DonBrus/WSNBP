@@ -1,42 +1,65 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  31/Jan/2019  14:41:05
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  31/Jan/2019  22:21:50
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Exe\Repeater.out
+#        D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Exe\Repeater.out
 #    Map file     =  
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List\Repeater.map
+#        D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\List\Repeater.map
 #    Command line =  
-#        -f C:\Users\Brus\AppData\Local\Temp\EWFE32.tmp
-#        (D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Delay.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Display.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\HLDrv.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Init-IAR.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Keyboard.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Leds.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Lib\LLC.a
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\maca.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\MacaInterrupt.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\SMAC\Drivers\Lib\MC1322x.a
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\PlatformInit.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\RadioManagement.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\repeater.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\SecurityMngmnt.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\Sound.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\TransceiverConfigMngmnt.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\TransceiverPowerMngmnt.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\UartUtil.o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj\WirelessLinkMngmt.o
-#        --no_out_extension -o
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\Exe\Repeater.out
+#        -f C:\Users\Brus\AppData\Local\Temp\EW9A6F.tmp
+#        ("D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\Delay.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\Display.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\HLDrv.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\Init-IAR.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\Keyboard.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\Leds.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\PLM\Lib\LLC.a"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\maca.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\MacaInterrupt.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\SMAC\Drivers\Lib\MC1322x.a"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\PlatformInit.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\RadioManagement.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\repeater.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\SecurityMngmnt.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\Sound.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\TransceiverConfigMngmnt.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\TransceiverPowerMngmnt.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\UartUtil.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Obj\WirelessLinkMngmt.o"
+#        --no_out_extension -o "D:\Users\Brus\Documents\Uni\Wireless Sensors
+#        Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\Exe\Repeater.out"
 #        --redirect _Printf=_PrintfTiny --redirect _Scanf=_ScanfSmallNoMb
-#        --strip --map
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List\Repeater.map
+#        --strip --map "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\List\Repeater.map"
 #        --log initialization,modules,sections,veneers --log_file
-#        D:\Users\Brus\Documents\repeater_test\Repeater\Release\List\Repeater.log
-#        --config
-#        D:\Users\Brus\Documents\repeater_test\Repeater\PLM\Icf\MC1322x-RAM-ROM.icf
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\Release\List\Repeater.log"
+#        --config "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\repeater_test\Repeater\PLM\Icf\MC1322x-RAM-ROM.icf"
 #        --diag_suppress Lt010,Lt018 --entry _start_vector_ --inline --vfe
 #        --text_out locale)
 #
@@ -102,7 +125,7 @@ No sections matched the following patterns:
   rp_vector_thumb_3  ro code  0x40'00e0     0x2  rp_vector_IAR.o [2]
                             - 0x40'00e2     0x2
 
-"P2-P3", part 1 of 4:                    0x27d4
+"P2-P3", part 1 of 4:                    0x27e0
   Veneer             ro code  0x40'0900    0x10  - Linker created -
   Veneer             ro code  0x40'0910    0x10  - Linker created -
   Veneer             ro code  0x40'0920    0x10  - Linker created -
@@ -110,81 +133,82 @@ No sections matched the following patterns:
   Veneer             ro code  0x40'0940    0x10  - Linker created -
   Veneer             ro code  0x40'0950    0x10  - Linker created -
   Veneer             ro code  0x40'0960    0x10  - Linker created -
-  .text              ro code  0x40'0970   0x8e2  repeater.o [1]
-  .text              ro code  0x40'1254   0x712  RadioManagement.o [1]
-  Veneer             ro code  0x40'1968     0x4  - Linker created -
-  .text              ro code  0x40'196c    0xb0  ABImemcpy.o [5]
-  Veneer             ro code  0x40'1a1c    0x10  - Linker created -
-  Veneer             ro code  0x40'1a2c    0x10  - Linker created -
-  Veneer             ro code  0x40'1a3c    0x10  - Linker created -
-  Veneer             ro code  0x40'1a4c    0x10  - Linker created -
-  Veneer             ro code  0x40'1a5c    0x10  - Linker created -
-  Veneer             ro code  0x40'1a6c    0x10  - Linker created -
-  Veneer             ro code  0x40'1a7c    0x10  - Linker created -
-  Veneer             ro code  0x40'1a8c    0x10  - Linker created -
-  Veneer             ro code  0x40'1a9c    0x10  - Linker created -
-  .text              ro code  0x40'1aac   0x2d6  UartUtil.o [1]
-  .text              ro code  0x40'1d84    0x9c  WirelessLinkMngmt.o [1]
-  .text              ro code  0x40'1e20    0x24  maca.o [1]
-  .text              ro code  0x40'1e44   0x124  TransceiverConfigMngmnt.o [1]
-  .text              ro code  0x40'1f68    0x44  PlatformInit.o [1]
-  .text              ro code  0x40'1fac    0x24  Delay.o [1]
-  Veneer             ro code  0x40'1fd0    0x10  - Linker created -
-  Veneer             ro code  0x40'1fe0    0x10  - Linker created -
-  .text              ro code  0x40'1ff0   0x1f0  Synthesizer.o [3]
-  .text              ro code  0x40'21e0     0x2  RadioManagement.o [1]
-  .text              ro code  0x40'21e4    0xd8  rif.o [3]
-  Veneer             ro code  0x40'22bc    0x10  - Linker created -
-  Veneer             ro code  0x40'22cc    0x10  - Linker created -
-  Veneer             ro code  0x40'22dc    0x10  - Linker created -
-  Veneer             ro code  0x40'22ec    0x10  - Linker created -
-  .text              ro code  0x40'22fc   0x154  Init_Utils.o [3]
-  .rodata            const    0x40'2450   0x228  repeater.o [1]
-  .rodata            const    0x40'2678   0x220  Synthesizer.o [3]
-  Veneer             ro code  0x40'2898    0x10  - Linker created -
-  .text              ro code  0x40'28a8   0x1e0  MacaInterrupt.o [1]
-  Veneer             ro code  0x40'2a88     0xc  - Linker created -
+  .text              ro code  0x40'0970   0x8ee  repeater.o [1]
+  .text              ro code  0x40'1260   0x712  RadioManagement.o [1]
+  Veneer             ro code  0x40'1974     0x4  - Linker created -
+  .text              ro code  0x40'1978    0xb0  ABImemcpy.o [5]
+  Veneer             ro code  0x40'1a28    0x10  - Linker created -
+  Veneer             ro code  0x40'1a38    0x10  - Linker created -
+  Veneer             ro code  0x40'1a48    0x10  - Linker created -
+  Veneer             ro code  0x40'1a58    0x10  - Linker created -
+  Veneer             ro code  0x40'1a68    0x10  - Linker created -
+  Veneer             ro code  0x40'1a78    0x10  - Linker created -
+  Veneer             ro code  0x40'1a88    0x10  - Linker created -
+  Veneer             ro code  0x40'1a98    0x10  - Linker created -
+  Veneer             ro code  0x40'1aa8    0x10  - Linker created -
+  .text              ro code  0x40'1ab8   0x2d6  UartUtil.o [1]
+  .text              ro code  0x40'1d90    0x9c  WirelessLinkMngmt.o [1]
+  .text              ro code  0x40'1e2c    0x24  maca.o [1]
+  .text              ro code  0x40'1e50   0x124  TransceiverConfigMngmnt.o [1]
+  .text              ro code  0x40'1f74    0x44  PlatformInit.o [1]
+  .text              ro code  0x40'1fb8    0x24  Delay.o [1]
+  Veneer             ro code  0x40'1fdc    0x10  - Linker created -
+  Veneer             ro code  0x40'1fec    0x10  - Linker created -
+  .text              ro code  0x40'1ffc   0x1f0  Synthesizer.o [3]
+  .text              ro code  0x40'21ec     0x2  RadioManagement.o [1]
+  .text              ro code  0x40'21f0    0xd8  rif.o [3]
+  Veneer             ro code  0x40'22c8    0x10  - Linker created -
+  Veneer             ro code  0x40'22d8    0x10  - Linker created -
+  Veneer             ro code  0x40'22e8    0x10  - Linker created -
+  Veneer             ro code  0x40'22f8    0x10  - Linker created -
+  .text              ro code  0x40'2308   0x154  Init_Utils.o [3]
+  .rodata            const    0x40'245c   0x228  repeater.o [1]
+  .rodata            const    0x40'2684   0x220  Synthesizer.o [3]
+  Veneer             ro code  0x40'28a4    0x10  - Linker created -
+  .text              ro code  0x40'28b4   0x1e0  MacaInterrupt.o [1]
   Veneer             ro code  0x40'2a94     0xc  - Linker created -
-  .text              ro code  0x40'2aa0   0x124  Init-IAR.o [1]
-  .text              ro code  0x40'2bc4    0x32  data_init.o [5]
-  .rodata            const    0x40'2bf8    0xe4  rif.o [3]
-  .rodata            const    0x40'2cdc    0xa8  repeater.o [1]
-  .rodata            const    0x40'2d84    0x88  repeater.o [1]
-  .text              ro code  0x40'2e0c    0x68  Init_Utils_patched.o [2]
-  .text              ro code  0x40'2e74     0xa  Init_Delay_patched.o [2]
-  .text              ro code  0x40'2e80    0x12  rp_vector_IAR.o [2]
-  .rodata            const    0x40'2e94    0x48  repeater.o [1]
-  .rodata            const    0x40'2edc    0x40  RadioManagement.o [1]
-  .text              ro code  0x40'2f1c    0x40  packbits_init_single.o [5]
-  .text              ro code  0x40'2f5c    0x3c  zero_init3.o [5]
-  .iar.init_table    const    0x40'2f98    0x20  - Linker created -
-  .rodata            const    0x40'2fb8     0x0  zero_init3.o [5]
-  .rodata            const    0x40'2fb8     0x0  packbits_init_single.o [5]
-  P2-P3-1                     0x40'2fb8   0x11c  <Init block>
-    .data            inited   0x40'2fb8    0x88  RadioManagement.o [1]
-    .data            inited   0x40'3040    0x94  Synthesizer.o [3]
-                            - 0x40'30d4  0x27d4
+  Veneer             ro code  0x40'2aa0     0xc  - Linker created -
+  .text              ro code  0x40'2aac   0x124  Init-IAR.o [1]
+  .text              ro code  0x40'2bd0    0x32  data_init.o [5]
+  .rodata            const    0x40'2c04    0xe4  rif.o [3]
+  .rodata            const    0x40'2ce8    0xa8  repeater.o [1]
+  .rodata            const    0x40'2d90    0x88  repeater.o [1]
+  .text              ro code  0x40'2e18    0x68  Init_Utils_patched.o [2]
+  .text              ro code  0x40'2e80     0xa  Init_Delay_patched.o [2]
+  .text              ro code  0x40'2e8c    0x12  rp_vector_IAR.o [2]
+  .rodata            const    0x40'2ea0    0x48  repeater.o [1]
+  .rodata            const    0x40'2ee8    0x40  RadioManagement.o [1]
+  .text              ro code  0x40'2f28    0x40  packbits_init_single.o [5]
+  .text              ro code  0x40'2f68    0x3c  zero_init3.o [5]
+  .iar.init_table    const    0x40'2fa4    0x20  - Linker created -
+  .rodata            const    0x40'2fc4     0x0  zero_init3.o [5]
+  .rodata            const    0x40'2fc4     0x0  packbits_init_single.o [5]
+  P2-P3-1                     0x40'2fc4   0x11c  <Init block>
+    .data            inited   0x40'2fc4    0x88  RadioManagement.o [1]
+    .data            inited   0x40'304c    0x94  Synthesizer.o [3]
+                            - 0x40'30e0  0x27e0
 
 "P2-P3", part 2 of 4:                     0x164
-  .bss               zero     0x40'30d4   0x138  repeater.o [1]
-  .bss               zero     0x40'320c    0x11  repeater.o [1]
-  .bss               zero     0x40'321d     0x3  rif.o [3]
-  .bss               zero     0x40'3220     0x8  repeater.o [1]
-  .bss               zero     0x40'3228     0x4  UartUtil.o [1]
-  .bss               zero     0x40'322c     0x4  Init_Utils.o [3]
-  .bss               zero     0x40'3230     0x2  MacaInterrupt.o [1]
-  .bss               zero     0x40'3232     0x2  TransceiverConfigMngmnt.o [1]
-  .bss               zero     0x40'3234     0x1  repeater.o [1]
-  .bss               zero     0x40'3235     0x1  Init_Utils_patched.o [2]
-                            - 0x40'3236   0x162
+  .bss               zero     0x40'30e0    0xb8  repeater.o [1]
+  .bss               zero     0x40'3198    0x80  repeater.o [1]
+  .bss               zero     0x40'3218    0x11  repeater.o [1]
+  .bss               zero     0x40'3229     0x3  rif.o [3]
+  .bss               zero     0x40'322c     0x8  repeater.o [1]
+  .bss               zero     0x40'3234     0x4  UartUtil.o [1]
+  .bss               zero     0x40'3238     0x4  Init_Utils.o [3]
+  .bss               zero     0x40'323c     0x2  MacaInterrupt.o [1]
+  .bss               zero     0x40'323e     0x2  TransceiverConfigMngmnt.o [1]
+  .bss               zero     0x40'3240     0x1  repeater.o [1]
+  .bss               zero     0x40'3241     0x1  Init_Utils_patched.o [2]
+                            - 0x40'3242   0x162
 
 "P2-P3", part 3 of 4:                    0x1300
-  .stack             uninit   0x40'3238  0x1300  Init-IAR.o [1]
-                            - 0x40'4538  0x1300
+  .stack             uninit   0x40'3244  0x1300  Init-IAR.o [1]
+                            - 0x40'4544  0x1300
 
 "P2-P3", part 4 of 4:                      0x7c
-  Initializer bytes  const    0x40'4538    0x7c  <for P2-P3-1>
-                            - 0x40'45b4    0x7c
+  Initializer bytes  const    0x40'4544    0x7c  <for P2-P3-1>
+                            - 0x40'45c0    0x7c
 
 Unused ranges:
 
@@ -194,7 +218,7 @@ Unused ranges:
   0x40'0070  0x40'009f      0x30
   0x40'00a2  0x40'00df      0x3e
   0x40'00e2  0x40'011f      0x3e
-  0x40'45b4  0x41'7fff  0x1'3a4c
+  0x40'45c0  0x41'7fff  0x1'3a40
 
 
 *******************************************************************************
@@ -205,13 +229,13 @@ Unused ranges:
           -------    ----
 Zero (__iar_zero_init3)
     1 destination range, total size 0x162:
-          0x40'30d4  0x162
+          0x40'30e0  0x162
 
 Copy/packbits (__iar_packbits_init_single3)
     1 source range, total size 0x7c (43% of destination):
-          0x40'4538   0x7c
+          0x40'4544   0x7c
     1 destination range, total size 0x11c:
-          0x40'2fb8  0x11c
+          0x40'2fc4  0x11c
 
 
 
@@ -225,7 +249,7 @@ command line/config:
     ----------------------------------------------------
     Total:
 
-D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj: [1]
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\Release\Obj: [1]
     Delay.o                         36
     Init-IAR.o                     324             4 864
     MacaInterrupt.o                480                 2
@@ -235,9 +259,9 @@ D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj: [1]
     UartUtil.o                     726                 4
     WirelessLinkMngmt.o            156
     maca.o                          36
-    repeater.o                   2 274      928      338
+    repeater.o                   2 286      928      338
     ----------------------------------------------------
-    Total:                       6 204    1 051    5 346
+    Total:                       6 216    1 051    5 346
 
 LLC.a: [2]
     Init_Delay_patched.o            10
@@ -268,7 +292,7 @@ rt4t_al.a: [5]
     Gaps                            10        4
     Linker created                 396       33
 --------------------------------------------------------
-    Grand Total:                 8 166    1 924    5 502
+    Grand Total:                 8 178    1 924    5 502
 
 
 *******************************************************************************
@@ -277,8 +301,8 @@ rt4t_al.a: [5]
 
 Entry                     Address   Size  Type      Object
 -----                     -------   ----  ----      ------
-.iar.init_table$$Base   0x40'2f98          --   Gb  - Linker created -
-.iar.init_table$$Limit  0x40'2fb8          --   Gb  - Linker created -
+.iar.init_table$$Base   0x40'2fa4          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x40'2fc4          --   Gb  - Linker created -
 Adc_GetFifoStatus {Abs}
                            0xc4c5         Code  Gb  rom-symbols-LLC.o [2]
 Adc_Init {Abs}             0xc285         Code  Gb  rom-symbols-LLC.o [2]
@@ -329,7 +353,7 @@ CRM_Wait4Irq {Abs}         0x3941         Code  Gb  rom-symbols-LLC.o [2]
 CRM_WuCntl {Abs}           0x36d9         Code  Gb  rom-symbols-LLC.o [2]
 CRM_Xtal32EnCallback {Abs}
                            0x3a01         Code  Gb  rom-symbols-LLC.o [2]
-DelayMs                 0x40'1fad   0x1e  Code  Gb  Delay.o [1]
+DelayMs                 0x40'1fb9   0x1e  Code  Gb  Delay.o [1]
 FiqHandler {Abs}         0x1'0820         Code  Gb  rom-symbols-LLC.o [2]
 FlashLib_Erase {Abs}       0xe4e1         Code  Gb  rom-symbols-LLC.o [2]
 FlashLib_Init {Abs}        0xe3d1         Code  Gb  rom-symbols-LLC.o [2]
@@ -347,9 +371,9 @@ Flash_WriteDisable {Abs}
                            0xe5f9         Code  Gb  rom-symbols-LLC.o [2]
 Flash_WriteEnable {Abs}
                            0xe5f1         Code  Gb  rom-symbols-LLC.o [2]
-GetCurrentChann         0x40'2191    0xc  Code  Gb  Synthesizer.o [3]
-GetCurrentChannel       0x40'211d   0x38  Code  Gb  Synthesizer.o [3]
-GpioUart1Init           0x40'1b27   0x3c  Code  Gb  UartUtil.o [1]
+GetCurrentChann         0x40'219d    0xc  Code  Gb  Synthesizer.o [3]
+GetCurrentChannel       0x40'2129   0x38  Code  Gb  Synthesizer.o [3]
+GpioUart1Init           0x40'1b33   0x3c  Code  Gb  UartUtil.o [1]
 Gpio_EnPinHyst {Abs}       0x869d         Code  Gb  rom-symbols-LLC.o [2]
 Gpio_EnPinPuKeeper {Abs}
                            0x8655         Code  Gb  rom-symbols-LLC.o [2]
@@ -387,7 +411,7 @@ Gpio_SetPortFunction {Abs}
 Gpio_TogglePin {Abs}       0x850d         Code  Gb  rom-symbols-LLC.o [2]
 Gpio_WrPortSetting {Abs}
                            0x82d9         Code  Gb  rom-symbols-LLC.o [2]
-HexToAscii              0x40'1b79   0x16  Code  Lc  UartUtil.o [1]
+HexToAscii              0x40'1b85   0x16  Code  Lc  UartUtil.o [1]
 I2c_CancelTransfer {Abs}
                            0x4b5d         Code  Gb  rom-symbols-LLC.o [2]
 I2c_Disable {Abs}          0x49f9         Code  Gb  rom-symbols-LLC.o [2]
@@ -409,11 +433,11 @@ ITC_Init {Abs}             0xfe9d         Code  Gb  rom-symbols-LLC.o [2]
 ITC_SetIrqMinimumLevel {Abs}
                            0xfffd         Code  Gb  rom-symbols-LLC.o [2]
 ITC_SetPriority {Abs}      0xfee9         Code  Gb  rom-symbols-LLC.o [2]
-InitExecuteEntry        0x40'2e0d   0x68  Code  Gb  Init_Utils_patched.o [2]
+InitExecuteEntry        0x40'2e19   0x68  Code  Gb  Init_Utils_patched.o [2]
 InitFromFlash {Abs}        0xf97d         Code  Gb  rom-symbols-LLC.o [2]
 InitFromMemory {Abs}       0xfaa5         Code  Gb  rom-symbols-LLC.o [2]
-InitRifModuleVars       0x40'22a9    0xe  Code  Gb  rif.o [3]
-Init_Delay              0x40'2e75         Code  Gb  Init_Delay_patched.o [2]
+InitRifModuleVars       0x40'22b5    0xe  Code  Gb  rif.o [3]
+Init_Delay              0x40'2e81         Code  Gb  Init_Delay_patched.o [2]
 IntAssignHandler {Abs}     0xff25         Code  Gb  rom-symbols-LLC.o [2]
 IntDisableAll {Abs}      0x1'07f8         Code  Gb  rom-symbols-LLC.o [2]
 IntDisableFIQ {Abs}      0x1'07e0         Code  Gb  rom-symbols-LLC.o [2]
@@ -424,17 +448,17 @@ IntRestoreFIQ {Abs}      0x1'0780         Code  Gb  rom-symbols-LLC.o [2]
 IntRestoreIRQ {Abs}      0x1'0798         Code  Gb  rom-symbols-LLC.o [2]
 InterruptInit {Abs}        0xfe85         Code  Gb  rom-symbols-LLC.o [2]
 IrqHandler {Abs}         0x1'0810         Code  Gb  rom-symbols-LLC.o [2]
-MACA_Interrupt          0x40'2921  0x140  Code  Gb  MacaInterrupt.o [1]
-MCPSDataRequest         0x40'1d85   0x1e  Code  Gb  WirelessLinkMngmt.o [1]
-MLMEEnergyDetect        0x40'1ddb   0x24  Code  Gb  WirelessLinkMngmt.o [1]
-MLMEGetPromiscuousMode  0x40'1e93    0x6  Code  Gb  TransceiverConfigMngmnt.o [1]
-MLMEPAOutputAdjust      0x40'1dff   0x18  Code  Gb  WirelessLinkMngmt.o [1]
-MLMEPHYXtalAdjust       0x40'1e45   0x4e  Code  Gb  TransceiverConfigMngmnt.o [1]
-MLMERXEnableRequest     0x40'1dc5    0xe  Code  Gb  WirelessLinkMngmt.o [1]
-MLMERadioInit           0x40'1e99   0x98  Code  Gb  TransceiverConfigMngmnt.o [1]
-MLMERadioInit::i        0x40'3233    0x1  Data  Lc  TransceiverConfigMngmnt.o [1]
-MLMESetChannelRequest   0x40'1da3   0x22  Code  Gb  WirelessLinkMngmt.o [1]
-Main                    0x40'0971   0x72  Code  Gb  repeater.o [1]
+MACA_Interrupt          0x40'292d  0x140  Code  Gb  MacaInterrupt.o [1]
+MCPSDataRequest         0x40'1d91   0x1e  Code  Gb  WirelessLinkMngmt.o [1]
+MLMEEnergyDetect        0x40'1de7   0x24  Code  Gb  WirelessLinkMngmt.o [1]
+MLMEGetPromiscuousMode  0x40'1e9f    0x6  Code  Gb  TransceiverConfigMngmnt.o [1]
+MLMEPAOutputAdjust      0x40'1e0b   0x18  Code  Gb  WirelessLinkMngmt.o [1]
+MLMEPHYXtalAdjust       0x40'1e51   0x4e  Code  Gb  TransceiverConfigMngmnt.o [1]
+MLMERXEnableRequest     0x40'1dd1    0xe  Code  Gb  WirelessLinkMngmt.o [1]
+MLMERadioInit           0x40'1ea5   0x98  Code  Gb  TransceiverConfigMngmnt.o [1]
+MLMERadioInit::i        0x40'323f    0x1  Data  Lc  TransceiverConfigMngmnt.o [1]
+MLMESetChannelRequest   0x40'1daf   0x22  Code  Gb  WirelessLinkMngmt.o [1]
+Main                    0x40'0971   0x6e  Code  Gb  repeater.o [1]
 NVM_BlankCheck {Abs}       0x701d         Code  Gb  rom-symbols-LLC.o [2]
 NVM_Detect {Abs}           0x6cb9         Code  Gb  rom-symbols-LLC.o [2]
 NVM_Erase {Abs}            0x6e05         Code  Gb  rom-symbols-LLC.o [2]
@@ -443,26 +467,26 @@ NVM_SetSVar {Abs}          0x7085         Code  Gb  rom-symbols-LLC.o [2]
 NVM_Verify {Abs}           0x6f85         Code  Gb  rom-symbols-LLC.o [2]
 NVM_Write {Abs}            0x6ec5         Code  Gb  rom-symbols-LLC.o [2]
 PATCH_Ret_InitExecuteEntry
-                        0x40'2e81         Code  Gb  rp_vector_IAR.o [2]
-PlatformPortInit        0x40'1f69   0x40  Code  Gb  PlatformInit.o [1]
+                        0x40'2e8d         Code  Gb  rp_vector_IAR.o [2]
+PlatformPortInit        0x40'1f75   0x40  Code  Gb  PlatformInit.o [1]
 RP_Vector_Thumb_0       0x40'0021         Code  Gb  rp_vector_IAR.o [2]
 RP_Vector_Thumb_1       0x40'0061         Code  Gb  rp_vector_IAR.o [2]
 RP_Vector_Thumb_2       0x40'00a1         Code  Gb  rp_vector_IAR.o [2]
 RP_Vector_Thumb_3       0x40'00e1         Code  Gb  rp_vector_IAR.o [2]
-RX_msg                  0x40'30d4   0x10  Data  Gb  repeater.o [1]
-RadioInit               0x40'1ff1   0xc0  Code  Gb  Synthesizer.o [3]
-Region$$Table$$Base     0x40'2f98          --   Gb  - Linker created -
-Region$$Table$$Limit    0x40'2fb8          --   Gb  - Linker created -
+RX_msg                  0x40'30e0   0x10  Data  Gb  repeater.o [1]
+RadioInit               0x40'1ffd   0xc0  Code  Gb  Synthesizer.o [3]
+Region$$Table$$Base     0x40'2fa4          --   Gb  - Linker created -
+Region$$Table$$Limit    0x40'2fc4          --   Gb  - Linker created -
 Region_ROM_Table_ROM_Base {Abs}
                          0x1'1788         Data  Gb  rom-symbols-LLC.o [2]
 Region_ROM_Table_ROM_Limit {Abs}
                          0x1'17a8         Data  Gb  rom-symbols-LLC.o [2]
-ResetMaca               0x40'1e21   0x24  Code  Gb  maca.o [1]
-ResumeMACASync          0x40'28a9   0x76  Code  Gb  MacaInterrupt.o [1]
-SMAC_InitExecuteEntry   0x40'22fd   0x80  Code  Lc  Init_Utils.o [3]
+ResetMaca               0x40'1e2d   0x24  Code  Gb  maca.o [1]
+ResumeMACASync          0x40'28b5   0x76  Code  Gb  MacaInterrupt.o [1]
+SMAC_InitExecuteEntry   0x40'2309   0x80  Code  Lc  Init_Utils.o [3]
 SMAC_InitFlybackSettings
-                        0x40'219d   0x28  Code  Gb  Synthesizer.o [3]
-SMAC_InitFromFlash      0x40'237d   0xcc  Code  Gb  Init_Utils.o [3]
+                        0x40'21a9   0x28  Code  Gb  Synthesizer.o [3]
+SMAC_InitFromFlash      0x40'2389   0xcc  Code  Gb  Init_Utils.o [3]
 SPI_Abort {Abs}            0xcd61         Code  Gb  rom-symbols-LLC.o [2]
 SPI_Close {Abs}            0xca7d         Code  Gb  rom-symbols-LLC.o [2]
 SPI_GetConfig {Abs}        0xcb29         Code  Gb  rom-symbols-LLC.o [2]
@@ -495,14 +519,14 @@ SSI_SetTxRxConfig {Abs}
 SSI_StartContinuousRx {Abs}
                            0x472d         Code  Gb  rom-symbols-LLC.o [2]
 SSI_TxData {Abs}           0x4465         Code  Gb  rom-symbols-LLC.o [2]
-Scan_msg                0x40'2fc0   0x10  Data  Gb  RadioManagement.o [1]
-SetChannel              0x40'20b1   0x6c  Code  Gb  Synthesizer.o [3]
+Scan_msg                0x40'2fcc   0x10  Data  Gb  RadioManagement.o [1]
+SetChannel              0x40'20bd   0x6c  Code  Gb  Synthesizer.o [3]
 SetComplementaryPAState
-                        0x40'2249   0x18  Code  Gb  rif.o [3]
-SetEdCcaThreshold       0x40'215d   0x18  Code  Gb  Synthesizer.o [3]
-SetPower                0x40'21e5   0x64  Code  Gb  rif.o [3]
-SetPowerLevelLockMode   0x40'2261   0x36  Code  Gb  rif.o [3]
-TX_msg                  0x40'320c   0x10  Data  Gb  repeater.o [1]
+                        0x40'2255   0x18  Code  Gb  rif.o [3]
+SetEdCcaThreshold       0x40'2169   0x18  Code  Gb  Synthesizer.o [3]
+SetPower                0x40'21f1   0x64  Code  Gb  rif.o [3]
+SetPowerLevelLockMode   0x40'226d   0x36  Code  Gb  rif.o [3]
+TX_msg                  0x40'3218   0x10  Data  Gb  repeater.o [1]
 TmrDisable {Abs}           0xa865         Code  Gb  rom-symbols-LLC.o [2]
 TmrEnable {Abs}            0xa82d         Code  Gb  rom-symbols-LLC.o [2]
 TmrGetCompStatusControl {Abs}
@@ -527,8 +551,8 @@ UartCancelWriteData {Abs}
                            0x30f5         Code  Gb  rom-symbols-LLC.o [2]
 UartClearErrors {Abs}      0x33ad         Code  Gb  rom-symbols-LLC.o [2]
 UartClose {Abs}            0x3219         Code  Gb  rom-symbols-LLC.o [2]
-UartEventRead1          0x40'1b63    0x2  Code  Gb  UartUtil.o [1]
-UartEventWrite1         0x40'1b65    0x2  Code  Gb  UartUtil.o [1]
+UartEventRead1          0x40'1b6f    0x2  Code  Gb  UartUtil.o [1]
+UartEventWrite1         0x40'1b71    0x2  Code  Gb  UartUtil.o [1]
 UartGetByteFromRxBuffer {Abs}
                            0x32fd         Code  Gb  rom-symbols-LLC.o [2]
 UartGetConfig {Abs}        0x3179         Code  Gb  rom-symbols-LLC.o [2]
@@ -554,80 +578,80 @@ UartSetReceiverThreshold {Abs}
 UartSetTransmitterThreshold {Abs}
                            0x2f21         Code  Gb  rom-symbols-LLC.o [2]
 UartWriteData {Abs}        0x3079         Code  Gb  rom-symbols-LLC.o [2]
-Uart_Init               0x40'1aad   0x7a  Code  Gb  UartUtil.o [1]
-Uart_Print              0x40'1b8f   0x36  Code  Gb  UartUtil.o [1]
-Uart_PrintByteDec       0x40'1ca9   0x64  Code  Gb  UartUtil.o [1]
-Uart_PrintHex           0x40'1c27   0x5e  Code  Gb  UartUtil.o [1]
-Uart_PrintShortDec      0x40'1d0d   0x76  Code  Gb  UartUtil.o [1]
-Uart_Tx                 0x40'1bc5   0x62  Code  Gb  UartUtil.o [1]
+Uart_Init               0x40'1ab9   0x7a  Code  Gb  UartUtil.o [1]
+Uart_Print              0x40'1b9b   0x36  Code  Gb  UartUtil.o [1]
+Uart_PrintByteDec       0x40'1cb5   0x64  Code  Gb  UartUtil.o [1]
+Uart_PrintHex           0x40'1c33   0x5e  Code  Gb  UartUtil.o [1]
+Uart_PrintShortDec      0x40'1d19   0x76  Code  Gb  UartUtil.o [1]
+Uart_Tx                 0x40'1bd1   0x62  Code  Gb  UartUtil.o [1]
 __aeabi_idiv {Abs}         0xfae8         Code  Gb  rom-symbols-LLC.o [2]
 __aeabi_idiv0 {Abs}      0x1'0b5c         Code  Gb  rom-symbols-LLC.o [2]
 __aeabi_idivmod {Abs}      0xfae8         Code  Gb  rom-symbols-LLC.o [2]
-__aeabi_memcpy4         0x40'196c         Code  Gb  ABImemcpy.o [5]
-__aeabi_memcpy8         0x40'196c         Code  Gb  ABImemcpy.o [5]
+__aeabi_memcpy4         0x40'1978         Code  Gb  ABImemcpy.o [5]
+__aeabi_memcpy8         0x40'1978         Code  Gb  ABImemcpy.o [5]
 __aeabi_uidiv {Abs}        0xfaf8         Code  Gb  rom-symbols-LLC.o [2]
 __aeabi_uidivmod {Abs}     0xfaf8         Code  Gb  rom-symbols-LLC.o [2]
 __aeabi_uread4 {Abs}     0x1'0b0c         Code  Gb  rom-symbols-LLC.o [2]
 __aeabi_uwrite4 {Abs}    0x1'0ae0         Code  Gb  rom-symbols-LLC.o [2]
-__iar_data_init3        0x40'2bc5   0x30  Code  Gb  data_init.o [5]
+__iar_data_init3        0x40'2bd1   0x30  Code  Gb  data_init.o [5]
 __iar_packbits_init_single3
-                        0x40'2f1d   0x40  Code  Gb  packbits_init_single.o [5]
-__iar_zero_init3        0x40'2f5d   0x3c  Code  Gb  zero_init3.o [5]
+                        0x40'2f29   0x40  Code  Gb  packbits_init_single.o [5]
+__iar_zero_init3        0x40'2f69   0x3c  Code  Gb  zero_init3.o [5]
 __rom_data_init {Abs}    0x1'08d0         Code  Gb  rom-symbols-LLC.o [2]
 _start_vector_          0x40'0000         Code  Gb  Init-IAR.o [1]
-abort_message           0x40'1255   0x46  Code  Gb  RadioManagement.o [1]
-ackBox                  0x40'3018   0x28  Data  Gb  RadioManagement.o [1]
-bGetEnableLock          0x40'2299    0xc  Code  Gb  rif.o [3]
-bScanReqFlag            0x40'2fbb    0x1  Data  Gb  RadioManagement.o [1]
-buffer_radio_init       0x40'3048   0x10  Data  Gb  Synthesizer.o [3]
-calculate_ed_value      0x40'1881   0x1e  Code  Lc  RadioManagement.o [1]
-cbProcessMsg_c          0x40'13c0   0x10  Data  Lc  RadioManagement.o [1]
-cbRepeaterStFn_c        0x40'09e4    0xc  Data  Lc  repeater.o [1]
-command_xcvr_ed         0x40'1605   0x28  Code  Gb  RadioManagement.o [1]
-current_msg             0x40'2fb9    0x1  Data  Lc  RadioManagement.o [1]
-dataRX                  0x40'318c   0x80  Data  Gb  repeater.o [1]
-dataScan                0x40'3014    0x1  Data  Gb  RadioManagement.o [1]
-dataTX                  0x40'310c   0x80  Data  Gb  repeater.o [1]
+abort_message           0x40'1261   0x46  Code  Gb  RadioManagement.o [1]
+ackBox                  0x40'3024   0x28  Data  Gb  RadioManagement.o [1]
+bGetEnableLock          0x40'22a5    0xc  Code  Gb  rif.o [3]
+bScanReqFlag            0x40'2fc7    0x1  Data  Gb  RadioManagement.o [1]
+buffer_radio_init       0x40'3054   0x10  Data  Gb  Synthesizer.o [3]
+calculate_ed_value      0x40'188d   0x1e  Code  Lc  RadioManagement.o [1]
+cbProcessMsg_c          0x40'13cc   0x10  Data  Lc  RadioManagement.o [1]
+cbRepeaterStFn_c        0x40'09e0    0xc  Data  Lc  repeater.o [1]
+command_xcvr_ed         0x40'1611   0x28  Code  Gb  RadioManagement.o [1]
+current_msg             0x40'2fc5    0x1  Data  Lc  RadioManagement.o [1]
+dataRX                  0x40'3118   0x80  Data  Gb  repeater.o [1]
+dataScan                0x40'3020    0x1  Data  Gb  RadioManagement.o [1]
+dataTX                  0x40'3198   0x80  Data  Gb  repeater.o [1]
 data_indication_execute
-                        0x40'0a09   0x26  Code  Gb  repeater.o [1]
-display_config          0x40'0b45   0x74  Code  Lc  repeater.o [1]
-display_menu            0x40'0a31   0x4a  Code  Lc  repeater.o [1]
+                        0x40'0a05   0x26  Code  Gb  repeater.o [1]
+display_config          0x40'0b41   0x74  Code  Lc  repeater.o [1]
+display_menu            0x40'0a2d   0x4a  Code  Lc  repeater.o [1]
 execute_command         0x40'0bf5  0x132  Code  Lc  repeater.o [1]
 execute_current_message_callback
-                        0x40'12c9   0x20  Code  Gb  RadioManagement.o [1]
-fill_ram_struct         0x40'2175   0x16  Code  Gb  Synthesizer.o [3]
-flag                    0x40'3231    0x1  Data  Gb  MacaInterrupt.o [1]
-gAIMVAL_c               0x40'2c90   0x4c  Data  Gb  rif.o [3]
+                        0x40'12d5   0x20  Code  Gb  RadioManagement.o [1]
+fill_ram_struct         0x40'2181   0x16  Code  Gb  Synthesizer.o [3]
+flag                    0x40'323d    0x1  Data  Gb  MacaInterrupt.o [1]
+gAIMVAL_c               0x40'2c9c   0x4c  Data  Gb  rif.o [3]
 gLCDNormalFont {Abs}     0x1'1028         Data  Gb  rom-symbols-LLC.o [2]
 gLCDNormalIndex {Abs}    0x1'13ac         Data  Gb  rom-symbols-LLC.o [2]
 gLCDVerdanaFont {Abs}    0x1'0b74         Data  Gb  rom-symbols-LLC.o [2]
 gLCDVerdanaIndex {Abs}   0x1'146c         Data  Gb  rom-symbols-LLC.o [2]
-gPAVAL_c                0x40'2c44   0x4c  Data  Gb  rif.o [3]
-gPSMVAL_c               0x40'2bf8   0x4c  Data  Gb  rif.o [3]
-gRadioEvntFlags         0x40'3008    0x4  Data  Gb  RadioManagement.o [1]
+gPAVAL_c                0x40'2c50   0x4c  Data  Gb  rif.o [3]
+gPSMVAL_c               0x40'2c04   0x4c  Data  Gb  rif.o [3]
+gRadioEvntFlags         0x40'3014    0x4  Data  Gb  RadioManagement.o [1]
 gRadioInit_RegReplacement_c
-                        0x40'2740  0x158  Data  Gb  Synthesizer.o [3]
-gRadioTOCCal1           0x40'30ac   0x28  Data  Gb  Synthesizer.o [3]
-gRadioTOCCal2_24MHz_c   0x40'2678    0x8  Data  Gb  Synthesizer.o [3]
+                        0x40'274c  0x158  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal1           0x40'30b8   0x28  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal2_24MHz_c   0x40'2684    0x8  Data  Gb  Synthesizer.o [3]
 gRadioTOCCal2_None24MHz_c
-                        0x40'3058   0x30  Data  Gb  Synthesizer.o [3]
-gRadioTOCCal3_c         0x40'2680   0xb8  Data  Gb  Synthesizer.o [3]
+                        0x40'3064   0x30  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal3_c         0x40'268c   0xb8  Data  Gb  Synthesizer.o [3]
 gRadioTOCCal4_None24MHz_c
-                        0x40'2738    0x8  Data  Gb  Synthesizer.o [3]
-gRadioTOCCal5           0x40'3088   0x20  Data  Gb  Synthesizer.o [3]
-gaRFSynVCODivF_c        0x40'2edc   0x40  Data  Gb  RadioManagement.o [1]
-gaRFSynVCODivI_c        0x40'176c   0x10  Data  Gb  RadioManagement.o [1]
-gbDataIndicationFlag    0x40'30e4    0x1  Data  Gb  repeater.o [1]
-gbRdyToProcessEvnt      0x40'30e5    0x1  Data  Gb  repeater.o [1]
-get_ctov                0x40'21c5   0x1c  Code  Gb  Synthesizer.o [3]
-get_next_chann_to_scan  0x40'191d   0x2a  Code  Gb  RadioManagement.o [1]
-gu16SCINumOfBytes       0x40'322a    0x2  Data  Gb  UartUtil.o [1]
-gu8SCIDataFlag          0x40'3229    0x1  Data  Gb  UartUtil.o [1]
-gu8SCIStatus            0x40'3228    0x1  Data  Gb  UartUtil.o [1]
-handle_new_message      0x40'12e9   0x32  Code  Gb  RadioManagement.o [1]
-isUartDataRdy           0x40'30e6    0x1  Data  Gb  repeater.o [1]
-is_a_handled_message    0x40'12a1   0x28  Code  Lc  RadioManagement.o [1]
-mAbortStates            0x40'129c    0x4  Data  Lc  RadioManagement.o [1]
+                        0x40'2744    0x8  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal5           0x40'3094   0x20  Data  Gb  Synthesizer.o [3]
+gaRFSynVCODivF_c        0x40'2ee8   0x40  Data  Gb  RadioManagement.o [1]
+gaRFSynVCODivI_c        0x40'1778   0x10  Data  Gb  RadioManagement.o [1]
+gbDataIndicationFlag    0x40'30f0    0x1  Data  Gb  repeater.o [1]
+gbRdyToProcessEvnt      0x40'30f1    0x1  Data  Gb  repeater.o [1]
+get_ctov                0x40'21d1   0x1c  Code  Gb  Synthesizer.o [3]
+get_next_chann_to_scan  0x40'1929   0x2a  Code  Gb  RadioManagement.o [1]
+gu16SCINumOfBytes       0x40'3236    0x2  Data  Gb  UartUtil.o [1]
+gu8SCIDataFlag          0x40'3235    0x1  Data  Gb  UartUtil.o [1]
+gu8SCIStatus            0x40'3234    0x1  Data  Gb  UartUtil.o [1]
+handle_new_message      0x40'12f5   0x32  Code  Gb  RadioManagement.o [1]
+isUartDataRdy           0x40'30f2    0x1  Data  Gb  repeater.o [1]
+is_a_handled_message    0x40'12ad   0x28  Code  Lc  RadioManagement.o [1]
+mAbortStates            0x40'12a8    0x4  Data  Lc  RadioManagement.o [1]
 mExceptionHandlerDataAbort {Abs}
                         0x40'0158         Data  Gb  rom-symbols-LLC.o [2]
 mExceptionHandlerPrefetchAbort {Abs}
@@ -637,86 +661,86 @@ mExceptionHandlerSupervisor {Abs}
 mExceptionHandlerUndefined {Abs}
                         0x40'014c         Data  Gb  rom-symbols-LLC.o [2]
 mHandlerTable {Abs}     0x40'0120         Data  Gb  rom-symbols-LLC.o [2]
-mInitDenyVregCntlOvr    0x40'3235    0x1  Data  Gb  Init_Utils_patched.o [2]
+mInitDenyVregCntlOvr    0x40'3241    0x1  Data  Gb  Init_Utils_patched.o [2]
 mIsComplementaryPaEnable
-                        0x40'321e    0x1  Data  Lc  rif.o [3]
-mIsEnableLock           0x40'321f    0x1  Data  Lc  rif.o [3]
-mIsPromiscousMode       0x40'3232    0x1  Data  Lc  TransceiverConfigMngmnt.o [1]
-mMacaIsrEntryCounter    0x40'3230    0x1  Data  Lc  MacaInterrupt.o [1]
-mRetries_timmer         0x40'2fb8    0x1  Data  Lc  RadioManagement.o [1]
-mSftclk_offset          0x40'3004    0x4  Data  Lc  RadioManagement.o [1]
+                        0x40'322a    0x1  Data  Lc  rif.o [3]
+mIsEnableLock           0x40'322b    0x1  Data  Lc  rif.o [3]
+mIsPromiscousMode       0x40'323e    0x1  Data  Lc  TransceiverConfigMngmnt.o [1]
+mMacaIsrEntryCounter    0x40'323c    0x1  Data  Lc  MacaInterrupt.o [1]
+mRetries_timmer         0x40'2fc4    0x1  Data  Lc  RadioManagement.o [1]
+mSftclk_offset          0x40'3010    0x4  Data  Lc  RadioManagement.o [1]
 mUartModule {Abs}       0x40'033c         Data  Gb  rom-symbols-LLC.o [2]
-maMessageTO             0x40'2ff4   0x10  Data  Lc  RadioManagement.o [1]
-maMessage_Queu          0x40'2fe4   0x10  Data  Lc  RadioManagement.o [1]
-next_msg_to_store       0x40'2fba    0x1  Data  Lc  RadioManagement.o [1]
-print_n_blank_spaces    0x40'10fd   0x20  Code  Lc  repeater.o [1]
-process_change_delay    0x40'0f09   0xd2  Code  Lc  repeater.o [1]
+maMessageTO             0x40'3000   0x10  Data  Lc  RadioManagement.o [1]
+maMessage_Queu          0x40'2ff0   0x10  Data  Lc  RadioManagement.o [1]
+next_msg_to_store       0x40'2fc6    0x1  Data  Lc  RadioManagement.o [1]
+print_n_blank_spaces    0x40'1109   0x20  Code  Lc  repeater.o [1]
+process_change_delay    0x40'0f11   0xd2  Code  Lc  repeater.o [1]
 process_change_delay::u16MicroSecsTmp
-                        0x40'3222    0x2  Data  Lc  repeater.o [1]
+                        0x40'322e    0x2  Data  Lc  repeater.o [1]
 process_change_delay::u32MilliSecsTmp
-                        0x40'3224    0x4  Data  Lc  repeater.o [1]
+                        0x40'3230    0x4  Data  Lc  repeater.o [1]
 process_change_delay::u8ChgDlySt
-                        0x40'3220    0x1  Data  Lc  repeater.o [1]
+                        0x40'322c    0x1  Data  Lc  repeater.o [1]
 process_change_delay::u8DigitCount
-                        0x40'3221    0x1  Data  Lc  repeater.o [1]
-process_ed_msg          0x40'1641  0x124  Code  Lc  RadioManagement.o [1]
+                        0x40'322d    0x1  Data  Lc  repeater.o [1]
+process_ed_msg          0x40'164d  0x124  Code  Lc  RadioManagement.o [1]
 process_ed_msg::prev_chann
-                        0x40'3010    0x4  Data  Lc  RadioManagement.o [1]
-process_radio_msg       0x40'1389   0x38  Code  Gb  RadioManagement.o [1]
+                        0x40'301c    0x4  Data  Lc  RadioManagement.o [1]
+process_radio_msg       0x40'1395   0x38  Code  Gb  RadioManagement.o [1]
 process_ready_prompt    0x40'0d75   0x3c  Code  Lc  repeater.o [1]
 process_ready_prompt::u8RdySt
-                        0x40'3234    0x1  Data  Lc  repeater.o [1]
+                        0x40'3240    0x1  Data  Lc  repeater.o [1]
 process_repeater_run    0x40'0db1   0x2c  Code  Lc  repeater.o [1]
-process_rx_msg          0x40'14c1  0x136  Code  Lc  RadioManagement.o [1]
-process_scan_req        0x40'189f   0x78  Code  Gb  RadioManagement.o [1]
+process_rx_msg          0x40'14cd  0x136  Code  Lc  RadioManagement.o [1]
+process_scan_req        0x40'18ab   0x78  Code  Gb  RadioManagement.o [1]
 process_scan_req::EdCh2Evaluate
-                        0x40'2fbe    0x1  Data  Lc  RadioManagement.o [1]
+                        0x40'2fca    0x1  Data  Lc  RadioManagement.o [1]
 process_scan_req::bestChann
-                        0x40'2fbd    0x1  Data  Lc  RadioManagement.o [1]
+                        0x40'2fc9    0x1  Data  Lc  RadioManagement.o [1]
 process_scan_req::isSecondPass
-                        0x40'2fbf    0x1  Data  Lc  RadioManagement.o [1]
+                        0x40'2fcb    0x1  Data  Lc  RadioManagement.o [1]
 process_scan_req::u8BestVal
-                        0x40'2fbc    0x1  Data  Lc  RadioManagement.o [1]
-process_to_msg          0x40'177d   0xf6  Code  Lc  RadioManagement.o [1]
-process_tx_msg          0x40'13d1   0xe2  Code  Lc  RadioManagement.o [1]
-radio_manager_init      0x40'133f   0x46  Code  Gb  RadioManagement.o [1]
-ram_init_val            0x40'3040    0x4  Data  Gb  Synthesizer.o [3]
+                        0x40'2fc8    0x1  Data  Lc  RadioManagement.o [1]
+process_to_msg          0x40'1789   0xf6  Code  Lc  RadioManagement.o [1]
+process_tx_msg          0x40'13dd   0xe2  Code  Lc  RadioManagement.o [1]
+radio_manager_init      0x40'134b   0x46  Code  Gb  RadioManagement.o [1]
+ram_init_val            0x40'304c    0x4  Data  Gb  Synthesizer.o [3]
 release_current_message
-                        0x40'131b   0x24  Code  Gb  RadioManagement.o [1]
-repeater_app_init       0x40'0fe9  0x114  Code  Lc  repeater.o [1]
-repeater_run_sm         0x40'0ded  0x10a  Code  Lc  repeater.o [1]
-repeater_rx_cb          0x40'09f1   0x18  Code  Gb  repeater.o [1]
+                        0x40'1327   0x24  Code  Gb  RadioManagement.o [1]
+repeater_app_init       0x40'0ff5  0x114  Code  Lc  repeater.o [1]
+repeater_run_sm         0x40'0ded  0x114  Code  Lc  repeater.o [1]
+repeater_rx_cb          0x40'09ed   0x18  Code  Gb  repeater.o [1]
 reset_vector {Abs}            0x0         Code  Gb  rom-symbols-LLC.o [2]
-sRepeaterDelay          0x40'3104    0x4  Data  Gb  repeater.o [1]
-sRepeaterStat           0x40'30fc    0x8  Data  Gb  repeater.o [1]
-u16ChannToScan          0x40'2fe0    0x2  Data  Gb  RadioManagement.o [1]
-u32RepeatRxTimeOut      0x40'3108    0x4  Data  Gb  repeater.o [1]
-u32SystemClock          0x40'30a8    0x4  Data  Gb  Synthesizer.o [3]
-u8RamValues             0x40'322c    0x4  Data  Gb  Init_Utils.o [3]
-u8RepOpMode             0x40'30e7    0x1  Data  Gb  repeater.o [1]
+sRepeaterDelay          0x40'3110    0x4  Data  Gb  repeater.o [1]
+sRepeaterStat           0x40'3108    0x8  Data  Gb  repeater.o [1]
+u16ChannToScan          0x40'2fec    0x2  Data  Gb  RadioManagement.o [1]
+u32RepeatRxTimeOut      0x40'3114    0x4  Data  Gb  repeater.o [1]
+u32SystemClock          0x40'30b4    0x4  Data  Gb  Synthesizer.o [3]
+u8RamValues             0x40'3238    0x4  Data  Gb  Init_Utils.o [3]
+u8RepOpMode             0x40'30f3    0x1  Data  Gb  repeater.o [1]
 u8RepOpModeText         0x40'0bd0   0x14  Data  Gb  repeater.o [1]
-u8RepRdyPrompt          0x40'1244    0xc  Data  Gb  repeater.o [1]
-u8RepeaterChann         0x40'30e9    0x1  Data  Gb  repeater.o [1]
-u8RepeaterPower         0x40'30e8    0x1  Data  Gb  repeater.o [1]
-u8RepeaterRunSt         0x40'30eb    0x1  Data  Gb  repeater.o [1]
-u8RepeaterState         0x40'30ea    0x1  Data  Gb  repeater.o [1]
-u8ScanValPerChann       0x40'2fd0   0x10  Data  Gb  RadioManagement.o [1]
-u8UartBuffer            0x40'30ec    0x8  Data  Gb  repeater.o [1]
-u8UartData              0x40'30f4    0x8  Data  Gb  repeater.o [1]
-u8UartDataSz            0x40'321c    0x1  Data  Gb  repeater.o [1]
-u8WrongChar             0x40'2638   0x40  Data  Gb  repeater.o [1]
-u8mCurrentChann         0x40'3044    0x1  Data  Lc  Synthesizer.o [3]
-u8mCurrentPowerLvl      0x40'321d    0x1  Data  Lc  rif.o [3]
-vScanReqCallBack        0x40'300c    0x4  Data  Gb  RadioManagement.o [1]
+u8RepRdyPrompt          0x40'1250    0xc  Data  Gb  repeater.o [1]
+u8RepeaterChann         0x40'30f5    0x1  Data  Gb  repeater.o [1]
+u8RepeaterPower         0x40'30f4    0x1  Data  Gb  repeater.o [1]
+u8RepeaterRunSt         0x40'30f7    0x1  Data  Gb  repeater.o [1]
+u8RepeaterState         0x40'30f6    0x1  Data  Gb  repeater.o [1]
+u8ScanValPerChann       0x40'2fdc   0x10  Data  Gb  RadioManagement.o [1]
+u8UartBuffer            0x40'30f8    0x8  Data  Gb  repeater.o [1]
+u8UartData              0x40'3100    0x8  Data  Gb  repeater.o [1]
+u8UartDataSz            0x40'3228    0x1  Data  Gb  repeater.o [1]
+u8WrongChar             0x40'2644   0x40  Data  Gb  repeater.o [1]
+u8mCurrentChann         0x40'3050    0x1  Data  Lc  Synthesizer.o [3]
+u8mCurrentPowerLvl      0x40'3229    0x1  Data  Lc  rif.o [3]
+vScanReqCallBack        0x40'3018    0x4  Data  Gb  RadioManagement.o [1]
 
 
-[1] = D:\Users\Brus\Documents\repeater_test\Repeater\Release\Obj
+[1] = D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\Release\Obj
 [2] = LLC.a
 [3] = MC1322x.a
 [4] = dl4t_tln.a
 [5] = rt4t_al.a
 
-  8 166 bytes of readonly  code memory
+  8 178 bytes of readonly  code memory
   1 924 bytes of readonly  data memory
   5 502 bytes of readwrite data memory
 

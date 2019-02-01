@@ -1,0 +1,858 @@
+###############################################################################
+#
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  31/Jan/2019  22:19:59
+# Copyright 2007-2018 IAR Systems AB.
+#
+#    Output file  =  
+#        D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Exe\Connectivity Test.out
+#    Map file     =  
+#        D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\List\Connectivity Test.map
+#    Command line =  
+#        -f C:\Users\Brus\AppData\Local\Temp\EWE576.tmp
+#        ("D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\connectivity_test_rx.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\Delay.o" "D:\Users\Brus\Documents\Uni\Wireless
+#        Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\Display.o" "D:\Users\Brus\Documents\Uni\Wireless
+#        Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\HLDrv.o" "D:\Users\Brus\Documents\Uni\Wireless
+#        Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\Init-IAR.o" "D:\Users\Brus\Documents\Uni\Wireless
+#        Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\Keyboard.o" "D:\Users\Brus\Documents\Uni\Wireless
+#        Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\Leds.o" "D:\Users\Brus\Documents\Uni\Wireless Sensors
+#        Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\PLM\Lib\LLC.a" "D:\Users\Brus\Documents\Uni\Wireless Sensors
+#        Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\maca.o" "D:\Users\Brus\Documents\Uni\Wireless Sensors
+#        Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\MacaInterrupt.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\SMAC\Drivers\Lib\MC1322x.a" "D:\Users\Brus\Documents\Uni\Wireless
+#        Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\PlatformInit.o" "D:\Users\Brus\Documents\Uni\Wireless
+#        Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\RadioManagement.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\SecurityMngmnt.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\Sound.o" "D:\Users\Brus\Documents\Uni\Wireless
+#        Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\TransceiverConfigMngmnt.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\TransceiverPowerMngmnt.o"
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\UartUtil.o" "D:\Users\Brus\Documents\Uni\Wireless
+#        Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Obj\WirelessLinkMngmt.o" --no_out_extension -o
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\Exe\Connectivity Test.out" --redirect _Printf=_PrintfTiny
+#        --redirect _Scanf=_ScanfSmallNoMb --strip --map
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\List\Connectivity Test.map" --log
+#        initialization,modules,sections,veneers --log_file
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\Release\List\Connectivity Test.log" --config
+#        "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks
+#        M\Project\WSNBP\my_conn_rep_test\Connectivity
+#        Test\PLM\Icf\MC1322x-RAM-ROM.icf" --diag_suppress Lt010,Lt018 --entry
+#        _start_vector_ --inline --vfe --text_out locale)
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The basic heap was selected because no calls to memory allocation
+functions were found in the application outside of system library
+functions, and there are calls to deallocation functions in the
+application.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"P1":  place in [from 0x40'0000 to 0x40'001f] { ro section .vect };
+"P2":  place in [from 0x40'0900 to 0x41'7fff] { ro };
+"P3":  place in [from 0x40'0900 to 0x41'7fff] { rw };
+"P4":  place in [from 0x40'0020 to 0x40'005f] { section rp_vector_thumb_0 };
+"P5":  place in [from 0x40'0060 to 0x40'009f] { section rp_vector_thumb_1 };
+"P6":  place in [from 0x40'00a0 to 0x40'00df] { section rp_vector_thumb_2 };
+"P7":  place in [from 0x40'00e0 to 0x40'011f] { section rp_vector_thumb_3 };
+do not initialize { rw section .stack };
+initialize by copy { rw };
+
+No sections matched the following patterns:
+
+  section nv_data_init_struct  in "P8"
+
+
+  Section            Kind       Address    Size  Object
+  -------            ----       -------    ----  ------
+"P1":                                      0x20
+  .vect              ro code  0x40'0000    0x20  Init-IAR.o [1]
+                            - 0x40'0020    0x20
+
+"P4":                                       0x2
+  rp_vector_thumb_0  ro code  0x40'0020     0x2  rp_vector_IAR.o [2]
+                            - 0x40'0022     0x2
+
+"P5":                                      0x10
+  rp_vector_thumb_1  ro code  0x40'0060    0x10  rp_vector_IAR.o [2]
+                            - 0x40'0070    0x10
+
+"P6":                                       0x2
+  rp_vector_thumb_2  ro code  0x40'00a0     0x2  rp_vector_IAR.o [2]
+                            - 0x40'00a2     0x2
+
+"P7":                                       0x2
+  rp_vector_thumb_3  ro code  0x40'00e0     0x2  rp_vector_IAR.o [2]
+                            - 0x40'00e2     0x2
+
+"P2-P3", part 1 of 3:                    0x53b9
+  Veneer             ro code  0x40'0900    0x10  - Linker created -
+  Veneer             ro code  0x40'0910    0x10  - Linker created -
+  Veneer             ro code  0x40'0920    0x10  - Linker created -
+  Veneer             ro code  0x40'0930    0x10  - Linker created -
+  Veneer             ro code  0x40'0940    0x10  - Linker created -
+  Veneer             ro code  0x40'0950    0x10  - Linker created -
+  Veneer             ro code  0x40'0960    0x10  - Linker created -
+  Veneer             ro code  0x40'0970    0x10  - Linker created -
+  Veneer             ro code  0x40'0980    0x10  - Linker created -
+  Veneer             ro code  0x40'0990    0x10  - Linker created -
+  Veneer             ro code  0x40'09a0    0x10  - Linker created -
+  Veneer             ro code  0x40'09b0    0x10  - Linker created -
+  Veneer             ro code  0x40'09c0    0x10  - Linker created -
+  Veneer             ro code  0x40'09d0    0x10  - Linker created -
+  Veneer             ro code  0x40'09e0    0x10  - Linker created -
+  Veneer             ro code  0x40'09f0    0x10  - Linker created -
+  .text              ro code  0x40'0a00  0x1a00  connectivity_test_rx.o [1]
+  .text              ro code  0x40'2400    0x24  maca.o [1]
+  .text              ro code  0x40'2424   0x178  TransceiverConfigMngmnt.o [1]
+  .text              ro code  0x40'259c    0x44  PlatformInit.o [1]
+  .text              ro code  0x40'25e0    0xac  WirelessLinkMngmt.o [1]
+  Veneer             ro code  0x40'268c    0x10  - Linker created -
+  Veneer             ro code  0x40'269c    0x10  - Linker created -
+  Veneer             ro code  0x40'26ac    0x10  - Linker created -
+  Veneer             ro code  0x40'26bc    0x10  - Linker created -
+  Veneer             ro code  0x40'26cc    0x10  - Linker created -
+  Veneer             ro code  0x40'26dc    0x10  - Linker created -
+  Veneer             ro code  0x40'26ec    0x10  - Linker created -
+  Veneer             ro code  0x40'26fc    0x10  - Linker created -
+  .text              ro code  0x40'270c   0x2f8  UartUtil.o [1]
+  Veneer             ro code  0x40'2a04    0x10  - Linker created -
+  Veneer             ro code  0x40'2a14    0x10  - Linker created -
+  Veneer             ro code  0x40'2a24    0x10  - Linker created -
+  Veneer             ro code  0x40'2a34    0x10  - Linker created -
+  .text              ro code  0x40'2a44   0x12a  Leds.o [1]
+  Veneer             ro code  0x40'2b70    0x10  - Linker created -
+  Veneer             ro code  0x40'2b80    0x10  - Linker created -
+  Veneer             ro code  0x40'2b90    0x10  - Linker created -
+  .text              ro code  0x40'2ba0    0x48  Keyboard.o [1]
+  .text              ro code  0x40'2be8    0x7e  lz77_init_single.o [5]
+  Veneer             ro code  0x40'2c68    0x10  - Linker created -
+  Veneer             ro code  0x40'2c78    0x10  - Linker created -
+  .text              ro code  0x40'2c88   0x79e  Display.o [1]
+  .text              ro code  0x40'3428    0x42  Delay.o [1]
+  .text              ro code  0x40'346c   0x6c2  RadioManagement.o [1]
+  .text              ro code  0x40'3b30    0xf0  rif.o [3]
+  Veneer             ro code  0x40'3c20    0x10  - Linker created -
+  Veneer             ro code  0x40'3c30    0x10  - Linker created -
+  .text              ro code  0x40'3c40   0x260  Synthesizer.o [3]
+  .text              ro code  0x40'3ea0     0x2  RadioManagement.o [1]
+  Veneer             ro code  0x40'3ea4    0x10  - Linker created -
+  Veneer             ro code  0x40'3eb4    0x10  - Linker created -
+  Veneer             ro code  0x40'3ec4    0x10  - Linker created -
+  Veneer             ro code  0x40'3ed4    0x10  - Linker created -
+  .text              ro code  0x40'3ee4   0x154  Init_Utils.o [3]
+  .rodata            const    0x40'4038   0x64c  connectivity_test_rx.o [1]
+  .rodata            const    0x40'4684   0x360  connectivity_test_rx.o [1]
+  .rodata            const    0x40'49e4   0x220  Synthesizer.o [3]
+  .rodata            const    0x40'4c04   0x218  connectivity_test_rx.o [1]
+  Veneer             ro code  0x40'4e1c    0x10  - Linker created -
+  .text              ro code  0x40'4e2c   0x1e0  MacaInterrupt.o [1]
+  .rodata            const    0x40'500c   0x170  connectivity_test_rx.o [1]
+  Veneer             ro code  0x40'517c     0xc  - Linker created -
+  Veneer             ro code  0x40'5188     0xc  - Linker created -
+  .text              ro code  0x40'5194   0x124  Init-IAR.o [1]
+  .text              ro code  0x40'52b8    0x32  data_init.o [5]
+  .rodata            const    0x40'52ec    0xe4  rif.o [3]
+  .rodata            const    0x40'53d0    0xdc  connectivity_test_rx.o [1]
+  .rodata            const    0x40'54ac    0xd0  connectivity_test_rx.o [1]
+  .rodata            const    0x40'557c    0x94  connectivity_test_rx.o [1]
+  .rodata            const    0x40'5610    0x94  connectivity_test_rx.o [1]
+  .rodata            const    0x40'56a4    0x88  connectivity_test_rx.o [1]
+  .rodata            const    0x40'572c    0x74  connectivity_test_rx.o [1]
+  .text              ro code  0x40'57a0    0x68  Init_Utils_patched.o [2]
+  .text              ro code  0x40'5808     0xa  Init_Delay_patched.o [2]
+  .text              ro code  0x40'5814    0x12  rp_vector_IAR.o [2]
+  .rodata            const    0x40'5828    0x40  RadioManagement.o [1]
+  .rodata            const    0x40'5868    0x34  connectivity_test_rx.o [1]
+  .rodata            const    0x40'589c    0x30  connectivity_test_rx.o [1]
+  .rodata            const    0x40'58cc    0x24  connectivity_test_rx.o [1]
+  .iar.init_table    const    0x40'58f0    0x10  - Linker created -
+  .rodata            const    0x40'5900    0x18  Display.o [1]
+  .rodata            const    0x40'5918    0x14  Display.o [1]
+  .rodata            const    0x40'592c    0x10  Display.o [1]
+  .rodata            const    0x40'593c     0x0  lz77_init_single.o [5]
+  P2-P3-1                     0x40'593c   0x37d  <Init block>
+    .data            inited   0x40'593c   0x15c  connectivity_test_rx.o [1]
+    .data            inited   0x40'5a98    0xb8  Display.o [1]
+    .data            inited   0x40'5b50    0x18  Display.o [1]
+    .data            inited   0x40'5b68    0x88  RadioManagement.o [1]
+    .data            inited   0x40'5bf0    0x94  Synthesizer.o [3]
+    .bss             inited   0x40'5c84    0x14  connectivity_test_rx.o [1]
+    .bss             inited   0x40'5c98    0x10  connectivity_test_rx.o [1]
+    .bss             inited   0x40'5ca8     0x4  Init_Utils.o [3]
+    .bss             inited   0x40'5cac     0x4  UartUtil.o [1]
+    .bss             inited   0x40'5cb0     0x1  Display.o [1]
+    .bss             inited   0x40'5cb1     0x2  MacaInterrupt.o [1]
+    .bss             inited   0x40'5cb3     0x2  TransceiverConfigMngmnt.o [1]
+    .bss             inited   0x40'5cb5     0x3  rif.o [3]
+    .bss             inited   0x40'5cb8     0x1  Init_Utils_patched.o [2]
+                            - 0x40'5cb9  0x53b9
+
+"P2-P3", part 2 of 3:                    0x1300
+  .stack             uninit   0x40'5cbc  0x1300  Init-IAR.o [1]
+                            - 0x40'6fbc  0x1300
+
+"P2-P3", part 3 of 3:                      0xb3
+  Initializer bytes  const    0x40'6fbc    0xb3  <for P2-P3-1>
+                            - 0x40'706f    0xb3
+
+Unused ranges:
+
+       From         To      Size
+       ----         --      ----
+  0x40'0022  0x40'005f      0x3e
+  0x40'0070  0x40'009f      0x30
+  0x40'00a2  0x40'00df      0x3e
+  0x40'00e2  0x40'011f      0x3e
+  0x40'5cb9  0x40'5cbb       0x3
+  0x40'706f  0x41'7fff  0x1'0f91
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address    Size
+          -------    ----
+Copy/lz77 (__iar_lz77_init_single3)
+    1 source range, total size 0xb3 (20% of destination):
+          0x40'6fbc   0xb3
+    1 destination range, total size 0x37d:
+          0x40'593c  0x37d
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                     ro code  ro data  rw data
+    ------                     -------  -------  -------
+command line/config:
+    ----------------------------------------------------
+    Total:
+
+D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity Test\Release\Obj: [1]
+    Delay.o                         66
+    Display.o                    1 950      102      209
+    Init-IAR.o                     324             4 864
+    Keyboard.o                      72
+    Leds.o                         298
+    MacaInterrupt.o                480                 2
+    PlatformInit.o                  68
+    RadioManagement.o            1 732       91      136
+    TransceiverConfigMngmnt.o      376        1        2
+    UartUtil.o                     760        1        4
+    WirelessLinkMngmt.o            172
+    connectivity_test_rx.o       6 656    4 568      384
+    maca.o                          36
+    ----------------------------------------------------
+    Total:                      12 990    4 763    5 601
+
+LLC.a: [2]
+    Init_Delay_patched.o            10
+    Init_Utils_patched.o           104        1        1
+    rp_vector_IAR.o                 40
+    ----------------------------------------------------
+    Total:                         154        1        1
+
+MC1322x.a: [3]
+    Init_Utils.o                   340        1        4
+    Synthesizer.o                  608      574      148
+    rif.o                          240      228        3
+    ----------------------------------------------------
+    Total:                       1 188      803      155
+
+dl4t_tln.a: [4]
+    ----------------------------------------------------
+    Total:
+
+rt4t_al.a: [5]
+    data_init.o                     50
+    lz77_init_single.o             126
+    ----------------------------------------------------
+    Total:                         176
+
+    Gaps                            14        4
+    Linker created                 664       16
+--------------------------------------------------------
+    Grand Total:                15 186    5 587    5 757
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                     Address   Size  Type      Object
+-----                     -------   ----  ----      ------
+.iar.init_table$$Base   0x40'58f0          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x40'5900          --   Gb  - Linker created -
+ACK_msg                 0x40'5c98   0x10  Data  Gb  connectivity_test_rx.o [1]
+Adc_GetFifoStatus {Abs}
+                           0xc4c5         Code  Gb  rom-symbols-LLC.o [2]
+Adc_Init {Abs}             0xc285         Code  Gb  rom-symbols-LLC.o [2]
+Adc_Isr {Abs}              0xc5c9         Code  Gb  rom-symbols-LLC.o [2]
+Adc_ManualRead {Abs}       0xc541         Code  Gb  rom-symbols-LLC.o [2]
+Adc_ReadFifoData {Abs}     0xc495         Code  Gb  rom-symbols-LLC.o [2]
+Adc_Reset {Abs}            0xc2a1         Code  Gb  rom-symbols-LLC.o [2]
+Adc_SetCallback {Abs}      0xc585         Code  Gb  rom-symbols-LLC.o [2]
+Adc_SetCompCtrl {Abs}      0xc41d         Code  Gb  rom-symbols-LLC.o [2]
+Adc_SetConfig {Abs}        0xc30d         Code  Gb  rom-symbols-LLC.o [2]
+Adc_SetConvCtrl {Abs}      0xc385         Code  Gb  rom-symbols-LLC.o [2]
+Adc_SetFifoCtrl {Abs}      0xc475         Code  Gb  rom-symbols-LLC.o [2]
+Adc_StartManualConv {Abs}
+                           0xc4f9         Code  Gb  rom-symbols-LLC.o [2]
+AsciitoHex              0x40'2861   0x28  Code  Gb  UartUtil.o [1]
+Asm_CbcMacEncryptDecrypt {Abs}
+                           0xec61         Code  Gb  rom-symbols-LLC.o [2]
+Asm_Ccm {Abs}              0xecb9         Code  Gb  rom-symbols-LLC.o [2]
+Asm_CcmEncryptDecrypt {Abs}
+                           0xec95         Code  Gb  rom-symbols-LLC.o [2]
+Asm_CtrEncryptDecrypt {Abs}
+                           0xec39         Code  Gb  rom-symbols-LLC.o [2]
+CRM_2kToXtal32Switch {Abs}
+                           0x3a3d         Code  Gb  rom-symbols-LLC.o [2]
+CRM_BusStealingCntl {Abs}
+                           0x38c5         Code  Gb  rom-symbols-LLC.o [2]
+CRM_CopCntl {Abs}          0x37b9         Code  Gb  rom-symbols-LLC.o [2]
+CRM_ForceCopTimeout {Abs}
+                           0x3871         Code  Gb  rom-symbols-LLC.o [2]
+CRM_GoToSleep {Abs}        0x364d         Code  Gb  rom-symbols-LLC.o [2]
+CRM_Isr {Abs}              0x3f35         Code  Gb  rom-symbols-LLC.o [2]
+CRM_ModuleEnStatus {Abs}
+                           0x37ad         Code  Gb  rom-symbols-LLC.o [2]
+CRM_RefXtalControl {Abs}
+                           0x3979         Code  Gb  rom-symbols-LLC.o [2]
+CRM_RegisterISR {Abs}      0x3ec9         Code  Gb  rom-symbols-LLC.o [2]
+CRM_RingOscAbortCal {Abs}
+                           0x3b71         Code  Gb  rom-symbols-LLC.o [2]
+CRM_RingOscCal {Abs}       0x3ad5         Code  Gb  rom-symbols-LLC.o [2]
+CRM_SetDigOutDriveStrength {Abs}
+                           0x3e51         Code  Gb  rom-symbols-LLC.o [2]
+CRM_SetPowerSource {Abs}
+                           0x3ba5         Code  Gb  rom-symbols-LLC.o [2]
+CRM_SetSPIFDriveStrength {Abs}
+                           0x3e8d         Code  Gb  rom-symbols-LLC.o [2]
+CRM_VRegCntl {Abs}         0x3bf5         Code  Gb  rom-symbols-LLC.o [2]
+CRM_VRegTrimm {Abs}        0x3da9         Code  Gb  rom-symbols-LLC.o [2]
+CRM_Wait4Irq {Abs}         0x3941         Code  Gb  rom-symbols-LLC.o [2]
+CRM_WuCntl {Abs}           0x36d9         Code  Gb  rom-symbols-LLC.o [2]
+CRM_Xtal32EnCallback {Abs}
+                           0x3a01         Code  Gb  rom-symbols-LLC.o [2]
+ClearDisplay            0x40'2391   0x20  Code  Gb  connectivity_test_rx.o [1]
+CurrentOption           0x40'594f    0x1  Data  Gb  connectivity_test_rx.o [1]
+DelayMs                 0x40'3429   0x1e  Code  Gb  Delay.o [1]
+DelayUs                 0x40'344d   0x1e  Code  Gb  Delay.o [1]
+DisplayTestMode         0x40'2219  0x140  Code  Gb  connectivity_test_rx.o [1]
+FiqHandler {Abs}         0x1'0820         Code  Gb  rom-symbols-LLC.o [2]
+FlashLib_Erase {Abs}       0xe4e1         Code  Gb  rom-symbols-LLC.o [2]
+FlashLib_Init {Abs}        0xe3d1         Code  Gb  rom-symbols-LLC.o [2]
+FlashLib_Read {Abs}        0xe429         Code  Gb  rom-symbols-LLC.o [2]
+Flash_ClrStatus {Abs}      0xe5ad         Code  Gb  rom-symbols-LLC.o [2]
+Flash_EnableStatusWrite {Abs}
+                           0xe559         Code  Gb  rom-symbols-LLC.o [2]
+Flash_EraseSector {Abs}
+                           0xe63d         Code  Gb  rom-symbols-LLC.o [2]
+Flash_Lock {Abs}           0xe631         Code  Gb  rom-symbols-LLC.o [2]
+Flash_ReadStatus {Abs}     0xe531         Code  Gb  rom-symbols-LLC.o [2]
+Flash_SetStatus {Abs}      0xe595         Code  Gb  rom-symbols-LLC.o [2]
+Flash_UnlockAll {Abs}      0xe619         Code  Gb  rom-symbols-LLC.o [2]
+Flash_WriteDisable {Abs}
+                           0xe5f9         Code  Gb  rom-symbols-LLC.o [2]
+Flash_WriteEnable {Abs}
+                           0xe5f1         Code  Gb  rom-symbols-LLC.o [2]
+GetCurrentChann         0x40'3e51    0xc  Code  Gb  Synthesizer.o [3]
+GetCurrentChannel       0x40'3d6d   0x38  Code  Gb  Synthesizer.o [3]
+GetData                 0x40'3343   0x2c  Code  Lc  Display.o [1]
+GetStrlen               0x40'336f   0x36  Code  Lc  Display.o [1]
+GpioTmrInit             0x40'21e9   0x26  Code  Gb  connectivity_test_rx.o [1]
+GpioUart1Init           0x40'2787   0x3c  Code  Gb  UartUtil.o [1]
+Gpio_EnPinHyst {Abs}       0x869d         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_EnPinPuKeeper {Abs}
+                           0x8655         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_EnPinPullup {Abs}     0x85c1         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_GetPinData {Abs}      0x84e9         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_GetPinDir {Abs}       0x8411         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_GetPinFunction {Abs}
+                           0x87fd         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_GetPinPullupSel {Abs}
+                           0x862d         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_GetPinReadSource {Abs}
+                           0x8599         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_GetPortData {Abs}     0x8461         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_GetPortDir {Abs}      0x835d         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_InitPort {Abs}        0x8275         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_IsPinHystEn {Abs}     0x86bd         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_IsPinPuKeeperEn {Abs}
+                           0x8675         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_IsPinPullupEn {Abs}
+                           0x85e1         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_RdPortSetting {Abs}
+                           0x831d         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_SelectPinPullup {Abs}
+                           0x8609         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_SetPinData {Abs}      0x8481         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_SetPinDir {Abs}       0x83a9         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_SetPinFunction {Abs}
+                           0x876d         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_SetPinReadSource {Abs}
+                           0x8575         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_SetPortData {Abs}     0x8435         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_SetPortDir {Abs}      0x837d         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_SetPortFunction {Abs}
+                           0x86e5         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_TogglePin {Abs}       0x850d         Code  Gb  rom-symbols-LLC.o [2]
+Gpio_WrPortSetting {Abs}
+                           0x82d9         Code  Gb  rom-symbols-LLC.o [2]
+HexToAscii              0x40'27d9   0x16  Code  Lc  UartUtil.o [1]
+I2c_CancelTransfer {Abs}
+                           0x4b5d         Code  Gb  rom-symbols-LLC.o [2]
+I2c_Disable {Abs}          0x49f9         Code  Gb  rom-symbols-LLC.o [2]
+I2c_Enable {Abs}           0x49c5         Code  Gb  rom-symbols-LLC.o [2]
+I2c_GetStatus {Abs}        0x4b45         Code  Gb  rom-symbols-LLC.o [2]
+I2c_Init {Abs}             0x497d         Code  Gb  rom-symbols-LLC.o [2]
+I2c_Isr {Abs}              0x4e29         Code  Gb  rom-symbols-LLC.o [2]
+I2c_ReceiveData {Abs}      0x4ced         Code  Gb  rom-symbols-LLC.o [2]
+I2c_RecoverBus {Abs}       0x4a41         Code  Gb  rom-symbols-LLC.o [2]
+I2c_SendData {Abs}         0x4bdd         Code  Gb  rom-symbols-LLC.o [2]
+I2c_SetCallbackFunction {Abs}
+                           0x4aa9         Code  Gb  rom-symbols-LLC.o [2]
+I2c_SetConfig {Abs}        0x4ac1         Code  Gb  rom-symbols-LLC.o [2]
+ITC_DisableInterrupt {Abs}
+                           0xffe1         Code  Gb  rom-symbols-LLC.o [2]
+ITC_EnableInterrupt {Abs}
+                           0xffc5         Code  Gb  rom-symbols-LLC.o [2]
+ITC_Init {Abs}             0xfe9d         Code  Gb  rom-symbols-LLC.o [2]
+ITC_SetIrqMinimumLevel {Abs}
+                           0xfffd         Code  Gb  rom-symbols-LLC.o [2]
+ITC_SetPriority {Abs}      0xfee9         Code  Gb  rom-symbols-LLC.o [2]
+InitDisplayWrite        0x40'32b3   0x42  Code  Lc  Display.o [1]
+InitExecuteEntry        0x40'57a1   0x68  Code  Gb  Init_Utils_patched.o [2]
+InitFromFlash {Abs}        0xf97d         Code  Gb  rom-symbols-LLC.o [2]
+InitFromMemory {Abs}       0xfaa5         Code  Gb  rom-symbols-LLC.o [2]
+InitRifModuleVars       0x40'3c0d    0xe  Code  Gb  rif.o [3]
+Init_Delay              0x40'5809         Code  Gb  Init_Delay_patched.o [2]
+IntAssignHandler {Abs}     0xff25         Code  Gb  rom-symbols-LLC.o [2]
+IntDisableAll {Abs}      0x1'07f8         Code  Gb  rom-symbols-LLC.o [2]
+IntDisableFIQ {Abs}      0x1'07e0         Code  Gb  rom-symbols-LLC.o [2]
+IntDisableIRQ {Abs}      0x1'07c8         Code  Gb  rom-symbols-LLC.o [2]
+IntGetHandler {Abs}        0xff69         Code  Gb  rom-symbols-LLC.o [2]
+IntRestoreAll {Abs}      0x1'07b0         Code  Gb  rom-symbols-LLC.o [2]
+IntRestoreFIQ {Abs}      0x1'0780         Code  Gb  rom-symbols-LLC.o [2]
+IntRestoreIRQ {Abs}      0x1'0798         Code  Gb  rom-symbols-LLC.o [2]
+InterruptInit {Abs}        0xfe85         Code  Gb  rom-symbols-LLC.o [2]
+IrqHandler {Abs}         0x1'0810         Code  Gb  rom-symbols-LLC.o [2]
+KbGpioInit              0x40'2ba1   0x48  Code  Gb  Keyboard.o [1]
+LCD_DrawIcon            0x40'33a5   0x82  Code  Gb  Display.o [1]
+LCD_WriteCharacter      0x40'3145  0x100  Code  Gb  Display.o [1]
+LCD_WriteCommand        0x40'2fb1   0x56  Code  Gb  Display.o [1]
+LCD_WriteData           0x40'3007   0x56  Code  Gb  Display.o [1]
+LCD_WritePixel          0x40'3061   0xe4  Code  Gb  Display.o [1]
+LCD_WriteStringValue    0x40'2cf1  0x2a6  Code  Gb  Display.o [1]
+LCD_WriteString_NormalFont
+                        0x40'2c89   0x62  Code  Gb  Display.o [1]
+LED_Init                0x40'2a45   0x18  Code  Gb  Leds.o [1]
+LED_ToggleLed           0x40'2af7   0x32  Code  Gb  Leds.o [1]
+LED_TurnOffAllLeds      0x40'2b63    0xc  Code  Gb  Leds.o [1]
+LED_TurnOffLed          0x40'2b29   0x3a  Code  Gb  Leds.o [1]
+LoadPRBS9               0x40'0ffd   0x70  Code  Gb  connectivity_test_rx.o [1]
+MACA_Interrupt          0x40'4ea5  0x140  Code  Gb  MacaInterrupt.o [1]
+MCPSDataRequest         0x40'25e1   0x1e  Code  Gb  WirelessLinkMngmt.o [1]
+MLMEEnergyDetect        0x40'2637   0x24  Code  Gb  WirelessLinkMngmt.o [1]
+MLMEGetPromiscuousMode  0x40'24b9    0x6  Code  Gb  TransceiverConfigMngmnt.o [1]
+MLMELinkQuality         0x40'265b   0x12  Code  Gb  WirelessLinkMngmt.o [1]
+MLMEPAOutputAdjust      0x40'266d   0x18  Code  Gb  WirelessLinkMngmt.o [1]
+MLMEPHYXtalAdjust       0x40'2425   0x4e  Code  Gb  TransceiverConfigMngmnt.o [1]
+MLMERXEnableRequest     0x40'2621    0xe  Code  Gb  WirelessLinkMngmt.o [1]
+MLMERadioInit           0x40'24bf   0x98  Code  Gb  TransceiverConfigMngmnt.o [1]
+MLMERadioInit::i        0x40'5cb4    0x1  Data  Lc  TransceiverConfigMngmnt.o [1]
+MLMESetChannelRequest   0x40'25ff   0x22  Code  Gb  WirelessLinkMngmt.o [1]
+MLMETestMode            0x40'2473   0x46  Code  Gb  TransceiverConfigMngmnt.o [1]
+Main                    0x40'0a01   0x2a  Code  Gb  connectivity_test_rx.o [1]
+NVM_BlankCheck {Abs}       0x701d         Code  Gb  rom-symbols-LLC.o [2]
+NVM_Detect {Abs}           0x6cb9         Code  Gb  rom-symbols-LLC.o [2]
+NVM_Erase {Abs}            0x6e05         Code  Gb  rom-symbols-LLC.o [2]
+NVM_Read {Abs}             0x6d69         Code  Gb  rom-symbols-LLC.o [2]
+NVM_SetSVar {Abs}          0x7085         Code  Gb  rom-symbols-LLC.o [2]
+NVM_Verify {Abs}           0x6f85         Code  Gb  rom-symbols-LLC.o [2]
+NVM_Write {Abs}            0x6ec5         Code  Gb  rom-symbols-LLC.o [2]
+PATCH_Ret_InitExecuteEntry
+                        0x40'5815         Code  Gb  rp_vector_IAR.o [2]
+PhyPlmeGetLQI           0x40'3dad   0x70  Code  Gb  Synthesizer.o [3]
+PlatformPortInit        0x40'259d   0x40  Code  Gb  PlatformInit.o [1]
+PrintChannel            0x40'2121   0x22  Code  Gb  connectivity_test_rx.o [1]
+PrintTestMode           0x40'2095   0x3a  Code  Gb  connectivity_test_rx.o [1]
+RP_Vector_Thumb_0       0x40'0021         Code  Gb  rp_vector_IAR.o [2]
+RP_Vector_Thumb_1       0x40'0061         Code  Gb  rp_vector_IAR.o [2]
+RP_Vector_Thumb_2       0x40'00a1         Code  Gb  rp_vector_IAR.o [2]
+RP_Vector_Thumb_3       0x40'00e1         Code  Gb  rp_vector_IAR.o [2]
+RX_msg                  0x40'593c   0x10  Data  Gb  connectivity_test_rx.o [1]
+RadioInit               0x40'3c41   0xc0  Code  Gb  Synthesizer.o [3]
+ReadData                0x40'32f5   0x4e  Code  Lc  Display.o [1]
+Region$$Table$$Base     0x40'58f0          --   Gb  - Linker created -
+Region$$Table$$Limit    0x40'5900          --   Gb  - Linker created -
+Region_ROM_Table_ROM_Base {Abs}
+                         0x1'1788         Data  Gb  rom-symbols-LLC.o [2]
+Region_ROM_Table_ROM_Limit {Abs}
+                         0x1'17a8         Data  Gb  rom-symbols-LLC.o [2]
+ResetMaca               0x40'2401   0x24  Code  Gb  maca.o [1]
+ResumeMACASync          0x40'4e2d   0x76  Code  Gb  MacaInterrupt.o [1]
+SMAC_InitExecuteEntry   0x40'3ee5   0x80  Code  Lc  Init_Utils.o [3]
+SMAC_InitFlybackSettings
+                        0x40'3e5d   0x28  Code  Gb  Synthesizer.o [3]
+SMAC_InitFromFlash      0x40'3f65   0xcc  Code  Gb  Init_Utils.o [3]
+SPI_Abort {Abs}            0xcd61         Code  Gb  rom-symbols-LLC.o [2]
+SPI_Close {Abs}            0xca7d         Code  Gb  rom-symbols-LLC.o [2]
+SPI_GetConfig {Abs}        0xcb29         Code  Gb  rom-symbols-LLC.o [2]
+SPI_GetRxAsync {Abs}       0xccfd         Code  Gb  rom-symbols-LLC.o [2]
+SPI_GetStatus {Abs}        0xcdc9         Code  Gb  rom-symbols-LLC.o [2]
+SPI_ISR {Abs}              0xcdd5         Code  Gb  rom-symbols-LLC.o [2]
+SPI_Open {Abs}             0xca49         Code  Gb  rom-symbols-LLC.o [2]
+SPI_ReadSync {Abs}         0xcc09         Code  Gb  rom-symbols-LLC.o [2]
+SPI_SetCallback {Abs}      0xcda5         Code  Gb  rom-symbols-LLC.o [2]
+SPI_SetConfig {Abs}        0xcaa1         Code  Gb  rom-symbols-LLC.o [2]
+SPI_SetTxAsync {Abs}       0xcd35         Code  Gb  rom-symbols-LLC.o [2]
+SPI_StartAsync {Abs}       0xcca1         Code  Gb  rom-symbols-LLC.o [2]
+SPI_WriteSync {Abs}        0xcb81         Code  Gb  rom-symbols-LLC.o [2]
+SSI_Abort {Abs}            0x4875         Code  Gb  rom-symbols-LLC.o [2]
+SSI_Enable {Abs}           0x4251         Code  Gb  rom-symbols-LLC.o [2]
+SSI_ISR {Abs}              0x490d         Code  Gb  rom-symbols-LLC.o [2]
+SSI_Init {Abs}             0x4219         Code  Gb  rom-symbols-LLC.o [2]
+SSI_RxData {Abs}           0x45f5         Code  Gb  rom-symbols-LLC.o [2]
+SSI_SetClockConfig {Abs}
+                           0x436d         Code  Gb  rom-symbols-LLC.o [2]
+SSI_SetConfig {Abs}        0x42b9         Code  Gb  rom-symbols-LLC.o [2]
+SSI_SetContinuousRxCallback {Abs}
+                           0x4459         Code  Gb  rom-symbols-LLC.o [2]
+SSI_SetRxCallback {Abs}
+                           0x444d         Code  Gb  rom-symbols-LLC.o [2]
+SSI_SetTxCallback {Abs}
+                           0x4441         Code  Gb  rom-symbols-LLC.o [2]
+SSI_SetTxRxConfig {Abs}
+                           0x43d1         Code  Gb  rom-symbols-LLC.o [2]
+SSI_StartContinuousRx {Abs}
+                           0x472d         Code  Gb  rom-symbols-LLC.o [2]
+SSI_TxData {Abs}           0x4465         Code  Gb  rom-symbols-LLC.o [2]
+Scan_msg                0x40'5b70   0x10  Data  Gb  RadioManagement.o [1]
+SendData                0x40'324d   0x2e  Code  Lc  Display.o [1]
+SetChannel              0x40'3d01   0x6c  Code  Gb  Synthesizer.o [3]
+SetComplementaryPAState
+                        0x40'3bad   0x18  Code  Gb  rif.o [3]
+SetEdCcaThreshold       0x40'3e1d   0x18  Code  Gb  Synthesizer.o [3]
+SetHiZ                  0x40'327b   0x1e  Code  Lc  Display.o [1]
+SetOutput               0x40'3299   0x1a  Code  Lc  Display.o [1]
+SetPower                0x40'3b49   0x64  Code  Gb  rif.o [3]
+SetPowerLevelLockMode   0x40'3bc5   0x36  Code  Gb  rif.o [3]
+Set_Pins                0x40'2a5d   0x9a  Code  Gb  Leds.o [1]
+TMR_Init                0x40'2155   0x66  Code  Gb  connectivity_test_rx.o [1]
+TX_msg                  0x40'5c84   0x10  Data  Gb  connectivity_test_rx.o [1]
+TmrDisable {Abs}           0xa865         Code  Gb  rom-symbols-LLC.o [2]
+TmrEnable {Abs}            0xa82d         Code  Gb  rom-symbols-LLC.o [2]
+TmrGetCompStatusControl {Abs}
+                           0xaaf1         Code  Gb  rom-symbols-LLC.o [2]
+TmrGetConfig {Abs}         0xaa71         Code  Gb  rom-symbols-LLC.o [2]
+TmrGetMode {Abs}           0xaa49         Code  Gb  rom-symbols-LLC.o [2]
+TmrGetStatusControl {Abs}
+                           0xaac9         Code  Gb  rom-symbols-LLC.o [2]
+TmrInit {Abs}              0xa7ed         Code  Gb  rom-symbols-LLC.o [2]
+TmrIsr {Abs}               0xab41         Code  Gb  rom-symbols-LLC.o [2]
+TmrReadValue {Abs}         0xab19         Code  Gb  rom-symbols-LLC.o [2]
+TmrSetCallbackFunction {Abs}
+                           0xa9bd         Code  Gb  rom-symbols-LLC.o [2]
+TmrSetCompStatusControl {Abs}
+                           0xa999         Code  Gb  rom-symbols-LLC.o [2]
+TmrSetConfig {Abs}         0xa901         Code  Gb  rom-symbols-LLC.o [2]
+TmrSetMode {Abs}           0xa8a5         Code  Gb  rom-symbols-LLC.o [2]
+TmrSetStatusControl {Abs}
+                           0xa975         Code  Gb  rom-symbols-LLC.o [2]
+TmrWriteValue {Abs}        0xaa2d         Code  Gb  rom-symbols-LLC.o [2]
+UartCancelWriteData {Abs}
+                           0x30f5         Code  Gb  rom-symbols-LLC.o [2]
+UartClearErrors {Abs}      0x33ad         Code  Gb  rom-symbols-LLC.o [2]
+UartClose {Abs}            0x3219         Code  Gb  rom-symbols-LLC.o [2]
+UartEventRead1          0x40'27c3    0x2  Code  Gb  UartUtil.o [1]
+UartEventWrite1         0x40'27c5    0x2  Code  Gb  UartUtil.o [1]
+UartGetByteFromRxBuffer {Abs}
+                           0x32fd         Code  Gb  rom-symbols-LLC.o [2]
+UartGetConfig {Abs}        0x3179         Code  Gb  rom-symbols-LLC.o [2]
+UartGetStatus {Abs}        0x312d         Code  Gb  rom-symbols-LLC.o [2]
+UartGetUnreadBytesNumber {Abs}
+                           0x3371         Code  Gb  rom-symbols-LLC.o [2]
+UartIsr1 {Abs}             0x3275         Code  Gb  rom-symbols-LLC.o [2]
+UartIsr2 {Abs}             0x32b9         Code  Gb  rom-symbols-LLC.o [2]
+UartOpen {Abs}             0x2c4d         Code  Gb  rom-symbols-LLC.o [2]
+UartOpenCloseTransceiver {Abs}
+                           0x3385         Code  Gb  rom-symbols-LLC.o [2]
+UartReadComplete {Abs}     0x3481         Code  Gb  rom-symbols-LLC.o [2]
+UartReadData {Abs}         0x2fb9         Code  Gb  rom-symbols-LLC.o [2]
+UartSetCTSThreshold {Abs}
+                           0x2ec5         Code  Gb  rom-symbols-LLC.o [2]
+UartSetCallbackFunctions {Abs}
+                           0x2f71         Code  Gb  rom-symbols-LLC.o [2]
+UartSetConfig {Abs}        0x2ccd         Code  Gb  rom-symbols-LLC.o [2]
+UartSetHalfFlowControl {Abs}
+                           0x33c1         Code  Gb  rom-symbols-LLC.o [2]
+UartSetReceiverThreshold {Abs}
+                           0x2e59         Code  Gb  rom-symbols-LLC.o [2]
+UartSetTransmitterThreshold {Abs}
+                           0x2f21         Code  Gb  rom-symbols-LLC.o [2]
+UartWriteData {Abs}        0x3079         Code  Gb  rom-symbols-LLC.o [2]
+Uart_Init               0x40'270d   0x7a  Code  Gb  UartUtil.o [1]
+Uart_Poll               0x40'2845   0x1c  Code  Gb  UartUtil.o [1]
+Uart_Print              0x40'27ef   0x36  Code  Gb  UartUtil.o [1]
+Uart_PrintByteDec       0x40'290d   0x64  Code  Gb  UartUtil.o [1]
+Uart_PrintHex           0x40'2889   0x5e  Code  Gb  UartUtil.o [1]
+Uart_PrintShortDec      0x40'2971   0x76  Code  Gb  UartUtil.o [1]
+Uart_getchar            0x40'2825   0x20  Code  Gb  UartUtil.o [1]
+__aeabi_idiv {Abs}         0xfae8         Code  Gb  rom-symbols-LLC.o [2]
+__aeabi_idiv0 {Abs}      0x1'0b5c         Code  Gb  rom-symbols-LLC.o [2]
+__aeabi_idivmod {Abs}      0xfae8         Code  Gb  rom-symbols-LLC.o [2]
+__aeabi_uidiv {Abs}        0xfaf8         Code  Gb  rom-symbols-LLC.o [2]
+__aeabi_uidivmod {Abs}     0xfaf8         Code  Gb  rom-symbols-LLC.o [2]
+__aeabi_uread4 {Abs}     0x1'0b0c         Code  Gb  rom-symbols-LLC.o [2]
+__aeabi_uwrite4 {Abs}    0x1'0ae0         Code  Gb  rom-symbols-LLC.o [2]
+__iar_data_init3        0x40'52b9   0x30  Code  Gb  data_init.o [5]
+__iar_lz77_init_single3
+                        0x40'2be9   0x7e  Code  Gb  lz77_init_single.o [5]
+__rom_data_init {Abs}    0x1'08d0         Code  Gb  rom-symbols-LLC.o [2]
+_start_vector_          0x40'0000         Code  Gb  Init-IAR.o [1]
+aLCDFont                0x40'5900   0x18  Data  Gb  Display.o [1]
+ackBox                  0x40'5bc8   0x28  Data  Gb  RadioManagement.o [1]
+bGetEnableLock          0x40'3bfd    0xc  Code  Gb  rif.o [3]
+bScanReqFlag            0x40'5b6b    0x1  Data  Gb  RadioManagement.o [1]
+buffer_radio_init       0x40'5bf8   0x10  Data  Gb  Synthesizer.o [3]
+bulk_cap_menu           0x40'1501   0x42  Code  Gb  connectivity_test_rx.o [1]
+calculate_ed_value      0x40'3a49   0x1e  Code  Lc  RadioManagement.o [1]
+cbProcessMsg_c          0x40'358c   0x10  Data  Lc  RadioManagement.o [1]
+channel_adjust          0x40'158d   0x46  Code  Gb  connectivity_test_rx.o [1]
+channel_menu            0x40'1121   0x96  Code  Gb  connectivity_test_rx.o [1]
+clock_setting_menu      0x40'1471   0x44  Code  Gb  connectivity_test_rx.o [1]
+coarse_tune_adjust      0x40'1f8d   0x78  Code  Gb  connectivity_test_rx.o [1]
+command_xcvr_ed         0x40'37cd   0x28  Code  Gb  RadioManagement.o [1]
+configure_clock_settings
+                        0x40'1eed   0x74  Code  Gb  connectivity_test_rx.o [1]
+connectivity_app_init   0x40'0a2d  0x128  Code  Gb  connectivity_test_rx.o [1]
+cont_transmission_test_adjust
+                        0x40'1809   0x46  Code  Gb  connectivity_test_rx.o [1]
+convert_2_bcd           0x40'0f35   0xac  Code  Lc  connectivity_test_rx.o [1]
+current_msg             0x40'5b69    0x1  Data  Lc  RadioManagement.o [1]
+dataScan                0x40'5bc4    0x1  Data  Gb  RadioManagement.o [1]
+disable_test_mode_continuos_tx_nomod
+                        0x40'3b31    0x8  Code  Gb  rif.o [3]
+execute_current_message_callback
+                        0x40'3495   0x20  Code  Gb  RadioManagement.o [1]
+fill_ram_struct         0x40'3e35   0x16  Code  Gb  Synthesizer.o [3]
+fine_tune_adjust        0x40'201d   0x78  Code  Gb  connectivity_test_rx.o [1]
+flag                    0x40'5cb2    0x1  Data  Gb  MacaInterrupt.o [1]
+gAIMVAL_c               0x40'5384   0x4c  Data  Gb  rif.o [3]
+gLCDNormalFont {Abs}     0x1'1028         Data  Gb  rom-symbols-LLC.o [2]
+gLCDNormalIndex {Abs}    0x1'13ac         Data  Gb  rom-symbols-LLC.o [2]
+gLCDVerdanaFont {Abs}    0x1'0b74         Data  Gb  rom-symbols-LLC.o [2]
+gLCDVerdanaIndex {Abs}   0x1'146c         Data  Gb  rom-symbols-LLC.o [2]
+gPAVAL_c                0x40'5338   0x4c  Data  Gb  rif.o [3]
+gPSMVAL_c               0x40'52ec   0x4c  Data  Gb  rif.o [3]
+gRadioEvntFlags         0x40'5bb8    0x4  Data  Gb  RadioManagement.o [1]
+gRadioInit_RegReplacement_c
+                        0x40'4aac  0x158  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal1           0x40'5c5c   0x28  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal2_24MHz_c   0x40'49e4    0x8  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal2_None24MHz_c
+                        0x40'5c08   0x30  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal3_c         0x40'49ec   0xb8  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal4_None24MHz_c
+                        0x40'4aa4    0x8  Data  Gb  Synthesizer.o [3]
+gRadioTOCCal5           0x40'5c38   0x20  Data  Gb  Synthesizer.o [3]
+gaHexValue              0x40'5918   0x14  Data  Gb  Display.o [1]
+gaRFSynVCODivF_c        0x40'5828   0x40  Data  Gb  RadioManagement.o [1]
+gaRFSynVCODivI_c        0x40'3934   0x10  Data  Gb  RadioManagement.o [1]
+gbDataIndicationFlag    0x40'5953    0x1  Data  Gb  connectivity_test_rx.o [1]
+get_ctov                0x40'3e85   0x1c  Code  Gb  Synthesizer.o [3]
+get_next_chann_to_scan  0x40'3ae5   0x2a  Code  Gb  RadioManagement.o [1]
+gu16SCINumOfBytes       0x40'5cae    0x2  Data  Gb  UartUtil.o [1]
+gu32PerRxEvents         0x40'5974    0x4  Data  Gb  connectivity_test_rx.o [1]
+gu8SCIDataFlag          0x40'5cad    0x1  Data  Gb  UartUtil.o [1]
+gu8SCIStatus            0x40'5cac    0x1  Data  Gb  UartUtil.o [1]
+gu8TestAlreadyStarted   0x40'5957    0x1  Data  Gb  connectivity_test_rx.o [1]
+gu8TestModeEvents       0x40'5954    0x1  Data  Gb  connectivity_test_rx.o [1]
+gu8ValidAckPacket       0x40'5956    0x1  Data  Gb  connectivity_test_rx.o [1]
+gu8ValidRangePacket     0x40'5955    0x1  Data  Gb  connectivity_test_rx.o [1]
+handle_new_message      0x40'34b5   0x32  Code  Gb  RadioManagement.o [1]
+is_a_handled_message    0x40'346d   0x28  Code  Lc  RadioManagement.o [1]
+ku8AckString            0x40'0eb0    0x4  Data  Gb  connectivity_test_rx.o [1]
+ku8DoneStr              0x40'4660    0x4  Data  Gb  connectivity_test_rx.o [1]
+ku8DoneStrReceiver      0x40'4664    0x8  Data  Gb  connectivity_test_rx.o [1]
+ku8ExpectedString       0x40'4650   0x10  Data  Gb  connectivity_test_rx.o [1]
+mDisplayParams          0x40'5a98   0xb8  Data  Lc  Display.o [1]
+mErrorIndicator         0x40'5cb0    0x1  Data  Lc  Display.o [1]
+mExceptionHandlerDataAbort {Abs}
+                        0x40'0158         Data  Gb  rom-symbols-LLC.o [2]
+mExceptionHandlerPrefetchAbort {Abs}
+                        0x40'0154         Data  Gb  rom-symbols-LLC.o [2]
+mExceptionHandlerSupervisor {Abs}
+                        0x40'0150         Data  Gb  rom-symbols-LLC.o [2]
+mExceptionHandlerUndefined {Abs}
+                        0x40'014c         Data  Gb  rom-symbols-LLC.o [2]
+mHandlerTable {Abs}     0x40'0120         Data  Gb  rom-symbols-LLC.o [2]
+mInitDenyVregCntlOvr    0x40'5cb8    0x1  Data  Gb  Init_Utils_patched.o [2]
+mIsComplementaryPaEnable
+                        0x40'5cb6    0x1  Data  Lc  rif.o [3]
+mIsEnableLock           0x40'5cb7    0x1  Data  Lc  rif.o [3]
+mIsPromiscousMode       0x40'5cb3    0x1  Data  Lc  TransceiverConfigMngmnt.o [1]
+mLineParams             0x40'5b50   0x18  Data  Lc  Display.o [1]
+mMacaIsrEntryCounter    0x40'5cb1    0x1  Data  Lc  MacaInterrupt.o [1]
+mRetries_timmer         0x40'5b68    0x1  Data  Lc  RadioManagement.o [1]
+mSftclk_offset          0x40'5bb4    0x4  Data  Lc  RadioManagement.o [1]
+mUARTRxBuffer           0x40'595c    0xc  Data  Gb  connectivity_test_rx.o [1]
+mUartModule {Abs}       0x40'033c         Data  Gb  rom-symbols-LLC.o [2]
+maMessageTO             0x40'5ba4   0x10  Data  Lc  RadioManagement.o [1]
+maMessage_Queu          0x40'5b94   0x10  Data  Lc  RadioManagement.o [1]
+main_menu               0x40'1071   0x4a  Code  Gb  connectivity_test_rx.o [1]
+mem_cmp                 0x40'29e7   0x1e  Code  Gb  UartUtil.o [1]
+next_msg_to_store       0x40'5b6a    0x1  Data  Lc  RadioManagement.o [1]
+packet_error_rate_rx_test
+                        0x40'1b59   0xd4  Code  Gb  connectivity_test_rx.o [1]
+packet_error_rate_rx_test::u8AppState
+                        0x40'5959    0x1  Data  Lc  connectivity_test_rx.o [1]
+packet_error_rate_tx_test
+                        0x40'1905  0x22e  Code  Gb  connectivity_test_rx.o [1]
+packet_error_rate_tx_test::u16DoneCount
+                        0x40'596e    0x2  Data  Lc  connectivity_test_rx.o [1]
+packet_error_rate_tx_test::u16MsgCount
+                        0x40'596c    0x2  Data  Lc  connectivity_test_rx.o [1]
+packet_error_rate_tx_test::u8AppState
+                        0x40'5958    0x1  Data  Lc  connectivity_test_rx.o [1]
+power_adjust            0x40'15e5   0x9a  Code  Gb  connectivity_test_rx.o [1]
+process_ed_msg          0x40'3809  0x124  Code  Lc  RadioManagement.o [1]
+process_ed_msg::prev_chann
+                        0x40'5bc0    0x4  Data  Lc  RadioManagement.o [1]
+process_incoming_msg    0x40'0bf1  0x2b0  Code  Lc  connectivity_test_rx.o [1]
+process_incoming_msg::u16MsgCounter
+                        0x40'5968    0x2  Data  Lc  connectivity_test_rx.o [1]
+process_incoming_msg::u16TotalMsg
+                        0x40'596a    0x2  Data  Lc  connectivity_test_rx.o [1]
+process_radio_msg       0x40'3555   0x38  Code  Gb  RadioManagement.o [1]
+process_rx_msg          0x40'3689  0x136  Code  Lc  RadioManagement.o [1]
+process_scan_req        0x40'3a67   0x78  Code  Gb  RadioManagement.o [1]
+process_scan_req::EdCh2Evaluate
+                        0x40'5b6e    0x1  Data  Lc  RadioManagement.o [1]
+process_scan_req::bestChann
+                        0x40'5b6d    0x1  Data  Lc  RadioManagement.o [1]
+process_scan_req::isSecondPass
+                        0x40'5b6f    0x1  Data  Lc  RadioManagement.o [1]
+process_scan_req::u8BestVal
+                        0x40'5b6c    0x1  Data  Lc  RadioManagement.o [1]
+process_test_mode_app   0x40'0ebd   0x60  Code  Gb  connectivity_test_rx.o [1]
+process_to_msg          0x40'3945   0xf6  Code  Lc  RadioManagement.o [1]
+process_tx_msg          0x40'359d   0xe2  Code  Lc  RadioManagement.o [1]
+pulse_prbs9_tx          0x40'185d   0x8e  Code  Gb  connectivity_test_rx.o [1]
+pulse_prbs9_tx::u16DutyCicleCounter
+                        0x40'5c96    0x2  Data  Lc  connectivity_test_rx.o [1]
+pulse_prbs9_tx::u8AppState
+                        0x40'5c94    0x1  Data  Lc  connectivity_test_rx.o [1]
+radio_manager_init      0x40'350b   0x46  Code  Gb  RadioManagement.o [1]
+ram_init_val            0x40'5bf0    0x4  Data  Gb  Synthesizer.o [3]
+range_rx_test           0x40'1c51  0x130  Code  Gb  connectivity_test_rx.o [1]
+range_rx_test::u8AppState
+                        0x40'595a    0x1  Data  Lc  connectivity_test_rx.o [1]
+range_tx_test           0x40'1d8d  0x15c  Code  Gb  connectivity_test_rx.o [1]
+range_tx_test::u8AppState
+                        0x40'595b    0x1  Data  Lc  connectivity_test_rx.o [1]
+range_tx_test::u8CountNoPacket
+                        0x40'5970    0x2  Data  Lc  connectivity_test_rx.o [1]
+release_current_message
+                        0x40'34e7   0x24  Code  Gb  RadioManagement.o [1]
+reset_vector {Abs}            0x0         Code  Gb  rom-symbols-LLC.o [2]
+select_test_mode_menu   0x40'132d   0x38  Code  Gb  connectivity_test_rx.o [1]
+set_test_mode_continuos_tx_nomod
+                        0x40'3b39    0xc  Code  Gb  rif.o [3]
+test_mode_rx_adjust     0x40'16ad   0xb2  Code  Gb  connectivity_test_rx.o [1]
+test_mode_rx_cb         0x40'0b81   0x18  Code  Gb  connectivity_test_rx.o [1]
+test_mode_rx_menu       0x40'1209   0x4c  Code  Gb  connectivity_test_rx.o [1]
+test_mode_tx_adjust     0x40'1771   0x52  Code  Gb  connectivity_test_rx.o [1]
+test_mode_tx_menu       0x40'1299   0x5c  Code  Gb  connectivity_test_rx.o [1]
+test_transmission_menu  0x40'13ad   0x58  Code  Gb  connectivity_test_rx.o [1]
+tx_rx_select            0x40'17c9   0x2e  Code  Gb  connectivity_test_rx.o [1]
+u16ChannToScan          0x40'5b90    0x2  Data  Gb  RadioManagement.o [1]
+u16TenPower             0x40'4678    0xc  Data  Gb  connectivity_test_rx.o [1]
+u32SystemClock          0x40'5c58    0x4  Data  Gb  Synthesizer.o [3]
+u8BulkCapState          0x40'5952    0x1  Data  Gb  connectivity_test_rx.o [1]
+u8CurrentCoarseTune     0x40'5950    0x1  Data  Gb  connectivity_test_rx.o [1]
+u8CurrentFineTune       0x40'5951    0x1  Data  Gb  connectivity_test_rx.o [1]
+u8CurrentMode           0x40'594c    0x1  Data  Gb  connectivity_test_rx.o [1]
+u8LQIIcon1_c            0x40'5a50   0x48  Data  Gb  connectivity_test_rx.o [1]
+u8LQIIcon2_c            0x40'5a08   0x48  Data  Gb  connectivity_test_rx.o [1]
+u8LQIIcon3_c            0x40'59c0   0x48  Data  Gb  connectivity_test_rx.o [1]
+u8LQIIcon4_c            0x40'5978   0x48  Data  Gb  connectivity_test_rx.o [1]
+u8RamValues             0x40'5ca8    0x4  Data  Gb  Init_Utils.o [3]
+u8RangeExpectedString   0x40'466c    0xc  Data  Gb  connectivity_test_rx.o [1]
+u8ScanValPerChann       0x40'5b80   0x10  Data  Gb  RadioManagement.o [1]
+u8TestModeChannel       0x40'594d    0x1  Data  Gb  connectivity_test_rx.o [1]
+u8TestModePower         0x40'594e    0x1  Data  Gb  connectivity_test_rx.o [1]
+u8mCurrentChann         0x40'5bf4    0x1  Data  Lc  Synthesizer.o [3]
+u8mCurrentPowerLvl      0x40'5cb5    0x1  Data  Lc  rif.o [3]
+vScanReqCallBack        0x40'5bbc    0x4  Data  Gb  RadioManagement.o [1]
+
+
+[1] = D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity Test\Release\Obj
+[2] = LLC.a
+[3] = MC1322x.a
+[4] = dl4t_tln.a
+[5] = rt4t_al.a
+
+  15 186 bytes of readonly  code memory
+   5 587 bytes of readonly  data memory
+   5 757 bytes of readwrite data memory
+
+Errors: none
+Warnings: none

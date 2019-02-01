@@ -6738,6 +6738,8 @@ static void repeater_run_sm (void)
     case(gRepeaterRunStIdle_c):
       {
         /* Use the TX buffer to receive then it will be ready to be repeated */
+        // assegna al buffer rx, riempito successivamente dalla funzione corrispondente,
+        // l'indirizzo di tx così da usarlo direttamente
         RX_msg.pu8Buffer = (smac_pdu_t *)(&dataTX);
         
         /* Receive without any timeout */
@@ -6768,6 +6770,8 @@ static void repeater_run_sm (void)
             else if(gRepOpModeDummy_c == u8RepOpMode)
             {
               (sRepeaterStat.u16RetransmitedPkts)++;
+			  TX_msg.pu8Buffer->u8Data[4] = 'R';
+
               MCPSDataRequest(&TX_msg);
               u8RepeaterRunSt = gRepeaterRunStTx_c;
             }
@@ -6956,7 +6960,7 @@ static void repeater_app_init(void)
   gbDataIndicationFlag = 0;
   gbRdyToProcessEvnt = 0;
 
-  u8RepOpMode = gRepOpModeNormal_c;
+  u8RepOpMode = gRepOpModeDummy_c;
   u8RepeaterChann = gChannel11_c;
   u8RepeaterPower = 0x0f;
   sRepeaterDelay.millisecondsDly = 1;
@@ -7034,11 +7038,11 @@ static void print_freescale_logo(void)
   Uart_Print("\r      ***  #\n");
   Uart_Print("\r    #  *  ###\n");
   Uart_Print("\r   ###   ###\n");
-  Uart_Print("\r  ###  *  #         F R E E S C A L E\n");
+  Uart_Print("\r  ###  *  #         CODICE FATTO\n");
   Uart_Print("\r   #  ***\n");
-  Uart_Print("\r     ***            S E M I C O N D U C T O R\n");
+  Uart_Print("\r     ***            M   A       L       E >:(((\n");
   Uart_Print("\r   #  *\n");
-  Uart_Print("\r  ###               2 0 0 8\n");
+  Uart_Print("\r  ###               2 0 1 9\n");
   Uart_Print("\r ###\n");
   Uart_Print("\r  #           Press any key to continue...\n\n");
 }

@@ -1,0 +1,32 @@
+prima di ogni prova -> ed per determinare noise floor
+	continuous ed su connectivity test
+
+per ogni prova, 3-4 posizioni (diversi materiali) con 10000 pacchetti ognuno
+	da calcolare
+		ploss
+		statistiche su lqi
+		delay tramite sniffer
+		
+no int
+	punto punto
+	mesh
+int 
+	punto punto
+	mesh
+	
+USARE DUMMY SUL REPEATER PERCHE' NORMAL DROPPA PACCHETTI A CAZZO
+il quinto byte [4] di tx TX_msg.pu8Buffer->u8Data può essere libero tranne nel caso di ku8donestr
+
+riga 692 comparato ku8donestr
+
+mettere "R" al posto [4] di ogni messaggio tramite repeater, e invece di comparare "DONE", comparare "RDONE"
+
+aggiunto const uint8_t ku8DoneStrReceiver[] = {'D', 'O', 'N', 'E','R' };
+(perchè va da destra verso sinistra quindi 'r' è sempre al 4 posto dopo E, ovvero 3)
+
+riga 636 aggiunto il drop del pacchetto
+
+DA FARE
+	repeater appende la R al posto 4		FATTO - riga 585 repeater
+	disattivare crittografia ovunque
+	check con sniffer i pacchetti in caso di problemi

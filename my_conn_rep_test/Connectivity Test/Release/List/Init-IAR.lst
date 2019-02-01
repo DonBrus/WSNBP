@@ -1,0 +1,1166 @@
+###############################################################################
+#                                                                             #
+#     IAR Assembler V8.32.1.169/W32 for ARM 31/Jan/2019  15:13:42             #
+#     Copyright 1999-2018 IAR Systems AB.                                     #
+#                                                                             #
+#           Source file   =  D:\Users\Brus\Documents\my_conn_test\Connectivity Test\PLM\Source\Common\Sys\Init-IAR.S#
+#           List file     =  D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List\Init-IAR.lst#
+#           Object file   =  D:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\Obj\Init-IAR.o#
+#           Command line  =  -f C:\Users\Brus\AppData\Local\Temp\EWDC2E.tmp   #
+#                            (D:\Users\Brus\Documents\my_conn_test\Connectivity Test\PLM\Source\Common\Sys\Init-IAR.S #
+#                            -OD:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\Obj #
+#                            -s+ -M<> -w+ -DUSE_INTERRUPTS -DUSE_EXCEPTIONS   #
+#                            -LD:\Users\Brus\Documents\my_conn_test\Connectivity Test\Release\List #
+#                            -cAOM -i -B -t8 -xDI2 --cpu ARM7TDMI-S --fpu     #
+#                            None)                                            #
+#                                                                             #
+###############################################################################
+
+    1                           ;#############################################
+                                ########################
+
+    2                           ;# Authors    : Lasse Langwadt Christensen,
+                                 Grig Barbulescu
+
+    3                           ;# Created    : 06/03/01
+
+    4                           ;# Date       : 02/27/07
+
+    5                           ;#############################################
+                                ########################
+
+    6                           ;# Description:
+
+    7                           ;#   - Interrupt vectors and C-init
+
+    8                           ;#############################################
+                                ########################
+
+    9                           
+
+   10                           F_Bit      EQU   0x40
+
+   11                           I_Bit      EQU   0x80
+
+   12                           
+
+   13                           Mode_Uvc   EQU   0x10  ; // user mode - has
+                                 same registers as system mode
+
+   14                           Mode_Fvc   EQU   0x11  ; // FIQ mode
+
+   15                           Mode_Ivc   EQU   0x12  ; // IRQ mode
+
+   16                           Mode_Svc   EQU   0x13  ; // supervisor
+                                 mode
+
+   17                           Mode_Avc   EQU   0x17  ; // Abort mode
+
+   18                           Mode_und   EQU   0x1B  ; // undefined instr
+                                 mode
+
+   19                           Mode_sys   EQU   0x1F  ; // system mode
+
+   20                           
+
+   21                           __USR_stack_size     EQU  512*4
+
+   22                           __IRQ_stack_size     EQU  256*4
+
+   23                           __FIQ_stack_size     EQU  256*4
+
+   24                           __UND_stack_size     EQU   64*4
+
+   25                           __ABT_stack_size     EQU   64*4
+
+   26                           __SUP_stack_size     EQU   64*4
+
+   27                           
+
+   28                             EXPORT _start_vector_
+
+   29                           
+
+   30                             IMPORT Main
+
+   31                             IMPORT RP_Vector_Init
+
+   32                             
+
+   33                           #if (__VER__ >= 5020000 )
+
+   34                             IMPORT __iar_data_init2
+
+   35                           #else
+
+   37                           #endif  
+
+   38                           
+
+   39                             IMPORT __rom_data_init
+
+   40                             
+
+   41                             IMPORT Region$$Table$$Base
+
+   42                             IMPORT Region$$Table$$Limit
+
+   43                             IMPORT Region_ROM_Table_ROM_Base
+
+   44                             IMPORT Region_ROM_Table_ROM_Limit
+
+   45                           
+
+   46                             IMPORT  RP_Vector_Thumb_0
+
+   47                             IMPORT  RP_Vector_Thumb_1
+
+   48                             IMPORT  RP_Vector_Thumb_2
+
+   49                             IMPORT  RP_Vector_Thumb_3
+
+   50                             
+
+   51                           #ifndef NO_USE_INTERRUPTS
+
+   52                               IMPORT IrqHandler
+
+   53                               IMPORT FiqHandler
+
+   54                           #endif
+
+   55                           
+
+   56                           #ifndef NO_USE_EXCEPTIONS
+
+   57                             ;imported from ItcDriver.c
+
+   58                               IMPORT mExceptionHandlerPrefetchAbort
+
+   59                               IMPORT mExceptionHandlerDataAbort
+
+   60                               IMPORT mExceptionHandlerUndefined
+
+   61                               IMPORT mExceptionHandlerSupervisor
+
+   62                           #endif
+
+   63                           
+
+   64                             SECTION .vect: CODE
+
+   65                           
+
+   66                           ;//--Entry point------------------------------
+                                -------------------  
+
+   67                           
+
+   68                               CODE32 
+
+   69                           
+
+   70                           _start_vector_
+
+   71    00000000 ........          B       __start_                      ; //
+                                              reset
+
+   72                           
+
+   73                           #ifdef NO_USE_EXCEPTIONS
+
+   78                           #else
+
+   79    00000004 ........          B       __UndefInstructionHndlr_      ; //
+                                              undefined instruction
+
+   80    00000008 ........          B       __SupervisorHndlr_            ; //
+                                              supervisor
+
+   81    0000000C ........          B       __PrefetchAbtHndlr_           ; //
+                                              prefetch abort
+
+   82    00000010 ........          B       __DataAbtHndlr_               ; //
+                                              data abort
+
+   83                           #endif
+
+   84    00000014 ........          B       __reserved_                   ; //
+                                              reserved
+
+   85                           #ifdef NO_USE_INTERRUPTS
+
+   88                           #else
+
+   89    00000018 ........          B       IrqHandler                    ; //
+                                              IRQ
+
+   90    0000001C ........          B       FiqHandler                    ; //
+                                              FIQ
+
+   91                           #endif
+
+   92                           
+
+   93                             SECTION .text: CODE
+
+   94                           
+
+   95                           __start_
+
+   96    00000000 00119FE5          LDR     r1,=system_stack
+
+   97    00000004 D300A0E3          MOV     r0, #Mode_Svc | F_Bit | I_Bit   ;//
+                                                  supervisor mode, disable all
+                                                  interrupts
+
+   98    00000008 00F021E1          MSR     cpsr_c,r0
+
+   99    0000000C 401F81E2          ADD     r1,r1,#__SUP_stack_size
+
+  100    00000010 01D0A0E1          MOV     sp,r1
+
+  101                           
+
+  102    00000014 D200A0E3          MOV     r0, #Mode_Ivc | F_Bit | I_Bit   ;//
+                                                  IRQ mode, disable all
+                                                  interrupts
+
+  103    00000018 00F021E1          MSR     cpsr_c,r0
+
+  104    0000001C 401E81E2          ADD     r1,r1,#__IRQ_stack_size
+
+  105    00000020 01D0A0E1          MOV     sp,r1
+
+  106                               
+
+  107    00000024 D100A0E3          MOV     r0, #Mode_Fvc | F_Bit | I_Bit   ;//
+                                                  FIQ mode, disable all
+                                                  interrupts
+
+  108    00000028 00F021E1          MSR     cpsr_c,r0
+
+  109    0000002C 401E81E2          ADD     r1,r1,#__FIQ_stack_size
+
+  110    00000030 01D0A0E1          MOV     sp,r1  
+
+  111                           
+
+  112    00000034 DB00A0E3          MOV     r0, #Mode_und | F_Bit | I_Bit   ;//
+                                                  UND mode, disable all
+                                                  interrupts
+
+  113    00000038 00F021E1          MSR     cpsr_c,r0
+
+  114    0000003C 401F81E2          ADD     r1,r1,#__UND_stack_size
+
+  115    00000040 01D0A0E1          MOV     sp,r1
+
+  116                           
+
+  117    00000044 D700A0E3          MOV     r0, #Mode_Avc | F_Bit | I_Bit   ;//
+                                                  ABT mode, disable all
+                                                  interrupts
+
+  118    00000048 00F021E1          MSR     cpsr_c,r0
+
+  119    0000004C 401F81E2          ADD     r1,r1,#__ABT_stack_size
+
+  120    00000050 01D0A0E1          MOV     sp,r1
+
+  121                           
+
+  122    00000054 DF00A0E3          MOV     r0, #Mode_sys | F_Bit | I_Bit   ;//
+                                                  system mode, disable all
+                                                  interrupts
+
+  123    00000058 00F021E1          MSR     cpsr_c,r0
+
+  124    0000005C 801E81E2          ADD     r1,r1,#__USR_stack_size
+
+  125    00000060 01D0A0E1          MOV     sp,r1
+
+  126                           
+
+  127                           ;    MOV     r0, #Mode_Uvc | F_Bit | I_Bit  
+                                 ;// user mode, disable all interrupts
+
+  128                           ;    MSR     cpsr_c,r0
+
+  129                           
+
+  130                           #if (__VER__ >= 5020000 )
+
+  131    00000064 ........          BL      __iar_data_init2
+
+  132                           #else
+
+  134                           #endif  
+
+  135                           ;    // See if we need to initialize the ROM
+                                 variables
+
+  136    00000068 9C009FE5          LDR     r0, =Region_ROM_Table_ROM_Base
+
+  137    0000006C 9C309FE5          LDR     r3, =Region_ROM_Table_ROM_Limit
+
+  138    00000070 030050E1          CMP     r0, r3
+
+  139                           ;    // If Region_ROM_Table_ROM_Base and
+                                 Region_ROM_Table_ROM_Limit are equal, then the
+                                 ROM image is loaded in RAM (simulation)
+
+  140                           ;    // No need to init the ROM variables.
+
+  141    00000074 0000000A          BEQ     __call_main
+
+  142    00000078 ........          BL      __rom_data_init
+
+  143                           
+
+  144                           __call_main
+
+  145                           ;// the main function was renamed to Main in
+                                 order to avoid inclusion of C library code for
+                                 supplementary initializations
+
+  146    0000007C ........          BL      RP_Vector_Init
+
+  147    00000080 ........          B       Main         ; // jump to
+                                                          "Main()"
+
+  148                           
+
+  149                           __reserved_
+
+  150    00000084 0EF0B0E1          MOVS     pc,lr
+
+  151                           
+
+  152                           #ifndef NO_USE_EXCEPTIONS
+
+  153                           
+
+  154                           __UndefInstructionHndlr_
+
+  155    00000088 FF5F2DE9          STMFD    r13!, {r0-r12,r14}
+
+  156    0000008C 80009FE5          LDR      r0, =mExceptionHandlerUndefined
+
+  157    00000090 000090E5          LDR      r0,[r0,#0]
+
+  158    00000094 000050E3          CMP      r0,#0
+
+  159    00000098 0FE0A011          MOVNE    r14,pc
+
+  160    0000009C 10FF2F11          BXNE     r0
+
+  161    000000A0 FF5FBDE8          LDMFD    r13!, {r0-r12,r14}
+
+  162    000000A4 0EF0B0E1          MOVS     PC, R14
+
+  163                           
+
+  164                           __SupervisorHndlr_
+
+  165    000000A8 FF5F2DE9          STMFD    r13!, {r0-r12,r14}
+
+  166    000000AC 64009FE5          LDR      r0, =mExceptionHandlerSupervisor
+
+  167    000000B0 000090E5          LDR      r0,[r0,#0]
+
+  168    000000B4 000050E3          CMP      r0,#0
+
+  169    000000B8 0FE0A011          MOVNE    r14,pc
+
+  170    000000BC 10FF2F11          BXNE     r0
+
+  171    000000C0 FF5FBDE8          LDMFD    r13!, {r0-r12,r14}
+
+  172    000000C4 0EF0B0E1          MOVS     PC, R14
+
+  173                           
+
+  174                           __PrefetchAbtHndlr_
+
+  175    000000C8 FF5F2DE9          STMFD    r13!,{r0-r12,r14}
+
+  176    000000CC 48009FE5          LDR      r0, =mExceptionHandlerPrefetchAbor
+                                                  t
+
+  177    000000D0 000090E5          LDR      r0,[r0,#0]
+
+  178    000000D4 000050E3          CMP      r0,#0
+
+  179    000000D8 0FE0A011          MOVNE    r14,pc
+
+  180    000000DC 10FF2F11          BXNE     r0
+
+  181    000000E0 FF5FBDE8          LDMFD    r13!,{r0-r12,r14}
+
+  182    000000E4 04F05EE2          SUBS     PC, r14, #4
+
+  183                           
+
+  184                           __DataAbtHndlr_
+
+  185    000000E8 FF5F2DE9          STMFD    r13!,{r0-r12,r14}
+
+  186    000000EC 2C009FE5          LDR      r0, =mExceptionHandlerDataAbort
+
+  187    000000F0 000090E5          LDR      r0,[r0,#0]
+
+  188    000000F4 000050E3          CMP      r0,#0
+
+  189    000000F8 0FE0A011          MOVNE    r14,pc
+
+  190    000000FC 10FF2F11          BXNE     r0
+
+  191    00000100 FF5FBDE8          LDMFD    r13!,{r0-r12,r14}
+
+  192    00000104 04F05EE2          SUBS     PC, r14, #4
+
+  193                           
+
+  194                           #endif
+
+  195                           
+
+  195.1                                  TABLE
+
+  195.2  00000108 ........              Reference on line 96
+
+  195.3  0000010C ........              Reference on line 136
+
+  195.4  00000110 ........              Reference on line 137
+
+  195.5  00000114 ........              Reference on line 156
+
+  195.6  00000118 ........              Reference on line 166
+
+  195.7  0000011C ........              Reference on line 176
+
+  195.8  00000120 ........              Reference on line 186
+
+  196                             SECTION .stack:DATA(2)   ;// stack in
+                                 internal RAM
+
+  197                           system_stack
+
+  198                               DS8  __USR_stack_size+__IRQ_stack_size+__F
+                                IQ_stack_size+__UND_stack_size+__ABT_stack_size
+                                +__SUP_stack_size
+
+  199                           
+
+  200                            ;// force the ROM patching referencing
+
+  201                             REQUIRE RP_Vector_Thumb_0
+
+  202                             REQUIRE RP_Vector_Thumb_1
+
+  203                             REQUIRE RP_Vector_Thumb_2
+
+  204                             REQUIRE RP_Vector_Thumb_3
+
+  205                               END
+
+
+
+
+
+\n                   DELIMITER 
+
+                     DELIMITER 
+
+!                    OPERATOR 
+
+!=                   OPERATOR 
+
+%                    OPERATOR 
+
+&                    OPERATOR 
+
+&&                   OPERATOR 
+
+(                    OPERATOR 
+
+(                    DELIMITER 
+
+)                    OPERATOR 
+
+)                    DELIMITER 
+
+*                    OPERATOR 
+
++                    OPERATOR 
+
+,                    DELIMITER 
+
+-                    OPERATOR 
+
+.                    Target symbol: 24 
+
+/                    OPERATOR 
+
+/                    DELIMITER 
+
+:                    Target symbol: 22 
+
+:                    DELIMITER 
+
+;                    Target symbol: 23 
+
+<                    OPERATOR 
+
+<<                   OPERATOR 
+
+<=                   OPERATOR 
+
+<>                   OPERATOR 
+
+=                    OPERATOR 
+
+=                    DIRECTIVE 
+
+==                   OPERATOR 
+
+>                    OPERATOR 
+
+>=                   OPERATOR 
+
+>>                   OPERATOR 
+
+@                    DELIMITER 
+
+AAPCS                DIRECTIVE 
+
+ALIAS                DIRECTIVE 
+
+ALIGN                DIRECTIVE 
+
+ALIGNRAM             DIRECTIVE 
+
+ALIGNROM             DIRECTIVE 
+
+ANOTE                DIRECTIVE 
+
+ARGFRAME             DIRECTIVE 
+
+ARM                  DIRECTIVE 
+
+ASEGN                DIRECTIVE 
+
+BIT                  SEGMENT TYPE 
+
+BYTE1                OPERATOR 
+
+BYTE2                OPERATOR 
+
+BYTE3                OPERATOR 
+
+BYTE4                OPERATOR 
+
+C0                   REGISTER 
+
+C1                   REGISTER 
+
+C10                  REGISTER 
+
+C11                  REGISTER 
+
+C12                  REGISTER 
+
+C13                  REGISTER 
+
+C14                  REGISTER 
+
+C15                  REGISTER 
+
+C2                   REGISTER 
+
+C3                   REGISTER 
+
+C4                   REGISTER 
+
+C5                   REGISTER 
+
+C6                   REGISTER 
+
+C7                   REGISTER 
+
+C8                   REGISTER 
+
+C9                   REGISTER 
+
+CALL_GRAPH_ROOT      DIRECTIVE 
+
+CASEOFF              DIRECTIVE 
+
+CASEON               DIRECTIVE 
+
+CBREL                OPERATOR 
+
+CBREL_NEAR           OPERATOR 
+
+CFI                  DIRECTIVE 
+
+CODE                 SEGMENT TYPE 
+
+CODE                 DIRECTIVE 
+
+CODE16               DIRECTIVE 
+
+CODE32               DIRECTIVE 
+
+COL                  DIRECTIVE 
+
+CONST                SEGMENT TYPE 
+
+DATA                 SEGMENT TYPE 
+
+DATA                 DIRECTIVE 
+
+DATA16               DIRECTIVE 
+
+DATA32               DIRECTIVE 
+
+DATA64               DIRECTIVE 
+
+DATA8                DIRECTIVE 
+
+DATE                 OPERATOR 
+
+DC16                 DIRECTIVE 
+
+DC24                 DIRECTIVE 
+
+DC32                 DIRECTIVE 
+
+DC64                 DIRECTIVE 
+
+DC8                  DIRECTIVE 
+
+DCB                  DIRECTIVE 
+
+DCD                  DIRECTIVE 
+
+DCREL32              DIRECTIVE 
+
+DCW                  DIRECTIVE 
+
+DEFINE               DIRECTIVE 
+
+DF32                 DIRECTIVE 
+
+DF64                 DIRECTIVE 
+
+DS16                 DIRECTIVE 
+
+DS24                 DIRECTIVE 
+
+DS32                 DIRECTIVE 
+
+DS64                 DIRECTIVE 
+
+DS8                  DIRECTIVE 
+
+ELSE                 DIRECTIVE 
+
+ELSEIF               DIRECTIVE 
+
+END                  DIRECTIVE 
+
+ENDIF                DIRECTIVE 
+
+ENDM                 DIRECTIVE 
+
+ENDMOD               DIRECTIVE 
+
+ENDR                 DIRECTIVE 
+
+EQU                  DIRECTIVE 
+
+EVEN                 DIRECTIVE 
+
+EXCEPTION_CODE       DIRECTIVE 
+
+EXITM                DIRECTIVE 
+
+EXPORT               DIRECTIVE 
+
+EXTERN               DIRECTIVE 
+
+EXTWEAK              DIRECTIVE 
+
+FAR                  SEGMENT TYPE 
+
+FARCODE              SEGMENT TYPE 
+
+FARCONST             SEGMENT TYPE 
+
+FARDATA              SEGMENT TYPE 
+
+FUNCALL              DIRECTIVE 
+
+FUNCTION             DIRECTIVE 
+
+HIGH                 OPERATOR 
+
+HUGE                 SEGMENT TYPE 
+
+HUGECODE             SEGMENT TYPE 
+
+HUGECONST            SEGMENT TYPE 
+
+HUGEDATA             SEGMENT TYPE 
+
+HWRD                 OPERATOR 
+
+IDATA                SEGMENT TYPE 
+
+IF                   DIRECTIVE 
+
+IMPORT               DIRECTIVE 
+
+INCLUDE              DIRECTIVE 
+
+LIBRARY              DIRECTIVE 
+
+LOCAL                DIRECTIVE 
+
+LOCFRAME             DIRECTIVE 
+
+LOW                  OPERATOR 
+
+LR                   REGISTER 
+
+LSTCND               DIRECTIVE 
+
+LSTCOD               DIRECTIVE 
+
+LSTEXP               DIRECTIVE 
+
+LSTMAC               DIRECTIVE 
+
+LSTOUT               DIRECTIVE 
+
+LSTPAG               DIRECTIVE 
+
+LSTREP               DIRECTIVE 
+
+LSTXRF               DIRECTIVE 
+
+LTORG                DIRECTIVE 
+
+LWRD                 OPERATOR 
+
+MACRO                DIRECTIVE 
+
+MODULE               DIRECTIVE 
+
+NAME                 DIRECTIVE 
+
+NEAR                 SEGMENT TYPE 
+
+NEARCODE             SEGMENT TYPE 
+
+NEARCONST            SEGMENT TYPE 
+
+NEARDATA             SEGMENT TYPE 
+
+NOALLOC              SEGMENT TYPE 
+
+NOCALL               DIRECTIVE 
+
+NOROOT               SEGMENT TYPE 
+
+NPAGE                SEGMENT TYPE 
+
+ODD                  DIRECTIVE 
+
+P0                   REGISTER 
+
+P1                   REGISTER 
+
+P10                  REGISTER 
+
+P11                  REGISTER 
+
+P12                  REGISTER 
+
+P13                  REGISTER 
+
+P14                  REGISTER 
+
+P15                  REGISTER 
+
+P2                   REGISTER 
+
+P3                   REGISTER 
+
+P4                   REGISTER 
+
+P5                   REGISTER 
+
+P6                   REGISTER 
+
+P7                   REGISTER 
+
+P8                   REGISTER 
+
+P9                   REGISTER 
+
+PAGE                 DIRECTIVE 
+
+PAGSIZ               DIRECTIVE 
+
+PC                   REGISTER 
+
+PRESERVE8            DIRECTIVE 
+
+PROGRAM              DIRECTIVE 
+
+PUBLIC               DIRECTIVE 
+
+PUBWEAK              DIRECTIVE 
+
+R0                   REGISTER 
+
+R1                   REGISTER 
+
+R10                  REGISTER 
+
+R11                  REGISTER 
+
+R12                  REGISTER 
+
+R13                  REGISTER 
+
+R14                  REGISTER 
+
+R15                  REGISTER 
+
+R2                   REGISTER 
+
+R3                   REGISTER 
+
+R4                   REGISTER 
+
+R5                   REGISTER 
+
+R6                   REGISTER 
+
+R7                   REGISTER 
+
+R8                   REGISTER 
+
+R9                   REGISTER 
+
+RADIX                DIRECTIVE 
+
+REGISTER             SEGMENT TYPE 
+
+RELOC_ARM_PREL31     OPERATOR 
+
+RELOC_ARM_TARGET1    OPERATOR 
+
+RELOC_ARM_TARGET2    OPERATOR 
+
+RELOC_LOCAL          OPERATOR 
+
+REORDER              SEGMENT TYPE 
+
+REPT                 DIRECTIVE 
+
+REPTC                DIRECTIVE 
+
+REPTI                DIRECTIVE 
+
+REQUIRE              DIRECTIVE 
+
+REQUIRE8             DIRECTIVE 
+
+ROOT                 SEGMENT TYPE 
+
+RSEG                 DIRECTIVE 
+
+RTMODEL              DIRECTIVE 
+
+SBREL                OPERATOR 
+
+SBREL_NEAR           OPERATOR 
+
+SECTION              DIRECTIVE 
+
+SECTION_GROUP        DIRECTIVE 
+
+SECTION_LINK         DIRECTIVE 
+
+SECTION_TYPE         DIRECTIVE 
+
+SET                  DIRECTIVE 
+
+SETA                 DIRECTIVE 
+
+SFB                  OPERATOR 
+
+SFE                  OPERATOR 
+
+SFS                  OPERATOR 
+
+SIZE                 DIRECTIVE 
+
+SIZEOF               OPERATOR 
+
+SORT                 SEGMENT TYPE 
+
+SP                   REGISTER 
+
+THUMB                DIRECTIVE 
+
+THUMBX               DIRECTIVE 
+
+TLS                  SEGMENT TYPE 
+
+TLS                  OPERATOR 
+
+UGT                  OPERATOR 
+
+ULT                  OPERATOR 
+
+UNTYPED              SEGMENT TYPE 
+
+USE_EXCEPTIONS       #define, value: 1, line:         0  
+
+USE_INTERRUPTS       #define, value: 1, line:         0  
+
+VAR                  DIRECTIVE 
+
+XDATA                SEGMENT TYPE 
+
+XOR                  OPERATOR 
+
+ZPAGE                SEGMENT TYPE 
+
+[                    DELIMITER 
+
+]                    DELIMITER 
+
+^                    OPERATOR 
+
+^                    DELIMITER 
+
+__ARM4TM__           #define, value: 4, line:         0  
+
+__ARM_32BIT_STATE    #define, value: 1, line:         0  
+
+__ARM_ARCH           #define, value: 4, line:         0  
+
+__ARM_ARCH_ISA_ARM   #define, value: 1, line:         0  
+
+__ARM_ARCH_ISA_THUMB #define, value: 1, line:         0  
+
+__BUILD_NUMBER__     #define,            line:         0  
+
+__CORE__             #define, value: __ARM4TM__, line:         0  
+
+__DATE__             #define,            line:         0  
+
+__FILE__             #define,            line:         0  
+
+__IAR_SYSTEMS_ASM    #define,            line:         0  
+
+__IAR_SYSTEMS_ASM__  #define,            line:         0  
+
+__IASMARM__          #define, value: 1, line:         0  
+
+__LINE__             #define,            line:         0  
+
+__LITTLE_ENDIAN__    #define, value: 1, line:         0  
+
+__SUBVERSION__       #define,            line:         0  
+
+__TID__              #define,            line:         0  
+
+__TIME__             #define,            line:         0  
+
+__VER__              #define,            line:         0         33      130
+
+define               PREPROCESSOR DIRECTIVE 
+
+defined              Target symbol: 0 
+
+elif                 PREPROCESSOR DIRECTIVE 
+
+else                 PREPROCESSOR DIRECTIVE 
+
+endif                PREPROCESSOR DIRECTIVE 
+
+error                PREPROCESSOR DIRECTIVE 
+
+if                   PREPROCESSOR DIRECTIVE 
+
+ifdef                PREPROCESSOR DIRECTIVE 
+
+ifndef               PREPROCESSOR DIRECTIVE 
+
+include              PREPROCESSOR DIRECTIVE 
+
+line                 PREPROCESSOR DIRECTIVE 
+
+message              PREPROCESSOR DIRECTIVE 
+
+pragma               PREPROCESSOR DIRECTIVE 
+
+undef                PREPROCESSOR DIRECTIVE 
+
+{                    DELIMITER 
+
+|                    OPERATOR 
+
+||                   OPERATOR 
+
+}                    DELIMITER 
+
+~                    OPERATOR 
+
+EOF                  DELIMITER 
+
+
+
+Segment             Type 	Mode
+
+----------------------------------------
+
+.stack              DATA  	REL 
+
+.text               CODE  	REL 
+
+.vect               CODE  	REL 
+
+__EXTERNS           CODE  	ABS Org:0 
+
+
+
+Label               Mode   Type                   Segment    Value/Offset
+
+------------------------------------------------------------------------------
+
+??DUMMY_SYMBOL_IN_BACKEND_PARSED_OPERANDS
+                    ABS    CONST UNTYP.           ASEG       1267 
+
+F_Bit               ABS    CONST UNTYP.           ASEG       40 
+
+FiqHandler          ABS    CONST EXT [011] UNTYP. __EXTERNS  Solved Extern 
+
+I_Bit               ABS    CONST UNTYP.           ASEG       80 
+
+IrqHandler          ABS    CONST EXT [010] UNTYP. __EXTERNS  Solved Extern 
+
+Main                ABS    CONST EXT [000] UNTYP. __EXTERNS  Solved Extern 
+
+Mode_Avc            ABS    CONST UNTYP.           ASEG       17 
+
+Mode_Fvc            ABS    CONST UNTYP.           ASEG       11 
+
+Mode_Ivc            ABS    CONST UNTYP.           ASEG       12 
+
+Mode_Svc            ABS    CONST UNTYP.           ASEG       13 
+
+Mode_Uvc            ABS    CONST UNTYP.           ASEG       10 
+
+Mode_sys            ABS    CONST UNTYP.           ASEG       1F 
+
+Mode_und            ABS    CONST UNTYP.           ASEG       1B 
+
+RP_Vector_Init      ABS    CONST EXT [001] UNTYP. __EXTERNS  Solved Extern 
+
+RP_Vector_Thumb_0   ABS    CONST EXT [006] UNTYP. __EXTERNS  Solved Extern 
+
+RP_Vector_Thumb_1   ABS    CONST EXT [007] UNTYP. __EXTERNS  Solved Extern 
+
+RP_Vector_Thumb_2   ABS    CONST EXT [008] UNTYP. __EXTERNS  Solved Extern 
+
+RP_Vector_Thumb_3   ABS    CONST EXT [009] UNTYP. __EXTERNS  Solved Extern 
+
+Region$$Table$$Base ABS    CONST EXT [-001] UNTYP. __EXTERNS  Solved Extern 
+
+Region$$Table$$LimitABS    CONST EXT [-001] UNTYP. __EXTERNS  Solved Extern 
+
+Region_ROM_Table_ROM_BaseABS    CONST EXT [004] UNTYP. __EXTERNS  Solved Extern 
+
+Region_ROM_Table_ROM_LimitABS    CONST EXT [005] UNTYP. __EXTERNS  Solved Extern 
+
+TID                 ABS    CONST UNTYP.           ASEG       4F00 
+
+__ABT_stack_size    ABS    CONST UNTYP.           ASEG       100 
+
+__DataAbtHndlr_     REL    CONST UNTYP.           .text      E8 
+
+__FIQ_stack_size    ABS    CONST UNTYP.           ASEG       400 
+
+__IRQ_stack_size    ABS    CONST UNTYP.           ASEG       400 
+
+__PrefetchAbtHndlr_ REL    CONST UNTYP.           .text      C8 
+
+__SUP_stack_size    ABS    CONST UNTYP.           ASEG       100 
+
+__SupervisorHndlr_  REL    CONST UNTYP.           .text      A8 
+
+__UND_stack_size    ABS    CONST UNTYP.           ASEG       100 
+
+__USR_stack_size    ABS    CONST UNTYP.           ASEG       800 
+
+__UndefInstructionHndlr_REL    CONST UNTYP.           .text      88 
+
+__call_main         REL    CONST UNTYP.           .text      7C 
+
+__iar_data_init2    ABS    CONST EXT [002] UNTYP. __EXTERNS  Solved Extern 
+
+__lab0              REL    CONST UNTYP.           .text      108 
+
+__lab1              REL    CONST UNTYP.           .text      10C 
+
+__lab2              REL    CONST UNTYP.           .text      110 
+
+__lab3              REL    CONST UNTYP.           .text      114 
+
+__lab4              REL    CONST UNTYP.           .text      118 
+
+__lab5              REL    CONST UNTYP.           .text      11C 
+
+__lab6              REL    CONST UNTYP.           .text      120 
+
+__reserved_         REL    CONST UNTYP.           .text      84 
+
+__rom_data_init     ABS    CONST EXT [003] UNTYP. __EXTERNS  Solved Extern 
+
+__start_            REL    CONST UNTYP.           .text      0 
+
+_start_vector_      REL    CONST PUB UNTYP.       .vect      0 
+
+mExceptionHandlerDataAbortABS    CONST EXT [013] UNTYP. __EXTERNS  Solved Extern 
+
+mExceptionHandlerPrefetchAbortABS    CONST EXT [012] UNTYP. __EXTERNS  Solved Extern 
+
+mExceptionHandlerSupervisorABS    CONST EXT [015] UNTYP. __EXTERNS  Solved Extern 
+
+mExceptionHandlerUndefinedABS    CONST EXT [014] UNTYP. __EXTERNS  Solved Extern 
+
+system_stack        REL    CONST UNTYP.           .stack     0 
+
+
+
+
+
+##############################
+#           CRC:0            #
+#        Errors:   0         #
+#        Warnings: 0         #
+#        Bytes: 5188         #
+##############################
+
+
+
+

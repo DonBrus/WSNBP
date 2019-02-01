@@ -548,6 +548,8 @@ static void repeater_run_sm (void)
     case(gRepeaterRunStIdle_c):
       {
         /* Use the TX buffer to receive then it will be ready to be repeated */
+        // assegna al buffer rx, riempito successivamente dalla funzione corrispondente,
+        // l'indirizzo di tx così da usarlo direttamente
         RX_msg.pu8Buffer = (smac_pdu_t *)(&dataTX);
         
         /* Receive without any timeout */
@@ -578,6 +580,8 @@ static void repeater_run_sm (void)
             else if(gRepOpModeDummy_c == u8RepOpMode)
             {
               (sRepeaterStat.u16RetransmitedPkts)++;
+			  TX_msg.pu8Buffer->u8Data[4] = 'R';
+
               MCPSDataRequest(&TX_msg);
               u8RepeaterRunSt = gRepeaterRunStTx_c;
             }
@@ -769,7 +773,7 @@ static void repeater_app_init(void)
   gbDataIndicationFlag = FALSE;
   gbRdyToProcessEvnt = FALSE;
 
-  u8RepOpMode = gRepOpModeNormal_c;
+  u8RepOpMode = gRepOpModeDummy_c;
   u8RepeaterChann = REPEATER_CHANN;
   u8RepeaterPower = gDefaultPowerLevel_c;
   sRepeaterDelay.millisecondsDly = 1;
