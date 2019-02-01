@@ -3376,13 +3376,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@30227@F@process_incoming_msg@u8Lqi",
+    "ID": "c:connectivity_test_rx.c@30288@F@process_incoming_msg@u8Lqi",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8Lqi",
     "location": {
       "column": "17",
-      "line": "942",
+      "line": "943",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8Lqi",
@@ -3396,7 +3396,7 @@
     "display": "void select_config_option_isr(void)",
     "location": {
       "column": "8",
-      "line": "977",
+      "line": "978",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "select_config_option_isr",
@@ -3410,7 +3410,7 @@
     "display": "void increase_config_option_isr(void)",
     "location": {
       "column": "7",
-      "line": "991",
+      "line": "992",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "increase_config_option_isr",
@@ -3424,7 +3424,7 @@
     "display": "void decrease_config_option_isr(void)",
     "location": {
       "column": "8",
-      "line": "1006",
+      "line": "1007",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "decrease_config_option_isr",
@@ -3438,7 +3438,7 @@
     "display": "void start_test_isr(void)",
     "location": {
       "column": "6",
-      "line": "1021",
+      "line": "1022",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "start_test_isr",
@@ -3452,7 +3452,7 @@
     "display": "void process_test_mode_app(void)",
     "location": {
       "column": "6",
-      "line": "1038",
+      "line": "1039",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "process_test_mode_app",
@@ -3460,13 +3460,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@33301@F@process_test_mode_app@tmpChange",
+    "ID": "c:connectivity_test_rx.c@33362@F@process_test_mode_app@tmpChange",
     "What": "Variable",
     "defdec": "Def",
     "display": "tmpChange",
     "location": {
       "column": "16",
-      "line": "1041",
+      "line": "1042",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "tmpChange",
@@ -3474,13 +3474,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@33328@F@process_test_mode_app@u8SafeTimeOut",
+    "ID": "c:connectivity_test_rx.c@33389@F@process_test_mode_app@u8SafeTimeOut",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8SafeTimeOut",
     "location": {
       "column": "11",
-      "line": "1042",
+      "line": "1043",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8SafeTimeOut",
@@ -3494,7 +3494,7 @@
     "display": "link_quality_value_t adjust_LQI(uint8_t)",
     "location": {
       "column": "22",
-      "line": "1381",
+      "line": "1382",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "adjust_LQI",
@@ -3502,13 +3502,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@44249@F@adjust_LQI@LQIAdjusted",
+    "ID": "c:connectivity_test_rx.c@44310@F@adjust_LQI@LQIAdjusted",
     "What": "Variable",
     "defdec": "Def",
     "display": "LQIAdjusted",
     "location": {
       "column": "24",
-      "line": "1383",
+      "line": "1384",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "LQIAdjusted",
@@ -3522,7 +3522,7 @@
     "display": "four_digit_bcd_t convert_2_bcd(uint16_t)",
     "location": {
       "column": "25",
-      "line": "1417",
+      "line": "1418",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "convert_2_bcd",
@@ -3530,13 +3530,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@45011@F@convert_2_bcd@u16RtrnVal",
+    "ID": "c:connectivity_test_rx.c@45072@F@convert_2_bcd@u16RtrnVal",
     "What": "Variable",
     "defdec": "Def",
     "display": "u16RtrnVal",
     "location": {
       "column": "20",
-      "line": "1419",
+      "line": "1420",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u16RtrnVal",
@@ -3544,13 +3544,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@45059@F@convert_2_bcd@tmp",
+    "ID": "c:connectivity_test_rx.c@45120@F@convert_2_bcd@tmp",
     "What": "Variable",
     "defdec": "Def",
     "display": "tmp",
     "location": {
       "column": "12",
-      "line": "1420",
+      "line": "1421",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "tmp",
@@ -3564,7 +3564,7 @@
     "display": "void LEDs_Flash(uint8_t, uint32_t)",
     "location": {
       "column": "6",
-      "line": "1459",
+      "line": "1460",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "LEDs_Flash",
@@ -3578,7 +3578,7 @@
     "display": "void LoadPRBS9(void)",
     "location": {
       "column": "6",
-      "line": "1477",
+      "line": "1478",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "LoadPRBS9",
@@ -3586,13 +3586,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@46506@F@LoadPRBS9@u8c1",
+    "ID": "c:connectivity_test_rx.c@46567@F@LoadPRBS9@u8c1",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8c1",
     "location": {
       "column": "11",
-      "line": "1479",
+      "line": "1480",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8c1",
@@ -3600,13 +3600,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@46568@F@LoadPRBS9@u8c2",
+    "ID": "c:connectivity_test_rx.c@46629@F@LoadPRBS9@u8c2",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8c2",
     "location": {
       "column": "11",
-      "line": "1480",
+      "line": "1481",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8c2",
@@ -3614,13 +3614,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@46629@F@LoadPRBS9@u16t1",
+    "ID": "c:connectivity_test_rx.c@46690@F@LoadPRBS9@u16t1",
     "What": "Variable",
     "defdec": "Def",
     "display": "u16t1",
     "location": {
       "column": "12",
-      "line": "1481",
+      "line": "1482",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u16t1",
@@ -3628,13 +3628,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@46683@F@LoadPRBS9@u16t2",
+    "ID": "c:connectivity_test_rx.c@46744@F@LoadPRBS9@u16t2",
     "What": "Variable",
     "defdec": "Def",
     "display": "u16t2",
     "location": {
       "column": "12",
-      "line": "1482",
+      "line": "1483",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u16t2",
@@ -3642,13 +3642,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@46744@F@LoadPRBS9@u16t3",
+    "ID": "c:connectivity_test_rx.c@46805@F@LoadPRBS9@u16t3",
     "What": "Variable",
     "defdec": "Def",
     "display": "u16t3",
     "location": {
       "column": "12",
-      "line": "1483",
+      "line": "1484",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u16t3",
@@ -3656,13 +3656,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@46811@F@LoadPRBS9@u8t4",
+    "ID": "c:connectivity_test_rx.c@46872@F@LoadPRBS9@u8t4",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8t4",
     "location": {
       "column": "11",
-      "line": "1484",
+      "line": "1485",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8t4",
@@ -3676,7 +3676,7 @@
     "display": "char main_menu(void)",
     "location": {
       "column": "6",
-      "line": "1527",
+      "line": "1528",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "main_menu",
@@ -3690,7 +3690,7 @@
     "display": "char channel_menu(void)",
     "location": {
       "column": "6",
-      "line": "1549",
+      "line": "1550",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "channel_menu",
@@ -3704,7 +3704,7 @@
     "display": "char test_mode_rx_menu(void)",
     "location": {
       "column": "6",
-      "line": "1594",
+      "line": "1595",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "test_mode_rx_menu",
@@ -3718,7 +3718,7 @@
     "display": "char test_mode_tx_menu(void)",
     "location": {
       "column": "6",
-      "line": "1617",
+      "line": "1618",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "test_mode_tx_menu",
@@ -3732,7 +3732,7 @@
     "display": "char select_test_mode_menu(void)",
     "location": {
       "column": "6",
-      "line": "1641",
+      "line": "1642",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "select_test_mode_menu",
@@ -3746,7 +3746,7 @@
     "display": "char test_transmission_menu(void)",
     "location": {
       "column": "6",
-      "line": "1660",
+      "line": "1661",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "test_transmission_menu",
@@ -3760,7 +3760,7 @@
     "display": "char clock_setting_menu(void)",
     "location": {
       "column": "6",
-      "line": "1685",
+      "line": "1686",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "clock_setting_menu",
@@ -3774,7 +3774,7 @@
     "display": "char bulk_cap_menu(void)",
     "location": {
       "column": "6",
-      "line": "1707",
+      "line": "1708",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "bulk_cap_menu",
@@ -3788,7 +3788,7 @@
     "display": "void channel_adjust(void)",
     "location": {
       "column": "6",
-      "line": "1731",
+      "line": "1732",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "channel_adjust",
@@ -3796,13 +3796,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@56197@F@channel_adjust@option",
+    "ID": "c:connectivity_test_rx.c@56258@F@channel_adjust@option",
     "What": "Variable",
     "defdec": "Def",
     "display": "option",
     "location": {
       "column": "8",
-      "line": "1732",
+      "line": "1733",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "option",
@@ -3810,13 +3810,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@56197@F@channel_adjust@hexOption",
+    "ID": "c:connectivity_test_rx.c@56258@F@channel_adjust@hexOption",
     "What": "Variable",
     "defdec": "Dec",
     "display": "hexOption",
     "location": {
       "column": "16",
-      "line": "1732",
+      "line": "1733",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "hexOption",
@@ -3830,7 +3830,7 @@
     "display": "void power_adjust(void)",
     "location": {
       "column": "6",
-      "line": "1764",
+      "line": "1765",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "power_adjust",
@@ -3838,13 +3838,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@57083@F@power_adjust@u8TempPower",
+    "ID": "c:connectivity_test_rx.c@57144@F@power_adjust@u8TempPower",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8TempPower",
     "location": {
       "column": "11",
-      "line": "1765",
+      "line": "1766",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8TempPower",
@@ -3858,7 +3858,7 @@
     "display": "void test_mode_rx_adjust(void)",
     "location": {
       "column": "6",
-      "line": "1813",
+      "line": "1814",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "test_mode_rx_adjust",
@@ -3866,13 +3866,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@58664@F@test_mode_rx_adjust@option",
+    "ID": "c:connectivity_test_rx.c@58725@F@test_mode_rx_adjust@option",
     "What": "Variable",
     "defdec": "Def",
     "display": "option",
     "location": {
       "column": "8",
-      "line": "1815",
+      "line": "1816",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "option",
@@ -3886,7 +3886,7 @@
     "display": "void test_mode_tx_adjust(void)",
     "location": {
       "column": "6",
-      "line": "1883",
+      "line": "1884",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "test_mode_tx_adjust",
@@ -3894,13 +3894,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@60631@F@test_mode_tx_adjust@option",
+    "ID": "c:connectivity_test_rx.c@60692@F@test_mode_tx_adjust@option",
     "What": "Variable",
     "defdec": "Def",
     "display": "option",
     "location": {
       "column": "8",
-      "line": "1884",
+      "line": "1885",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "option",
@@ -3914,7 +3914,7 @@
     "display": "void tx_rx_select(void)",
     "location": {
       "column": "6",
-      "line": "1919",
+      "line": "1920",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "tx_rx_select",
@@ -3922,13 +3922,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@61572@F@tx_rx_select@option",
+    "ID": "c:connectivity_test_rx.c@61633@F@tx_rx_select@option",
     "What": "Variable",
     "defdec": "Def",
     "display": "option",
     "location": {
       "column": "8",
-      "line": "1921",
+      "line": "1922",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "option",
@@ -3942,7 +3942,7 @@
     "display": "void cont_transmission_test_adjust(void)",
     "location": {
       "column": "6",
-      "line": "1951",
+      "line": "1952",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "cont_transmission_test_adjust",
@@ -3950,13 +3950,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@62360@F@cont_transmission_test_adjust@option",
+    "ID": "c:connectivity_test_rx.c@62421@F@cont_transmission_test_adjust@option",
     "What": "Variable",
     "defdec": "Def",
     "display": "option",
     "location": {
       "column": "8",
-      "line": "1953",
+      "line": "1954",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "option",
@@ -3970,7 +3970,7 @@
     "display": "void pulse_prbs9_tx(void)",
     "location": {
       "column": "6",
-      "line": "1990",
+      "line": "1991",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "pulse_prbs9_tx",
@@ -3978,13 +3978,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@63360@F@pulse_prbs9_tx@u8AppState",
+    "ID": "c:connectivity_test_rx.c@63421@F@pulse_prbs9_tx@u8AppState",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8AppState",
     "location": {
       "column": "28",
-      "line": "1992",
+      "line": "1993",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8AppState",
@@ -3992,13 +3992,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@63400@F@pulse_prbs9_tx@u16DutyCicleCounter",
+    "ID": "c:connectivity_test_rx.c@63461@F@pulse_prbs9_tx@u16DutyCicleCounter",
     "What": "Variable",
     "defdec": "Def",
     "display": "u16DutyCicleCounter",
     "location": {
       "column": "19",
-      "line": "1993",
+      "line": "1994",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u16DutyCicleCounter",
@@ -4012,7 +4012,7 @@
     "display": "void packet_error_rate_tx_test(void)",
     "location": {
       "column": "6",
-      "line": "2062",
+      "line": "2063",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "packet_error_rate_tx_test",
@@ -4020,13 +4020,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@65227@F@packet_error_rate_tx_test@u8AppState",
+    "ID": "c:connectivity_test_rx.c@65288@F@packet_error_rate_tx_test@u8AppState",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8AppState",
     "location": {
       "column": "26",
-      "line": "2064",
+      "line": "2065",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8AppState",
@@ -4034,13 +4034,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@65265@F@packet_error_rate_tx_test@u16MsgCount",
+    "ID": "c:connectivity_test_rx.c@65326@F@packet_error_rate_tx_test@u16MsgCount",
     "What": "Variable",
     "defdec": "Def",
     "display": "u16MsgCount",
     "location": {
       "column": "19",
-      "line": "2065",
+      "line": "2066",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u16MsgCount",
@@ -4048,13 +4048,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@65297@F@packet_error_rate_tx_test@u16DoneCount",
+    "ID": "c:connectivity_test_rx.c@65358@F@packet_error_rate_tx_test@u16DoneCount",
     "What": "Variable",
     "defdec": "Def",
     "display": "u16DoneCount",
     "location": {
       "column": "19",
-      "line": "2066",
+      "line": "2067",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u16DoneCount",
@@ -4062,13 +4062,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@65330@F@packet_error_rate_tx_test@u32NumTransmissions",
+    "ID": "c:connectivity_test_rx.c@65391@F@packet_error_rate_tx_test@u32NumTransmissions",
     "What": "Variable",
     "defdec": "Def",
     "display": "u32NumTransmissions",
     "location": {
       "column": "12",
-      "line": "2067",
+      "line": "2068",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u32NumTransmissions",
@@ -4076,13 +4076,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@68896@F@packet_error_rate_tx_test@i",
+    "ID": "c:connectivity_test_rx.c@68957@F@packet_error_rate_tx_test@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "17",
-      "line": "2192",
+      "line": "2193",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "i",
@@ -4090,13 +4090,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@68916@F@packet_error_rate_tx_test@u8Count",
+    "ID": "c:connectivity_test_rx.c@68977@F@packet_error_rate_tx_test@u8Count",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8Count",
     "location": {
       "column": "17",
-      "line": "2193",
+      "line": "2194",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8Count",
@@ -4104,13 +4104,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@70078@F@packet_error_rate_tx_test@i",
+    "ID": "c:connectivity_test_rx.c@70139@F@packet_error_rate_tx_test@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "21",
-      "line": "2228",
+      "line": "2229",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "i",
@@ -4124,7 +4124,7 @@
     "display": "void packet_error_rate_rx_test(void)",
     "location": {
       "column": "6",
-      "line": "2293",
+      "line": "2294",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "packet_error_rate_rx_test",
@@ -4132,13 +4132,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@71694@F@packet_error_rate_rx_test@u8AppState",
+    "ID": "c:connectivity_test_rx.c@71755@F@packet_error_rate_rx_test@u8AppState",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8AppState",
     "location": {
       "column": "26",
-      "line": "2295",
+      "line": "2296",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8AppState",
@@ -4152,7 +4152,7 @@
     "display": "void range_rx_test(void)",
     "location": {
       "column": "6",
-      "line": "2440",
+      "line": "2441",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "range_rx_test",
@@ -4160,13 +4160,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@75525@F@range_rx_test@u8AppState",
+    "ID": "c:connectivity_test_rx.c@75586@F@range_rx_test@u8AppState",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8AppState",
     "location": {
       "column": "37",
-      "line": "2442",
+      "line": "2443",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8AppState",
@@ -4174,13 +4174,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@75593@F@range_rx_test@u8retries",
+    "ID": "c:connectivity_test_rx.c@75654@F@range_rx_test@u8retries",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8retries",
     "location": {
       "column": "20",
-      "line": "2443",
+      "line": "2444",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8retries",
@@ -4194,7 +4194,7 @@
     "display": "void range_tx_test(void)",
     "location": {
       "column": "6",
-      "line": "2577",
+      "line": "2578",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "range_tx_test",
@@ -4202,13 +4202,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@79037@F@range_tx_test@u8AppState",
+    "ID": "c:connectivity_test_rx.c@79098@F@range_tx_test@u8AppState",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8AppState",
     "location": {
       "column": "28",
-      "line": "2579",
+      "line": "2580",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8AppState",
@@ -4216,13 +4216,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@79078@F@range_tx_test@u8CountNoPacket",
+    "ID": "c:connectivity_test_rx.c@79139@F@range_tx_test@u8CountNoPacket",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8CountNoPacket",
     "location": {
       "column": "19",
-      "line": "2580",
+      "line": "2581",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8CountNoPacket",
@@ -4230,13 +4230,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@80595@F@range_tx_test@i",
+    "ID": "c:connectivity_test_rx.c@80656@F@range_tx_test@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "17",
-      "line": "2644",
+      "line": "2645",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "i",
@@ -4250,7 +4250,7 @@
     "display": "void configure_clock_settings(void)",
     "location": {
       "column": "6",
-      "line": "2746",
+      "line": "2747",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "configure_clock_settings",
@@ -4258,13 +4258,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@83466@F@configure_clock_settings@option_menu",
+    "ID": "c:connectivity_test_rx.c@83527@F@configure_clock_settings@option_menu",
     "What": "Variable",
     "defdec": "Def",
     "display": "option_menu",
     "location": {
       "column": "8",
-      "line": "2748",
+      "line": "2749",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "option_menu",
@@ -4272,13 +4272,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@83466@F@configure_clock_settings@option",
+    "ID": "c:connectivity_test_rx.c@83527@F@configure_clock_settings@option",
     "What": "Variable",
     "defdec": "Dec",
     "display": "option",
     "location": {
       "column": "21",
-      "line": "2748",
+      "line": "2749",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "option",
@@ -4292,7 +4292,7 @@
     "display": "void coarse_tune_adjust(void)",
     "location": {
       "column": "6",
-      "line": "2801",
+      "line": "2802",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "coarse_tune_adjust",
@@ -4300,13 +4300,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@84993@F@coarse_tune_adjust@u8TempCoarse",
+    "ID": "c:connectivity_test_rx.c@85054@F@coarse_tune_adjust@u8TempCoarse",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8TempCoarse",
     "location": {
       "column": "11",
-      "line": "2803",
+      "line": "2804",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8TempCoarse",
@@ -4320,7 +4320,7 @@
     "display": "void fine_tune_adjust(void)",
     "location": {
       "column": "6",
-      "line": "2831",
+      "line": "2832",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "fine_tune_adjust",
@@ -4328,13 +4328,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@86044@F@fine_tune_adjust@u8TempFine",
+    "ID": "c:connectivity_test_rx.c@86105@F@fine_tune_adjust@u8TempFine",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8TempFine",
     "location": {
       "column": "11",
-      "line": "2833",
+      "line": "2834",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8TempFine",
@@ -4348,7 +4348,7 @@
     "display": "void PrintTestMode(Test_Mode_t)",
     "location": {
       "column": "6",
-      "line": "2859",
+      "line": "2860",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "PrintTestMode",
@@ -4362,7 +4362,7 @@
     "display": "void PrintChannel(channel_num_t)",
     "location": {
       "column": "6",
-      "line": "2902",
+      "line": "2903",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "PrintChannel",
@@ -4376,7 +4376,7 @@
     "display": "void LEDs_LQI_indication(link_quality_value_t)",
     "location": {
       "column": "6",
-      "line": "2919",
+      "line": "2920",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "LEDs_LQI_indication",
@@ -4384,13 +4384,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@88723@F@LEDs_LQI_indication@LEDs_state",
+    "ID": "c:connectivity_test_rx.c@88784@F@LEDs_LQI_indication@LEDs_state",
     "What": "Variable",
     "defdec": "Def",
     "display": "LEDs_state",
     "location": {
       "column": "11",
-      "line": "2921",
+      "line": "2922",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "LEDs_state",
@@ -4404,7 +4404,7 @@
     "display": "void TMR_Init(void)",
     "location": {
       "column": "6",
-      "line": "2938",
+      "line": "2939",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "TMR_Init",
@@ -4412,13 +4412,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@89571@F@TMR_Init@pConfig",
+    "ID": "c:connectivity_test_rx.c@89632@F@TMR_Init@pConfig",
     "What": "Variable",
     "defdec": "Def",
     "display": "pConfig",
     "location": {
       "column": "15",
-      "line": "2940",
+      "line": "2941",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "pConfig",
@@ -4426,13 +4426,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@89595@F@TMR_Init@pStatusCtrl",
+    "ID": "c:connectivity_test_rx.c@89656@F@TMR_Init@pStatusCtrl",
     "What": "Variable",
     "defdec": "Def",
     "display": "pStatusCtrl",
     "location": {
       "column": "19",
-      "line": "2941",
+      "line": "2942",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "pStatusCtrl",
@@ -4440,13 +4440,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@89627@F@TMR_Init@pCompStatusCtrl",
+    "ID": "c:connectivity_test_rx.c@89688@F@TMR_Init@pCompStatusCtrl",
     "What": "Variable",
     "defdec": "Def",
     "display": "pCompStatusCtrl",
     "location": {
       "column": "29",
-      "line": "2942",
+      "line": "2943",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "pCompStatusCtrl",
@@ -4460,7 +4460,7 @@
     "display": "void GpioTmrInit(void)",
     "location": {
       "column": "6",
-      "line": "2980",
+      "line": "2981",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "GpioTmrInit",
@@ -4474,7 +4474,7 @@
     "display": "void DisplayFreescaleLogo(uint8_t, uint8_t)",
     "location": {
       "column": "6",
-      "line": "3024",
+      "line": "3025",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "DisplayFreescaleLogo",
@@ -4482,13 +4482,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@92484@F@DisplayFreescaleLogo@u8Count",
+    "ID": "c:connectivity_test_rx.c@92545@F@DisplayFreescaleLogo@u8Count",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8Count",
     "location": {
       "column": "11",
-      "line": "3026",
+      "line": "3027",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8Count",
@@ -4496,13 +4496,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@92504@F@DisplayFreescaleLogo@u8String",
+    "ID": "c:connectivity_test_rx.c@92565@F@DisplayFreescaleLogo@u8String",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8String",
     "location": {
       "column": "11",
-      "line": "3027",
+      "line": "3028",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8String",
@@ -4510,13 +4510,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@92568@F@DisplayFreescaleLogo@i",
+    "ID": "c:connectivity_test_rx.c@92629@F@DisplayFreescaleLogo@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "11",
-      "line": "3028",
+      "line": "3029",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "i",
@@ -4530,7 +4530,7 @@
     "display": "void DisplayTestMode(ConfigOption_t)",
     "location": {
       "column": "6",
-      "line": "3096",
+      "line": "3097",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "DisplayTestMode",
@@ -4538,13 +4538,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@94662@F@DisplayTestMode@line",
+    "ID": "c:connectivity_test_rx.c@94723@F@DisplayTestMode@line",
     "What": "Variable",
     "defdec": "Def",
     "display": "line",
     "location": {
       "column": "11",
-      "line": "3098",
+      "line": "3099",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "line",
@@ -4552,13 +4552,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@94683@F@DisplayTestMode@i",
+    "ID": "c:connectivity_test_rx.c@94744@F@DisplayTestMode@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "11",
-      "line": "3099",
+      "line": "3100",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "i",
@@ -4572,7 +4572,7 @@
     "display": "void ClearDisplay(void)",
     "location": {
       "column": "6",
-      "line": "3194",
+      "line": "3195",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "ClearDisplay",
@@ -4580,13 +4580,13 @@
     "scope": null
   },
   {
-    "ID": "c:connectivity_test_rx.c@97451@F@ClearDisplay@u8Line",
+    "ID": "c:connectivity_test_rx.c@97512@F@ClearDisplay@u8Line",
     "What": "Variable",
     "defdec": "Def",
     "display": "u8Line",
     "location": {
       "column": "11",
-      "line": "3196",
+      "line": "3197",
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Source\\connectivity_test_rx.c"
     },
     "name": "u8Line",
@@ -6784,302 +6784,6 @@
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\SMAC\\Interface\\WirelessLinkMngmt.h"
     },
     "name": "MLMEScanRequest",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:UartUtil.h@544@macro@_UART_UTIL_H_",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "_UART_UTIL_H_",
-    "location": {
-      "column": "9",
-      "line": "16",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "_UART_UTIL_H_",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:UartUtil.h@2490@macro@gPlatformClock_c",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "gPlatformClock_c",
-    "location": {
-      "column": "9",
-      "line": "48",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "gPlatformClock_c",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:UartUtil.h@2539@macro@gUartTimeout_d",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "gUartTimeout_d",
-    "location": {
-      "column": "9",
-      "line": "49",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "gUartTimeout_d",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:UartUtil.h@Ea",
-    "What": "Enum",
-    "defdec": "Def",
-    "display": "",
-    "fields": [
-      {
-        "ID": "c:UartUtil.h@Ea@gPrtHexBigEndian_c",
-        "What": "Enumerator",
-        "defdec": "Def",
-        "display": "gPrtHexBigEndian_c",
-        "location": {
-          "column": "3",
-          "line": "59",
-          "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-        },
-        "name": "gPrtHexBigEndian_c",
-        "origin": "user_include",
-        "scope": null
-      },
-      {
-        "ID": "c:UartUtil.h@Ea@gPrtHexNewLine_c",
-        "What": "Enumerator",
-        "defdec": "Def",
-        "display": "gPrtHexNewLine_c",
-        "location": {
-          "column": "3",
-          "line": "60",
-          "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-        },
-        "name": "gPrtHexNewLine_c",
-        "origin": "user_include",
-        "scope": null
-      },
-      {
-        "ID": "c:UartUtil.h@Ea@gPrtHexCommas_c",
-        "What": "Enumerator",
-        "defdec": "Def",
-        "display": "gPrtHexCommas_c",
-        "location": {
-          "column": "3",
-          "line": "61",
-          "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-        },
-        "name": "gPrtHexCommas_c",
-        "origin": "user_include",
-        "scope": null
-      },
-      {
-        "ID": "c:UartUtil.h@Ea@gPrtHexSpaces_c",
-        "What": "Enumerator",
-        "defdec": "Def",
-        "display": "gPrtHexSpaces_c",
-        "location": {
-          "column": "3",
-          "line": "62",
-          "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-        },
-        "name": "gPrtHexSpaces_c",
-        "origin": "user_include",
-        "scope": null
-      }
-    ],
-    "location": {
-      "column": "1",
-      "line": "58",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@gu8SCIStatus",
-    "What": "Variable",
-    "defdec": "Dec",
-    "display": "gu8SCIStatus",
-    "location": {
-      "column": "25",
-      "line": "70",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "gu8SCIStatus",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@gu16SCINumOfBytes",
-    "What": "Variable",
-    "defdec": "Dec",
-    "display": "gu16SCINumOfBytes",
-    "location": {
-      "column": "17",
-      "line": "71",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "gu16SCINumOfBytes",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Uart_Init",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Uart_Init(uint8_t *, uint16_t)",
-    "location": {
-      "column": "6",
-      "line": "94",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "Uart_Init",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Uart_Print",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Uart_Print(uint8_t *)",
-    "location": {
-      "column": "6",
-      "line": "111",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "Uart_Print",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Uart_PrintHex",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Uart_PrintHex(uint8_t *, uint8_t, uint8_t)",
-    "location": {
-      "column": "6",
-      "line": "138",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "Uart_PrintHex",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Uart_PrintByteDec",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Uart_PrintByteDec(uint8_t)",
-    "location": {
-      "column": "6",
-      "line": "166",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "Uart_PrintByteDec",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Uart_PrintShortDec",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Uart_PrintShortDec(uint16_t)",
-    "location": {
-      "column": "6",
-      "line": "187",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "Uart_PrintShortDec",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Uart_Tx",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Uart_Tx(const uint8_t *, uint8_t)",
-    "location": {
-      "column": "6",
-      "line": "190",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "Uart_Tx",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Uart_Poll",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Uart_Poll(uint8_t *)",
-    "location": {
-      "column": "6",
-      "line": "207",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "Uart_Poll",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Uart_getchar",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "char Uart_getchar(uint8_t *)",
-    "location": {
-      "column": "6",
-      "line": "226",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "Uart_getchar",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@AsciitoHex",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "uint8_t AsciitoHex(uint8_t)",
-    "location": {
-      "column": "9",
-      "line": "244",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "AsciitoHex",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@mem_cmp",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "bool_t mem_cmp(uint8_t *, uint8_t *, uint8_t)",
-    "location": {
-      "column": "8",
-      "line": "264",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "mem_cmp",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Uart_putchar",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Uart_putchar(uint8_t)",
-    "location": {
-      "column": "6",
-      "line": "282",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
-    },
-    "name": "Uart_putchar",
     "origin": "user_include",
     "scope": null
   },
@@ -15066,6 +14770,146 @@
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\SMAC\\Drivers\\Interface\\ghdr\\maca.h"
     },
     "name": "MACA_READ",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@639@macro@__SMAC_APP_CONFIG_H__",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "__SMAC_APP_CONFIG_H__",
+    "location": {
+      "column": "9",
+      "line": "18",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "__SMAC_APP_CONFIG_H__",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@675@macro@MANUAL",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "MANUAL",
+    "location": {
+      "column": "11",
+      "line": "20",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "MANUAL",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@708@macro@SERIAL",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "SERIAL",
+    "location": {
+      "column": "11",
+      "line": "21",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "SERIAL",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@741@macro@CHANNEL_NUMBER",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "CHANNEL_NUMBER",
+    "location": {
+      "column": "11",
+      "line": "22",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "CHANNEL_NUMBER",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@782@macro@INTERFACE_TYPE",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "INTERFACE_TYPE",
+    "location": {
+      "column": "11",
+      "line": "23",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "INTERFACE_TYPE",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@820@macro@NUM_TRANSMISSIONS",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "NUM_TRANSMISSIONS",
+    "location": {
+      "column": "11",
+      "line": "24",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "NUM_TRANSMISSIONS",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@855@macro@OTAP_ENABLED",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "OTAP_ENABLED",
+    "location": {
+      "column": "11",
+      "line": "25",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "OTAP_ENABLED",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@892@macro@DEFAULT_BAUD_RATE",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "DEFAULT_BAUD_RATE",
+    "location": {
+      "column": "11",
+      "line": "26",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "DEFAULT_BAUD_RATE",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@929@macro@OTAP_REQUEST_CODE",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "OTAP_REQUEST_CODE",
+    "location": {
+      "column": "11",
+      "line": "27",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "OTAP_REQUEST_CODE",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:app_config.h@971@macro@OTAP_DEVICE_ADDRESS",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "OTAP_DEVICE_ADDRESS",
+    "location": {
+      "column": "11",
+      "line": "28",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
+    },
+    "name": "OTAP_DEVICE_ADDRESS",
     "origin": "user_include",
     "scope": null
   },
@@ -23910,6 +23754,302 @@
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\PLM\\LibInterface\\ITC_Interface.h"
     },
     "name": "ITC_SetIrqMinimumLevel",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:UartUtil.h@544@macro@_UART_UTIL_H_",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "_UART_UTIL_H_",
+    "location": {
+      "column": "9",
+      "line": "16",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "_UART_UTIL_H_",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:UartUtil.h@2490@macro@gPlatformClock_c",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "gPlatformClock_c",
+    "location": {
+      "column": "9",
+      "line": "48",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "gPlatformClock_c",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:UartUtil.h@2539@macro@gUartTimeout_d",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "gUartTimeout_d",
+    "location": {
+      "column": "9",
+      "line": "49",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "gUartTimeout_d",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:UartUtil.h@Ea",
+    "What": "Enum",
+    "defdec": "Def",
+    "display": "",
+    "fields": [
+      {
+        "ID": "c:UartUtil.h@Ea@gPrtHexBigEndian_c",
+        "What": "Enumerator",
+        "defdec": "Def",
+        "display": "gPrtHexBigEndian_c",
+        "location": {
+          "column": "3",
+          "line": "59",
+          "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+        },
+        "name": "gPrtHexBigEndian_c",
+        "origin": "user_include",
+        "scope": null
+      },
+      {
+        "ID": "c:UartUtil.h@Ea@gPrtHexNewLine_c",
+        "What": "Enumerator",
+        "defdec": "Def",
+        "display": "gPrtHexNewLine_c",
+        "location": {
+          "column": "3",
+          "line": "60",
+          "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+        },
+        "name": "gPrtHexNewLine_c",
+        "origin": "user_include",
+        "scope": null
+      },
+      {
+        "ID": "c:UartUtil.h@Ea@gPrtHexCommas_c",
+        "What": "Enumerator",
+        "defdec": "Def",
+        "display": "gPrtHexCommas_c",
+        "location": {
+          "column": "3",
+          "line": "61",
+          "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+        },
+        "name": "gPrtHexCommas_c",
+        "origin": "user_include",
+        "scope": null
+      },
+      {
+        "ID": "c:UartUtil.h@Ea@gPrtHexSpaces_c",
+        "What": "Enumerator",
+        "defdec": "Def",
+        "display": "gPrtHexSpaces_c",
+        "location": {
+          "column": "3",
+          "line": "62",
+          "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+        },
+        "name": "gPrtHexSpaces_c",
+        "origin": "user_include",
+        "scope": null
+      }
+    ],
+    "location": {
+      "column": "1",
+      "line": "58",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@gu8SCIStatus",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "gu8SCIStatus",
+    "location": {
+      "column": "25",
+      "line": "70",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "gu8SCIStatus",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@gu16SCINumOfBytes",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "gu16SCINumOfBytes",
+    "location": {
+      "column": "17",
+      "line": "71",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "gu16SCINumOfBytes",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Uart_Init",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Uart_Init(uint8_t *, uint16_t)",
+    "location": {
+      "column": "6",
+      "line": "94",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "Uart_Init",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Uart_Print",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Uart_Print(uint8_t *)",
+    "location": {
+      "column": "6",
+      "line": "111",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "Uart_Print",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Uart_PrintHex",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Uart_PrintHex(uint8_t *, uint8_t, uint8_t)",
+    "location": {
+      "column": "6",
+      "line": "138",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "Uart_PrintHex",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Uart_PrintByteDec",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Uart_PrintByteDec(uint8_t)",
+    "location": {
+      "column": "6",
+      "line": "166",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "Uart_PrintByteDec",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Uart_PrintShortDec",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Uart_PrintShortDec(uint16_t)",
+    "location": {
+      "column": "6",
+      "line": "187",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "Uart_PrintShortDec",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Uart_Tx",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Uart_Tx(const uint8_t *, uint8_t)",
+    "location": {
+      "column": "6",
+      "line": "190",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "Uart_Tx",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Uart_Poll",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Uart_Poll(uint8_t *)",
+    "location": {
+      "column": "6",
+      "line": "207",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "Uart_Poll",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Uart_getchar",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "char Uart_getchar(uint8_t *)",
+    "location": {
+      "column": "6",
+      "line": "226",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "Uart_getchar",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@AsciitoHex",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "uint8_t AsciitoHex(uint8_t)",
+    "location": {
+      "column": "9",
+      "line": "244",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "AsciitoHex",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@mem_cmp",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "bool_t mem_cmp(uint8_t *, uint8_t *, uint8_t)",
+    "location": {
+      "column": "8",
+      "line": "264",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "mem_cmp",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Uart_putchar",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Uart_putchar(uint8_t)",
+    "location": {
+      "column": "6",
+      "line": "282",
+      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\UartUtil.h"
+    },
+    "name": "Uart_putchar",
     "origin": "user_include",
     "scope": null
   },
@@ -33368,146 +33508,6 @@
       "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Utilities\\LCD_Font.h"
     },
     "name": "gLCDVerdanaFont",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@639@macro@__SMAC_APP_CONFIG_H__",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "__SMAC_APP_CONFIG_H__",
-    "location": {
-      "column": "9",
-      "line": "18",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "__SMAC_APP_CONFIG_H__",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@675@macro@MANUAL",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "MANUAL",
-    "location": {
-      "column": "11",
-      "line": "20",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "MANUAL",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@708@macro@SERIAL",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "SERIAL",
-    "location": {
-      "column": "11",
-      "line": "21",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "SERIAL",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@741@macro@CHANNEL_NUMBER",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "CHANNEL_NUMBER",
-    "location": {
-      "column": "11",
-      "line": "22",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "CHANNEL_NUMBER",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@782@macro@INTERFACE_TYPE",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "INTERFACE_TYPE",
-    "location": {
-      "column": "11",
-      "line": "23",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "INTERFACE_TYPE",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@820@macro@NUM_TRANSMISSIONS",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "NUM_TRANSMISSIONS",
-    "location": {
-      "column": "11",
-      "line": "24",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "NUM_TRANSMISSIONS",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@855@macro@OTAP_ENABLED",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "OTAP_ENABLED",
-    "location": {
-      "column": "11",
-      "line": "25",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "OTAP_ENABLED",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@892@macro@DEFAULT_BAUD_RATE",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "DEFAULT_BAUD_RATE",
-    "location": {
-      "column": "11",
-      "line": "26",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "DEFAULT_BAUD_RATE",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@929@macro@OTAP_REQUEST_CODE",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "OTAP_REQUEST_CODE",
-    "location": {
-      "column": "11",
-      "line": "27",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "OTAP_REQUEST_CODE",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:app_config.h@971@macro@OTAP_DEVICE_ADDRESS",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "OTAP_DEVICE_ADDRESS",
-    "location": {
-      "column": "11",
-      "line": "28",
-      "path": "D:\\Users\\Brus\\Documents\\Uni\\Wireless Sensors Networks M\\Project\\WSNBP\\my_conn_rep_test\\Connectivity Test\\Application\\Configure\\app_config.h"
-    },
-    "name": "OTAP_DEVICE_ADDRESS",
     "origin": "user_include",
     "scope": null
   },

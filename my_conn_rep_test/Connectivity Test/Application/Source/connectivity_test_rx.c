@@ -632,7 +632,8 @@ static void process_incoming_msg(void)
           u16TotalMsg = (RX_msg.pu8Buffer->u8Data[1] << 8);
           u16TotalMsg |= RX_msg.pu8Buffer->u8Data[2];    
         }
-		if(RX_msg.pu8Buffer->u8Data[4] != 'R')
+		if(RX_msg.pu8Buffer->u8Data[4] != 'R' 
+                   || (RX_msg.pu8Buffer->u8Data[2] == 'K'))
 			return;
                 else{
                   ACK_msg.pu8Buffer->u8Data[0] = 'A';

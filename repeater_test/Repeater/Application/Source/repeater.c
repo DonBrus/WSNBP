@@ -581,7 +581,7 @@ static void repeater_run_sm (void)
             {
               (sRepeaterStat.u16RetransmitedPkts)++;
 			  TX_msg.pu8Buffer->u8Data[4] = 'R';
-
+              
               MCPSDataRequest(&TX_msg);
               u8RepeaterRunSt = gRepeaterRunStTx_c;
             }
