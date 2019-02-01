@@ -370,7 +370,7 @@ const uint8_t ku8ExpectedString[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 
                                       0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
 
 const uint8_t ku8DoneStr[] = { 'D', 'O', 'N', 'E' };
-const uint8_t ku8DoneStrReceiver[] = {'D', 'O', 'N', 'E','R' };
+const uint8_t ku8DoneStrReceiver[] = {'D', 'O', 'N','R' };
 
 
 four_digit_bcd_t c_test_num = {0xF,0xF,0xF,1};
@@ -730,6 +730,46 @@ static void process_incoming_msg(void)
         {
           LCD_WriteStringValue("    Good:",(u16MsgCounter),4,gLCD_DecFormat_c);
         }  
+        
+         ACK_msg.pu8Buffer->u8Data[0] = 'A';
+        ACK_msg.pu8Buffer->u8Data[1] = 'C';
+        ACK_msg.pu8Buffer->u8Data[2] = 'K';
+  
+  #if INTERFACE_TYPE == SERIAL
+        ACK_msg.pu8Buffer->u8Data[3] = u8Lqi; 
+  #endif      
+  
+  #if INTERFACE_TYPE == MANUAL
+        ACK_msg.pu8Buffer->u8Data[3] = u8LQIAdjusted;
+  #endif      
+  
+        
+  #if SMAC_FEATURE_SECURITY ==  TRUE
+        uint8_t fill_counter;
+        for(fill_counter = 6; fill_counter < BLOCK_SIZE; fill_counter++)
+        {
+          ACK_msg.pu8Buffer->u8Data[fill_counter] = '\0';
+        }
+  
+        if(AES_DEFAULT_MODE != AES_CTR_MODE)
+        {
+          ACK_msg.u8BufSize = 2*BLOCK_SIZE;
+        }
+        else
+        {
+          ACK_msg.u8BufSize = BLOCK_SIZE;
+        }
+  
+        (void)CipherMsgU8 (&(ACK_msg.pu8Buffer->u8Data[0]),(ACK_msg.u8BufSize));
+  #else
+          ACK_msg.pu8Buffer->u8Data[4] = '\0';
+          ACK_msg.u8BufSize = 5;
+  #endif  
+          
+          
+                      MCPSDataRequest(&ACK_msg); 
+
+        
         LCD_WriteStringValue("Max LQI:",(maxLQI),5,gLCD_DecFormat_c);
         LCD_WriteStringValue("Min LQI:",(minLQI),6,gLCD_DecFormat_c);
          DelayMs(1500);

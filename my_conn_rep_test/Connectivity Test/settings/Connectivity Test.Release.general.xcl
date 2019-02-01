@@ -1,14 +1,14 @@
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armproc.dll" 
+"C:\HDDprograms\IAR Systems\Embedded Workbench 8.2\arm\bin\armproc.dll" 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armjlink2.dll" 
+"C:\HDDprograms\IAR Systems\Embedded Workbench 8.2\arm\bin\armjlink2.dll" 
 
-"C:\Users\Fabio\Desktop\WSNBP\my_conn_rep_test\Connectivity Test\Release\Exe\Connectivity Test.out" 
+"D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity Test\Release\Exe\Connectivity Test.out" 
 
---plugin="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armbat.dll" 
+--plugin="C:\HDDprograms\IAR Systems\Embedded Workbench 8.2\arm\bin\armbat.dll" 
 
---macro="C:\Users\Fabio\Desktop\WSNBP\my_conn_rep_test\Connectivity Test\PLM\FlashLoader\FlashMC1322x.mac" 
+--macro="D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity Test\PLM\FlashLoader\FlashMC1322x.mac" 
 
---flash_loader="C:\Users\Fabio\Desktop\WSNBP\my_conn_rep_test\Connectivity Test\IAR.board" 
+--flash_loader="D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity Test\IAR.board" 
 
 
 
