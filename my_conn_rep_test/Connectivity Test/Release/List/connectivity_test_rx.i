@@ -7007,7 +7007,7 @@ const uint8_t ku8ExpectedString[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 
                                       0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
 
 const uint8_t ku8DoneStr[] = { 'D', 'O', 'N', 'E' };
-const uint8_t ku8DoneStrReceiver[] = {'D', 'O', 'N', 'R' };
+const uint8_t ku8DoneStrReceiver[] = {'D', 'O', 'N', 'E','R' };
 
 
 four_digit_bcd_t c_test_num = {0xF,0xF,0xF,1};
@@ -7290,7 +7290,6 @@ static void process_incoming_msg(void)
         }  
         LCD_WriteStringValue("Max LQI:",(maxLQI),5,gLCD_DecFormat_c);
         LCD_WriteStringValue("Min LQI:",(minLQI),6,gLCD_DecFormat_c);
-        MCPSDataRequest(&ACK_msg);
          DelayMs(1500);
           maxLQI=0;
           minLQI=255;

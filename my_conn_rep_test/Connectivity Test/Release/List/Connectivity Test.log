@@ -888,8 +888,8 @@ Marking from fragment #522 .text (18 connectivity_test_rx.o)
     Marking fragment #525 .text (18 connectivity_test_rx.o)
   Marking symbol .text_39                             (206 connectivity_test_rx.o)
     Marking fragment #526 .text (18 connectivity_test_rx.o)
-  Marking symbol .text_40                             (207 connectivity_test_rx.o)
-    Marking fragment #527 .text (18 connectivity_test_rx.o)
+  Marking symbol .text_41                             (210 connectivity_test_rx.o)
+    Marking fragment #528 .text (18 connectivity_test_rx.o)
   Marking symbol mem_cmp                          Glb (99 UartUtil.o)
     Marking fragment #923 .text (7 UartUtil.o)
   Marking symbol MLMELinkQuality                  Glb (47 WirelessLinkMngmt.o)
@@ -897,10 +897,10 @@ Marking from fragment #522 .text (18 connectivity_test_rx.o)
   Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
   Marking symbol LED_ToggleLed                    Glb (33 Leds.o)
     Marking fragment #778 .text (6 Leds.o)
-  Marking symbol .text_44                             (215 connectivity_test_rx.o)
-    Marking fragment #531 .text (18 connectivity_test_rx.o)
+  Marking symbol .text_45                             (219 connectivity_test_rx.o)
+    Marking fragment #532 .text (18 connectivity_test_rx.o)
   Marking symbol mem_cmp                          Glb (99 UartUtil.o)
-  Marking symbol .text_46                             (220 connectivity_test_rx.o)
+  Marking symbol .text_46                             (221 connectivity_test_rx.o)
     Marking fragment #533 .text (18 connectivity_test_rx.o)
   Marking symbol .text_47                             (222 connectivity_test_rx.o)
     Marking fragment #534 .text (18 connectivity_test_rx.o)
@@ -929,7 +929,6 @@ Marking from fragment #522 .text (18 connectivity_test_rx.o)
   Marking symbol .text_54                             (229 connectivity_test_rx.o)
     Marking fragment #541 .text (18 connectivity_test_rx.o)
   Marking symbol LCD_WriteStringValue             Glb (151 Display.o)
-  Marking symbol MCPSDataRequest                  Glb (44 WirelessLinkMngmt.o)
   Marking symbol .text_55                             (230 connectivity_test_rx.o)
     Marking fragment #542 .text (18 connectivity_test_rx.o)
   Marking symbol DelayMs                          Glb (13 Delay.o)
@@ -1064,7 +1063,7 @@ Marking from fragment #533 .text (18 connectivity_test_rx.o)
   Marking symbol .rodata_246                          (67 connectivity_test_rx.o)
     Marking fragment #462 .rodata (15 connectivity_test_rx.o)
 Marking from fragment #462 .rodata (15 connectivity_test_rx.o)
-Marking from fragment #531 .text (18 connectivity_test_rx.o)
+Marking from fragment #532 .text (18 connectivity_test_rx.o)
   Marking symbol ku8DoneStrReceiver               Glb (699 connectivity_test_rx.o)
     Marking fragment #504 .rodata (15 connectivity_test_rx.o)
 Marking from fragment #504 .rodata (15 connectivity_test_rx.o)
@@ -1084,7 +1083,7 @@ Marking from fragment #955 .text (13 Synthesizer.o(MC1322x.a))
     Marking fragment #300 .data (9 Synthesizer.o(MC1322x.a))
 Marking from fragment #300 .data (9 Synthesizer.o(MC1322x.a))
 Marking from fragment #923 .text (7 UartUtil.o)
-Marking from fragment #527 .text (18 connectivity_test_rx.o)
+Marking from fragment #528 .text (18 connectivity_test_rx.o)
   Marking symbol ku8ExpectedString                Glb (700 connectivity_test_rx.o)
     Marking fragment #503 .rodata (15 connectivity_test_rx.o)
 Marking from fragment #503 .rodata (15 connectivity_test_rx.o)
@@ -2168,8 +2167,8 @@ Marking from fragment #225 .bss (8 TransceiverConfigMngmnt.o)
 Marking from fragment #158 .text (6 maca.o)
 Marking from fragment #520 .text (18 connectivity_test_rx.o)
   Marking symbol start_test_isr                   Glb (714 connectivity_test_rx.o)
-    Marking fragment #532 .text (18 connectivity_test_rx.o)
-Marking from fragment #532 .text (18 connectivity_test_rx.o)
+    Marking fragment #531 .text (18 connectivity_test_rx.o)
+Marking from fragment #531 .text (18 connectivity_test_rx.o)
   Marking symbol DelayMs                          Glb (13 Delay.o)
   Marking symbol .text_59                             (234 connectivity_test_rx.o)
     Marking fragment #546 .text (18 connectivity_test_rx.o)
@@ -2187,8 +2186,8 @@ Marking from fragment #529 .text (18 connectivity_test_rx.o)
   Marking symbol .text_59                             (234 connectivity_test_rx.o)
 Marking from fragment #518 .text (18 connectivity_test_rx.o)
   Marking symbol increase_config_option_isr       Glb (695 connectivity_test_rx.o)
-    Marking fragment #528 .text (18 connectivity_test_rx.o)
-Marking from fragment #528 .text (18 connectivity_test_rx.o)
+    Marking fragment #527 .text (18 connectivity_test_rx.o)
+Marking from fragment #527 .text (18 connectivity_test_rx.o)
   Marking symbol DelayMs                          Glb (13 Delay.o)
   Marking symbol .text_59                             (234 connectivity_test_rx.o)
   Marking symbol                                      (593 connectivity_test_rx.o)
@@ -2489,8 +2488,8 @@ Marking from fragment #522 .text (18 connectivity_test_rx.o) init:always
     Marking fragment #525 .text (18 connectivity_test_rx.o) init:always
   Marking symbol .text_39                             (206 connectivity_test_rx.o)
     Marking fragment #526 .text (18 connectivity_test_rx.o) init:always
-  Marking symbol .text_40                             (207 connectivity_test_rx.o)
-    Marking fragment #527 .text (18 connectivity_test_rx.o) init:always
+  Marking symbol .text_41                             (210 connectivity_test_rx.o)
+    Marking fragment #528 .text (18 connectivity_test_rx.o) init:always
   Marking symbol mem_cmp                          Glb (99 UartUtil.o)
     Marking fragment #923 .text (7 UartUtil.o) init:always
   Marking symbol MLMELinkQuality                  Glb (47 WirelessLinkMngmt.o)
@@ -2498,10 +2497,10 @@ Marking from fragment #522 .text (18 connectivity_test_rx.o) init:always
   Marking symbol __aeabi_idiv                     Glb (347 rom-symbols-LLC.o)
   Marking symbol LED_ToggleLed                    Glb (33 Leds.o)
     Marking fragment #778 .text (6 Leds.o) init:always
-  Marking symbol .text_44                             (215 connectivity_test_rx.o)
-    Marking fragment #531 .text (18 connectivity_test_rx.o) init:always
+  Marking symbol .text_45                             (219 connectivity_test_rx.o)
+    Marking fragment #532 .text (18 connectivity_test_rx.o) init:always
   Marking symbol mem_cmp                          Glb (99 UartUtil.o)
-  Marking symbol .text_46                             (220 connectivity_test_rx.o)
+  Marking symbol .text_46                             (221 connectivity_test_rx.o)
     Marking fragment #533 .text (18 connectivity_test_rx.o) init:always
   Marking symbol .text_47                             (222 connectivity_test_rx.o)
     Marking fragment #534 .text (18 connectivity_test_rx.o) init:always
@@ -2530,7 +2529,6 @@ Marking from fragment #522 .text (18 connectivity_test_rx.o) init:always
   Marking symbol .text_54                             (229 connectivity_test_rx.o)
     Marking fragment #541 .text (18 connectivity_test_rx.o) init:always
   Marking symbol LCD_WriteStringValue             Glb (151 Display.o)
-  Marking symbol MCPSDataRequest                  Glb (44 WirelessLinkMngmt.o)
   Marking symbol .text_55                             (230 connectivity_test_rx.o)
     Marking fragment #542 .text (18 connectivity_test_rx.o) init:always
   Marking symbol DelayMs                          Glb (13 Delay.o)
@@ -2665,7 +2663,7 @@ Marking from fragment #533 .text (18 connectivity_test_rx.o) init:always
   Marking symbol .rodata_246                          (67 connectivity_test_rx.o)
     Marking fragment #462 .rodata (15 connectivity_test_rx.o) init:always
 Marking from fragment #462 .rodata (15 connectivity_test_rx.o) init:always
-Marking from fragment #531 .text (18 connectivity_test_rx.o) init:always
+Marking from fragment #532 .text (18 connectivity_test_rx.o) init:always
   Marking symbol ku8DoneStrReceiver               Glb (699 connectivity_test_rx.o)
     Marking fragment #504 .rodata (15 connectivity_test_rx.o) init:always
 Marking from fragment #504 .rodata (15 connectivity_test_rx.o) init:always
@@ -2685,7 +2683,7 @@ Marking from fragment #955 .text (13 Synthesizer.o(MC1322x.a)) init:always
     Marking fragment #300 .data (9 Synthesizer.o(MC1322x.a)) init:always
 Marking from fragment #300 .data (9 Synthesizer.o(MC1322x.a)) init:always
 Marking from fragment #923 .text (7 UartUtil.o) init:always
-Marking from fragment #527 .text (18 connectivity_test_rx.o) init:always
+Marking from fragment #528 .text (18 connectivity_test_rx.o) init:always
   Marking symbol ku8ExpectedString                Glb (700 connectivity_test_rx.o)
     Marking fragment #503 .rodata (15 connectivity_test_rx.o) init:always
 Marking from fragment #503 .rodata (15 connectivity_test_rx.o) init:always
@@ -3769,8 +3767,8 @@ Marking from fragment #225 .bss (8 TransceiverConfigMngmnt.o) init:always
 Marking from fragment #158 .text (6 maca.o) init:always
 Marking from fragment #520 .text (18 connectivity_test_rx.o) init:always
   Marking symbol start_test_isr                   Glb (714 connectivity_test_rx.o)
-    Marking fragment #532 .text (18 connectivity_test_rx.o) init:always
-Marking from fragment #532 .text (18 connectivity_test_rx.o) init:always
+    Marking fragment #531 .text (18 connectivity_test_rx.o) init:always
+Marking from fragment #531 .text (18 connectivity_test_rx.o) init:always
   Marking symbol DelayMs                          Glb (13 Delay.o)
   Marking symbol .text_59                             (234 connectivity_test_rx.o)
     Marking fragment #546 .text (18 connectivity_test_rx.o) init:always
@@ -3788,8 +3786,8 @@ Marking from fragment #529 .text (18 connectivity_test_rx.o) init:always
   Marking symbol .text_59                             (234 connectivity_test_rx.o)
 Marking from fragment #518 .text (18 connectivity_test_rx.o) init:always
   Marking symbol increase_config_option_isr       Glb (695 connectivity_test_rx.o)
-    Marking fragment #528 .text (18 connectivity_test_rx.o) init:always
-Marking from fragment #528 .text (18 connectivity_test_rx.o) init:always
+    Marking fragment #527 .text (18 connectivity_test_rx.o) init:always
+Marking from fragment #527 .text (18 connectivity_test_rx.o) init:always
   Marking symbol DelayMs                          Glb (13 Delay.o)
   Marking symbol .text_59                             (234 connectivity_test_rx.o)
   Marking symbol                                      (593 connectivity_test_rx.o)
@@ -3976,8 +3974,8 @@ Creating initializer unit for P2-P3 -> P2-P3
 Veneer stats:
 
   142 definitions
-  524 references
-      513 R_ARM_THM_CALL
+  523 references
+      512 R_ARM_THM_CALL
         2 R_ARM_CALL
         9 R_ARM_JUMP24
    37 veneers                       572 bytes
