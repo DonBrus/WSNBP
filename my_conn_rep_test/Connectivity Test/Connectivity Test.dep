@@ -489,7 +489,7 @@
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 138 71 80</file>
+                    <file> 80 138 71</file>
                 </tool>
             </outputs>
         </file>
