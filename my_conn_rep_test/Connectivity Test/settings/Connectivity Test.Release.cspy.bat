@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity Test\settings\Connectivity Test.Release.general.xcl" --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity Test\settings\Connectivity Test.Release.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\Fabio\Desktop\WSNBP\my_conn_rep_test\Connectivity Test\settings\Connectivity Test.Release.general.xcl" --backend -f "C:\Users\Fabio\Desktop\WSNBP\my_conn_rep_test\Connectivity Test\settings\Connectivity Test.Release.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity Test\settings\Connectivity Test.Release.general.xcl" "--debug_file=%~1" --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\my_conn_rep_test\Connectivity Test\settings\Connectivity Test.Release.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\Fabio\Desktop\WSNBP\my_conn_rep_test\Connectivity Test\settings\Connectivity Test.Release.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\Fabio\Desktop\WSNBP\my_conn_rep_test\Connectivity Test\settings\Connectivity Test.Release.driver.xcl" 
 
 @echo off 
 :end

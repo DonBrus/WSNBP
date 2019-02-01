@@ -20,7 +20,7 @@
   #define MANUAL              0
   #define SERIAL              1
   #define CHANNEL_NUMBER      CHANNEL11
-  #define INTERFACE_TYPE      SERIAL
+  #define INTERFACE_TYPE      MANUAL
   #define NUM_TRANSMISSIONS   999
   #define OTAP_ENABLED        FALSE
   #define DEFAULT_BAUD_RATE   38400
