@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\HDDprograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.general.xcl" --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.driver.xcl" 
+& "C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.general.xcl" --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.driver.xcl" 
 }
 else
 {
-& "C:\HDDprograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.general.xcl" --debug_file=$debugfile --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.driver.xcl" 
+& "C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.general.xcl" --debug_file=$debugfile --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.driver.xcl" 
 }

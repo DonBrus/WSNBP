@@ -30,3 +30,9 @@ DA FARE
 	repeater appende la R al posto 4		FATTO - riga 585 repeater
 	disattivare crittografia ovunque
 	check con sniffer i pacchetti in caso di problemi
+	
+	
+	
+	
+	
+	delay= da trasmissione tx a trasmissione ack da rx

@@ -218,19 +218,7 @@ void Main(void)
   {
     (void)process_radio_msg();
     data_indication_execute();
-
-#if OTAP_ENABLED == TRUE
-    if(gbOtapExecute) 
-    {           
-        OTAP_execute();              
-    }
-    else
-#endif  
-
-    {
-      process_uart_data();
-      repeater_app();
-    }
+    repeater_app();
   }
 
 }
@@ -760,7 +748,7 @@ static void process_change_delay (void)
 ************************************************************************************/
 static void repeater_app (void)
 {
-  (cbRepeaterStFn_c[u8RepeaterState])();
+  (cbRepeaterStFn_c[gRepAppStRun_c])();
 }
 
 
@@ -783,7 +771,7 @@ static void repeater_app_init(void)
   sRepeaterStat.u16RetransmitedPkts = 0;
   sRepeaterStat.u16BadPkts = 0;
   sRepeaterStat.u16DroppedPkts = 0;
-  u8RepeaterState = gRepAppStReady_c;
+  u8RepeaterState = gRepAppStRun_c;
   isUartDataRdy = FALSE;
 
   u8RepeaterRunSt = gRepeaterRunStIdle_c;

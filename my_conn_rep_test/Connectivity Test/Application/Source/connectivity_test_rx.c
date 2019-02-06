@@ -641,7 +641,7 @@ static void process_incoming_msg(void)
         ACK_msg.pu8Buffer->u8Data[2] = 'K';
   
   #if INTERFACE_TYPE == SERIAL
-        ACK_msg.pu8Buffer->u8Data[3] = u8Lqi; 
+        ACK_msg.pu8Buffer->u8Data[3] = 0; //lqi 
   #endif      
   
   #if INTERFACE_TYPE == MANUAL

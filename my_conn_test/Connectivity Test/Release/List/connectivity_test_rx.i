@@ -6994,6 +6994,8 @@ void cont_transmission_test_adjust(void);
 void packet_error_rate_tx_test(void);
 void range_tx_test(void);
 void pulse_prbs9_tx(void);
+static four_digit_bcd_t convert_2_bcd(uint16_t u16Value);
+static void print_freescale_logo(void);
 
 void DisplayFreescaleLogo(uint8_t xStartCoord, uint8_t yStartCoord);
 void DisplayTestMode(ConfigOption_t u8ConfiOption);
@@ -7122,18 +7124,11 @@ void connectivity_app_init(void)
   ITC_SetPriority(gMacaInt_c, gItcNormalPriority_c);
   ITC_EnableInterrupt(gMacaInt_c);
   
-  IntAssignHandler(gCrmInt_c, (IntHandlerFunc_t)CRM_Isr);
-  ITC_SetPriority(gCrmInt_c, gItcNormalPriority_c);
-  ITC_EnableInterrupt(gCrmInt_c);
   
   IntAssignHandler(gTmrInt_c, (IntHandlerFunc_t)TmrIsr);
   ITC_SetPriority(gTmrInt_c, gItcNormalPriority_c);
   ITC_EnableInterrupt(gTmrInt_c);
   
-  CRM_RegisterISR(gCrmKB4WuEvent_c,select_config_option_isr);
-  CRM_RegisterISR(gCrmKB5WuEvent_c,increase_config_option_isr);
-  CRM_RegisterISR(gCrmKB6WuEvent_c,decrease_config_option_isr);
-  CRM_RegisterISR(gCrmKB7WuEvent_c,start_test_isr);
   
   IntDisableIRQ();
   IntDisableFIQ();
@@ -7150,28 +7145,20 @@ void connectivity_app_init(void)
   LED_Init();
   KbGpioInit();
 
-  LCD_Init();
 
  
   
+  print_freescale_logo();
+  Uart_getchar(mUARTRxBuffer);
 
-/********************* KBI Interruptions Initialization ***********************/
-  MLMESetWakeupSource(gExtWuKBI4En_c | gExtWuKBI5En_c | gExtWuKBI6En_c | gExtWuKBI7En_c, 0x00, 0x0F);
-/******************************************************************************/
 LoadPRBS9();
 
-  LCD_SetBacklight(0x01);
-  LCD_ClearDisplay();
-  DisplayFreescaleLogo(0x15,0x10);
-  DelayMs(1000);
-  ClearDisplay();
-  CurrentOption=gRxTestMode_c;
-  DisplayTestMode(CurrentOption);
   
  (void)MLMEPAOutputAdjust(u8TestModePower);
   MLMETestMode(u8CurrentMode); 
   MLMESetChannelRequest(u8TestModeChannel);
 
+    TMR_Init(); 
     
 }
 
@@ -7204,7 +7191,8 @@ void test_mode_rx_cb (void)
 static void process_incoming_msg(void)
 {
   
-  link_quality_value_t u8LQIAdjusted;
+  uint8_t i;
+  four_digit_bcd_t tmp = {0,0,0,0,0,0};
   uint8_t u8MsgLen;
   uint8_t * ptrRcvMsg;
   uint8_t u8Lqi;
@@ -7214,7 +7202,6 @@ static void process_incoming_msg(void)
   static uint16_t u16MsgCounter = 0;
   static uint16_t u16TotalMsg = 10;
   
-  static uint8_t u8State = 0;
   
     
   {
@@ -7224,6 +7211,7 @@ static void process_incoming_msg(void)
       ptrRcvMsg = (uint8_t *)&((RX_msg.pu8Buffer)->u8Data[5]);
       if(1 == mem_cmp(ptrRcvMsg, (uint8_t *)ku8ExpectedString, u8MsgLen))
       {
+        uint8_t u8Lqi;
         u16SeqNum = (RX_msg.pu8Buffer->u8Data[3] << 8);
         u16SeqNum |= RX_msg.pu8Buffer->u8Data[4];
         if(u16SeqNum < u16TotalMsg)
@@ -7232,10 +7220,32 @@ static void process_incoming_msg(void)
           u16TotalMsg |= RX_msg.pu8Buffer->u8Data[2];    
         }
         
+                
+        ACK_msg.pu8Buffer->u8Data[0] = 'A';
+        ACK_msg.pu8Buffer->u8Data[1] = 'C';
+        ACK_msg.pu8Buffer->u8Data[2] = 'K';
+  
+        ACK_msg.pu8Buffer->u8Data[3] = 0; //lqi 
+  
+  
+        
+          ACK_msg.pu8Buffer->u8Data[4] = '\0';
+          ACK_msg.u8BufSize = 5;
+          
+          
+        MCPSDataRequest(&ACK_msg); 
+        
+        
+        
         u16MsgCounter++;
         
-       
-        
+        Uart_Print("\r\nN:");
+        tmp = convert_2_bcd(u16SeqNum);
+        Uart_PrintHex((uint8_t *)(&tmp),3,0);
+        Uart_Print(" L:");
+        tmp = convert_2_bcd(u8MsgLen);
+        Uart_PrintHex((uint8_t *)(&tmp),1,0);
+        Uart_Print(" LQI=-");
         (void)MLMELinkQuality(&u8Lqi);
         u8Lqi = (u8Lqi / 3);
         if(100 >= u8Lqi)
@@ -7246,10 +7256,17 @@ static void process_incoming_msg(void)
         {
           u8Lqi = u8Lqi - 100;
         }
+        tmp = convert_2_bcd(u8Lqi);
+        Uart_PrintHex((uint8_t *)(&tmp),1,0);
+        Uart_Print(" CRC=1 Data=");
+      
+        for(i=5; i<21; i++)
+        {
+          Uart_PrintHex((uint8_t *)&((RX_msg.pu8Buffer)->u8Data[i]), 1, 0);
+          ((RX_msg.pu8Buffer)->u8Data[i]) = 0;
+        }
         
-        if(u8Lqi<minLQI) minLQI=u8Lqi;
-       if(u8Lqi>maxLQI) maxLQI=u8Lqi;
-        
+       
         
                
         
@@ -7264,34 +7281,14 @@ static void process_incoming_msg(void)
         (0 != u16MsgCounter))
       {
 
+        tmp = convert_2_bcd(u16MsgCounter);
+        Uart_Print("\r\n\nGood:	");
+        Uart_PrintHex((uint8_t *)(&tmp),3,0);
+        Uart_Print("/");
 
-        u16MsgCounter--;
-        c_test_num = convert_2_bcd(u16MsgCounter);
-        
-
-        LCD_WriteString_NormalFont(4,"                     ");
-        LCD_WriteStringValue("             /",(u16TotalMsg),4,gLCD_DecFormat_c);
-
-        if(100 > u16MsgCounter)
-        {
-          LCD_WriteStringValue("    Good:  ",(u16MsgCounter),4,gLCD_DecFormat_c);
-        }
-        else if(1000 > u16MsgCounter)
-        {
-          LCD_WriteStringValue("    Good: ",(u16MsgCounter),4,gLCD_DecFormat_c);
-        }
-        else
-        {
-          LCD_WriteStringValue("    Good:",(u16MsgCounter),4,gLCD_DecFormat_c);
-        }  
-        LCD_WriteStringValue("Max LQI:",(maxLQI),5,gLCD_DecFormat_c);
-        LCD_WriteStringValue("Min LQI:",(minLQI),6,gLCD_DecFormat_c);
-         DelayMs(1500);
-          maxLQI=0;
-          minLQI=255;
-         
-          
-        LCD_WriteString_NormalFont(7," SW4 Start Listening ");
+        tmp = convert_2_bcd(u16TotalMsg);
+        Uart_PrintHex((uint8_t *)(&tmp),3,0);
+        Uart_Print("\r\n\nHalt\n");
 
         u16MsgCounter = 0;
         gu32PerRxEvents |= (0x00000001<<3);
@@ -7301,21 +7298,18 @@ static void process_incoming_msg(void)
     if(SMAC_TEST_MODE_PULSE_PRBS9_TX_RX == u8CurrentMode)
     { 
       u8MsgLen = RX_msg.u8BufSize;
+      LED_ToggleLed(0x01);
+      Uart_Print("\r\n");
+      Uart_Print("Received Packet:");
+      for(i=1; i < u8MsgLen ; i++)
+      {
+        Uart_Print("0x");
+        Uart_PrintHex((uint8_t *)&((RX_msg.pu8Buffer)->u8Data[i]), 1, 0);
+        (RX_msg.pu8Buffer)->u8Data[i] = 0;
+        Uart_Print(" ");
+      }
+      Uart_Print("\n");
 
-      if(2 > u8State)
-      {
-        u8State++;
-        LCD_DrawIcon(50,4,u8RxIcon1_c);
-      }
-      else if(4 > u8State)
-      {
-        u8State++;     
-        LCD_DrawIcon(50,4,u8RxIcon2_c);
-      }
-      else
-      {
-        u8State = 0;
-      }
         LED_ToggleLed(0x01); 
     }  
     
@@ -7340,7 +7334,6 @@ static void process_incoming_msg(void)
           u8Lqi = u8Lqi - 100;
         }
    
-        u8LQIAdjusted = adjust_LQI(u8Lqi);
         LCD_WriteStringValue("    LQI: -",(u8Lqi),5,gLCD_DecFormat_c);
           if(u8Lqi <= 40)
         {
@@ -7363,19 +7356,21 @@ static void process_incoming_msg(void)
         ACK_msg.pu8Buffer->u8Data[1] = 'C';
         ACK_msg.pu8Buffer->u8Data[2] = 'K';
   
+        ACK_msg.pu8Buffer->u8Data[3] = u8Lqi; 
   
-        ACK_msg.pu8Buffer->u8Data[3] = u8LQIAdjusted;
   
         
           ACK_msg.pu8Buffer->u8Data[4] = '\0';
           ACK_msg.u8BufSize = 5;
         
               
-    DelayMs(2);      
+        Uart_Print("\r\n"); 
+        Uart_Print(" LQI=-");
+        tmp = convert_2_bcd(u8Lqi);
+        Uart_PrintHex((uint8_t *)(&tmp),1,0); 
   
       
        LED_ToggleLed(0x01);
-        LEDs_LQI_indication( u8LQIAdjusted); 
       }
     } 
    
@@ -7391,75 +7386,17 @@ if(SMAC_TEST_MODE_RANGE_TX_RX == u8CurrentMode)
         u8Lqi = RX_msg.pu8Buffer->u8Data[4];
         
         
-        
-       (void)Gpio_TogglePin (gGpioPin23_c); 
-       LEDs_LQI_indication((link_quality_value_t)u8Lqi); 
 
+        Uart_Print("\r\n");   
+        Uart_Print(" LQI=-");
+        tmp = convert_2_bcd(u8Lqi);
+        Uart_PrintHex((uint8_t *)(&tmp),1,0);
+        
         gu8ValidAckPacket = 1;
       }
     }     
        
   }
-}
-
-
-/************************************************************************************
-* select_config_option_isr
-*
-* This function is the callback function for the KBI4 interruption, it enables only 
-* a flag to indicate that the KBI interruption occurred and the current option
-* to configure must increase.
-*
-************************************************************************************/
-  void select_config_option_isr(void)
-  {
-    DelayMs(120);
-    gu8TestModeEvents |= 0x04;
-  }
-
-/************************************************************************************
-* increase_config_option_isr
-*
-* This function turns on a flag to indicate that the KBI5 interruption occurred, 
-* which is used to increase the current option value.
-*
-***********************************************************************************/
-
- void increase_config_option_isr(void)
-  {
-    DelayMs(120);
-    gu8TestModeEvents |= 0x01;
-    gu8TestAlreadyStarted = 0;
-  }
-
-/************************************************************************************
-* decrease_config_option_isr
-*
-* This function turns on a flag to indicate that the KBI6 interruption occurred, 
-* which is used to decrease the current option value.
-*
-***********************************************************************************/
-
-  void decrease_config_option_isr(void)
-  {
-    DelayMs(120);
-    gu8TestModeEvents |= 0x02;
-    gu8TestAlreadyStarted = 0;    
-  }
-
-/************************************************************************************
-* decrease_config_option_isr
-*
-* This function turns on a flag to indicate that the KBI6 interruption occurred, 
-* which is used to decrease the current option value.
-*
-***********************************************************************************/
-
-void start_test_isr(void)
-{
-  DelayMs(120);
-  gu8TestModeEvents |= 0x08;
-  gu8TestAlreadyStarted = 0;
 }
 
 
@@ -7473,8 +7410,6 @@ void start_test_isr(void)
 
 void process_test_mode_app(void){
   
-  FuncReturn_t tmpChange;
-  uint8_t u8SafeTimeOut;
 
   if (0x04 & gu8TestModeEvents)
   {
@@ -7492,265 +7427,26 @@ void process_test_mode_app(void){
    DisplayTestMode(CurrentOption);
   }
 
-      
-      LED_SetHex(CurrentOption);
-      switch(CurrentOption)
-      {
-        case gChannel_c:
-          if ((0x01 | 0x02) & gu8TestModeEvents)
-          {
-            MLMETestMode(SMAC_TEST_MODE_IDLE);
-            DelayUs(10);
-            tmpChange = gFail_c;
-            u8SafeTimeOut = 0xff;
-            if (0x01 & gu8TestModeEvents)
-            {
-              (gu8TestModeEvents &= (~0x01));
-              do{
-                if((gTotalChannels_c-1) <= u8TestModeChannel)
-                {
-                  u8TestModeChannel = gChannel11_c;
-                }
-                else
-                {
-                  u8TestModeChannel ++;
-                }
-                u8SafeTimeOut++;
-                tmpChange = MLMESetChannelRequest(u8TestModeChannel);
-              }while((gSuccess_c != tmpChange) && ((gChannel26_c - gChannel25_c) >= u8SafeTimeOut));
-             
-            }
-            else
-            {
-              (gu8TestModeEvents &= (~0x02));
-              do{
-                if(gChannel11_c == u8TestModeChannel)
-                {
-                  u8TestModeChannel = (channel_num_t)(gTotalChannels_c-1);
-                }
-                else
-                {
-                  u8TestModeChannel --;
-                }
-                u8SafeTimeOut++;
-                tmpChange = MLMESetChannelRequest(u8TestModeChannel);
-              }while((gSuccess_c != tmpChange) && ((gChannel26_c - gChannel25_c) >= u8SafeTimeOut));
-            }
-
-            MLMETestMode(u8CurrentMode);
-            LCD_WriteStringValue("CHANNEL:",(u8TestModeChannel + 11),7,gLCD_DecFormat_c);
-            LEDs_Flash(u8TestModeChannel, 200);
- 
-          }
-
-          break;
-       
-        case  gPower_c:
-          if ((0x01 | 0x02) & gu8TestModeEvents)
-          {
-            tmpChange = gFail_c;
-            u8SafeTimeOut = 0xff;
-            if (0x01 & gu8TestModeEvents)
-            {
-              (gu8TestModeEvents &= (~0x01));
-              do{
-                if(0x11 <= u8TestModePower)
-                {
-                  u8TestModePower = 0x00;
-                }
-                else
-                { 
-                  u8TestModePower++;
-                }
-                u8SafeTimeOut++;
-                tmpChange = MLMEPAOutputAdjust(u8TestModePower); 
-              }while((gSuccess_c != tmpChange) && ((7) >= u8SafeTimeOut));
-            }
-            else
-            {
-              (gu8TestModeEvents &= (~0x02));
   
-              do{
-                if(0x00 == u8TestModePower)
-                {
-                  u8TestModePower = 0x11;
-                }
-                else 
-                {
-                  u8TestModePower--;
-                }
-                u8SafeTimeOut++;
-                tmpChange = MLMEPAOutputAdjust(u8TestModePower); 
-              }while((gSuccess_c != tmpChange) && ((7) >= u8SafeTimeOut));
-            }
+    switch(main_menu())
+    {
 
-            LCD_WriteStringValue("POWER LEVEL:",(u8TestModePower),7,gLCD_DecFormat_c);
-            LEDs_Flash(u8TestModePower, 200);
-          }
+       case '1':
+          channel_adjust();
           break;
-          
-        case gRxTestMode_c:
-          if (0x01 & gu8TestModeEvents)
-          {
-            (gu8TestModeEvents &= (~0x01));           
-            if(SMAC_TEST_MODE_CONTINUOUS_TX_NOMOD == u8CurrentMode)
-            {
-              u8CurrentMode = SMAC_TEST_MODE_IDLE;
-            }            
-            else
-            {
-              u8CurrentMode ++;
-            }
-            MLMETestMode(u8CurrentMode);
-            DisplayTestMode(CurrentOption);
-            LEDs_Flash(u8CurrentMode, 200);
-          }
-          else if(0x02 & gu8TestModeEvents)
-          {
-            (gu8TestModeEvents &= (~0x02));           
-            if(SMAC_TEST_MODE_IDLE == u8CurrentMode)
-            {
-             u8CurrentMode = SMAC_TEST_MODE_CONTINUOUS_TX_NOMOD;
-            }
-            else
-            {            
-              u8CurrentMode --;
-            }
-            MLMETestMode(u8CurrentMode);
-            DisplayTestMode(CurrentOption);
-            LEDs_Flash(u8CurrentMode, 200);
-          }
-          
-          RX_msg.u8Status.msg_state = MSG_RX_ACTION_COMPLETE_SUCCESS;
-          LED_SetHex(CurrentOption);
-         
-          while((SMAC_TEST_MODE_PER_TX_RX == u8CurrentMode)  && 
-                (0x00 == gu8TestModeEvents) &&
-                (gRxTestMode_c == CurrentOption))
-          {
-            if(SMAC_TEST_MODE_PER_TX_RX == u8CurrentMode)            
-            {  
-              packet_error_rate_rx_test();
-            }
-          }  
-          
-          while( (SMAC_TEST_MODE_RANGE_TX_RX == u8CurrentMode) && 
-                 (0x00 == gu8TestModeEvents)  &&
-                 (gRxTestMode_c == CurrentOption) )
-          {
-            range_rx_test();
-          }           
-          while( (SMAC_TEST_MODE_PULSE_PRBS9_TX_RX == u8CurrentMode) && 
-                (0x00 == gu8TestModeEvents) &&
-                (gRxTestMode_c == CurrentOption) )
-          {
-            pulse_prbs9_tx();
-          }
-
-          while( (SMAC_TEST_MODE_PER_TX_RX == u8CurrentMode) &&  
-               ( 0x00 == gu8TestModeEvents || 0x08 == gu8TestModeEvents )                 
-                )
-          {
-            packet_error_rate_tx_test();
-          }  
-          
-          while( (SMAC_TEST_MODE_RANGE_TX_RX == u8CurrentMode) &&  
-               ( 0x00 == gu8TestModeEvents || 0x08 == gu8TestModeEvents )                 
-                )
-          {
-            range_tx_test();
-          }           
-          
+        case '2':
+          power_adjust();
           break;
-          
-        case gBulkCap_c:
-          if (0x01 & gu8TestModeEvents)
-          {
-            (gu8TestModeEvents &= (~0x01));
-            (((crmXtalCntlReg_t*)&((CrmRegs_t *)0x80003000)->XtalCntl)->bit . bulktune = 1); 
-            u8BulkCapState = (0x01);
-            LEDs_Flash(u8BulkCapState, 200);
-          }
-          else if(0x02 & gu8TestModeEvents)
-          {
-            (gu8TestModeEvents &= (~0x02));
-            (((crmXtalCntlReg_t*)&((CrmRegs_t *)0x80003000)->XtalCntl)->bit . bulktune = 0); 
-            u8BulkCapState = (0x00);
-            LEDs_Flash(u8BulkCapState, 200);
-          }
-          break; 
-            
-        case gCoarseTune_c:
-          if (0x01 & gu8TestModeEvents)
-          {
-            (gu8TestModeEvents &= (~0x01));
-            if(0x0F == u8CurrentCoarseTune)
-            {
-              u8CurrentCoarseTune = 0x00;
-            }
-            else
-            {
-              u8CurrentCoarseTune++;
-            }
-            (((crmXtalCntlReg_t*)&((CrmRegs_t *)0x80003000)->XtalCntl)->bit . cTune = u8CurrentCoarseTune);
-            LEDs_Flash(u8CurrentCoarseTune, 200);
-          }
-          else if(0x02 & gu8TestModeEvents)
-          {
-            (gu8TestModeEvents &= (~0x02));
-            if(0x00 == u8CurrentCoarseTune)
-            {
-              u8CurrentCoarseTune = 0x0F;
-            }
-            else
-            {
-              u8CurrentCoarseTune--;
-            }
-            (((crmXtalCntlReg_t*)&((CrmRegs_t *)0x80003000)->XtalCntl)->bit . cTune = u8CurrentCoarseTune);
-            LEDs_Flash(u8CurrentCoarseTune, 200);
-          }
-          break; 
-          
-        case gFineTune_c:
-          if (0x01 & gu8TestModeEvents)
-          {
-            (gu8TestModeEvents &= (~0x01));
-            if(0x1F == u8CurrentFineTune)
-            {
-              u8CurrentFineTune = 0x00;
-            }
-            else
-            {
-              u8CurrentFineTune++;
-            }
-            (((crmXtalCntlReg_t*)&((CrmRegs_t *)0x80003000)->XtalCntl)->bit . fTune = u8CurrentFineTune);
-            LEDs_Flash(u8CurrentFineTune, 200);
-            if(0x0F < u8CurrentFineTune)
-            {
-              LEDs_Flash(u8CurrentFineTune, 200);
-            }
-          }
-          else if(0x02 & gu8TestModeEvents)
-          {
-            (gu8TestModeEvents &= (~0x02));
-            if(0x00 == u8CurrentFineTune)
-            {
-              u8CurrentCoarseTune = 0x1F;
-            }
-            else
-            {
-              u8CurrentFineTune--;
-            }
-            (((crmXtalCntlReg_t*)&((CrmRegs_t *)0x80003000)->XtalCntl)->bit . fTune = u8CurrentFineTune);
-            LEDs_Flash(u8CurrentFineTune, 200);
-            if(0x0F < u8CurrentFineTune)
-            {
-              LEDs_Flash(u8CurrentFineTune, 200);
-            }
-          }
-          break;  
-          
+        case '3':
+          tx_rx_select();
+          break;
+        case '4':  
+          configure_clock_settings();
+          break;
+        case 'p':
+          break;
         default:
+          Uart_Print("  Invalid Option!!!\n");
           break;
       }
 
@@ -8371,13 +8067,17 @@ void pulse_prbs9_tx(void)
   static prbs9_tx_states_t u8AppState;
   static uint16_t u16DutyCicleCounter;
   
-  if(0 == gu8TestAlreadyStarted)
+
+
+  u8CurrentMode = SMAC_TEST_MODE_PULSE_PRBS9_TX_RX;
+  TX_msg.u8Status.msg_state = MSG_TX_ACTION_COMPLETE_SUCCESS;
+  u8AppState =  INIT_PRBS9_TX_ST;
+  MLMETestMode(u8CurrentMode);
+  Uart_Print("\r\nPress Q to exit from Transmission PRBS9 Mode");
+  Uart_Print("\r\nPress any key to start.....");
+  Uart_getchar(mUARTRxBuffer);
+  do  
   {
-       TX_msg.u8Status.msg_state = MSG_TX_ACTION_COMPLETE_SUCCESS;
-      u8AppState = INIT_PRBS9_TX_ST;
-  }  
-
-
         
     (void)process_radio_msg();
     switch(u8AppState)
@@ -8407,8 +8107,11 @@ void pulse_prbs9_tx(void)
       break;
     }
          
+    Uart_Poll(mUARTRxBuffer);
+  }while (mUARTRxBuffer[0] != 'Q'); 
+  u8CurrentMode = SMAC_TEST_MODE_IDLE;
+  MLMETestMode(u8CurrentMode);
 
-  gu8TestAlreadyStarted = 1;
 }
 
 /************************************************************************************
@@ -8424,21 +8127,17 @@ void packet_error_rate_tx_test(void)
   static uint16_t u16DoneCount;
   uint32_t u32NumTransmissions;
 
+  uint8_t u8InvalidCharFlag = 0;
   
+  uint8_t u8Count;
+  uint8_t u8TempNumTx[5];
   
   u32NumTransmissions = 999;
 
+  u8AppState = IDLE_PER_TX_ST;   
+  u8CurrentMode = SMAC_TEST_MODE_PER_TX_RX;
+  do{
 
-  if(0 == gu8TestAlreadyStarted)
-  {
-    (gu8TestModeEvents &= (~0x08));
-    TX_msg.u8Status.msg_state = MSG_TX_ACTION_COMPLETE_SUCCESS;
-    do { LED_SetHex(0x08); DelayMs(250); LED_SetHex(0x04); DelayMs(250); LED_SetHex(0x02); DelayMs(250); LED_SetHex(0x01); DelayMs(250); LED_TurnOffAllLeds(); }while(0);  
-    u8AppState = INIT_PER_TX_ST;
-    gu8TestAlreadyStarted = 1;
-    LCD_WriteString_NormalFont(7,"                     ");
-    LCD_WriteString_NormalFont(4,"PER Transmitting..");
-  }
     
     (void)process_radio_msg();
     if(1 == gbDataIndicationFlag)
@@ -8447,11 +8146,79 @@ void packet_error_rate_tx_test(void)
       process_incoming_msg();
     }
     
-    if (1 == gu8TestAlreadyStarted)
-    {
     switch(u8AppState){
       case IDLE_PER_TX_ST:
       {
+        Uart_Print("\r\n    ****************************");
+        Uart_Print("\r\n    ** Packet Error Rate Test **");
+        Uart_Print("\r\n    ****************************");
+        Uart_Print("\r\nPress Q to exit from Packet Error Rate Test");
+        Uart_Print("\r\nPress Enter. Packets to transmit: ");
+        Uart_PrintShortDec((uint16_t)999);
+        do
+        {
+         uint8_t i;
+         uint8_t u8Shift;
+          Uart_Print("\r\n\n  Number of packets in decimal: ");
+          u8Count = 0;
+          u8InvalidCharFlag = 0;
+
+          u8TempNumTx[u8Count]= Uart_getchar(mUARTRxBuffer);
+                    
+          while((u8TempNumTx[u8Count]!= 0x0D) &&(u8Count < 5) && (u8TempNumTx[u8Count]!= 'Q'))
+          { 
+            if((0x3A < u8TempNumTx[u8Count]))
+            {
+              u8InvalidCharFlag = 1;
+            }
+            else if(0x30 > u8TempNumTx[u8Count])
+            {
+              u8InvalidCharFlag = 1;
+            }
+
+            u8Count ++;
+            u8TempNumTx[u8Count]= Uart_getchar(mUARTRxBuffer);
+          }
+          if(u8TempNumTx[u8Count] == 0x0D)
+          { 
+            if(0 != u8Count)
+            {
+              u8Count--;
+            }
+            else
+            {
+              u8InvalidCharFlag = 1;
+            }   
+            Uart_getchar(mUARTRxBuffer);
+           }
+          
+          if('Q' == u8TempNumTx[u8Count])
+          {
+            return;
+          }
+
+          u32NumTransmissions = 0;
+          u8Shift = u8Count;
+          /*To validate 0-9, a-f and A-F values*/
+
+          for(i = 0; i <= u8Count; i++)
+          {
+            u32NumTransmissions += (AsciitoHex(u8TempNumTx[i]) * u16TenPower[u8Shift]);
+            u8Shift--;
+          }
+          
+          if((50000) < u32NumTransmissions)
+          {
+            Uart_Print("\r\n  Value out of range, please try again.");
+          }
+          
+          if(u8InvalidCharFlag == 1)
+          {
+            Uart_Print("\r\n  Invalid characters, please use only numbers.");
+          }
+        }
+        while(((50000) < u32NumTransmissions) || (1 == u8InvalidCharFlag));
+        
          u8AppState = INIT_PER_TX_ST;
       }
       break;
@@ -8482,7 +8249,7 @@ void packet_error_rate_tx_test(void)
             TX_msg.pu8Buffer->u8Data[2] = (uint8_t)(u16MsgCount >> 8);
             TX_msg.pu8Buffer->u8Data[3] = (uint8_t)u16MsgCount;
             TX_msg.u8BufSize = 4 + (sizeof(ku8ExpectedString)/sizeof(uint8_t));
-            DelayMs(5);
+            DelayMs(14);
 
             MCPSDataRequest(&TX_msg);
             u16MsgCount++;
@@ -8522,7 +8289,6 @@ void packet_error_rate_tx_test(void)
       
       case FINISH_PER_TX_ST:
         u8AppState = IDLE_PER_TX_ST;
-        gu8TestAlreadyStarted = 0;
  
         break;
       
@@ -8532,8 +8298,11 @@ void packet_error_rate_tx_test(void)
       break;
     }
 
-  }
   
+    Uart_Poll(mUARTRxBuffer);
+  }while (mUARTRxBuffer[0] != 'Q'); 
+  u8CurrentMode = SMAC_TEST_MODE_IDLE;
+  MLMETestMode(u8CurrentMode);
 
   
 }
@@ -8548,24 +8317,19 @@ void packet_error_rate_rx_test(void)
 {
   static per_rx_states_t u8AppState;
 
-  if(0 == gu8TestAlreadyStarted)
-  {  
-    RX_msg.u8Status.msg_state = MSG_RX_ACTION_COMPLETE_SUCCESS;
-    do { DelayMs(250); LED_TurnOffAllLeds(); DelayMs(250); LED_TurnOnAllLeds(); DelayMs(250); LED_TurnOffAllLeds(); DelayMs(250); LED_TurnOnAllLeds(); DelayMs(250); LED_TurnOffAllLeds(); }while(0);;  
-
-
-    LCD_WriteString_NormalFont(7,"                     ");
-    LCD_WriteString_NormalFont(4," PER Listening..");
-    u8AppState = INIT_PER_RX_ST;
-    gu8TestAlreadyStarted = 1;
-  }
   
 
+  u8CurrentMode = SMAC_TEST_MODE_PER_TX_RX;
+  RX_msg.u8Status.msg_state = MSG_RX_ACTION_COMPLETE_SUCCESS;
+  Uart_Print("\r\n    ****************************");
+  Uart_Print("\r\n    ** Packet Error Rate Test **");
+  Uart_Print("\r\n    ****************************");
+  Uart_Print("\r\nPress Q to exit from Packet Error Rate Test");
+  Uart_Print("\r\nPress any key to start.....");
+  Uart_getchar(mUARTRxBuffer);
+  u8AppState = INIT_PER_RX_ST;
+  do{
     
-
-
-  if (1 == gu8TestAlreadyStarted)
-  {
       (void)process_radio_msg();
       if(1 == gbDataIndicationFlag)
       {
@@ -8583,6 +8347,7 @@ void packet_error_rate_rx_test(void)
         break;
         case INIT_PER_RX_ST:
         {
+          Uart_Print("\r\n\nThe RX radio is now listening...");
           u8AppState = LISTEN_PER_RX_ST;
           
           
@@ -8614,21 +8379,6 @@ void packet_error_rate_rx_test(void)
         case FINISH_PER_RX_ST:
         {
           u8AppState = INIT_PER_RX_ST;
-          LED_SetHex((uint8_t)(c_test_num.u8Thousands));
-          DelayMs(400);
-          LED_TurnOffAllLeds();
-          DelayMs(400);
-          LED_SetHex((uint8_t)(c_test_num.u8Houndreds));
-          DelayMs(400);
-          LED_TurnOffAllLeds();
-          DelayMs(400);
-          LED_SetHex((uint8_t)(c_test_num.u8Tens));
-          DelayMs(400);
-          LED_TurnOffAllLeds();
-          DelayMs(400);
-          LED_SetHex((uint8_t)(c_test_num.u8Units));
-          DelayMs(400);
-          gu8TestAlreadyStarted = 0;
         }
         break;
         default:
@@ -8637,8 +8387,12 @@ void packet_error_rate_rx_test(void)
         break;
       }
     }  
-  }
   
+    Uart_Poll(mUARTRxBuffer);
+  }while (mUARTRxBuffer[0] != 'Q');  
+  
+  u8CurrentMode = SMAC_TEST_MODE_IDLE;
+  MLMETestMode(u8CurrentMode);
   
 }
 
@@ -8652,14 +8406,18 @@ void range_rx_test(void)
 {
   volatile static range_rx_states_t u8AppState = IDLE_RANGE_RX_ST;
   volatile uint8_t u8retries;
-  if(0 == gu8TestAlreadyStarted)
-  {
-     u8AppState = INIT_RANGE_RX_ST;
-     do { DelayMs(250); LED_TurnOffAllLeds(); DelayMs(250); LED_TurnOnAllLeds(); DelayMs(250); LED_TurnOffAllLeds(); DelayMs(250); LED_TurnOnAllLeds(); DelayMs(250); LED_TurnOffAllLeds(); }while(0);;
-    LCD_WriteString_NormalFont(7,"    ");
-    LCD_WriteString_NormalFont(4,"Range Listening..");
-  }  
 
+  u8CurrentMode = SMAC_TEST_MODE_RANGE_TX_RX;
+  
+  Uart_Print("\r\n    ****************************");
+  Uart_Print("\r\n    **       Range Test       **");
+  Uart_Print("\r\n    ****************************");
+   
+  Uart_Print("\r\nPress Q to exit from Range Test");
+  Uart_Print("\r\nPress any key to start.....");
+  Uart_getchar(mUARTRxBuffer);
+  u8AppState = INIT_RANGE_RX_ST;
+  do{
 
       (void)process_radio_msg();
       if(1 == gbDataIndicationFlag)
@@ -8682,6 +8440,8 @@ void range_rx_test(void)
         {
           RX_msg.u8Status.msg_state = MSG_RX_ACTION_COMPLETE_SUCCESS;
           ACK_msg.u8Status.msg_state = MSG_TX_ACTION_COMPLETE_SUCCESS;        
+          Uart_Print("\r\n\nThe RX radio is now listening...");
+          Uart_Print("\r\nStart the test by pressing any key on TX radio");
           u8AppState = LISTEN_RANGE_RX_ST;
         }
         break;
@@ -8739,7 +8499,10 @@ void range_rx_test(void)
         break;
       }
    }
-  gu8TestAlreadyStarted = 1;
+    Uart_Poll(mUARTRxBuffer);
+  }while (mUARTRxBuffer[0] != 'Q');  
+  u8CurrentMode = SMAC_TEST_MODE_IDLE;
+  MLMETestMode(u8CurrentMode);
 }
 
 /************************************************************************************
@@ -8754,15 +8517,19 @@ void range_tx_test(void)
   static range_tx_states_t u8AppState; 
   static uint16_t u8CountNoPacket = 0;
    
-  if(0 == gu8TestAlreadyStarted)
-  {
-    (gu8TestModeEvents &= (~0x08));
-    u8AppState = INIT_RANGE_TX_ST;
-    do { LED_SetHex(0x08); DelayMs(250); LED_SetHex(0x04); DelayMs(250); LED_SetHex(0x02); DelayMs(250); LED_SetHex(0x01); DelayMs(250); LED_TurnOffAllLeds(); }while(0);  
-    LCD_WriteString_NormalFont(7,"    ");
-    LCD_WriteString_NormalFont(4,"Range Transmitting..");
-  }  
 
+
+  u8AppState = INIT_RANGE_TX_ST;
+  
+  u8CurrentMode = SMAC_TEST_MODE_RANGE_TX_RX;
+  Uart_Print("\r\n    ****************************");
+  Uart_Print("\r\n    **       Range Test       **");
+  Uart_Print("\r\n    ****************************");
+   
+  Uart_Print("\r\nPress Q to exit from Range Test");
+  Uart_Print("\r\nPress any key to start the test.....");
+  Uart_getchar(mUARTRxBuffer);
+  do{
     (void)process_radio_msg();
     if(1 == gbDataIndicationFlag)
     {
@@ -8802,6 +8569,7 @@ void range_tx_test(void)
         TX_msg.u8BufSize = (sizeof(u8RangeExpectedString)/sizeof(uint8_t));
 
 
+          Uart_Print("\r\n\nThe transceiver is now transmitting...");
           u8AppState = TRANSMITING_RANGE_TX_ST;
       }
       break;
@@ -8859,8 +8627,11 @@ void range_tx_test(void)
       break;
     }
   }
+    Uart_Poll(mUARTRxBuffer);
+  }while (mUARTRxBuffer[0] != 'Q');  
+  u8CurrentMode = SMAC_TEST_MODE_IDLE;
+  MLMETestMode(u8CurrentMode);
 
-  gu8TestAlreadyStarted = 1;
 }
 
 
@@ -9115,6 +8886,28 @@ void GpioTmrInit(void)
 *
 * This function prints an ASCII Freescale's logo.
 ************************************************************************************/
+static void print_freescale_logo(void)
+{
+  Uart_Print("\n\r\n\r\n\r      #\n");
+  Uart_Print("\r     ###\n");
+  Uart_Print("\r    ###  *\n");
+  Uart_Print("\r     #  ***\n");
+  Uart_Print("\r       ***  #\n");
+  Uart_Print("\r        *  ###\n");
+  Uart_Print("\r          ###\n");
+  Uart_Print("\r        *  #\n");
+  Uart_Print("\r       ***\n");
+  Uart_Print("\r      ***  #\n");
+  Uart_Print("\r    #  *  ###\n");
+  Uart_Print("\r   ###   ###\n");
+  Uart_Print("\r  ###  *  #         F R E E S C A L E\n");
+  Uart_Print("\r   #  ***\n");
+  Uart_Print("\r     ***            S E M I C O N D U C T O R\n");
+  Uart_Print("\r   #  *\n");
+  Uart_Print("\r  ###               2 0 1 1\n");
+  Uart_Print("\r ###\n");
+  Uart_Print("\r  #           Press any key to continue...\n\n");
+}
 
 /*******************************************************************************
 * DisplayFreescaleLogo

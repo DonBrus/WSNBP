@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\HDDprograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.general.xcl" --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.driver.xcl" 
+"C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.general.xcl" --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\HDDprograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.general.xcl" "--debug_file=%~1" --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.driver.xcl" 
+"C:\HDDPrograms\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.general.xcl" "--debug_file=%~1" --backend -f "D:\Users\Brus\Documents\Uni\Wireless Sensors Networks M\Project\WSNBP\repeater_test\Repeater\settings\Repeater.Release.driver.xcl" 
 
 @echo off 
 :end
